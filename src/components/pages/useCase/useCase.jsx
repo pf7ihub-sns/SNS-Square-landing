@@ -173,7 +173,7 @@ export const UseCase = () => {
 
       {/* Main Content */}
       <div className="relative overflow-hidden">
-        <div className="flex flex-col items-center gap-10 md:gap-20 px-4 md:px-8 lg:px-16 py-8 md:py-12 lg:py-16">
+        <div className="flex flex-col items-center gap-10 md:gap-20 px-4 md:px-8 lg:px-16 py-8 md:py-6 lg:py-10">
           <div className="flex flex-col lg:flex-row w-full max-w-7xl items-start gap-6 lg:gap-6">
             {/* Category Filters */}
             <div className="flex flex-col w-full lg:w-72 items-start gap-4 mb-10 ">

@@ -425,12 +425,21 @@ const Home = () => {
                   <p className="text-xs xs:text-sm sm:text-[16px] font-inter text-black/80 mb-3 xs:mb-4 sm:mb-4">
                     Seamless, smart, and scalable Agentic AI powers the future of IT.
                   </p>
+                  {/* Desktop hover Learn More */}
                   <div 
-                    className="flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
+                    className="hidden lg:flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
                     onClick={() => navigate("/usecase?category=information-technology")}
                   >
                     <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
                     <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2 group-hover:transform group-hover:rotate-0 transition-transform duration-300" />
+                  </div>
+                  {/* Mobile/Tablet static Learn More */}
+                  <div 
+                    className="flex lg:hidden items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300"
+                    onClick={() => navigate("/usecase?category=information-technology")}
+                  >
+                    <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
+                    <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2" />
                   </div>
                 </div>
                 
@@ -445,12 +454,21 @@ const Home = () => {
                   <p className="text-xs xs:text-sm sm:text-[16px] font-inter text-black/80 mb-3 xs:mb-4 sm:mb-4">
                     From demand to delivery, every link learns, decides, and acts in real time
                   </p>
+                  {/* Desktop hover Learn More */}
                   <div 
-                    className="flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
+                    className="hidden lg:flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
                     onClick={() => navigate("/usecase?category=supply-chain")}
                   >
                     <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
                     <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2 group-hover:transform group-hover:rotate-0 transition-transform duration-300" />
+                  </div>
+                  {/* Mobile/Tablet static Learn More */}
+                  <div 
+                    className="flex lg:hidden items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300"
+                    onClick={() => navigate("/usecase?category=supply-chain")}
+                  >
+                    <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
+                    <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2" />
                   </div>
                 </div>
                 
@@ -465,12 +483,21 @@ const Home = () => {
                   <p className="text-xs xs:text-sm sm:text-[16px] font-inter text-black/80 mb-3 xs:mb-4 sm:mb-4">
                     Partnering with hospitals to provide intelligent, personalized, and always-available healthcare solutions.
                   </p>
+                  {/* Desktop hover Learn More */}
                   <div 
-                    className="flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
+                    className="hidden lg:flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
                     onClick={() => navigate("/usecase?category=healthcare")}
                   >
                     <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
                     <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2 group-hover:transform group-hover:rotate-0 transition-transform duration-300" />
+                  </div>
+                  {/* Mobile/Tablet static Learn More */}
+                  <div 
+                    className="flex lg:hidden items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300"
+                    onClick={() => navigate("/usecase?category=healthcare")}
+                  >
+                    <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
+                    <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2" />
                   </div>
                 </div>
                 
@@ -485,12 +512,21 @@ const Home = () => {
                   <p className="text-xs xs:text-sm sm:text-[16px] font-inter text-black/80 mb-3 xs:mb-4 sm:mb-4">
                     40% faster bookings, predictive demand management, and personalised guest experiences.
                   </p>
+                  {/* Desktop hover Learn More */}
                   <div 
-                    className="flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
+                    className="hidden lg:flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
                     onClick={() => navigate("/usecase?category=insurance")}
                   >
                     <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
                     <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2 group-hover:transform group-hover:rotate-0 transition-transform duration-300" />
+                  </div>
+                  {/* Mobile/Tablet static Learn More */}
+                  <div 
+                    className="flex lg:hidden items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300"
+                    onClick={() => navigate("/usecase?category=insurance")}
+                  >
+                    <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
+                    <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2" />
                   </div>
                 </div>
                 
@@ -505,12 +541,21 @@ const Home = () => {
                   <p className="text-xs xs:text-sm sm:text-[16px] font-inter text-black/80 mb-3 xs:mb-4 sm:mb-4">
                     3× higher conversions using recommendation engines and customer intelligence.
                   </p>
+                  {/* Desktop hover Learn More */}
                   <div 
-                    className="flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
+                    className="hidden lg:flex items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 group-hover:translate-x-2"
                     onClick={() => navigate("/usecase?category=human-resource")}
                   >
                     <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
                     <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2 group-hover:transform group-hover:rotate-0 transition-transform duration-300" />
+                  </div>
+                  {/* Mobile/Tablet static Learn More */}
+                  <div 
+                    className="flex lg:hidden items-center text-[#3e57da] hover:text-[#064ee3] cursor-pointer transition-all duration-300"
+                    onClick={() => navigate("/usecase?category=human-resource")}
+                  >
+                    <span className="text-xs xs:text-sm sm:text-sm font-inter">Learn More</span>
+                    <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 ml-2" />
                   </div>
                 </div>
                 
