@@ -9,6 +9,81 @@ const OrbitHero = () => {
     const { category } = useParams();
     const [isSignUpOpen, setisSignUpOpen] = useState(false);
     const [activeButton, setActiveButton] = useState('Foundation Agents');
+    const [screenWidth, setScreenWidth] = useState(0);
+    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const buttonOptions = ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'];
+
+    // Minimum swipe distance (in px)
+    const minSwipeDistance = 50;
+
+    // Custom positions for different screen sizes
+    const getCustomPosition = (width) => {
+        if (width <= 320) {
+            return { transform: 'translateY(-90px)', marginBottom: '0px' };
+        } else if (width === 375) {
+            return { transform: 'translateY(-50px)', marginBottom: '0px' };
+        } else if (width === 425) {
+            return { transform: 'translateY(-20px)', marginBottom: '0px' };
+        } else if (width <= 480) {
+            return { transform: 'translateY(-30px)', marginBottom: '0px' };
+        } else if (width <= 640) {
+            return { transform: 'translateY(-10px)', marginBottom: '0px' };
+        } else if (width <= 768) {
+            return { transform: 'translateY(0px)', marginBottom: '80px' };
+        } else if (width <= 1024) {
+            return { transform: 'translateY(0px)', marginBottom: '96px' };
+        } else {
+            return { transform: 'translateY(0px)', marginBottom: '96px' };
+        }
+    };
+
+    useEffect(() => {
+        const updateScreenWidth = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        updateScreenWidth();
+        window.addEventListener('resize', updateScreenWidth);
+
+        return () => window.removeEventListener('resize', updateScreenWidth);
+    }, []);
+
+    useEffect(() => {
+        // Update slide index when active button changes
+        const index = buttonOptions.indexOf(activeButton);
+        if (index !== -1) {
+            setCurrentSlideIndex(index);
+        }
+    }, [activeButton]);
+
+    const handleSlideChange = (index) => {
+        setCurrentSlideIndex(index);
+        setActiveButton(buttonOptions[index]);
+    };
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe && currentSlideIndex < buttonOptions.length - 1) {
+            handleSlideChange(currentSlideIndex + 1);
+        }
+        if (isRightSwipe && currentSlideIndex > 0) {
+            handleSlideChange(currentSlideIndex - 1);
+        }
+    };
 
     useEffect(() => {
         if (category === 'foundation-agents') {
@@ -88,19 +163,94 @@ const OrbitHero = () => {
 
     return (
         <div>
+            <style jsx>{`
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
             <div className="relative mt-20 w-full overflow-hidden py-16 px-4 h-[800px]" style={{ backgroundImage: "url('/images/Full-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <div className="text-center mb-12 relative">
+                <div className="text-center mb-12 relative sm:pt-20">
                     <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                        Agentic work bench
+                        Agentic workbench
                     </h2>
                     <p className="text-white/80 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
                         Explore a world of 1500+ AI agents, each crafted to solve real problems. Discover, customize, and let AI work for you faster than ever before.
                     </p>
                 </div>
-                <div className='flex justify-center relative gap-4'>
+                
+                {/* Mobile Slider Buttons (hidden on tablet/desktop) */}
+                <div className='block sm:hidden mb-12'>
+                    <div className='relative overflow-hidden'>
+                        <div 
+                            className='flex transition-transform duration-500 ease-in-out'
+                            style={{ transform: `translateX(-${currentSlideIndex * 100}%)` }}
+                            onTouchStart={onTouchStart}
+                            onTouchMove={onTouchMove}
+                            onTouchEnd={onTouchEnd}
+                        >
+                            {buttonOptions.map((option, index) => (
+                                <div key={option} className='w-full flex-shrink-0 flex justify-center items-center px-2 relative'>
+                                    {/* Previous Button Preview */}
+                                    {index === currentSlideIndex && currentSlideIndex > 0 && (
+                                        <button
+                                            className='absolute left-2 xs:left-4 sm:left-6 top-1/2 transform -translate-y-1/2 font-semibold py-2 px-3 text-xs rounded-full shadow-md transition-all duration-500 ease-in-out whitespace-nowrap bg-white/80 text-blue-900 border border-blue-200 scale-70 opacity-70 hover:opacity-90 hover:scale-75 z-5'
+                                            onClick={() => handleSlideChange(currentSlideIndex - 1)}
+                                        >
+                                            {buttonOptions[currentSlideIndex - 1]}
+                                        </button>
+                                    )}
+                                    
+                                    {/* Main Active Button */}
+                                    <button
+                                        className={`font-semibold py-3 px-6 xs:px-8 text-sm rounded-full shadow-lg transition-all duration-500 ease-in-out whitespace-nowrap z-10 relative ${
+                                            index === currentSlideIndex
+                                                ? 'bg-[#064EE3] text-white border-2 border-blue-900 scale-100 opacity-100'
+                                                : 'bg-white/60 text-blue-900 border border-transparent scale-90 opacity-60'
+                                        }`}
+                                        onClick={() => handleSlideChange(index)}
+                                    >
+                                        {option}
+                                    </button>
+                                    
+                                    {/* Next Button Preview */}
+                                    {index === currentSlideIndex && currentSlideIndex < buttonOptions.length - 1 && (
+                                        <button
+                                            className='absolute right-2 xs:right-4 sm:right-6 top-1/2 transform -translate-y-1/2 font-semibold py-2 px-3 text-xs rounded-full shadow-md transition-all duration-500 ease-in-out whitespace-nowrap bg-white/80 text-blue-900 border border-blue-200 scale-70 opacity-70 hover:opacity-90 hover:scale-75 z-5'
+                                            onClick={() => handleSlideChange(currentSlideIndex + 1)}
+                                        >
+                                            {buttonOptions[currentSlideIndex + 1]}
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    {/* Reference Dots */}
+                    <div className='flex justify-center gap-2 mt-4'>
+                        {buttonOptions.map((_, index) => (
+                            <button
+                                key={index}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                    currentSlideIndex === index 
+                                        ? 'bg-white w-6' 
+                                        : 'bg-white/40 hover:bg-white/60'
+                                }`}
+                                onClick={() => handleSlideChange(index)}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Tablet/Desktop Buttons (hidden on mobile) */}
+                <div className='hidden sm:flex flex-wrap justify-center relative gap-2 sm:gap-4 md:gap-4 px-2 mb-12 sm:mb-26'>
                     <div>
                         <button
-                            className={`font-semibold py-2 px-4 rounded-full shadow hover:shadow-lg transition ${activeButton === 'Foundation Agents'
+                            className={`font-semibold py-2 px-3 sm:px-4 text-xs sm:text-base rounded-full shadow hover:shadow-lg transition ${activeButton === 'Foundation Agents'
                                 ? 'bg-[#064EE3] text-white border-2 border-blue-900'
                                 : 'bg-white text-blue-900 border-2 border-transparent hover:border-blue-300'
                                 }`}
@@ -111,7 +261,7 @@ const OrbitHero = () => {
                     </div>
                     <div>
                         <button
-                            className={`font-semibold py-2 px-4 rounded-full shadow hover:shadow-lg transition ${activeButton === 'Industry Solutions'
+                            className={`font-semibold py-2 px-3 sm:px-4 text-xs sm:text-base rounded-full shadow hover:shadow-lg transition ${activeButton === 'Industry Solutions'
                                 ? 'bg-[#064EE3] text-white border-2 border-blue-900'
                                 : 'bg-white text-blue-900 border-2 border-transparent hover:border-blue-300'
                                 }`}
@@ -122,7 +272,7 @@ const OrbitHero = () => {
                     </div>
                     <div>
                         <button
-                            className={`font-semibold py-2 px-4 rounded-full shadow hover:shadow-lg transition ${activeButton === 'Customer Solutions'
+                            className={`font-semibold py-2 px-3 sm:px-4 text-xs sm:text-base rounded-full shadow hover:shadow-lg transition ${activeButton === 'Customer Solutions'
                                 ? 'bg-[#064EE3] text-white border-2 border-blue-900'
                                 : 'bg-white text-blue-900 border-2 border-transparent hover:border-blue-300'
                                 }`}
@@ -132,7 +282,7 @@ const OrbitHero = () => {
                         </button>
                     </div>
                 </div>
-                <div className="relative flex items-center justify-center w-full -bottom-30 z-10  h-[700px]">
+                <div className="relative flex items-center justify-center w-full h-[80vh] sm:h-[70vh] md:h-[700px] z-10">
                     <div className='absolute inset-0 flex items-center justify-center'>
                         <OrbitingCircles
                             className="rounded-full"
@@ -163,11 +313,15 @@ const OrbitHero = () => {
                             ))}
                         </OrbitingCircles>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center -bottom-24">
+                    <div className="absolute inset-0 flex items-center justify-center bottom-2 sm:bottom-1 md:bottom-4">
                         <div className="relative text-center flex items-center justify-center">
-                            <div className="absolute rounded-full border-30 border-[#02153D] w-100 h-100 flex items-center justify-center" />
-                            <div className="relative z-10">
-                                <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-bold mb-24">
+                            <div className="absolute rounded-full border-20 sm:border-30 border-[#02153D] w-100 h-100 flex items-center justify-center " />
+                            <div className="relative z-10 pb-8 sm:pb-0">
+                                <h2 className="text-white text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-bold"
+                                    style={{
+                                        transform: getCustomPosition(screenWidth).transform,
+                                        marginBottom: getCustomPosition(screenWidth).marginBottom
+                                    }}>
                                     {getCurrentAgentContent().centerTitle}
                                 </h2>
                             </div>
