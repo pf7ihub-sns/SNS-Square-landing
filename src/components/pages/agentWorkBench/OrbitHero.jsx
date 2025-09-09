@@ -16,7 +16,7 @@ const OrbitHero = () => {
 
     const buttonOptions = ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'];
 
-    // Minimum swipe distance (in px)
+
     const minSwipeDistance = 50;
 
     // Custom positions for different screen sizes
@@ -282,7 +282,7 @@ const OrbitHero = () => {
                         </button>
                     </div>
                 </div>
-                <div className="relative flex items-center justify-center w-full h-[80vh] sm:h-[70vh] md:h-[700px] z-10">
+                <div className="relative flex items-center justify-center w-full h-[500px] sm:h-[600px] md:h-[700px] z-10 top-36 sm:top-40 md:top-0">
                     <div className='absolute inset-0 flex items-center justify-center'>
                         <OrbitingCircles
                             className="rounded-full"
@@ -313,11 +313,11 @@ const OrbitHero = () => {
                             ))}
                         </OrbitingCircles>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center bottom-2 sm:bottom-1 md:bottom-4">
+                    <div className="absolute inset-0 flex items-center justify-center">
                         <div className="relative text-center flex items-center justify-center">
                             <div className="absolute rounded-full border-20 sm:border-30 border-[#02153D] w-100 h-100 flex items-center justify-center " />
-                            <div className="relative z-10 pb-8 sm:pb-0">
-                                <h2 className="text-white text-2xl sm:text-2xl md:text-2xl lg:text-3xl font-bold"
+                            <div className="relative z-10">
+                                <h2 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold"
                                     style={{
                                         transform: getCustomPosition(screenWidth).transform,
                                         marginBottom: getCustomPosition(screenWidth).marginBottom
