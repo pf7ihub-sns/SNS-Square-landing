@@ -72,7 +72,7 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
   };
 
   return (
-    <Card className="group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full hover:shadow-xl transition-shadow duration-300">
+    <Card className="group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-blue-200 hover:ring-opacity-50 ">
       <CardContent className="flex flex-col items-start gap-6 w-full p-0 h-full">
         {useCase.image ? (
           <div
@@ -86,7 +86,7 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
         <div className="flex flex-col w-full items-start gap-4 md:gap-[18px] flex-grow">
           <div className="flex flex-col items-start gap-3 w-full">
             <h2 className=" font-semibold text-black text-[20px] tracking-0 leading-normal">
-              {useCase.title}
+                {useCase.title.length > 23 ? useCase.title.slice(0, 23) + '...' : useCase.title}
             </h2>
 
             <div className="font-inter font-normal text-[#303030] text-[14px] tracking-0 leading-normal">
