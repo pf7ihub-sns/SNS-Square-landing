@@ -125,7 +125,7 @@ export const UseCase = () => {
   const currentUseCases = getCurrentUseCases();
   const useCasesToDisplay = showAllUseCases
     ? currentUseCases
-    : currentUseCases.slice(0, 4);
+    : currentUseCases.slice(0, 6);
 
   const categoryFilters = getCategoryFilters();
 
@@ -251,7 +251,7 @@ export const UseCase = () => {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full ">
                     {useCasesToDisplay.map((useCase) => (
                       <UseCaseCard
                         key={useCase.id}
@@ -261,7 +261,7 @@ export const UseCase = () => {
                     ))}
                   </div>
 
-                  {!showAllUseCases && currentUseCases.length > 4 && (
+                  {!showAllUseCases && currentUseCases.length > 6 && (
                     <Button
                       onClick={handleViewAllClick}
                       className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[80px] bg-[linear-gradient(90deg,rgba(6,78,227,1)_0%,rgba(61,118,236,1)_100%)] h-auto"
@@ -272,7 +272,7 @@ export const UseCase = () => {
                     </Button>
                   )}
 
-                  {showAllUseCases && currentUseCases.length > 4 && (
+                  {showAllUseCases && currentUseCases.length > 6 && (
                     <Button
                       onClick={handleShowLessClick}
                       className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[80px] bg-[linear-gradient(90deg,rgba(6,78,227,1)_0%,rgba(61,118,236,1)_100%)] h-auto"
