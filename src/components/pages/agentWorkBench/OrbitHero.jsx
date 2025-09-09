@@ -16,7 +16,7 @@ const OrbitHero = () => {
 
     const buttonOptions = ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'];
 
-    // Minimum swipe distance (in px)
+
     const minSwipeDistance = 50;
 
     // Custom positions for different screen sizes
