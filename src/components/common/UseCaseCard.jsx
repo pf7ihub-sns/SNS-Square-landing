@@ -66,13 +66,30 @@ CardContent.displayName = "CardContent";
 
 const UseCaseCard = ({ useCase, onLearnMore }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+  const [showLearnMore, setShowLearnMore] = useState(false);
+  const [isActive, setIsActive] = useState(false); // for mobile tap visual effect
+
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
+  // For mobile: tap to show Learn More button and apply hover effect
+  const handleCardClick = () => {
+    if (window.innerWidth < 768) {
+      setShowLearnMore((prev) => !prev);
+      setIsActive((prev) => !prev);
+    }
+  };
+
   return (
-    <Card className="group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-blue-200 hover:ring-opacity-50 ">
+    <Card
+      className={
+        `group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full transition-all duration-300 relative group cursor-pointer ` +
+        `md:hover:shadow-blue-100 md:hover:-translate-y-3 md:hover:scale-[1.02] md:hover:ring-blue-200 md:hover:ring-opacity-50 ` +
+        (isActive ? 'shadow-blue-100 -translate-y-3 scale-[1.02] ring-blue-200 ring-opacity-50 ' : '')
+      }
+      onClick={handleCardClick}
+    >
       <CardContent className="flex flex-col items-start gap-6 w-full p-0 h-full">
         {useCase.image ? (
           <div
@@ -110,7 +127,11 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
           <Button
             variant="link"
             onClick={() => onLearnMore(useCase.id)}
-            className="font-inter font-normal text-[#3e57da] text-base md:text-[16px] tracking-0 leading-normal p-0 h-auto justify-start opacity-0 transition-all duration-300 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 no-underline hover:no-underline cursor-pointer"
+            className={
+              `font-inter font-normal text-[#3e57da] text-base md:text-[16px] tracking-0 leading-normal p-0 h-auto justify-start transition-all duration-300 no-underline hover:no-underline cursor-pointer ` +
+              `md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-2 md:group-hover:translate-y-0 ` +
+              `${showLearnMore ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'} md:opacity-0`
+            }
           >
             Learn More
             <img src="/images/img_solar_arrow_up_linear.svg" alt="Arrow" className="w-2 h-2 xs:w-3 xs:h-3 sm:w-5 sm:h-5" />
