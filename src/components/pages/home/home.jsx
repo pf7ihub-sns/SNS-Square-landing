@@ -100,27 +100,27 @@ const Home = () => {
               
               {/* Gradient Overlay - matches the image gradient */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#a8c5ff]/60 via-[#c8d9ff]/40 to-[#ffffff]/20 pointer-events-none z-[1]" />
-            <div className="w-full max-w-[300px] xs:max-w-[350px] sm:max-w-[400px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 h-full relative z-10">
+            <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[400px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 h-full relative z-10">
               
               {/* Mobile Layout (< 768px) - Stacked Vertically */}
-              <div className="md:hidden flex flex-col justify-center h-full gap-5 xs:gap-6 sm:gap-7 text-center py-6 relative z-10">
-                {/* Text Content - Increased sizes */}
-                <div className="flex flex-col gap-5 xs:gap-6 sm:gap-7 w-full px-2 xs:px-3 sm:px-4 relative z-10">
+              <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-12 text-center py-6 relative z-10">
+                {/* Text Content - Better Mobile Spacing */}
+                <div className="flex flex-col gap-3 xs:gap-8 sm:gap-10 w-full px-4 xs:px-6 sm:px-8 relative z-10">
                   {/* Small Header */}
-                  <div className="text-[18px] xs:text-[20px] sm:text-[24px] font-manrope font-[800] text-global-1 text-center whitespace-nowrap">
+                  <div className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] text-global-1 text-center leading-tight px-2">
                     Agentic AI Breakthroughs
                   </div>
                   
                   {/* Main Heading with Slide Animation */}
-                  <h1 className="text-[16px] xs:text-[18px] sm:text-[20px] font-manrope font-[600] leading-[20px] xs:leading-[22px] sm:leading-[24px] text-global-1 h-[20px] xs:h-[22px] sm:h-[24px] overflow-hidden text-center whitespace-nowrap">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-manrope font-[600] leading-tight text-global-1 min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={phrases[index % phrases.length]}
                         initial={{ y: "100%", opacity: 0 }}
                         animate={{ y: "0%", opacity: 1 }}
-                        exit={{ y: "-100%", opacity: 0 }}
+                        exit={{ y: "-25%", opacity: 0 }}
                         transition={{ duration: 0.6, ease: "easeInOut" }}
-                        className="block text-[#064EE3] cursor-pointer hover:opacity-80 transition-opacity"
+                        className="block text-[#064EE3] cursor-pointer hover:opacity-80 transition-opacity leading-tight"
                         onClick={handlePhraseClick}
                       >
                         {phrases[index % phrases.length]}
@@ -129,29 +129,31 @@ const Home = () => {
                   </h1>
                   
                   {/* Subtitle */}
-                  <h2 className="text-[18px] xs:text-[20px] sm:text-[24px] font-manrope font-[800] leading-[22px] xs:leading-[24px] sm:leading-[28px] text-global-1 text-center whitespace-nowrap">
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-tight text-global-1 text-center px-2">
                     Everything Unfolds Here
                   </h2>
                   
                   {/* Description */}
-                  <p className="text-[12px] xs:text-[14px] sm:text-[16px] font-manrope font-light leading-[16px] xs:leading-[18px] sm:leading-[20px] text-global-1 text-center whitespace-nowrap">
+                  <p className="text-lg md:text-xl lg:text-2xl font-manrope font-light leading-relaxed text-global-1 text-center px-2 max-w-[320px] md:max-w-[480px] lg:max-w-[600px] mx-auto">
                     Access 1500+ Foundation Models, Ready for you
                   </p>
                   
                 {/* CTA Button */}
-                <Button
-                  variant="primary"
-                  size="medium"
-                  className="rounded-[16px] xs:rounded-[18px] sm:rounded-[20px] px-4 xs:px-5 sm:px-6 py-[12px] xs:py-[14px] sm:py-[16px] text-[12px] xs:text-[13px] sm:text-[14px] font-semibold text-white w-fit mx-auto whitespace-nowrap"
-                  onClick={() => {
-                    const ctaSection = document.getElementById('cta-section');
-                    if (ctaSection) {
-                      ctaSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                >
-                  Start Your Agentic Journey
-                </Button>
+                <div className="mt-6 md:mt-8">
+                  <Button
+                    variant="primary"
+                    size="medium"
+                    className="rounded-2xl md:rounded-3xl px-8 md:px-10 py-4 md:py-5 text-base md:text-lg lg:text-xl font-semibold text-white w-fit mx-auto leading-relaxed"
+                    onClick={() => {
+                      const ctaSection = document.getElementById('cta-section');
+                      if (ctaSection) {
+                        ctaSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    Start Your Agentic Journey
+                  </Button>
+                </div>
                 </div>
                 
                 {/* Image Container - Mobile - INCREASED SIZES */}
@@ -411,7 +413,7 @@ const Home = () => {
               </div>
               
               {/* Use Cases Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
                 {/* IT Development Lifecycle Card */}
                 <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
                   <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
@@ -520,10 +522,15 @@ const Home = () => {
                   <Button
                     variant="primary"
                     size="medium"
-                    className="rounded-full px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 text-xs xs:text-sm sm:text-base font-inter font-semibold text-white w-full sm:max-w-[250px] h-[40px] xs:h-[44px] sm:h-[48px] lg:h-[50px]"
+                    className="rounded-full px-2 xs:px-4 sm:px-6 py-3 xs:py-3.5 text-xs xs:text-sm sm:text-base font-inter font-semibold text-white w-full sm:max-w-[250px] h-[50px] xs:h-[44px] sm:h-[48px] lg:h-[50px] leading-tight"
                     onClick={() => {navigate("/usecase")}}
                   >
-                    Explore Agentic Use Case
+                    <span className="block xs:hidden text-center">
+                      Explore Use Cases
+                    </span>
+                    <span className="hidden xs:block text-center">
+                      Explore Agentic Use Case
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -533,7 +540,7 @@ const Home = () => {
       </div>
       
       {/* Solutions Section */}
-      <div className="max-w-[320px] xs:max-w-[375px] sm:max-w-[425px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-4 xs:px-5 sm:px-6 md:px-8 lg:px-8">
+      <div className="max-w-[320px] xs:max-w-[375px] sm:max-w-[425px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-4  xs:px-5 sm:px-6 md:px-8 lg:px-8">
           <div className="mb-6 xs:mb-8 sm:mb-12">
             <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-sora font-semibold leading-tight">
               <span className="text-[#064ee3]">Beyond Code. <br /></span>
@@ -553,7 +560,7 @@ const Home = () => {
                   <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-manrope font-bold text-[#242424] leading-tight max-w-xl">
                     Redefining Solutions in the Agentic Era
                   </h3>
-                  <p className="text-xs xs:text-sm sm:text-base lg:text-lg font-inter text-[#242424]/70 leading-relaxed max-w-xl">
+                  <p className="text-xs xs:text-sm sm:text-base lg:text-lg p-1 font-inter text-[#242424]/70 leading-relaxed max-w-xl">
                   We don’t rely on outdated methods. We design with AI-driven fundamentals to address the challenges that truly count.
                   </p>
                 </div>
@@ -576,7 +583,7 @@ const Home = () => {
                     <h4 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-manrope font-bold text-[#040404] mb-3 xs:mb-4 sm:mb-4">
                       Innovation at Core
                     </h4>
-                    <p className="text-xs xs:text-sm sm:text-sm lg:text-base font-inter text-[#242424]/70 leading-relaxed">
+                    <p className="text-xs xs:text-sm sm:text-sm lg:text-base pr-8 font-inter text-[#242424]/70 leading-relaxed">
                     We continuously adapt, explore, and break new ground, delivering forward-thinking solutions that keep you ahead of the curve.
                     </p>
                   </div>
