@@ -156,14 +156,14 @@ export const UseCase = () => {
               {/* Content Container */}
               <div className="flex flex-col justify-center items-center h-full text-center">
                 <div className="max-w-6xl">
-                  <h1 className="text-[32px] sm:text-[48px] md:text-[54px] lg:text-[54px] font-Manrope font-[700] leading-[40px] sm:leading-[56px] md:leading-[72px] lg:leading-[80px] text-center text-global-1 w-full">
-                    <span className="text-global-1">Partnered Progress</span>
-                    <span className="text-global-1 lg:text-[50px]"> : </span>
-                    <span className="text-global-5 text-[#064EE3]">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-[40px]  sm:leading-[56px] md:leading-[72px] lg:leading-[80px] text-center text-global-1 w-full h-full">
+                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">Partnered Progress</span>
+                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]"> : </span>
+                    <span className="text-global-5 text-[#064EE3] text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">
                       Agentic AI
                     </span>
                     <br />
-                    <span className="text-global-1">
+                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">
                       Solution for Every Sector
                     </span>
                   </h1>
