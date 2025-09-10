@@ -187,8 +187,8 @@ const Home = () => {
         /* Mobile image fill to corner */
         @media (max-width: 767px) {
           .mobile-image-fill {
-            margin-right: -20px !important;
-            margin-bottom: -20px !important;
+            margin-right: -21px !important;
+            margin-bottom: -21px !important;
             border-bottom-right-radius: 11px !important;
             border-top-right-radius: 0 !important;
           }
@@ -196,8 +196,7 @@ const Home = () => {
         
         @media (min-width: 768px) and (max-width: 1023px) {
           .mobile-image-fill {
-            margin-right: -24px !important;
-            margin-bottom: -24px !important;
+            max-width: 280px !important;
             border-bottom-right-radius: 11px !important;
             border-top-right-radius: 0 !important;
           }

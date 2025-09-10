@@ -96,34 +96,34 @@ export default function Page() {
     <main className="bg-[#FFFFFF] grid justify-items-center [align-items:start] w-screen">
       <Hero />
       {/* Desktop Content Sections - Hidden on Mobile */}
-      <div className="hidden lg:block bg-[#FFFFFF] w-[1440px] h-auto min-h-[3360px] relative mx-auto ">
-        <section className="inline-flex items-center gap-2.5 px-[54px] py-[54px] absolute top-0 left-1/2 transform -translate-x-1/2 rounded-[32px] overflow-hidden bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)]">
-          <div className="flex flex-col w-[1222px] items-start gap-6 relative overflow-hidden">
+      <div className="hidden lg:block bg-[#FFFFFF] w-full h-auto min-h-[3360px] relative">
+        <section className="flex items-center justify-center gap-2.5 px-4 lg:px-8 xl:px-16 2xl:px-24 py-8 xl:py-[54px] absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-[32px] overflow-hidden bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)] w-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] xl:w-[calc(100%-8rem)] 2xl:w-[calc(100%-12rem)] max-w-[1440px]">
+          <div className="flex flex-col w-full max-w-[1222px] items-center gap-6 relative overflow-hidden mx-auto">
             {contentSections.map((section, index) => (
               <article
                 key={section.id}
-                className={`relative ${index === 0 ? "w-[1432px] mr-[-210.00px]" : index === 1 || index === 5 ? "w-[1224px] mr-[-2.00px]" : index === 3 ? "w-[1223px] mr-[-1.00px]" : "w-[1222px]"} ${index === 4 ? "h-[443px]" : "h-[442px]"}`}
+                className={`relative w-full max-w-[1222px] ${index === 4 ? "h-[443px]" : "h-[442px]"}`}
               >
                 <div
                   className={`relative ${index === 4 ? "h-[443px]" : "h-[442px]"}`}
                 >
                   {section.imageSrc && (
                     <img
-                      className={`absolute ${section.imageWidth} ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.imageLeft} ${index === 0 || index === 3 || index === 6 ? "object-cover" : ""}`}
+                      className={`absolute w-1/2 ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.imagePosition === "left" ? "left-0" : "right-0"} ${index === 0 || index === 3 || index === 6 ? "object-cover" : ""}`}
                       alt="Img"
                       src={section.imageSrc}
                     />
                   )}
                   {section.hasOverlay && (
                     <div
-                      className={`absolute ${section.imageWidth} ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.imageLeft} bg-[#00000033]`}
+                      className={`absolute w-1/2 ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.imagePosition === "left" ? "left-0" : "right-0"} bg-[#00000033]`}
                     />
                   )}
                   <Card
-                    className={`absolute ${section.id === 2 || section.id === 4 ? "w-[511px]" : section.id === 6 ? "w-[502px]" : section.id === 3 || section.id === 5 || section.id === 7 ? "w-[501px]" : "w-[494px]"} ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.cardPosition === "left" ? "left-0" : section.id === 2 ? "left-[713px]" : "left-[722px]"} bg-[#FFFFFF] border-0 ${section.cardStyle} shadow-[0px_2px_16px_#10182814]`}
+                    className={`absolute w-1/2 ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.cardPosition === "left" ? "left-0" : "right-0"} bg-[#FFFFFF] border-0 ${section.cardStyle} shadow-[0px_2px_16px_#10182814]`}
                   >
                     <CardContent
-                      className={`absolute flex flex-col items-start gap-6 p-0 ${section.id === 1 ? "w-[364px] top-[95px] left-[54px]" : section.id === 2 ? "w-[379px] top-[95px] left-20" : section.id === 3 ? "w-[329px] top-[83px] left-[86px]" : section.id === 4 ? "w-[379px] top-[79px] left-20" : section.id === 5 ? "w-[364px] top-24 left-[54px]" : section.id === 6 ? "w-[373px] top-[95px] left-[49px]" : "w-[369px] top-[95px] left-16"} ${section.textRotate || ""}`}
+                      className={`absolute flex flex-col items-start gap-6 p-6 w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${section.textRotate || ""}`}
                     >
                       <div className="flex flex-col items-start gap-6 relative self-stretch w-full flex-[0_0_auto]">
                         <h2
