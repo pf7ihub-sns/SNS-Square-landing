@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "./Input";
 import Button from "./Button";
-import { createUser } from "../../api/Service/create";
+import { useAuthStore } from "../../store/store";
 
 const disposableDomains = [
   "tempmail.com",
@@ -35,6 +35,7 @@ const validationSchema = Yup.object({
 });
 
 const SignUpModal = ({ isOpen, onClose }) => {
+  const signUp = useAuthStore((state) => state.signUp);
   const formik = useFormik({
     initialValues: { name: "", email: "", phone: "", password: "" },
     validationSchema,
@@ -42,40 +43,31 @@ const SignUpModal = ({ isOpen, onClose }) => {
       setStatus({ success: false, message: "Saving..." });
 
       try {
-        const res = await createUser(values); // This part only runs for successful (2xx) responses
-        console.log({ res });
+        const { success, message, error } = await signUp(values);
 
-        // This logic now only handles success cases
-        setStatus({ success: true, message: "Sign Up Successful!" });
-        setTimeout(() => {
-          setStatus({});
-          onClose();
-          resetForm();
-        }, 2000);
+        if (success) {
+          setStatus({ success: true, message: message || "Sign Up Successful!" });
+          setTimeout(() => {
+            setStatus({});
+            onClose();
+            resetForm();
+          }, 2000);
+          return;
+        }
+
+        const errMsg = (error || message || "Something went wrong").toLowerCase();
+
+        if (errMsg.includes("email") && !errMsg.includes("phone")) {
+          setFieldError("email", error || message);
+        } else if (errMsg.includes("phone") && !errMsg.includes("email")) {
+          setFieldError("phone", error || message);
+        } else {
+          setStatus({ success: false, message: error || message || "Something went wrong" });
+        }
 
       } catch (err) {
         console.error(err);
-
-        // Check if the error has a 'response' object - this is characteristic of an API error (like 400, 404, 500)
-        if (err.response) {
-          // The server responded with an error, so we can access its data
-          const res = err.response; // The actual response is inside err.response
-          const msg = res.data.message?.toLowerCase() || "";
-          console.log({ msg });
-
-          if (msg.includes("email") && !msg.includes("phone")) {
-            // Use the message from the server's response
-            setFieldError("email", res.data.message);
-          } else if (msg.includes("phone") && !msg.includes("email")) {
-            setFieldError("phone", res.data.message);
-          } else {
-            // General API error (covers "Email or phone already exists", etc.)
-            setStatus({ success: false, message: res.data.message || "Something went wrong" });
-          }
-        } else {
-          // This is a network error or some other unexpected error, not from the API
-          setStatus({ success: false, message: "Failed to Sign Up. Please check your connection." });
-        }
+        setStatus({ success: false, message: "Failed to Sign Up. Please try again." });
       } finally {
         setSubmitting(false);
       }
@@ -148,6 +140,18 @@ const SignUpModal = ({ isOpen, onClose }) => {
             name="password"
             type="password"
             placeholder="Enter your password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <p className="text-red-600 text-sm">{formik.errors.password}</p>
+          )}
+          <Input
+            label="Confirm Password"
+            name="password"
+            type="password"
+            placeholder="Enter your confirm password"
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
