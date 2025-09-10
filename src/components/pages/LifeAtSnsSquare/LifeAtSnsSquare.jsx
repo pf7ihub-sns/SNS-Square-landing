@@ -161,7 +161,7 @@ export default function Page() {
       {/* Mobile Content Sections - Only visible on Mobile/Tablet */}
       <div className="block lg:hidden w-full px-4 py-8 mb-16">
         <div className="w-full max-w-md mx-auto space-y-6">
-          {contentSections.map((section, index) => (
+          {contentSections.map((section) => (
             <div key={`mobile-${section.id}`} className="bg-white rounded-2xl shadow-lg overflow-hidden">
               {section.imageSrc && (
                 <div className="w-full h-48 overflow-hidden">

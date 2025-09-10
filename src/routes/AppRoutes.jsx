@@ -15,6 +15,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={< HomePage />} />
       <Route path="/usecase" element={<UseCase />} />
+      <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
       <Route path="/agent-workbench" element={<OrbitCircle />}>

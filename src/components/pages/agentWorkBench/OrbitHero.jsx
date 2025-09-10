@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
@@ -14,7 +14,7 @@ const OrbitHero = () => {
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
 
-    const buttonOptions = ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'];
+    const buttonOptions = useMemo(() => ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'], []);
 
 
     const minSwipeDistance = 50;
@@ -57,7 +57,7 @@ const OrbitHero = () => {
         if (index !== -1) {
             setCurrentSlideIndex(index);
         }
-    }, [activeButton]);
+    }, [activeButton, buttonOptions]);
 
     const handleSlideChange = (index) => {
         setCurrentSlideIndex(index);

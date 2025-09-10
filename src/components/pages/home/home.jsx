@@ -3,6 +3,7 @@ import Button from '../../common/Button2';
 import Lock from './Lock';
 import { InteractiveGridPattern } from '../../common/Intractive-Grid';
 import { useNavigate as Navigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const phrases = [
@@ -77,6 +78,112 @@ const Home = () => {
 
   return (
     <div className="w-full bg-white min-h-screen">
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Responsive fixes for specific breakpoints */
+        @media (min-width: 398px) and (max-width: 639px) {
+          .responsive-container {
+            max-width: 380px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .responsive-card {
+            padding: 12px !important;
+          }
+        }
+        
+        @media (min-width: 640px) and (max-width: 767px) {
+          .responsive-container {
+            max-width: 600px !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
+          }
+          .responsive-card {
+            padding: 16px !important;
+          }
+        }
+        
+        @media (min-width: 770px) and (max-width: 1023px) {
+          .responsive-container {
+            max-width: 750px !important;
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px !important;
+          }
+          .responsive-card {
+            padding: 18px !important;
+          }
+        }
+        
+        @media (min-width: 1098px) and (max-width: 1279px) {
+          .responsive-container {
+            max-width: 1000px !important;
+            padding-left: 32px !important;
+            padding-right: 32px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 24px !important;
+          }
+          .responsive-card {
+            padding: 20px !important;
+          }
+        }
+        
+        @media (min-width: 1289px) and (max-width: 1945px) {
+          .responsive-container {
+            max-width: 1200px !important;
+            padding-left: 40px !important;
+            padding-right: 40px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 28px !important;
+          }
+          .responsive-card {
+            padding: 24px !important;
+          }
+        }
+        
+        /* Solutions section mobile alignment fixes - iPhone 6/7/8 style */
+        @media (max-width: 414px) {
+          .solutions-container {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+            max-width: 375px !important;
+          }
+          .solutions-grid {
+            gap: 20px !important;
+          }
+          .solutions-card {
+            padding: 20px !important;
+          }
+        }
+        
+        @media (min-width: 415px) and (max-width: 767px) {
+          .solutions-container {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+            max-width: 400px !important;
+          }
+          .solutions-grid {
+            gap: 24px !important;
+          }
+          .solutions-card {
+            padding: 22px !important;
+          }
+        }
+      `}} />
       {/* Hero Section - Increased mobile sizes */}
       <div className="relative w-full h-auto min-h-[750px] xs:min-h-[800px] sm:min-h-[850px] md:min-h-[650px] lg:min-h-[700px] xl:min-h-[750px] 2xl:min-h-[800px] overflow-hidden pt-20 xs:pt-22 sm:pt-24 md:pt-8 lg:pt-2 xl:pt-3 2xl:pt-4">
         {/* Background Pattern */}
@@ -395,8 +502,8 @@ const Home = () => {
               style={{ backgroundImage: "url('/images/BG.jpg')" }}
             />
             
-            {/* Content Container - max width 1200px */}
-            <div className="relative z-20 max-w-[320px] xs:max-w-[375px] sm:max-w-[425px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto pt-5 xs:pt-6 sm:pt-8 lg:pt-10 px-4 xs:px-5 sm:px-6">
+            {/* Content Container - responsive max widths */}
+            <div className="responsive-container relative z-20 max-w-[350px] xs:max-w-[400px] sm:max-w-[500px] md:max-w-[700px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto pt-5 xs:pt-6 sm:pt-8 lg:pt-10 px-3 xs:px-4 sm:px-6 md:px-8">
               {/* Section Header */}
               <div className="mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
                 <Button
@@ -413,11 +520,14 @@ const Home = () => {
               </div>
               
               {/* Use Cases Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
+              <div className="responsive-grid grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-6 lg:gap-8 mb-6 xs:mb-8 sm:mb-12 lg:mb-16">
                 {/* IT Development Lifecycle Card */}
-                <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
-                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
-                    <img src="/images/img_background_blue_800.svg" alt="IT Development" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 group-hover:scale-110 transition-transform duration-300" />
+                <div 
+                  className="responsive-card bg-white rounded-xl lg:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-5 md:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50"
+                  onClick={() => navigate("/usecase?category=information-technology")}
+                >
+                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-2 xs:p-3 sm:p-4 w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center mb-2 xs:mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                    <img src="/images/img_background_blue_800.svg" alt="IT Development" className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-sora font-semibold text-[#242424] mb-2 xs:mb-3 sm:mb-3 group-hover:text-[#064EE3] transition-colors duration-300">
                     IT Development Lifecycle
@@ -444,9 +554,12 @@ const Home = () => {
                 </div>
                 
                 {/* Supply Chain Card */}
-                <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
-                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
-                    <img src="/images/img_frame.svg" alt="Supply Chain" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 group-hover:scale-110 transition-transform duration-300" />
+                <div 
+                  className="responsive-card bg-white rounded-xl lg:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-5 md:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50"
+                  onClick={() => navigate("/usecase?category=supply-chain")}
+                >
+                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-2 xs:p-3 sm:p-4 w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center mb-2 xs:mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                    <img src="/images/img_frame.svg" alt="Supply Chain" className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-sora font-semibold text-[#242424] mb-2 xs:mb-3 sm:mb-3 group-hover:text-[#064EE3] transition-colors duration-300">
                     Supply Chain
@@ -473,9 +586,12 @@ const Home = () => {
                 </div>
                 
                 {/* Healthcare Card */}
-                <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
-                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
-                    <img src="/images/img_frame_blue_800.svg" alt="Healthcare" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 group-hover:scale-110 transition-transform duration-300" />
+                <div 
+                  className="responsive-card bg-white rounded-xl lg:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-5 md:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50"
+                  onClick={() => navigate("/usecase?category=healthcare")}
+                >
+                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-2 xs:p-3 sm:p-4 w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center mb-2 xs:mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                    <img src="/images/img_frame_blue_800.svg" alt="Healthcare" className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-sora font-semibold text-[#242424] mb-2 xs:mb-3 sm:mb-3 group-hover:text-[#064EE3] transition-colors duration-300">
                     Healthcare
@@ -502,9 +618,12 @@ const Home = () => {
                 </div>
                 
                 {/* Insurance Card */}
-                <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
-                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
-                    <img src="/images/img_frame_blue_800_60x60.svg" alt="Insurance" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 group-hover:scale-110 transition-transform duration-300" />
+                <div 
+                  className="responsive-card bg-white rounded-xl lg:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-5 md:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50"
+                  onClick={() => navigate("/usecase?category=insurance")}
+                >
+                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-2 xs:p-3 sm:p-4 w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center mb-2 xs:mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                    <img src="/images/img_frame_blue_800_60x60.svg" alt="Insurance" className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-sora font-semibold text-[#242424] mb-2 xs:mb-3 sm:mb-3 group-hover:text-[#064EE3] transition-colors duration-300">
                     Insurance
@@ -531,9 +650,12 @@ const Home = () => {
                 </div>
                 
                 {/* Human Resource Card */}
-                <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50">
-                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-3 xs:mb-4 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
-                    <img src="/images/img_frame_60x60.svg" alt="Human Resource" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 group-hover:scale-110 transition-transform duration-300" />
+                <div 
+                  className="responsive-card bg-white rounded-xl lg:rounded-2xl shadow-lg p-3 xs:p-4 sm:p-5 md:p-6 hover:shadow-2xl hover:shadow-blue-100 transition-all duration-300 relative group cursor-pointer transform hover:-translate-y-3 hover:scale-[1.02] hover:ring-2 hover:ring-blue-200 hover:ring-opacity-50"
+                  onClick={() => navigate("/usecase?category=human-resource")}
+                >
+                  <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-2 xs:p-3 sm:p-4 w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center mb-2 xs:mb-3 sm:mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                    <img src="/images/img_frame_60x60.svg" alt="Human Resource" className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-300" />
                   </div>
                   <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-sora font-semibold text-[#242424] mb-2 xs:mb-3 sm:mb-3 group-hover:text-[#064EE3] transition-colors duration-300">
                     Human Resource
@@ -585,7 +707,7 @@ const Home = () => {
       </div>
       
       {/* Solutions Section */}
-      <div className="max-w-[320px] xs:max-w-[375px] sm:max-w-[425px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-4  xs:px-5 sm:px-6 md:px-8 lg:px-8">
+      <div className="solutions-container responsive-container max-w-[375px] xs:max-w-[400px] sm:max-w-[500px] md:max-w-[700px] lg:max-w-[1024px] xl:max-w-[1200px] mx-auto px-5 xs:px-6 sm:px-6 md:px-8">
           <div className="mb-6 xs:mb-8 sm:mb-12">
             <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-sora font-semibold leading-tight">
               <span className="text-[#064ee3]">Beyond Code. <br /></span>
@@ -593,10 +715,10 @@ const Home = () => {
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 xs:gap-6 sm:gap-8 lg:gap-8">
+          <div className="solutions-grid grid grid-cols-1 lg:grid-cols-5 gap-5 xs:gap-6 sm:gap-8 lg:gap-8">
             {/* Main Solution Card */}
             <div className="lg:col-span-3">
-              <div className="bg-gradient-to-b from-white via-blue-50/50 to-blue-100 
+              <div className="solutions-card bg-gradient-to-b from-white via-blue-50/50 to-blue-100 
                   border border-gray-200 rounded-xl lg:rounded-2xl 
                   pt-5 pl-5 xs:pt-6 xs:pl-6 sm:pt-8 sm:pl-8 lg:pt-10 lg:pl-10 xl:pt-12 xl:pl-12 
                   pr-0 pb-0
@@ -622,7 +744,7 @@ const Home = () => {
             {/* Feature Cards Column */}
             <div className="lg:col-span-2 space-y-4 xs:space-y-5 sm:space-y-6 flex flex-col justify-center">
               {/* Innovation at Core */}
-              <div className="bg-[#EEF8FF] rounded-xl lg:rounded-2xl p-4 xs:p-5 sm:p-6 lg:p-8 xl:p-10 relative overflow-hidden">
+              <div className="solutions-card bg-[#EEF8FF] rounded-xl lg:rounded-2xl p-4 xs:p-5 sm:p-6 lg:p-8 xl:p-10 relative overflow-hidden">
                   {/* Text Section */}
                   <div className="relative z-10 max-w-lg">
                     <h4 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-manrope font-bold text-[#040404] mb-3 xs:mb-4 sm:mb-4">
@@ -640,7 +762,7 @@ const Home = () => {
                   />
                 </div>                  
               {/* AI-Only Engineering */}
-              <div className="bg-[#FBEAFF] rounded-xl lg:rounded-2xl pt-0 pr-0 pb-4 pl-4 xs:pb-5 xs:pl-5 sm:pb-6 sm:pl-6 lg:pb-8 lg:pl-8 xl:pb-10 xl:pl-10">
+              <div className="solutions-card bg-[#FBEAFF] rounded-xl lg:rounded-2xl pt-0 pr-0 pb-4 pl-4 xs:pb-5 xs:pl-5 sm:pb-6 sm:pl-6 lg:pb-8 lg:pl-8 xl:pb-10 xl:pl-10">
                 <img 
                   src="/images/engine_start.png" 
                   alt="Solutions Illustration" 
@@ -655,7 +777,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+      </div>
     </div>
   );
 };

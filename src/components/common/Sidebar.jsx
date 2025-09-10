@@ -1,7 +1,8 @@
-import React, { useState, createContext, useContext } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Search, Building2 } from "lucide-react";
 import agentsData from "../../../public/data/agentsData";
+import { CategoryContext } from "../../contexts/CategoryContext";
 
 // Custom scrollbar styles
 const scrollbarStyles = `
@@ -35,16 +36,7 @@ const scrollbarStyles = `
   }
 `;
 
-// Create context for sharing selected category/subtopic
-const CategoryContext = createContext();
-
-export const useCategoryContext = () => {
-  const context = useContext(CategoryContext);
-  if (!context) {
-    throw new Error("useCategoryContext must be used within CategoryProvider");
-  }
-  return context;
-};
+// Custom scrollbar styles are defined above
 
 const Sidebar = () => {
   const [activeCategory, setActiveCategory] = useState(

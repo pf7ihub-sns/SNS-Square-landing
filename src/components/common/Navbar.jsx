@@ -6,7 +6,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   const linkClasses = ({ isActive }) =>
-    `text-sm md:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
+    `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
      ${isActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
 
   // Function to handle navigation link clicks
@@ -38,7 +38,7 @@ const Header = () => {
         </div>
         
         {/* Nav - center */}
-        <nav className="hidden lg:flex flex-row items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
+        <nav className="hidden lg:flex flex-row items-center gap-4 xl:gap-8 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
           <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
             Home
           </NavLink>

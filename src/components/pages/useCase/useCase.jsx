@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import CTASection from "../Home/CTASection";
 import useCaseData from "../../../data/usecase.json";
@@ -15,7 +15,7 @@ export const UseCase = () => {
   const location = useLocation();
 
   // Dynamic data mapping
-  const dataMapping = {
+  const dataMapping = useMemo(() => ({
     "supply-chain": {
       data: Object.values(useCaseData).filter(
         (uc) => uc.category === "Supply Chain"
@@ -66,7 +66,7 @@ export const UseCase = () => {
         icon: "/icons/humanresource.svg",
       },
     },
-  };
+  }), []);
 
   // Handle URL parameters to set active category
   useEffect(() => {
@@ -79,7 +79,7 @@ export const UseCase = () => {
     
     // Scroll to top when component mounts or category changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [location.search]);
+  }, [location.search, dataMapping]);
 
   // Extract category filters dynamically from the data mapping
   const getCategoryFilters = () => {
@@ -128,7 +128,7 @@ export const UseCase = () => {
   };
 
   const handleLearnMoreClick = (useCaseId) => {
-    navigate(`/usecase/${useCaseId}`);
+    navigate(`/usecase/${activeCategory}/${useCaseId}`);
   };
 
   // Get the use cases to display (first 4 by default, all if showAllUseCases is true)

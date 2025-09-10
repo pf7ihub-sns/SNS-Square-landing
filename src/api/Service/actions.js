@@ -50,7 +50,7 @@ export const reLogin = async () => {
         localStorage.setItem('token', res.access.token);
         localStorage.setItem('refreshToken', res.refresh.token);
         return true;
-      } catch (error) {
+      } catch {
         localStorage.clear();
         window.location.href = '/login';
       }
@@ -124,7 +124,7 @@ export const putDataApi = async (
   }
 };
 
-export const normalPutDataApi = async (requestUrl, params, id) => {
+export const normalPutDataApi = async (requestUrl, params) => {
   try {
     const response = await API.put(`${requestUrl}`, params);
     return response.data;

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Building2 } from "lucide-react";
-import { useCategoryContext } from "../../common/Sidebar.jsx";
+import { useCategoryContext } from "../../../contexts/CategoryContext";
 import { useNavigate, useParams } from "react-router-dom";
 import agentsData from "../../../../public/data/agentsData.js";
 
@@ -30,14 +30,7 @@ const CategoriesView = () => {
     }
   }, [categoryId, subcategoryId, setActiveCategory, setSelectedSubtopic]);
 
-  let selectedCategory;
-  if (category === "industry-specific-agents") {
-    selectedCategory = { industry: agentsData.industry };
-  } else if (category === "foundation-agents") {
-    selectedCategory = { foundational: agentsData.foundational };
-  } else {
-    selectedCategory = { foundational: agentsData.foundational };
-  }
+  // Category selection logic removed as it was unused
 
   const currentCategory = agentsData.foundational.find(
     cat => cat.name === activeCategory

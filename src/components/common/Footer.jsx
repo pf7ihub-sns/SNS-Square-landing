@@ -1,11 +1,9 @@
 // src/components/Footer.jsx
 import { Linkedin, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 export default function Footer() {
   // const Link = NavLink();
-  const [menuOpen, setMenuOpen] = useState(false);
   
   return (
     <footer className="bg-[#0A1B3E] text-white">
@@ -135,7 +133,6 @@ export default function Footer() {
                 if (ctaSection) {
                   ctaSection.scrollIntoView({ behavior: 'smooth' });
                 }
-                setMenuOpen(false);
               }}
               className="cursor-pointer hover:text-blue-400 transition-colors"
             >
