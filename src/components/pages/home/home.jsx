@@ -183,6 +183,25 @@ const Home = () => {
             padding: 22px !important;
           }
         }
+        
+        /* Mobile image fill to corner */
+        @media (max-width: 767px) {
+          .mobile-image-fill {
+            margin-right: -20px !important;
+            margin-bottom: -20px !important;
+            border-bottom-right-radius: 11px !important;
+            border-top-right-radius: 0 !important;
+          }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .mobile-image-fill {
+            margin-right: -24px !important;
+            margin-bottom: -24px !important;
+            border-bottom-right-radius: 11px !important;
+            border-top-right-radius: 0 !important;
+          }
+        }
       `}} />
       {/* Hero Section - Increased mobile sizes */}
       <div className="relative w-full h-auto min-h-[750px] xs:min-h-[800px] sm:min-h-[850px] md:min-h-[650px] lg:min-h-[700px] xl:min-h-[750px] 2xl:min-h-[800px] overflow-hidden pt-20 xs:pt-22 sm:pt-24 md:pt-8 lg:pt-2 xl:pt-3 2xl:pt-4">
@@ -735,7 +754,8 @@ const Home = () => {
                   <img 
                     src="/images/image_11.png" 
                     alt="Solutions Illustration" 
-                    className="w-full max-w-[300px] xs:max-w-[370px] sm:max-w-[360px] md:max-w-[550px] lg:max-w-[600px] h-auto object-cover rounded-lg lg:rounded-xl"
+                    className="w-full max-w-[300px] xs:max-w-[370px] sm:max-w-[360px] md:max-w-[550px] lg:max-w-[600px] h-auto object-cover rounded-lg lg:rounded-xl
+                           mobile-image-fill"
                   />
                 </div>
               </div>
