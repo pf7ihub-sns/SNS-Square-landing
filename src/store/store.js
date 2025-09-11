@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { loginUser, signUpUser } from "../api/Service/user";
+import { setEncryptedItem, getEncryptedItem, removeEncryptedItem } from "../lib/encryption";
 
 export const useAuthStore = create((set) => ({
-  token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
-  userId: typeof window !== "undefined" ? localStorage.getItem("userId") : null,
+  token: typeof window !== "undefined" ? getEncryptedItem("token") : null,
+  userId: typeof window !== "undefined" ? getEncryptedItem("userId") : null,
   user: null,
   error: null,
 
@@ -13,8 +14,8 @@ export const useAuthStore = create((set) => ({
 
       if (success) {
         
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId", user.id);
+        setEncryptedItem("token", token);
+        setEncryptedItem("userId", user.id);
         localStorage.setItem("userEmail", user.email);
         localStorage.setItem("name", user.name);
 
@@ -36,8 +37,8 @@ export const useAuthStore = create((set) => ({
   signUp: async (signUpData) => {
     try {
       const { message, token, user, success } = await signUpUser(signUpData);
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", user.id);
+      setEncryptedItem("token", token);
+      setEncryptedItem("userId", user.id);
       localStorage.setItem("name", user.name);
       localStorage.setItem("userEmail", user.email);
       set({ token, userId: user.id, user, error: null });
@@ -49,8 +50,8 @@ export const useAuthStore = create((set) => ({
   },
 
   logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    removeEncryptedItem("token");
+    removeEncryptedItem("userId");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("name");
     set({ user: null, token: null, userId: null });

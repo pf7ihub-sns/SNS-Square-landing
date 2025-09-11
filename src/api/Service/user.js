@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import { getEncryptedItem } from "../../lib/encryption";
 
 // Existing loginUser function
 export const loginUser = async (loginData) => {
@@ -64,8 +65,11 @@ export const getUserDetails = async (id) => {
 
 export const logoutUser = async (userId) => {
   try {
+    // If userId is not provided, try to get it from localStorage
+    const actualUserId = userId || getEncryptedItem("userId");
+    
     const response = await axiosInstance.post("/user/logout", {
-      user_id: userId,
+      user_id: actualUserId,
     });
     return response.data;
   } catch (error) {

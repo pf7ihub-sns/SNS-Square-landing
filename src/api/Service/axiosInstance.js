@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getEncryptedItem } from "../../lib/encryption";
 
 // Determine API base URL: prefer env, fallback by hostname
 const envBaseUrl = (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_BASE_URL) || null;
@@ -23,7 +24,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const token = typeof window !== "undefined" ? getEncryptedItem("token") : null;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
