@@ -127,6 +127,14 @@ export default function Footer() {
                 Life at SNS Square
               </Link>
             </li>
+            <li>
+              <Link 
+                to="/about-us" 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                About Us
+              </Link>
+            </li>
             <li 
               onClick={() => {
                 const ctaSection = document.getElementById('cta-section');

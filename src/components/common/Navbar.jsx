@@ -96,6 +96,9 @@ const Header = () => {
           <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
             Life at SNS Square
           </NavLink>
+          <NavLink to="/about-us" className={linkClasses} onClick={handleNavClick}>
+            About Us
+          </NavLink>
         </nav>
         
         {/* Contact Us - right corner */}
@@ -150,6 +153,9 @@ const Header = () => {
             </NavLink>
             <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
               Life at SNS Square
+            </NavLink>
+            <NavLink to="/about-us" className={linkClasses} onClick={handleNavClick}>
+              About Us
             </NavLink>
           </nav>
           <Button

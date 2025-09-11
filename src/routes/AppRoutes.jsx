@@ -3,6 +3,7 @@ import UseCase from "../pages/UseCase/UseCase";
 import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail";
 import LifeAtSNSSquare from "../pages/lifeAtSnsSquare";
 import HomePage from '../pages/Home';
+import AboutUsPage from '../pages/aboutUs';
 import AgentsDetails from "../pages/agentWorkbench/AgentsDetails";
 import CategoriesAgents from "../pages/agentWorkbench/CategoriesAgents";
 import Categories from "../pages/agentWorkbench/Categories";
@@ -14,6 +15,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={< HomePage />} />
+      <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/usecase" element={<UseCase />} />
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
