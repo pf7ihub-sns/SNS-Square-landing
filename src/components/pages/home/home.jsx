@@ -1,7 +1,10 @@
+"use client"
+
 import React, {useEffect, useState} from 'react';
 import Button from '../../common/Button2';
 import Lock from './Lock';
 import { InteractiveGridPattern } from '../../common/Intractive-Grid';
+import { HeroCarousel } from '../../common/HeroCarousel';
 import { useNavigate as Navigate } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -51,17 +54,11 @@ const images = [
 const Home = () => {
   const navigate = Navigate();
   const [index, setIndex] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  const [phraseIndex, setPhraseIndex] = useState(0);
 
   // Get current navigation info based on the phrase
   const getCurrentNavigation = () => {
-    const currentPhraseIndex = index % phrases.length;
+    const currentPhraseIndex = phraseIndex % phrases.length;
     return phraseNavigation[currentPhraseIndex];
   };
 
@@ -225,22 +222,22 @@ const Home = () => {
               
               {/* Gradient Overlay - matches the image gradient */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#a8c5ff]/60 via-[#c8d9ff]/40 to-[#ffffff]/20 pointer-events-none z-[1]" />
-            <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[400px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 h-full relative z-10">
+            <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[500px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 h-full relative z-10">
               
               {/* Mobile Layout (< 768px) - Stacked Vertically */}
-              <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-12 text-center py-6 relative z-10">
+              <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-10 text-center py-6 relative z-10">
                 {/* Text Content - Better Mobile Spacing */}
-                <div className="flex flex-col gap-3 xs:gap-8 sm:gap-10 w-full px-4 xs:px-6 sm:px-8 relative z-10">
+                <div className="flex flex-col gap-3 xs:gap-8 sm:gap-8 w-full px-4 xs:px-6 sm:px-8 relative z-10">
                   {/* Small Header */}
-                  <div className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] text-global-1 text-center leading-tight px-2">
+                  <div className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] text-global-1 text-center leading-tight px-2">
                     Agentic AI Breakthroughs
                   </div>
                   
                   {/* Main Heading with Slide Animation */}
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-manrope font-[600] leading-tight text-global-1 min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
+                  <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-manrope font-[600] leading-tight text-global-1 min-h-[32px] sm:min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
                     <AnimatePresence mode="wait">
                       <motion.span
-                        key={phrases[index % phrases.length]}
+                        key={phrases[phraseIndex % phrases.length]}
                         initial={{ y: "100%", opacity: 0 }}
                         animate={{ y: "0%", opacity: 1 }}
                         exit={{ y: "-25%", opacity: 0 }}
@@ -248,27 +245,27 @@ const Home = () => {
                         className="block text-[#064EE3] cursor-pointer hover:opacity-80 transition-opacity leading-tight"
                         onClick={handlePhraseClick}
                       >
-                        {phrases[index % phrases.length]}
+                        {phrases[phraseIndex % phrases.length]}
                       </motion.span>
                     </AnimatePresence>
                   </h1>
                   
                   {/* Subtitle */}
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-tight text-global-1 text-center px-2">
+                  <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-tight text-global-1 text-center px-2">
                     Everything Unfolds Here
                   </h2>
                   
                   {/* Description */}
-                  <p className="text-lg md:text-xl lg:text-2xl font-manrope font-light leading-relaxed text-global-1 text-center px-2 max-w-[320px] md:max-w-[480px] lg:max-w-[600px] mx-auto">
+                  <p className="text-lg sm:text-lg md:text-xl lg:text-2xl font-manrope font-light leading-relaxed text-global-1 text-center px-2 max-w-[320px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[600px] mx-auto">
                     Access 1500+ Foundation Models, Ready for you
                   </p>
                   
                 {/* CTA Button */}
-                <div className="mt-6 md:mt-8">
+                <div className="mt-6 sm:mt-6 md:mt-8">
                   <Button
                     variant="primary"
                     size="medium"
-                    className="rounded-2xl md:rounded-3xl px-8 md:px-10 py-4 md:py-5 text-base md:text-lg lg:text-xl font-semibold text-white w-fit mx-auto leading-relaxed"
+                    className="rounded-2xl sm:rounded-2xl md:rounded-3xl px-8 sm:px-8 md:px-10 py-4 sm:py-4 md:py-5 text-base sm:text-base md:text-lg lg:text-xl font-semibold text-white w-fit mx-auto leading-relaxed"
                     onClick={() => {
                       const ctaSection = document.getElementById('cta-section');
                       if (ctaSection) {
@@ -283,32 +280,17 @@ const Home = () => {
                 
                 {/* Image Container - Mobile - INCREASED SIZES */}
                 <div className="flex justify-center w-full mt-4 relative z-10">
-                  <div className="relative w-full max-w-[280px] xs:max-w-[320px] sm:max-w-[360px] z-10">
+                  <div className="relative w-full max-w-[280px] xs:max-w-[320px] sm:max-w-[380px] z-10">
                     {/* Main Image Card */}
                     <div className="relative bg-transparent rounded-[32px] overflow-hidden">
-                      <AnimatePresence mode="wait">
-                        <motion.img 
-                          key={images[index]}
-                          src={images[index]} 
-                          alt="Hero related visual"
-                          className="w-full h-[280px] xs:h-[320px] sm:h-[360px] object-cover"
-                          initial={{ x: "100%" }}
-                          animate={{ x: "0%" }}
-                          exit={{ x: "-100%" }}
-                          transition={{ duration: 0.6, ease: "easeInOut" }}
-                        />
-                      </AnimatePresence>
-                      {/* Overlay Content */}
-                      {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 xs:p-4">
-                        <div className="text-white">
-                          <h3 className="font-semibold text-[10px] xs:text-[11px] sm:text-xs mb-1">
-                            Culture, Crafted with Pur...
-                          </h3>
-                          <div className="flex items-center justify-between">
-                            <span className="text-[9px] xs:text-[10px] sm:text-[11px] opacity-90">Life at SNS Square</span>
-                          </div>
-                        </div>
-                      </div> */}
+                      <HeroCarousel 
+                        images={images}
+                        className="w-full h-[280px] xs:h-[320px] sm:h-[380px] rounded-[32px]"
+                        onSlideChange={(slideIndex) => {
+                          setIndex(slideIndex);
+                          setPhraseIndex(slideIndex);
+                        }}
+                      />
                     </div>
                     {/* Indicator Bar - Only 3 dots */}
                     <div className="flex gap-1.5 xs:gap-2 mt-3 justify-center">
@@ -316,7 +298,7 @@ const Home = () => {
                         <div
                           key={i}
                           className={`h-1.5 xs:h-2 rounded-full transition-all duration-500 ${
-                            i === (index % 3) ? "bg-[#064EE3] w-6 xs:w-7 sm:w-8" : "bg-[#d3ddf5] w-6 xs:w-7 sm:w-8 opacity-60"
+                            i === (phraseIndex % 3) ? "bg-[#064EE3] w-6 xs:w-7 sm:w-8" : "bg-[#d3ddf5] w-6 xs:w-7 sm:w-8 opacity-60"
                           }`}
                         />
                       ))}
@@ -339,7 +321,7 @@ const Home = () => {
                   <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[42px] font-manrope font-[600] leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[24px] md:h-[28px] lg:h-[32px] xl:h-[40px] 2xl:h-[48px] overflow-hidden whitespace-nowrap">
                     <AnimatePresence mode="wait">
                       <motion.span
-                        key={phrases[index % phrases.length]}
+                        key={phrases[phraseIndex % phrases.length]}
                         initial={{ y: "100%", opacity: 0 }}
                         animate={{ y: "0%", opacity: 1 }}
                         exit={{ y: "-100%", opacity: 0 }}
@@ -347,7 +329,7 @@ const Home = () => {
                         className="block text-[#064EE3] cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={handlePhraseClick}
                       >
-                        {phrases[index % phrases.length]}
+                        {phrases[phraseIndex % phrases.length]}
                       </motion.span>
                     </AnimatePresence>
                   </h1>
@@ -383,32 +365,14 @@ const Home = () => {
                   <div className="relative w-full max-w-[250px] md:max-w-[300px] lg:max-w-[350px] xl:max-w-[400px] 2xl:max-w-[525px] z-10">
                     {/* Main Image Card */}
                     <div className="relative bg-transparent rounded-[32px] overflow-hidden">
-                      <AnimatePresence mode="wait">
-                        <motion.img 
-                          key={images[index]}
-                          src={images[index]} 
-                          alt="Hero related visual"
-                          className="w-full h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] 2xl:h-[525px] object-cover"
-                          style={{ 
-                            borderRadius: '32px'
-                          }}
-                          initial={{ x: "100%" }}
-                          animate={{ x: "0%" }}
-                          exit={{ x: "-100%" }}
-                          transition={{ duration: 0.6, ease: "easeInOut" }}
-                        />
-                      </AnimatePresence>
-                      {/* Overlay Content */}
-                      {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                        <div className="text-white">
-                          <h3 className="font-semibold text-sm mb-1">
-                            Culture, Crafted with Pur...
-                          </h3>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs opacity-90">Life at SNS Square</span>
-                          </div>
-                        </div>
-                      </div> */}
+                      <HeroCarousel 
+                        images={images}
+                        className="w-full h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] 2xl:h-[525px] rounded-[32px]"
+                        onSlideChange={(slideIndex) => {
+                          setIndex(slideIndex);
+                          setPhraseIndex(slideIndex);
+                        }}
+                      />
                     </div>
                     {/* Indicator Bar - Only 3 dots */}
                     <div className="flex gap-2 mt-4 justify-center">
@@ -416,7 +380,7 @@ const Home = () => {
                         <div
                           key={i}
                           className={`h-2 rounded-full transition-all duration-500 ${
-                            i === (index % 3) ? "bg-[#064EE3] w-20 lg:w-24 xl:w-28" : "bg-[#d3ddf5] w-20 lg:w-24 xl:w-28 opacity-60"
+                            i === (phraseIndex % 3) ? "bg-[#064EE3] w-20 lg:w-24 xl:w-28" : "bg-[#d3ddf5] w-20 lg:w-24 xl:w-28 opacity-60"
                           }`}
                         />
                       ))}
