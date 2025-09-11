@@ -8,7 +8,7 @@ const hostname = typeof window !== "undefined" ? window.location.hostname : "";
 let apiUrl = envBaseUrl;
 if (!apiUrl) {
   if (hostname === "localhost") {
-    apiUrl = "http://localhost:3000/api/v1/auth";
+    apiUrl = "http://localhost:3000/api/v1/";
   } else if (hostname === "staging.startzyai.com") {
     apiUrl = "https://apistage.startzyai.com/api/routes";
   } else {

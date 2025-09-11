@@ -4,7 +4,7 @@ import { getEncryptedItem } from "../../lib/encryption";
 // Existing loginUser function
 export const loginUser = async (loginData) => {
   try {
-    const response = await axiosInstance.post("/login", loginData);
+    const response = await axiosInstance.post("/auth/login", loginData);
     const payload = response.data || {};
     const data = payload.data || {};
     const userFromData = data.user || {};
@@ -28,7 +28,7 @@ export const loginUser = async (loginData) => {
 
 export const signUpUser = async (signUpData) => {
   try {
-    const response = await axiosInstance.post("/create-user", signUpData);
+    const response = await axiosInstance.post("/auth/create-user", signUpData);
     const payload = response.data || {};
     const data = payload.data || {};
 
@@ -51,7 +51,7 @@ export const signUpUser = async (signUpData) => {
 
 export const getUserDetails = async (id) => {
   try {
-    const response = await axiosInstance.get(`/user/list-user-details/${id}`);
+    const response = await axiosInstance.get(`/auth/user/list-user-details/${id}`);
 
     return {
       message: response.data.message,
@@ -68,7 +68,7 @@ export const logoutUser = async (userId) => {
     // If userId is not provided, try to get it from localStorage
     const actualUserId = userId || getEncryptedItem("userId");
     
-    const response = await axiosInstance.post("/user/logout", {
+    const response = await axiosInstance.post("/auth/user/logout", {
       user_id: actualUserId,
     });
     return response.data;
