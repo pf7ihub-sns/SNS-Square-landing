@@ -30,7 +30,7 @@ const leadershipTeam = [
   },
   {
     id: 3,
-    name: "Nalin SNS",
+    name: "Dr. Nalin",
     title: "Co-Founder & CEO",
     image: "/images/leadership/About-us-TD.png",
     company: "SNS Square"
@@ -89,19 +89,19 @@ const lifeAtSnsImages = [
     id: 1,
     title: "Office Collaboration",
     image: "/images/IMG_6488.png",
-    className: "absolute top-10 left-[20%] rotate-[-5deg]"
+    className: "absolute top-10 left-1/2 -translate-x-[120%] sm:left-[20%] sm:translate-x-0 rotate-[-5deg]"
   },
   {
     id: 2,
     title: "Team Building",
     image: "/images/IMG_6534.png",
-    className: "absolute top-32 left-[55%] rotate-[10deg]"
+    className: "absolute top-32 left-1/2 -translate-x-[30%] sm:left-[55%] sm:translate-x-0 rotate-[10deg]"
   },
   {
     id: 3,
     title: "Growth Ecosystem",
     image: "/images/IMG_6676.png",
-    className: "absolute top-24 left-[45%] rotate-[-7deg]"
+    className: "absolute top-24 left-1/2 -translate-x-1/2 sm:left-[45%] rotate-[-7deg]"
   },
 ];
 
@@ -161,13 +161,11 @@ const AboutUs = () => {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen">
-      <Header />
-      <main className="bg-white min-h-screen">
+    <div className="bg-white">
       {/* Hero Section */}
       <section 
         aria-labelledby="hero-heading" 
-        className="relative bg-gradient-to-b from-[#EEF4FF] to-white w-screen"
+        className="relative bg-gradient-to-b from-[#EEF4FF] to-white w-full"
         style={{
           backgroundImage: `url('/images/HomeHero.png')`,
           backgroundSize: "cover",
@@ -175,17 +173,17 @@ const AboutUs = () => {
           backgroundRepeat: "no-repeat"
         }}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-0 py-16 sm:py-20  lg:py-32 xl:py-40">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32 xl:py-40">
           <header className="text-center">
             <h1
               id="hero-heading"
-              className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[64px] font-sora font-semibold leading-[40px] sm:leading-[56px] md:leading-[72px] lg:leading-[80px] text-center text-global-1 w-full mt-20"
+              className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-7xl font-sora font-semibold leading-tight sm:leading-snug md:leading-tight lg:leading-snug text-center text-global-1 w-full mt-12 sm:mt-16 md:mt-20"
             >
               About <span className="text-[#1E63FF]">SNS Square</span>
             </h1>
           </header>
 
-          <p className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-5xl text-pretty text-center font-sans text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-black/90 font-medium px-4 sm:px-6 lg:px-0">
+          <p className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-5xl text-pretty text-center font-sans text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-black/90 font-medium">
             We are a team of passionate individuals dedicated to creating innovative AI solutions that drive growth and efficiency across industries.
           </p>
 
@@ -194,11 +192,11 @@ const AboutUs = () => {
 
       {/* Values Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-br from-blue-50 to-white">
-        <div className="w-full max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 lg:gap-16 items-start">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-16 items-start">
             {/* Left Column - Text Content (30%) */}
-            <div className="lg:col-span-3 flex flex-col justify-center py-35">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-manrope font-bold text-global-1 mb-4">
+            <div className="lg:col-span-3 flex flex-col justify-center text-center lg:text-left">
+              <h2 className="text-3xl sm:text-4xl font-manrope font-bold text-global-1 mb-4">
                 <span className="text-[#1E63FF]">Our</span> Values
               </h2>
               <p className="text-base sm:text-lg font-inter text-gray-700 leading-relaxed">
@@ -209,9 +207,9 @@ const AboutUs = () => {
             {/* Right Column - Wobble Cards (70%) */}
             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* First Row - Two Cards */}
-              <WobbleCard containerClassName="col-span-1 min-h-[200px] bg-[#DCE7FD]">
-                <div className="flex flex-col h-full">
-                  <div className="w-12 h-12 flex items-center justify-center mb-4">
+              <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
+                <div className="flex flex-col h-full p-4">
+                  <div className="w-16 h-16 flex items-center justify-center mb-4">
                     {animationData[values[0].title] && (
                       <Lottie
                         animationData={animationData[values[0].title]}
@@ -221,7 +219,7 @@ const AboutUs = () => {
                       />
                     )}
                   </div>
-                  <h3 className="text-lg font-manrope font-semibold text-global-1    mb-3">
+                  <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
                     {values[0].title}
                   </h3>
                   <div className="w-full h-px bg-gray-300 mb-3"></div>
@@ -231,9 +229,9 @@ const AboutUs = () => {
                 </div>
               </WobbleCard>
 
-              <WobbleCard containerClassName="col-span-1 min-h-[200px] bg-[#DCE7FD]">
-                <div className="flex flex-col h-full">
-                  <div className="w-12 h-12 flex items-center justify-center mb-4">
+              <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
+                <div className="flex flex-col h-full p-4">
+                  <div className="w-16 h-16 flex items-center justify-center mb-4">
                     {animationData[values[1].title] && (
                       <Lottie
                         animationData={animationData[values[1].title]}
@@ -254,9 +252,9 @@ const AboutUs = () => {
               </WobbleCard>
 
               {/* Second Row - One Wide Card */}
-              <WobbleCard containerClassName="col-span-2 min-h-[200px] bg-[#DCE7FD]">
-                <div className="flex flex-col p-4">
-                  <div className="w-12 h-12 flex items-center justify-center mb-4">
+              <WobbleCard containerClassName="md:col-span-2 min-h-[200px] bg-[#DCE7FD]">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4">
+                  <div className="w-16 h-16 flex items-center justify-center flex-shrink-0 mb-4 sm:mb-0">
                     {animationData[values[2].title] && (
                       <Lottie
                         animationData={animationData[values[2].title]}
@@ -266,11 +264,11 @@ const AboutUs = () => {
                       />
                     )}
                   </div>
-                  <div className="flex items-start gap-4 ">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full">
                     <h3 className="text-lg font-manrope font-semibold text-global-1 flex-shrink-0">
                       {values[2].title}
                     </h3>
-                    <div className="w-px h-8 bg-gray-300 flex-shrink-0"></div>
+                    <div className="w-full sm:w-px h-px sm:h-8 bg-gray-300 flex-shrink-0"></div>
                     <p className="text-sm font-inter text-gray-700 leading-relaxed">
                       {values[2].description}
                     </p>
@@ -286,7 +284,7 @@ const AboutUs = () => {
       <section className="py-16 lg:py-24 bg-white">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
+            <div className="text-center lg:text-left">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-manrope font-bold text-global-1 mb-8">
                 Our Mission
               </h2>
@@ -307,7 +305,7 @@ const AboutUs = () => {
               <img
                 src="/images/innovation-concept.jpg"
                 alt="Innovation concept"
-                className="w-full max-w-lg h-80 lg:h-96 object-cover rounded-[32px] shadow-2xl"
+                className="w-full max-w-md lg:max-w-lg h-auto object-cover rounded-[32px] shadow-2xl"
               />
             </div>
           </div>
@@ -315,28 +313,28 @@ const AboutUs = () => {
       </section>
 
       {/* Leadership Team Section */}
-      <section className="py-16 lg:py-24 relative overflow-hidden min-h-screen">
+      <section className="py-16 lg:py-24 relative overflow-hidden">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-no-repeat bg-center"
           style={{ backgroundImage: `url(${leadershipBgImage})` }}
         />
         
-        <div className="w-full max-w-7xl mx-auto  relative z-10">
-          {/* First Row - 20/80 Split */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 mb-16 text-left">
-            {/* Left Column - 25% - Title */}
-            <div className="lg:col-span-1 flex flex-col justify-center text-left">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-manrope font-bold text-global-1 mb-4 text-left">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* First Row - 30/70 Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-12 mb-12 md:mb-16 text-center lg:text-left">
+            {/* Left Column - 30% - Title */}
+            <div className="lg:col-span-3 flex flex-col justify-center">
+              <h2 className="text-3xl sm:text-4xl font-manrope font-bold text-global-1 mb-4">
                 <span className="text-[#1E63FF]">Meet Our</span> Leadership team
               </h2>
             </div>
 
-            {/* Right Column - 75% - Main Leadership */}
-            <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Right Column - 70% - Main Leadership */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {/* Dr. S.N. Subbramanian */}
-              <div className="rounded-2xl text-left">
-                <div className="w-full max-w-sm mx-auto mb-6 overflow-hidden">
+              <div className="rounded-2xl text-center md:text-left">
+                <div className="w-full max-w-[280px] sm:max-w-xs mx-auto mb-6 overflow-hidden">
                   <img
                     src={leadershipTeam[0].image}
                     alt={leadershipTeam[0].name}
@@ -346,7 +344,7 @@ const AboutUs = () => {
                 <h3 className="text-lg font-manrope font-semibold text-global-1 mb-2">
                   {leadershipTeam[0].name}
                 </h3>
-                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full"></div>
+                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full mx-auto md:mx-0"></div>
                 <p className="text-sm font-inter text-gray-600 mb-1">
                   {leadershipTeam[0].title}
                 </p>
@@ -356,8 +354,8 @@ const AboutUs = () => {
               </div>
 
               {/* Dr. S. Rajalakshmi */}
-              <div className="rounded-2xl text-left">
-                <div className="w-full max-w-sm mx-auto mb-6 overflow-hidden">
+              <div className="rounded-2xl text-center md:text-left">
+                <div className="w-full max-w-[280px] sm:max-w-xs mx-auto mb-6 overflow-hidden">
                   <img
                     src={leadershipTeam[1].image}
                     alt={leadershipTeam[1].name}
@@ -367,7 +365,7 @@ const AboutUs = () => {
                 <h3 className="text-lg font-manrope font-semibold text-global-1 mb-2">
                   {leadershipTeam[1].name}
                 </h3>
-                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full"></div>
+                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full mx-auto md:mx-0"></div>
                 <p className="text-sm font-inter text-gray-600 mb-1">
                   {leadershipTeam[1].title}
                 </p>
@@ -377,8 +375,8 @@ const AboutUs = () => {
               </div>
 
               {/* Nalin SNS */}
-              <div className=" rounded-2xl  text-left">
-                <div className="w-full max-w-sm mx-auto mb-6 overflow-hidden">
+              <div className="rounded-2xl text-center md:text-left">
+                <div className="w-full max-w-[280px] sm:max-w-xs mx-auto mb-6 overflow-hidden">
                   <img
                     src={leadershipTeam[2].image}
                     alt={leadershipTeam[2].name}
@@ -388,7 +386,7 @@ const AboutUs = () => {
                 <h3 className="text-lg font-manrope font-semibold text-global-1 mb-2">
                   {leadershipTeam[2].name}
                 </h3>
-                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full"></div>
+                <div className="w-32 h-1 bg-[#1357E5] mb-2 rounded-full mx-auto md:mx-0"></div>
                 <p className="text-sm font-inter text-gray-600 mb-1">
                   {leadershipTeam[2].title}
                 </p>
@@ -400,7 +398,7 @@ const AboutUs = () => {
           </div>
 
           {/* Second Row - Other Team Members with Tooltip */}
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
             <TestimonialTooltip people={leadershipTeam.slice(3)} />
           </div>
         </div>
@@ -409,8 +407,8 @@ const AboutUs = () => {
       {/* Careers Section */}
       <section className="py-16 lg:py-24 bg-white">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-manrope font-bold text-global-1 mb-6 text-left">
+          <div className="text-center lg:text-left mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-manrope font-bold text-global-1 mb-6">
               <span className="text-[#1E63FF]">Careers @</span> <br /> SNS Square
             </h2>
           </div>
@@ -461,7 +459,7 @@ const AboutUs = () => {
             <DraggableCardContainer className="relative flex min-h-[280px] w-full items-center justify-center overflow-visible">
               <p 
                 className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800 z-0 cursor-pointer hover:text-blue-600 transition-colors"
-                onClick={() => navigate("/life-at-sns")}
+                onClick={() => {navigate("/life-at-sns"); window.scrollTo(0, 0);}}
               >
                 Life at SNS Square
               </p>
@@ -478,7 +476,6 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-      </main>
       {/* <Footer /> */}
     </div>
   );

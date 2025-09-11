@@ -27,10 +27,10 @@ export const TestimonialTooltip = ({ people }) => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-center mb-10 w-full">
+    <div className="flex flex-col sm:flex-row items-center justify-center mb-10 w-full gap-4 sm:gap-0 mt-6">
       {people.map((member, idx) => (
         <div
-          className="-mr-4 relative group"
+          className="sm:-mr-4 relative group"
           key={member.id}
           onMouseEnter={() => setHoveredIndex(member.id)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -74,7 +74,7 @@ export const TestimonialTooltip = ({ people }) => {
             width={100}
             src={member.image}
             alt={member.name}
-            className="object-cover !m-0 !p-0 object-top rounded-full h-44 w-44 border-2 group-hover:scale-105 group-hover:z-30 border-[#E3E3E3] relative transition duration-500 bg-white"
+            className="object-cover !m-0 !p-0 object-top rounded-full h-32 w-32 sm:h-44 sm:w-44 border-2 group-hover:scale-105 group-hover:z-30 border-[#E3E3E3] relative transition duration-500 bg-white"
           />
         </div>
       ))}
