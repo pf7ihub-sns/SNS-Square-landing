@@ -97,8 +97,8 @@ export default function Page() {
       <Hero />
       {/* Desktop Content Sections - Hidden on Mobile */}
       <div className="hidden lg:block bg-[#FFFFFF] w-full h-auto min-h-[3360px] relative">
-        <section className="flex items-center justify-center gap-2.5 px-4 lg:px-8 xl:px-16 2xl:px-24 py-8 xl:py-[54px] absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-[32px] overflow-hidden bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)] w-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] xl:w-[calc(100%-8rem)] 2xl:w-[calc(100%-12rem)] max-w-[1440px]">
-          <div className="flex flex-col w-full max-w-[1222px] items-center gap-6 relative overflow-hidden mx-auto">
+        <section className="flex items-center justify-center gap-2.5 px-4 lg:px-24 py-8 lg:py-[54px] absolute top-0 left-1/2 transform -translate-x-1/2 rounded-b-[32px] overflow-hidden bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)] w-[calc(100%-2rem)] lg:w-[calc(100%-12rem)] max-w-[1440px]">
+          <div className="flex flex-col w-full max-w-[1222px] items-center gap-6 lg:gap-6 relative overflow-hidden mx-auto">
             {contentSections.map((section, index) => (
               <article
                 key={section.id}
@@ -123,11 +123,11 @@ export default function Page() {
                     className={`absolute w-1/2 ${index === 4 ? "h-[443px]" : "h-[442px]"} top-0 ${section.cardPosition === "left" ? "left-0" : "right-0"} bg-[#FFFFFF] border-0 ${section.cardStyle} shadow-[0px_2px_16px_#10182814]`}
                   >
                     <CardContent
-                      className={`absolute flex flex-col items-start gap-6 p-6 w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${section.textRotate || ""}`}
+                      className={`absolute flex flex-col items-start gap-6 p-6 lg:p-6 w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${section.textRotate || ""}`}
                     >
                       <div className="flex flex-col items-start gap-6 relative self-stretch w-full flex-[0_0_auto]">
                         <h2
-                          className={`relative self-stretch [font-family:'Sora',Helvetica] font-semibold text-black text-[32px] tracking-[0] leading-[40px]`}
+                          className={`relative self-stretch [font-family:'Sora',Helvetica] font-semibold text-black text-[28px] lg:text-[32px] tracking-[0] leading-[36px] lg:leading-[40px]`}
                         >
                           {section.title.split("\n").map((line, lineIndex) => (
                             <React.Fragment key={lineIndex}>
@@ -137,7 +137,7 @@ export default function Page() {
                             </React.Fragment>
                           ))}
                         </h2>
-                        <p className="relative self-stretch [font-family:'Sora',Helvetica] font-normal text-[#000000] text-base tracking-[0] leading-[26px]">
+                        <p className="relative self-stretch [font-family:'Sora',Helvetica] font-normal text-[#000000] text-sm lg:text-base tracking-[0] leading-[24px] lg:leading-[26px]">
                           {section.description
                             .split("\n")
                             .map((line, lineIndex) => (
@@ -159,12 +159,12 @@ export default function Page() {
         </section>
       </div>
       {/* Mobile Content Sections - Only visible on Mobile/Tablet */}
-      <div className="block lg:hidden w-full px-4 py-8 mb-16">
-        <div className="w-full max-w-md mx-auto space-y-6">
+      <div className="block lg:hidden w-full px-4 md:px-6 py-8 mb-16">
+        <div className="w-full max-w-md md:max-w-2xl mx-auto space-y-6 md:space-y-8">
           {contentSections.map((section) => (
             <div key={`mobile-${section.id}`} className="bg-white rounded-2xl shadow-lg overflow-hidden">
               {section.imageSrc && (
-                <div className="w-full h-48 overflow-hidden">
+                <div className="w-full h-48 md:h-56 overflow-hidden">
                   <img
                     className="w-full h-full object-cover"
                     alt="Img"
@@ -172,8 +172,8 @@ export default function Page() {
                   />
                 </div>
               )}
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-black mb-4 font-['Sora',_Helvetica] leading-tight">
+              <div className="p-6 md:p-8">
+                <h2 className="text-xl md:text-2xl font-semibold text-black mb-4 md:mb-6 font-['Sora',_Helvetica] leading-tight">
                   {section.title.split("\n").map((line, lineIndex) => (
                     <React.Fragment key={lineIndex}>
                       {line}
@@ -181,7 +181,7 @@ export default function Page() {
                     </React.Fragment>
                   ))}
                 </h2>
-                <p className="text-sm text-gray-700 leading-relaxed font-['Sora',_Helvetica]">
+                <p className="text-sm md:text-base text-gray-700 leading-relaxed font-['Sora',_Helvetica]">
                   {section.description.split("\n").map((line, lineIndex) => (
                     <React.Fragment key={lineIndex}>
                       {line}
