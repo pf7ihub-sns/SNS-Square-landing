@@ -151,16 +151,19 @@ const SignUpModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Clean up timeouts when component unmounts or modal closes
+  // Clean up timeouts when modal closes
   useEffect(() => {
     if (!isOpen) {
-      // Clear all timeouts and errors when modal closes
       Object.values(errorTimeouts).forEach(clearTimeout);
-      setErrorTimeouts({});
+      if (Object.keys(errorTimeouts).length > 0) {
+        setErrorTimeouts({});
+      }
       setVisibleErrors({});
       setShowSuccessScreen(false);
     }
-  }, [isOpen, errorTimeouts]);
+    // Only run this when open/close toggles to avoid infinite loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
