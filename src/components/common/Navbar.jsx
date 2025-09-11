@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "./Button2.jsx";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
   
   const linkClasses = ({ isActive }) =>
     `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
@@ -11,8 +14,30 @@ const Header = () => {
 
   // Function to handle navigation link clicks
   const handleNavClick = () => {
-    setMenuOpen(false);
+    closeMenu();
     // Scroll to top when navigating
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Function to open menu with animation
+  const openMenu = () => {
+    setMenuOpen(true);
+    setIsAnimating(true);
+  };
+
+  // Function to close menu with animation
+  const closeMenu = () => {
+    setIsAnimating(false);
+    setTimeout(() => {
+      setMenuOpen(false);
+    }, 140); // Match the transition duration
+  };
+
+  // Function to handle logo click - navigate to home
+  const handleLogoClick = () => {
+    navigate('/');
+    closeMenu(); // Close mobile menu if open
+    // Scroll to top when navigating to home
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -22,14 +47,34 @@ const Header = () => {
     if (ctaSection) {
       ctaSection.scrollIntoView({ behavior: 'smooth' });
     }
-    setMenuOpen(false);
+    closeMenu();
   };
+
+  // Function to handle clicks outside the menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuOpen]);
 
   return (
     <header className="w-full bg-white p-4 fixed top-0 left-0 z-100 backdrop-blur-md">
       <div className="w-[90%] max-w-[1440px] mx-auto relative flex items-center justify-between">
         {/* Logo - left corner */}
-        <div className="w-[60px] sm:w-[80px] md:w-[96px]">
+        <div 
+          className="w-[60px] sm:w-[80px] md:w-[96px] cursor-pointer hover:opacity-80 transition-opacity duration-200"
+          onClick={handleLogoClick}
+        >
           <img
             src="/images/img_square_logo_black.png"
             alt="SNS Square Logo"
@@ -58,7 +103,7 @@ const Header = () => {
          <Button
           variant="secondary"
           size="small"
-          className="mt-4 rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white hover:bg-blue-600 transition-colors duration-300"
+          className=" rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white hover:bg-blue-600 transition-colors duration-300"
           onClick={handleContactClick}
         >
           Contact us
@@ -69,7 +114,7 @@ const Header = () => {
         <button
           className="block lg:hidden p-2 ml-auto"
           aria-label="Open menu"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => menuOpen ? closeMenu() : openMenu()}
         >
           <div className="w-6 h-6 flex flex-col justify-center items-center">
             <span className="block w-full h-0.5 bg-black mb-1"></span>
@@ -81,7 +126,14 @@ const Header = () => {
       
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="lg:hidden mt-4 bg-global-7 rounded-lg p-4 flex flex-col gap-4">
+        <div 
+          ref={menuRef} 
+          className={`lg:hidden mt-4 bg-global-7 rounded-lg p-4 flex flex-col gap-4 transition-all duration-200 ease-in-out transform ${
+            isAnimating 
+              ? 'opacity-100 translate-y-0 scale-100' 
+              : 'opacity-0 -translate-y-2 scale-95'
+          }`}
+        >
           <nav className="flex flex-col gap-4">
             <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
               Home

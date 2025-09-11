@@ -73,12 +73,9 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
     setIsExpanded(!isExpanded);
   };
 
-  // For mobile: tap to show Learn More button and apply hover effect
+  // Handle card click - navigate to detail page
   const handleCardClick = () => {
-    if (window.innerWidth < 768) {
-      setShowLearnMore((prev) => !prev);
-      setIsActive((prev) => !prev);
-    }
+    onLearnMore(useCase.id);
   };
 
   return (
@@ -112,7 +109,10 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
               </p>
               {useCase.tagline && useCase.tagline.length > 120 && (
                 <button
-                  onClick={toggleExpanded}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpanded();
+                  }}
                   className="text-[#3E57DA] hover:underline mt-1 text-sm"
                 >
                   {isExpanded ? 'Show less' : 'Show more...'}
@@ -126,7 +126,10 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
         <div className="w-full mt-auto">
           <Button
             variant="link"
-            onClick={() => onLearnMore(useCase.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onLearnMore(useCase.id);
+            }}
             className={
               `font-inter font-normal text-[#3e57da] text-base md:text-[16px] tracking-0 leading-normal p-0 h-auto justify-start transition-all duration-300 no-underline hover:no-underline cursor-pointer ` +
               `md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-2 md:group-hover:translate-y-0 ` +
