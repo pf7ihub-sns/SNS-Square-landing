@@ -80,18 +80,18 @@ const contentSections = [
 ];
 
 export default function Page() {
-	return (
-		<main className="bg-[#FFFFFF] w-full">
-			<Hero />
-			<div className="w-full bg-[#FFFFFF] lg:px-28">
-				<section className="max-w-7xl mx-auto rounded-b-2xl bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)]">
-					<div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:p-14">
-						{contentSections.map((section) => (
-							<article
-								key={section.id}
-								className="w-full bg-white rounded-2xl shadow-lg overflow-hidden lg:bg-transparent lg:shadow-none lg:relative lg:h-[450px] lg:max-w-[1222px]"
-							>
-								{/* Mobile Layout: Stacked Image and Text */}
+    return (
+        <main className="bg-[#FFFFFF] overflow-x-hidden">
+            <Hero />
+            <div className="w-full bg-[#FFFFFF] lg:px-10">
+                <section className="max-w-7xl mx-auto rounded-b-2xl bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)]">
+                    <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-14">
+                        {contentSections.map((section) => (
+                            <article
+                                key={section.id}
+                                className="w-full bg-white rounded-2xl shadow-lg overflow-hidden lg:bg-transparent lg:shadow-none lg:relative lg:h-[450px] lg:max-w-[1222px]"
+                            >
+                                {/* Mobile Layout: Stacked Image and Text */}
                                 <div className="lg:hidden">
                                     <img
                                         className="w-full h-48 md:h-64 object-cover"
@@ -129,49 +129,49 @@ export default function Page() {
                                 </div>
 
                                 {/* Desktop Layout: Overlapping and Absolutely Positioned */}
-								<div className="hidden lg:block w-full h-full relative">
-									<img
-										className={`absolute top-0 h-full object-cover object-center ${
-											section.imagePosition === "left"
-												? "left-0 lg:w-[85%] xl:w-[65%]"
-												: "right-0 lg:w-[90%] xl:w-[70%]"
-										}`}
-										alt={section.title}
-										src={section.imageSrc}
-									/>
-									{section.hasOverlay && (
-										<div
-											className={`absolute top-0 h-full bg-[#00000033] ${
-												section.imagePosition === "left"
-													? "left-0 lg:w-[85%] xl:w-[65%]"
-													: "right-0 lg:w-[90%] xl:w-[70%]"
-											}`}
-										/>
-									)}
-									<Card
-										className={`absolute top-0 h-full w-[42%] bg-white border-0 shadow-[0px_2px_16px_#10182814] ${
-											section.cardPosition === "left"
-												? "left-0"
-												: "right-0"
-										} ${section.cardStyle}`}
-									>
-										<CardContent
-											className={`absolute top-1/2 -translate-y-1/2 flex flex-col gap-6 p-0 w-[75%] ${
-												section.cardPosition === "left"
-													? "left-14 items-start"
-													: "right-14 items-end"
-											} ${section.textRotate || ""}`}
-										>
-											<div className="flex flex-col items-start gap-6 relative self-stretch w-full">
-												<h2
-													className={`relative self-stretch [font-family:'Sora',Helvetica] font-semibold text-black text-[32px] tracking-[0] leading-[40px] ${
-														section.cardPosition === "right"
-															? "text-right"
-															: ""
-													}`}
-												>
-													{section.title.split("\n").map(
-														(line, i) => (
+                                <div className="hidden lg:block w-full h-full relative">
+                                    <img
+                                        className={`absolute top-0 h-full object-cover object-center ${
+                                            section.imagePosition === "left"
+                                                ? "left-0 lg:w-[75%] xl:w-[65%]"
+                                                : "right-0 lg:w-[75%] xl:w-[70%]"
+                                        }`}
+                                        alt={section.title}
+                                        src={section.imageSrc}
+                                    />
+                                    {section.hasOverlay && (
+                                        <div
+                                            className={`absolute top-0 h-full bg-[#00000033] ${
+                                                section.imagePosition === "left"
+                                                    ? "left-0 lg:w-[75%] xl:w-[65%]"
+                                                    : "right-0 lg:w-[75%] xl:w-[70%]"
+                                            }`}
+                                        />
+                                    )}
+                                    <Card
+                                        className={`absolute top-0 h-full w-[40%] bg-white border-0 shadow-[0px_2px_16px_#10182814] ${
+                                            section.cardPosition === "left"
+                                                ? "left-0"
+                                                : "right-0"
+                                        } ${section.cardStyle}`}
+                                    >
+                                        <CardContent
+                                            className={`absolute top-1/2 -translate-y-1/2 flex flex-col gap-6 p-0 w-[75%] ${
+                                                section.cardPosition === "left"
+                                                    ? "left-14 items-start"
+                                                    : "right-14 items-end"
+                                            } ${section.textRotate || ""}`}
+                                        >
+                                            <div className="flex flex-col items-start gap-6 relative self-stretch w-full">
+                                                <h2
+                                                    className={`relative self-stretch [font-family:'Sora',Helvetica] font-semibold text-black text-[32px] tracking-[0] leading-[40px] ${
+                                                        section.cardPosition === "right"
+                                                            ? "text-right"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {section.title.split("\n").map(
+                                                        (line, i) => (
 															<React.Fragment key={i}>
 																{line}
 																{i <
@@ -181,17 +181,17 @@ export default function Page() {
 															</React.Fragment>
 														)
 													)}
-												</h2>
-												<p
-													className={`relative self-stretch [font-family:'Sora',Helvetica] font-normal text-[#000000] text-base tracking-[0] leading-[26px] ${
-														section.cardPosition === "right"
-															? "text-right"
-															: ""
-													}`}
-												>
-													{section.description
-														.split("\n")
-														.map((line, i) => (
+                                                </h2>
+                                                <p
+                                                    className={`relative self-stretch [font-family:'Sora',Helvetica] font-normal text-[#000000] text-base tracking-[0] leading-[26px] ${
+                                                        section.cardPosition === "right"
+                                                            ? "text-right"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {section.description
+                                                        .split("\n")
+                                                        .map((line, i) => (
 															<React.Fragment key={i}>
 																{line}
 																{i <
@@ -200,16 +200,16 @@ export default function Page() {
 																	).length - 1 && <br />}
 															</React.Fragment>
 														))}
-												</p>
-											</div>
-										</CardContent>
-									</Card>
-								</div>
-							</article>
-						))}
-					</div>
-				</section>
-			</div>
-		</main>
+                                                </p>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            </div>
+        </main>
 	);
 }
