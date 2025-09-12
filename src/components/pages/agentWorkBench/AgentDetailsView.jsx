@@ -208,6 +208,30 @@ const AgentDetailsView = () => {
           </div>
         </div>
       </div>
+      
+      {/* Simple Modal for Signup */}
+      {showSignup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+            <h3 className="text-xl font-semibold mb-4">Sign Up Required</h3>
+            <p className="mb-4">Please sign up to access this agent.</p>
+            <div className="flex gap-3">
+              <button 
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                onClick={() => setIsSignedIn(true)}
+              >
+                Sign Up
+              </button>
+              <button 
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+                onClick={() => setShowSignup(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

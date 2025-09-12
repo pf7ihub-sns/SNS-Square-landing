@@ -1,11 +1,9 @@
 // src/components/Footer.jsx
 import { Linkedin, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 export default function Footer() {
   // const Link = NavLink();
-  const [menuOpen, setMenuOpen] = useState(false);
   
   return (
     <footer className="bg-[#0A1B3E] text-white">
@@ -129,13 +127,20 @@ export default function Footer() {
                 Life at SNS Square
               </Link>
             </li>
+            <li>
+              <Link 
+                to="/about-us" 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                About Us
+              </Link>
+            </li>
             <li 
               onClick={() => {
                 const ctaSection = document.getElementById('cta-section');
                 if (ctaSection) {
                   ctaSection.scrollIntoView({ behavior: 'smooth' });
                 }
-                setMenuOpen(false);
               }}
               className="cursor-pointer hover:text-blue-400 transition-colors"
             >

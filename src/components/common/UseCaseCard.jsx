@@ -73,18 +73,15 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
     setIsExpanded(!isExpanded);
   };
 
-  // For mobile: tap to show Learn More button and apply hover effect
+  // Handle card click - navigate to detail page
   const handleCardClick = () => {
-    if (window.innerWidth < 768) {
-      setShowLearnMore((prev) => !prev);
-      setIsActive((prev) => !prev);
-    }
+    onLearnMore(useCase.id);
   };
 
   return (
     <Card
       className={
-        `group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full transition-all duration-300 relative group cursor-pointer ` +
+        `group flex flex-col w-full max-w-none mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full transition-all duration-300 relative group cursor-pointer ` +
         `md:hover:shadow-blue-100 md:hover:-translate-y-3 md:hover:scale-[1.02] md:hover:ring-blue-200 md:hover:ring-opacity-50 ` +
         (isActive ? 'shadow-blue-100 -translate-y-3 scale-[1.02] ring-blue-200 ring-opacity-50 ' : '')
       }
@@ -112,7 +109,10 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
               </p>
               {useCase.tagline && useCase.tagline.length > 120 && (
                 <button
-                  onClick={toggleExpanded}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpanded();
+                  }}
                   className="text-[#3E57DA] hover:underline mt-1 text-sm"
                 >
                   {isExpanded ? 'Show less' : 'Show more...'}
@@ -126,7 +126,10 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
         <div className="w-full mt-auto">
           <Button
             variant="link"
-            onClick={() => onLearnMore(useCase.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onLearnMore(useCase.id);
+            }}
             className={
               `font-inter font-normal text-[#3e57da] text-base md:text-[16px] tracking-0 leading-normal p-0 h-auto justify-start transition-all duration-300 no-underline hover:no-underline cursor-pointer ` +
               `md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-2 md:group-hover:translate-y-0 ` +

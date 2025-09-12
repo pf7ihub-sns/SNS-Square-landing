@@ -13,7 +13,7 @@ const ListItem = ({ children }) => (
 
 // Main App Component
 export default function UseCaseDetail() {
-    const { id } = useParams();
+    const { id, category } = useParams();
     const navigate = useNavigate();
     const [useCaseData, setUseCaseData] = useState(null);
     const [relatedUseCases, setRelatedUseCases] = useState([]);
@@ -190,7 +190,12 @@ export default function UseCaseDetail() {
     };
 
     const handleLearnMore = (useCaseId) => {
-        navigate(`/usecase/${useCaseId}`);
+        // If we have a category from the current route, use it; otherwise fall back to the original route
+        if (category) {
+            navigate(`/usecase/${category}/${useCaseId}`);
+        } else {
+            navigate(`/usecase/${useCaseId}`);
+        }
     };
 
     const handleImageLoad = () => {
@@ -217,7 +222,13 @@ export default function UseCaseDetail() {
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-red-600 mb-4">Error: {error}</h1>
                     <button
-                        onClick={() => navigate('/usecase')}
+                        onClick={() => {
+                            if (category) {
+                                navigate(`/usecase?category=${category}`);
+                            } else {
+                                navigate('/usecase');
+                            }
+                        }}
                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         Back to Use Cases
@@ -233,7 +244,13 @@ export default function UseCaseDetail() {
                 <div className="text-center">
                     <h1 className="text-2xl font-bold text-gray-600 mb-4">Use case not found</h1>
                     <button
-                        onClick={() => navigate('/usecase')}
+                        onClick={() => {
+                            if (category) {
+                                navigate(`/usecase?category=${category}`);
+                            } else {
+                                navigate('/usecase');
+                            }
+                        }}
                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         Back to Use Cases
@@ -251,12 +268,27 @@ export default function UseCaseDetail() {
             }}
         >
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-
+                {/* Back Navigation */}
+                <div className="mb-6">
+                    <button
+                        onClick={() => {
+                            if (category) {
+                                navigate(`/usecase?category=${category}`);
+                            } else {
+                                navigate('/usecase');
+                            }
+                        }}
+                        className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors font-medium"
+                    >
+                        <ArrowLeft size={20} />
+                        Back to Use Cases
+                    </button>
+                </div>
 
                 <div className="flex flex-col lg:flex-row lg:space-x-8 xl:space-x-12">
                     {/* Left Sidebar Navigation - Updated to match UseCase component */}
                     <aside className="w-full lg:w-72 mb-8 lg:mb-0">
-                        <div className="sticky top-4 lg:top-12">
+                        <div className="sticky top-4 lg:top-40">
                             <div className="flex flex-col w-full items-start gap-4">
                                 {useCaseData.sections.map((section, index) => (
                                     <button
@@ -273,7 +305,7 @@ export default function UseCaseDetail() {
                                         }}
                                     >
                                         <div
-                                            className={`font-Manrope font-semibold text-base md:text-lg tracking-[-0.60px] leading-6 whitespace-nowrap text-left ${activeSection === section.id ? "text-[#064EE3]" : "text-[#04040469]"
+                                            className={`font-Manrope font-semibold text-base md:text-lg tracking-[-0.60px] leading-6 text-left ${activeSection === section.id ? "text-[#064EE3]" : "text-[#04040469]"
                                                 }`}
                                         >
                                             {section.title}

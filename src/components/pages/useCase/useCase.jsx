@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import CTASection from "../Home/CTASection";
 import useCaseData from "../../../data/usecase.json";
@@ -15,7 +15,7 @@ export const UseCase = () => {
   const location = useLocation();
 
   // Dynamic data mapping
-  const dataMapping = {
+  const dataMapping = useMemo(() => ({
     "supply-chain": {
       data: Object.values(useCaseData).filter(
         (uc) => uc.category === "Supply Chain"
@@ -66,7 +66,7 @@ export const UseCase = () => {
         icon: "/icons/humanresource.svg",
       },
     },
-  };
+  }), []);
 
   // Handle URL parameters to set active category
   useEffect(() => {
@@ -79,7 +79,7 @@ export const UseCase = () => {
     
     // Scroll to top when component mounts or category changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [location.search]);
+  }, [location.search, dataMapping]);
 
   // Extract category filters dynamically from the data mapping
   const getCategoryFilters = () => {
@@ -128,7 +128,7 @@ export const UseCase = () => {
   };
 
   const handleLearnMoreClick = (useCaseId) => {
-    navigate(`/usecase/${useCaseId}`);
+    navigate(`/usecase/${activeCategory}/${useCaseId}`);
   };
 
   // Get the use cases to display (first 4 by default, all if showAllUseCases is true)
@@ -184,7 +184,7 @@ export const UseCase = () => {
       {/* Main Content */}
       <div className="relative overflow-hidden">
         <div className="flex flex-col items-center gap-10 md:gap-20 px-4 md:px-8 lg:px-16 py-8 md:py-6 lg:py-10">
-          <div className="flex flex-col lg:flex-row w-full max-w-7xl items-start gap-6 lg:gap-6">
+          <div className="flex flex-col lg:flex-row w-full xl:max-w-[1300px] items-start gap-6 lg:gap-6">
             {/* Category Filters */}
             {/* Mobile Accordion */}
             <div className="block lg:hidden w-full mb-6">
@@ -248,7 +248,7 @@ export const UseCase = () => {
             </div>
 
             {/* Desktop Category Filters */}
-            <div className="hidden lg:flex flex-col w-full lg:w-72 items-start gap-4 mb-10 ">
+            <div className="hidden lg:flex flex-col w-full lg:w-95 items-start gap-4 mb-10 ">
               {categoryFilters.map((filter) => (
                 <Button
                   key={filter.id}
@@ -289,7 +289,7 @@ export const UseCase = () => {
             </div>
 
             {/* Use Cases Grid */}
-            <div className="flex flex-col w-full lg:w-[1000px] items-center justify-center gap-8 md:gap-10">
+            <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-8 md:gap-10">
               {currentUseCases.length === 0 ? (
                 // No Data State
                 <div className="flex flex-col items-center justify-center min-h-[400px] w-full text-center">
@@ -320,7 +320,7 @@ export const UseCase = () => {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full ">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full ">
                     {useCasesToDisplay.map((useCase) => (
                       <UseCaseCard
                         key={useCase.id}

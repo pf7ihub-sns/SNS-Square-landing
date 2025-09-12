@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
@@ -14,7 +14,7 @@ const OrbitHero = () => {
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
 
-    const buttonOptions = ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'];
+    const buttonOptions = useMemo(() => ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'], []);
 
 
     const minSwipeDistance = 50;
@@ -57,7 +57,7 @@ const OrbitHero = () => {
         if (index !== -1) {
             setCurrentSlideIndex(index);
         }
-    }, [activeButton]);
+    }, [activeButton, buttonOptions]);
 
     const handleSlideChange = (index) => {
         setCurrentSlideIndex(index);
@@ -163,7 +163,7 @@ const OrbitHero = () => {
 
     return (
         <div>
-            <style jsx>{`
+            <style>{`
                 .scrollbar-hide {
                     -ms-overflow-style: none;
                     scrollbar-width: none;
@@ -313,10 +313,10 @@ const OrbitHero = () => {
                             ))}
                         </OrbitingCircles>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="relative text-center flex items-center justify-center">
-                            <div className="absolute rounded-full border-20 sm:border-30 border-[#02153D] w-100 h-100 flex items-center justify-center " />
-                            <div className="relative z-10">
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+                        <div className="relative text-center flex items-center justify-center pointer-events-none select-none">
+                            <div className="absolute rounded-full border-20 sm:border-30 border-[#02153D] w-100 h-100 flex items-center justify-center pointer-events-none select-none" />
+                            <div className="relative z-10 pointer-events-none select-none">
                                 <h2 className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold"
                                     style={{
                                         transform: getCustomPosition(screenWidth).transform,
@@ -328,6 +328,14 @@ const OrbitHero = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="flex items-center justify-center mt-4  pointer-events-none">
+                <button
+                    className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
+                    onClick={() => setisSignUpOpen(true)}
+                >
+                    Explore agents
+                </button>
             </div>
             <SignUpModal
                 isOpen={isSignUpOpen}
