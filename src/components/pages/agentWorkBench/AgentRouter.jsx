@@ -4,6 +4,8 @@ import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
+import ImageGenerator from "./agents/imageGeneration";
+import EntityExtractor from "./agents/entityExtractor";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -18,6 +20,9 @@ const AgentRouter = () => {
     "document-summarizer-agent": <AgentWorkingPage />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
+    "image-generation-agent": <ImageGenerator />,
+    "entity-extraction-agent": <EntityExtractor />,
+    
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
