@@ -51,13 +51,25 @@ const lifeAtSnsImages = [
     image: "/images/IMG_6676.png",
     className: "absolute top-24 left-1/2 -translate-x-1/2 sm:left-[45%] rotate-[-7deg]"
   },
+  {
+    id: 4,
+    title: "Creative Discussions",
+    image: "/images/IMG_6533.png",
+    className: "absolute top-10 left-1/2 translate-x-[20%] sm:left-[70%] sm:translate-x-0 rotate-[5deg]"
+  },
+  {
+    id: 5,
+    title: "Team Outing",
+    image: "/images/IMG_7778.png",
+    className: "absolute top-32 left-1/2 translate-x-[120%] sm:left-[80%] sm:translate-x-0 rotate-[-3deg]"
+  }
 ];
 
 const CareersSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="pt-16 lg:pt-24 bg-white">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center lg:text-left mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-manrope font-bold text-global-1 mb-6">
@@ -107,8 +119,8 @@ const CareersSection = () => {
         </div>
 
         {/* Life at SNS - Draggable Cards */}
-        <div className="relative -mb-32 pb-32 overflow-visible" style={{ clipPath: 'inset(0 0 32px 0)' }}>
-          <DraggableCardContainer className="relative flex min-h-[280px] w-full items-center justify-center overflow-visible">
+        <div className="relative overflow-hidden">
+          <DraggableCardContainer className="relative flex min-h-[450px] w-full items-center justify-center">
             <p 
               className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800 z-0 cursor-pointer hover:text-blue-600 transition-colors"
               onClick={() => {navigate("/life-at-sns"); window.scrollTo(0, 0);}}
@@ -120,7 +132,7 @@ const CareersSection = () => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="pointer-events-none relative z-10 h-80 w-80 object-cover rounded-lg bg-white"
+                  className="pointer-events-none relative z-10 h-80  object-cover rounded-lg bg-white"
                 />
               </DraggableCardBody>
             ))}
