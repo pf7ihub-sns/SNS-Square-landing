@@ -4,6 +4,8 @@ import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
+import CsvExcelConverter from "./agents/csvExcelConverter"; 
+import TripPlanningSystem from "./agents/tripPlanningAgent"; 
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -18,6 +20,8 @@ const AgentRouter = () => {
     "document-summarizer-agent": <AgentWorkingPage />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
+    "trip-planning-agent": <TripPlanningSystem />,
+    "csv-to-excel-agent": <CsvExcelConverter />,  
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

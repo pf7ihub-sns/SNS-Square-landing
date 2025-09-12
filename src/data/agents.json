@@ -29,12 +29,12 @@
     },
     {
       "id": "trip-planning-agent",
-      "title": "Communication & Assistance",
+      "title": "Trip Planning Agent",
       "description": "Intelligent communication and virtual assistance",
       "icon": "/images/agents/robot 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/trip-planning-agent"
+      "path": "/agent-playground/agent/{agentId}"
     },
     {
       "id": "logic-validation-agent",
@@ -77,6 +77,15 @@
       "icon": "/images/agents/optimizing 1.png",
       "category": "Foundation Agents",
       "featured": false
+    },    
+    {
+      "id": "csv-to-excel-agent",
+      "title": "CSV to Excel Convertor",
+      "description": "Csv to excel conversion made easy",
+      "icon": "/images/agents/folders 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
     }
   ],
   "industrySolutions": [
