@@ -28,13 +28,13 @@
       "path": "/document-summarizer-agent"
     },
     {
-      "id": "general-query-agent",
+      "id": "trip-planning-agent",
       "title": "Communication & Assistance",
       "description": "Intelligent communication and virtual assistance",
       "icon": "/images/agents/robot 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/general-query-agent"
+      "path": "/trip-planning-agent"
     },
     {
       "id": "deep-research-agent",

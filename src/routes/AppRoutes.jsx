@@ -13,6 +13,8 @@ import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
 import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepResearch";
+import TripPlanningSystem from "../components/pages/agentWorkBench/agents/tripPlanningAgent";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -54,6 +56,8 @@ export default function AppRoutes() {
       {/* New Agent Playground Routes */}
       <Route path="/agent-playground" element={<AgentPlayGround />} />
       <Route path="/agent-workbench/agent/:agentId" element={<AgentWorkingPage />} />
+      <Route path="/agent-workbench/agent/trip-planning-agent" element={< TripPlanningSystem/>} />
+
       
       {/* Existing Agent Detail Routes */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
