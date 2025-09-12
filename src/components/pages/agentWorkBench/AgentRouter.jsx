@@ -4,7 +4,7 @@ import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
-
+import EmailThreadSummariser from "./agents/emailthreadsummarizer";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -15,7 +15,7 @@ const AgentRouter = () => {
     // If there is a deep research agent id, map it here
     "deep-research-agent": <AgentWorkingPage />,
     "logic-validation-agent": <AgentWorkingPage />,
-    "document-summarizer-agent": <AgentWorkingPage />,
+    "document-summarizer-agent": <EmailThreadSummariser />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
   };

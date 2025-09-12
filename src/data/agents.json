@@ -25,7 +25,7 @@
       "icon": "/images/agents/online-analytical 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/document-summarizer-agent"
+      "path": "/agent-playground/agent/{agentId}"
     },
     {
       "id": "trip-planning-agent",
