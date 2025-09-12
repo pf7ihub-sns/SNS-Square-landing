@@ -1,159 +1,136 @@
-import React, { useState, useEffect } from 'react';
-import AgentCard from '../../common/AgentCard';
+﻿import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../common/card';
 import agentsData from '../../../data/agents.json';
+import { useNavigate } from 'react-router-dom';
 
 function AgentPlayGround() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [allAgents, setAllAgents] = useState([]);
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('foundation-agents');
   const [filteredAgents, setFilteredAgents] = useState([]);
-  const [featuredAgent, setFeaturedAgent] = useState(null);
 
   useEffect(() => {
-    // Combine all agents from different categories
-    const combinedAgents = [
-      ...agentsData.foundationAgents,
-      ...agentsData.industrySolutions,
-      ...agentsData.customerSolutions
-    ];
-    
-    setAllAgents(combinedAgents);
-    
-    // Find the featured agent (Deep Research Agent)
-    const featured = combinedAgents.find(agent => agent.featured);
-    setFeaturedAgent(featured);
-    
-    // Filter agents based on selected category
-    filterAgents(selectedCategory, combinedAgents);
+    filterAgents(selectedCategory);
   }, [selectedCategory]);
 
-  useEffect(() => {
-    filterAgents(selectedCategory, allAgents);
-  }, [selectedCategory, allAgents]);
-
-  const filterAgents = (category, agents) => {
-    if (category === 'all') {
-      setFilteredAgents(agents);
-    } else {
-      const filtered = agents.filter(agent => 
-        agent.category.toLowerCase().replace(' ', '-') === category
-      );
-      setFilteredAgents(filtered);
+  const filterAgents = (category) => {
+    let filtered;
+    switch (category) {
+      case 'foundation-agents':
+        filtered = agentsData.foundationAgents;
+        break;
+      case 'industry-agents':
+        filtered = agentsData.industrySolutions;
+        break;
+      case 'consumer-agents':
+        filtered = agentsData.customerSolutions;
+        break;
+      default:
+        filtered = agentsData.foundationAgents;
     }
+    setFilteredAgents(filtered);
   };
 
-  const categories = [
-    { id: 'all', label: 'All Agents' },
-    { id: 'foundation-agents', label: 'Foundation Agents' },
-    { id: 'industry-solutions', label: 'Industry Solutions' },
-    { id: 'customer-solutions', label: 'Customer Solutions' }
-  ];
-
-  // Separate featured agent from other agents for display
-  const otherAgents = filteredAgents.filter(agent => !agent.featured);
+  const handleAgentClick = (agentId) => {
+    navigate('/agent-workbench/agent/' + agentId);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header Section */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              AI Agent Playground
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover and interact with our collection of specialized AI agents. 
-              Each agent is designed for specific tasks and industries.
-            </p>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Agentic AI Marketplace
+          </h1>
+          <h2 className="text-2xl md:text-3xl font-medium text-gray-800 mb-8">
+            Explore <span className="text-blue-600 font-bold">1500+</span> Ready-to-Use AI Agents
+          </h2>
+
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <button
+              onClick={() => setSelectedCategory('foundation-agents')}
+              className={'px-6 py-3 rounded-full font-medium transition-all duration-200 ' + 
+                (selectedCategory === 'foundation-agents'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50')
+              }
+            >
+              Foundation Agents
+            </button>
+            <button
+              onClick={() => setSelectedCategory('industry-agents')}
+              className={'px-6 py-3 rounded-full font-medium transition-all duration-200 ' + 
+                (selectedCategory === 'industry-agents'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50')
+              }
+            >
+              Industry Agents
+            </button>
+            <button
+              onClick={() => setSelectedCategory('consumer-agents')}
+              className={'px-6 py-3 rounded-full font-medium transition-all duration-200 ' + 
+                (selectedCategory === 'consumer-agents'
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50')
+              }
+            >
+              Consumer Agents
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* Category Filter */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex flex-wrap justify-center gap-4">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`
-                px-6 py-3 rounded-lg font-medium transition-all duration-200
-                ${selectedCategory === category.id
-                  ? 'bg-blue-500 text-white shadow-lg'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-gray-400'
-                }
-              `}
-            >
-              {category.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        {/* Featured Agent Section */}
-        {featuredAgent && (selectedCategory === 'all' || selectedCategory === 'foundation-agents') && (
+        {selectedCategory === 'foundation-agents' && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
-              🌟 Featured Agent
-            </h2>
-            <div className="flex justify-center">
-              <div className="w-full max-w-md">
-                <AgentCard agent={featuredAgent} isFeatured={true} />
+            <div className="flex items-start space-x-4 max-w-2xl">
+              <div className="bg-blue-100 p-3 rounded-lg">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Foundational Categories</h3>
+                <p className="text-gray-600">Task-focused building blocks for automation, summarization, routing, and orchestration.</p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Agents Grid */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
-            {selectedCategory === 'all' ? 'All Agents' : 
-             categories.find(c => c.id === selectedCategory)?.label || 'Agents'}
-          </h2>
-          
-          {otherAgents.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {otherAgents.map((agent) => (
-                <AgentCard key={agent.id} agent={agent} isFeatured={false} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">🤖</div>
-              <h3 className="text-xl font-medium text-gray-900 mb-2">No agents found</h3>
-              <p className="text-gray-600">
-                Try selecting a different category to see available agents.
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Stats Section */}
-        <div className="bg-white rounded-xl shadow-sm p-8 mt-12">
-          <h3 className="text-xl font-bold text-gray-900 text-center mb-6">
-            Playground Statistics
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="p-4">
-              <div className="text-3xl font-bold text-blue-500 mb-2">
-                {allAgents.length}
-              </div>
-              <div className="text-gray-600">Total Agents</div>
-            </div>
-            <div className="p-4">
-              <div className="text-3xl font-bold text-green-500 mb-2">
-                {agentsData.foundationAgents.length}
-              </div>
-              <div className="text-gray-600">Foundation Agents</div>
-            </div>
-            <div className="p-4">
-              <div className="text-3xl font-bold text-purple-500 mb-2">
-                {agentsData.industrySolutions.length + agentsData.customerSolutions.length}
-              </div>
-              <div className="text-gray-600">Specialized Agents</div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredAgents.slice(0, 6).map((agent) => (
+            <Card 
+              key={agent.id} 
+              className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white"
+              onClick={() => handleAgentClick(agent.id)}
+            >
+              <CardHeader className="text-center pb-4">
+                <div className="relative">
+                  <div className="absolute top-0 right-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                    ?
+                  </div>
+                  
+                  <div className="w-full h-32 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg mb-4 flex items-center justify-center">
+                    <img 
+                      src={agent.icon} 
+                      alt={agent.title}
+                      className="w-16 h-16 object-contain"
+                    />
+                  </div>
+                </div>
+              </CardHeader>
+              
+              <CardContent className="text-center pt-0">
+                <CardTitle className="text-lg font-semibold text-gray-900 mb-3">
+                  {agent.title}
+                </CardTitle>
+                <CardDescription className="text-gray-600 text-sm leading-relaxed mb-4">
+                  {agent.description}
+                </CardDescription>
+                <button className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">
+                  Learn More
+                </button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
