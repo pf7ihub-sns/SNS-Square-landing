@@ -16,6 +16,7 @@ import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepRese
 import MultiLanguageChat from "../components/pages/agentWorkBench/agents/multiLanguageBot"; 
 import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
 import AgentRouter from "../components/pages/agentWorkBench/AgentRouter";
+import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -60,6 +61,7 @@ export default function AppRoutes() {
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
       
+      <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
       {/* Existing Agent Detail Routes */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />

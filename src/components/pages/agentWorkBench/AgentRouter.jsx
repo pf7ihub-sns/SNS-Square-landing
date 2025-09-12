@@ -4,6 +4,7 @@ import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
+import LogicValidationAgent from "./agents/logicValidation";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -14,7 +15,7 @@ const AgentRouter = () => {
     "idea-refinement-agent": <IdeaRefinementUI />,
     // If there is a deep research agent id, map it here
     "deep-research-agent": <AgentWorkingPage />,
-    "logic-validation-agent": <AgentWorkingPage />,
+    "logic-validation-agent": <LogicValidationAgent />,
     "document-summarizer-agent": <AgentWorkingPage />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
