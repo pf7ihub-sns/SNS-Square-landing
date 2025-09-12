@@ -183,7 +183,7 @@ export default function TripPlanningSystem() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center p-4">
+    <div className="min-h-screen pt-44 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center p-4">
       <div className="w-full max-w-6xl h-[95vh] bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl border border-white/30 flex overflow-hidden">
 
         {/* Sidebar */}
