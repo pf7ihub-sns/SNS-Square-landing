@@ -186,7 +186,7 @@ export default function MultiLanguageChat() {
                   </select>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end">
+              {/* <div className="mt-6 flex justify-end">
                 <button
                   onClick={handleExportChat}
                   className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-colors"
@@ -196,7 +196,7 @@ export default function MultiLanguageChat() {
                   </svg>
                   <span>Export Chat</span>
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
