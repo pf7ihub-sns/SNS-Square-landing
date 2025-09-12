@@ -1,12 +1,13 @@
 {
   "foundationAgents": [
     {
-      "id": "data-management",
-      "title": "Data Management",
-      "description": "Comprehensive data management and organization solutions",
+      "id": "deep-research-agent",
+      "title": "Deep Research Agent",
+      "description": "Advanced research and analysis with comprehensive data gathering",
       "icon": "/images/agents/database-management 1.png",
       "category": "Foundation Agents",
-      "featured": false
+      "featured": false,
+      "path" : "/data-management"
     },
     {
       "id": "compliance-security",
