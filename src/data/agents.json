@@ -37,13 +37,13 @@
       "path": "/general-query-agent"
     },
     {
-      "id": "deep-research-agent",
-      "title": "Deep Research Agent",
+      "id": "logic-validation-agent",
+      "title": "Logic Validation Agent",
       "description": "Advanced research and analysis with comprehensive data gathering",
       "icon": "/images/agents/writing 1.png",
       "category": "Foundation Agents",
       "featured": true,
-      "path": "/swetha"
+      "path": "/logic-validation-agent"
     },
     {
       "id": "document-knowledge",
