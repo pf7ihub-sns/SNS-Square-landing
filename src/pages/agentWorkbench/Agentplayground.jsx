@@ -1,8 +1,8 @@
 import React from 'react';
-import DocumentSummarizerAgent from '../../components/pages/agentWorkBench/AgentPlayGround';
+import DocumentPlayground from '../../components/pages/agentWorkBench/AgentPlayGround';
 
 const AgentPlayground = () => {
-  return <DocumentSummarizerAgent />;
+  return <DocumentPlayground />;
 };
 
 export default AgentPlayground;
