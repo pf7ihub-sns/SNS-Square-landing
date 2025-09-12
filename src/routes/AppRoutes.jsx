@@ -16,6 +16,8 @@ import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepRese
 import TripPlanningSystem from "../components/pages/agentWorkBench/agents/tripPlanningAgent";
 import CsvExcelConverter from  "../components/pages/agentWorkBench/agents/csvExcelConverter"
 import MultiLanguageChat from "../components/pages/agentWorkBench/agents/multiLanguageBot"; 
+import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
+import AgentRouter from "../components/pages/agentWorkBench/AgentRouter";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -57,8 +59,8 @@ export default function AppRoutes() {
       
       {/* New Agent Playground Routes */}
       <Route path="/agent-playground" element={<AgentPlayGround />} />
-      <Route path="/agent-workbench/agent/:agentId" element={<AgentWorkingPage />} />
-      <Route path="/agent-workbench/agent/multilanguage-chatbot" element={<MultiLanguageChat />} />
+      <Route path="/agent-playground/agent" element={<AgentDisplay />} />
+      <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
       <Route path="/agent-workbench/agent/csv-excel-converter" element={<CsvExcelConverter />} />
       <Route path="/agent-workbench/agent/trip-planning-agent" element={< TripPlanningSystem/>} />
 

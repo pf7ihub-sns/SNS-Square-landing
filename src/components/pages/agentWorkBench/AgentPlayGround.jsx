@@ -38,10 +38,10 @@ function AgentPlayGround() {
 
   const handleAgentClick = (agent) => {
     if (agent.path) {
-      navigate("/agent-workbench/agent/" + agent.id);
+      navigate("/agent-playground/agent/" + agent.id);
     } else {
       // Fallback to default route if no path is specified
-      navigate("/agent-workbench/agent/" + agent.id);
+      navigate("/agent-playground/agent/" + agent.id);
     }
   };
 
@@ -161,6 +161,18 @@ function AgentPlayGround() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* View All Agents Button */}
+        <div className="text-center mt-12">
+          <button
+            onClick={() => navigate(`/agent-playground/agent?category=${selectedCategory}`)}
+            className="bg-blue-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-blue-700 transition-colors text-lg"
+          >
+            View All {selectedCategory === 'foundation-agents' ? 'Foundation Agents' : 
+                     selectedCategory === 'industry-agents' ? 'Industry Solutions' : 
+                     'Customer Solutions'}
+          </button>
         </div>
       </div>
     </div>

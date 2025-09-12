@@ -5,7 +5,7 @@ const AgentCard = ({ agent, isFeatured = false }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/agent-workbench/agent/${agent.id}`);
+    navigate(`/agent-playground/agent/${agent.id}`);
   };
 
   return (
