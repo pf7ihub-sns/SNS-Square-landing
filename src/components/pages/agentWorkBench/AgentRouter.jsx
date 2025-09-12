@@ -5,6 +5,8 @@ import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
 import EmailThreadSummariser from "./agents/emailthreadsummarizer";
+import InputSourceCard from "./agents/faqagent";
+import StorylineGenerator from "./agents/storytelling";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -18,6 +20,8 @@ const AgentRouter = () => {
     "document-summarizer-agent": <EmailThreadSummariser />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
+    "developer-support": <InputSourceCard />,
+    "social-media": <StorylineGenerator />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
