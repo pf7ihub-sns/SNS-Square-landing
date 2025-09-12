@@ -7,6 +7,7 @@ import AgentWorkingPage from "./agents/deepResearch";
 import EmailThreadSummariser from "./agents/emailthreadsummarizer";
 import InputSourceCard from "./agents/faqagent";
 import StorylineGenerator from "./agents/storytelling";
+import HeadlineGenerator from "./agents/headlinegenerator";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -22,6 +23,7 @@ const AgentRouter = () => {
     "data-management": <AgentWorkingPage />,
     "developer-support": <InputSourceCard />,
     "social-media": <StorylineGenerator />,
+    "work-management": <HeadlineGenerator />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
