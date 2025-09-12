@@ -73,6 +73,15 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
+      "id": "automated-linter-agent",
+      "title": "Automated Linter",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
       "id": "work-management",
       "title": "Work Management",
       "description": "Streamline workflows and productivity management",

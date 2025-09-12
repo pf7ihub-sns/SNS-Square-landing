@@ -6,6 +6,8 @@ import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
 import ImageGenerator from "./agents/imageGeneration";
 import EntityExtractor from "./agents/entityExtractor";
+import AutomatedLinter from "./agents/automatedLinter";
+
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -22,6 +24,7 @@ const AgentRouter = () => {
     "data-management": <AgentWorkingPage />,
     "image-generation-agent": <ImageGenerator />,
     "entity-extraction-agent": <EntityExtractor />,
+    "automated-linter-agent": <AutomatedLinter />,
     
   };
 
