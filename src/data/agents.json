@@ -19,22 +19,22 @@
       "path": "/multilanguage-chatbot"
     },
     {
-      "id": "afrin",
+      "id": "document-summarizer-agent",
       "title": "Business Intelligence & Analysis",
       "description": "Advanced analytics and business intelligence solutions",
       "icon": "/images/agents/online-analytical 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/s"
+      "path": "/document-summarizer-agent"
     },
     {
-      "id": "communication-assistance",
+      "id": "general-query-agent",
       "title": "Communication & Assistance",
       "description": "Intelligent communication and virtual assistance",
       "icon": "/images/agents/robot 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/swetha"
+      "path": "/general-query-agent"
     },
     {
       "id": "deep-research-agent",
