@@ -10,6 +10,8 @@ import AgentWorkbenchIndex from "../pages/agentWorkbench/Index";
 import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
+import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
+import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepResearch";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -45,6 +47,12 @@ export default function AppRoutes() {
         {/* <Route path=":category/:categoryId/:subcategoryId/:agentId" element={<AgentsDetails />} /> */}
         {/* <Route path=":category/:categoryId/:agentId" element={<AgentsDetails />} /> */}
       </Route>
+      
+      {/* New Agent Playground Routes */}
+      <Route path="/agent-playground" element={<AgentPlayGround />} />
+      <Route path="/agent-workbench/agent/:agentId" element={<AgentWorkingPage />} />
+      
+      {/* Existing Agent Detail Routes */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
       <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={<AgentsDetails />} />
     </Routes>
