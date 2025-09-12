@@ -14,6 +14,7 @@ import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
 import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepResearch";
 import MultiLanguageChat from "../components/pages/agentWorkBench/agents/multiLanguageBot"; 
+import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -58,6 +59,8 @@ export default function AppRoutes() {
       <Route path="/agent-workbench/agent/:agentId" element={<AgentWorkingPage />} />
       <Route path="/agent-workbench/agent/multilanguage-chatbot" element={<MultiLanguageChat />} />
       
+      <Route path="/agent-playground/agent" element={<AgentDisplay />} />
+      <Route path="/agent-playground/agent/:agentId" element={<AgentWorkingPage />} />
       
       {/* Existing Agent Detail Routes */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
