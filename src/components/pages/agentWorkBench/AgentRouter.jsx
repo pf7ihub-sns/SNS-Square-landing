@@ -8,6 +8,7 @@ import ImageGenerator from "./agents/imageGeneration";
 import EntityExtractor from "./agents/entityExtractor";
 import AutomatedLinter from "./agents/automatedLinter";
 import TestCaseGenerationAgent from "./agents/testCaseGeneration";
+import DataGenerationPage from "./agents/dataGenerator";
 
 
 const AgentRouter = () => {
@@ -27,6 +28,7 @@ const AgentRouter = () => {
     "entity-extraction-agent": <EntityExtractor />,
     "automated-linter-agent": <AutomatedLinter />,
     "testcase-generation-agent": <TestCaseGenerationAgent/>
+    "data-generation-agent": <DataGenerationPage />
     
   };
 
