@@ -15,7 +15,37 @@ export function OrbitingCircles({
 }) {
   const calculatedDuration = duration / speed;
   return (
-    <>
+    <div
+      className="contents group"
+      onMouseEnter={(e) => {
+        try {
+          const container = e.currentTarget;
+          const items = container.querySelectorAll('[data-orbit-item="true"]');
+          items.forEach((el) => { el.style.animationPlayState = 'paused'; });
+        } catch {}
+      }}
+      onMouseLeave={(e) => {
+        try {
+          const container = e.currentTarget;
+          const items = container.querySelectorAll('[data-orbit-item="true"]');
+          items.forEach((el) => { el.style.animationPlayState = 'running'; });
+        } catch {}
+      }}
+      onTouchStart={(e) => {
+        try {
+          const container = e.currentTarget;
+          const items = container.querySelectorAll('[data-orbit-item="true"]');
+          items.forEach((el) => { el.style.animationPlayState = 'paused'; });
+        } catch {}
+      }}
+      onTouchEnd={(e) => {
+        try {
+          const container = e.currentTarget;
+          const items = container.querySelectorAll('[data-orbit-item="true"]');
+          items.forEach((el) => { el.style.animationPlayState = 'running'; });
+        } catch {}
+      }}
+    >
       {path && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,17 +74,30 @@ export function OrbitingCircles({
               }
             }
             className={cn(
-              `absolute flex size-[var(--icon-size)] transform-gpu animate-orbit items-center justify-center`,
+              `absolute flex size-[var(--icon-size)] transform-gpu animate-orbit items-center justify-center cursor-pointer touch-manipulation`,
               { "[animation-direction:reverse]": reverse },
               showExternalText ? "flex-col" : "rounded-full",
               className,
             )}
+            data-orbit-item="true"
+            onMouseEnter={(e) => {
+              try { e.currentTarget.style.animationPlayState = "paused"; } catch {}
+            }}
+            onMouseLeave={(e) => {
+              try { e.currentTarget.style.animationPlayState = "running"; } catch {}
+            }}
+            onTouchStart={(e) => {
+              try { e.currentTarget.style.animationPlayState = "paused"; } catch {}
+            }}
+            onTouchEnd={(e) => {
+              try { e.currentTarget.style.animationPlayState = "running"; } catch {}
+            }}
             {...props}
           >
             {child}
           </div>
         );
       })}
-    </>
+    </div>
   );
 }

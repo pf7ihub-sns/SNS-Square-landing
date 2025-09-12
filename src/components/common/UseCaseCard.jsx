@@ -81,7 +81,7 @@ const UseCaseCard = ({ useCase, onLearnMore }) => {
   return (
     <Card
       className={
-        `group flex flex-col w-full max-w-[480px] mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full transition-all duration-300 relative group cursor-pointer ` +
+        `group flex flex-col w-full max-w-none mx-auto items-start p-4 md:p-5 bg-white rounded-3xl overflow-hidden shadow-[0px_2px_16px_#10182814] border-0 h-full transition-all duration-300 relative group cursor-pointer ` +
         `md:hover:shadow-blue-100 md:hover:-translate-y-3 md:hover:scale-[1.02] md:hover:ring-blue-200 md:hover:ring-opacity-50 ` +
         (isActive ? 'shadow-blue-100 -translate-y-3 scale-[1.02] ring-blue-200 ring-opacity-50 ' : '')
       }

@@ -184,7 +184,7 @@ export const UseCase = () => {
       {/* Main Content */}
       <div className="relative overflow-hidden">
         <div className="flex flex-col items-center gap-10 md:gap-20 px-4 md:px-8 lg:px-16 py-8 md:py-6 lg:py-10">
-          <div className="flex flex-col lg:flex-row w-full max-w-7xl items-start gap-6 lg:gap-6">
+          <div className="flex flex-col lg:flex-row w-full xl:max-w-[1300px] items-start gap-6 lg:gap-6">
             {/* Category Filters */}
             {/* Mobile Accordion */}
             <div className="block lg:hidden w-full mb-6">
@@ -248,7 +248,7 @@ export const UseCase = () => {
             </div>
 
             {/* Desktop Category Filters */}
-            <div className="hidden lg:flex flex-col w-full lg:w-72 items-start gap-4 mb-10 ">
+            <div className="hidden lg:flex flex-col w-full lg:w-95 items-start gap-4 mb-10 ">
               {categoryFilters.map((filter) => (
                 <Button
                   key={filter.id}
@@ -289,7 +289,7 @@ export const UseCase = () => {
             </div>
 
             {/* Use Cases Grid */}
-            <div className="flex flex-col w-full lg:w-[1000px] items-center justify-center gap-8 md:gap-10">
+            <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-8 md:gap-10">
               {currentUseCases.length === 0 ? (
                 // No Data State
                 <div className="flex flex-col items-center justify-center min-h-[400px] w-full text-center">
@@ -320,7 +320,7 @@ export const UseCase = () => {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full ">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full ">
                     {useCasesToDisplay.map((useCase) => (
                       <UseCaseCard
                         key={useCase.id}

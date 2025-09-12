@@ -288,7 +288,7 @@ export default function UseCaseDetail() {
                 <div className="flex flex-col lg:flex-row lg:space-x-8 xl:space-x-12">
                     {/* Left Sidebar Navigation - Updated to match UseCase component */}
                     <aside className="w-full lg:w-72 mb-8 lg:mb-0">
-                        <div className="sticky top-4 lg:top-12">
+                        <div className="sticky top-4 lg:top-40">
                             <div className="flex flex-col w-full items-start gap-4">
                                 {useCaseData.sections.map((section, index) => (
                                     <button
