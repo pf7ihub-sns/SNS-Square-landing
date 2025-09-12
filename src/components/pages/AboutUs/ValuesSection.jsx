@@ -57,11 +57,11 @@ const ValuesSection = () => {
   }, []);
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-blue-50 to-white">
+    <section className="py-16 lg:py-24 bg-gradient-to-b from-blue-50 to-white">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-16 items-start">
           {/* Left Column - Text Content (30%) */}
-          <div className="lg:col-span-3 flex flex-col justify-center text-center lg:text-left">
+          <div className="lg:col-span-3 flex flex-col justify-center h-full">
             <h2 className="text-3xl sm:text-4xl font-manrope font-bold text-global-1 mb-4">
               <span className="text-[#1E63FF]">Our</span> Values
             </h2>
@@ -74,63 +74,69 @@ const ValuesSection = () => {
           <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* First Row - Two Cards */}
             <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
-              <div className="flex flex-col h-full p-4">
-                <div className="w-16 h-16 flex items-center justify-center mb-4">
+              <div className="flex flex-col ">
+                <div className="w-36 h-22 flex items-start justify-start mb-4 ">
                   {animationData[values[0].title] && (
                     <Lottie
                       animationData={animationData[values[0].title]}
                       loop={true}
                       autoplay={true}
-                      style={{ width: 100, height: 100 }}
+                      style={{ width: 200, height: 150 }}
                     />
                   )}
                 </div>
-                <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
-                  {values[0].title}
-                </h3>
-                <div className="w-full h-px bg-gray-300 mb-3"></div>
-                <p className="text-sm font-inter text-gray-700 leading-relaxed">
-                  {values[0].description}
-                </p>
+                <div className="p-4 px-8">
+                  <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
+                    {values[0].title}
+                  </h3>
+                  <div className="w-full h-px bg-gray-300 mb-3"></div>
+                  <p className="text-sm font-inter text-gray-700 leading-relaxed">
+                    {values[0].description}
+                  </p>
+                </div>
               </div>
             </WobbleCard>
 
             <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
-              <div className="flex flex-col h-full p-4">
-                <div className="w-16 h-16 flex items-center justify-center mb-4">
+              <div className="flex flex-col ">
+                <div className="w-36 h-22 flex items-start justify-start mb-4">
                   {animationData[values[1].title] && (
                     <Lottie
                       animationData={animationData[values[1].title]}
                       loop={true}
                       autoplay={true}
-                      style={{ width: 100, height: 100 }}
+                      style={{ width: 200, height: 150 }}
                     />
                   )}
                 </div>
-                <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
-                  {values[1].title}
-                </h3>
-                <div className="w-full h-px bg-gray-300 mb-3"></div>
-                <p className="text-sm font-inter text-gray-700 leading-relaxed">
-                  {values[1].description}
-                </p>
+                <div className="p-4 px-8">
+                  <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
+                    {values[1].title}
+                  </h3>
+                  <div className="w-full h-px bg-gray-300 mb-3"></div>
+                  <p className="text-sm font-inter text-gray-700 leading-relaxed">
+                    {values[1].description}
+                  </p>
+                </div>
               </div>
             </WobbleCard>
 
             {/* Second Row - One Wide Card */}
-            <WobbleCard containerClassName="md:col-span-2 min-h-[200px] bg-[#DCE7FD]">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4">
-                <div className="w-16 h-16 flex items-center justify-center flex-shrink-0 mb-4 sm:mb-0">
-                  {animationData[values[2].title] && (
-                    <Lottie
-                      animationData={animationData[values[2].title]}
-                      loop={true}
-                      autoplay={true}
-                      style={{ width: 100, height: 100 }}
-                    />
-                  )}
+            <WobbleCard containerClassName="md:col-span-2 min-h-[150px] bg-[#DCE7FD] py-8 ">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 px-4">
+                <div className="pl-4">
+                  <div className="w-22 h-22 flex items-center justify-center flex-shrink-0  sm:mb-0 ">
+                    {animationData[values[2].title] && (
+                      <Lottie
+                        animationData={animationData[values[2].title]}
+                        loop={true}
+                        autoplay={true}
+                        style={{ width: 200, height: 150 }}
+                      />
+                    )}
+                  </div>
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full px-4">
                   <h3 className="text-lg font-manrope font-semibold text-global-1 flex-shrink-0">
                     {values[2].title}
                   </h3>

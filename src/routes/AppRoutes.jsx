@@ -11,6 +11,7 @@ import AgentWorkbenchIndex from "../pages/agentWorkbench/Index";
 import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
+import MediaEntertainment from "../pages/mediaEntertainment";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -20,6 +21,7 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/media-entertainment" element={<MediaEntertainment />} />
       <Route path="/agent-workbench" element={<OrbitCircle />}>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />

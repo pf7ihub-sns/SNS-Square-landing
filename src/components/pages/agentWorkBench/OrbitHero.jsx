@@ -293,7 +293,14 @@ const OrbitHero = () => {
                             showExternalText={true}
                         >
                             {getNonRepeatingItems().map((item, index) => (
-                                <div key={`${activeButton}-${index}`} className="flex flex-col items-center" onClick={() => setisSignUpOpen(true)}>
+                                <div 
+                                    key={`${activeButton}-${index}`} 
+                                    className="flex flex-col items-center" 
+                                    onClick={() => {
+                                        localStorage.setItem('selectedCategory', item.title.replace('\n', ' '));
+                                        setisSignUpOpen(true);
+                                    }}
+                                >
                                     <div className="bg-white rounded-full p-3 shadow-xl mb-2 border-6 border-[#dee0df]">
                                         <img
                                             src={item.icon}
