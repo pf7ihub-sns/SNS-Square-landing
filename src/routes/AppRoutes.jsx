@@ -14,6 +14,9 @@ import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
 import AgentWorkingPage from "../components/pages/agentWorkBench/agents/deepResearch";
 import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
+import TripPlanningSystem from "../components/pages/agentWorkBench/agents/tripPlanningAgent";
+
+import MultiLanguageChat from "../components/pages/agentWorkBench/agents/multiLanguageBot"; 
 export default function AppRoutes() {
   return (
     <Routes>
@@ -50,12 +53,17 @@ export default function AppRoutes() {
         {/* Agent Details */}
         {/* <Route path=":category/:categoryId/:subcategoryId/:agentId" element={<AgentsDetails />} /> */}
         {/* <Route path=":category/:categoryId/:agentId" element={<AgentsDetails />} /> */}
+        
       </Route>
       
       {/* New Agent Playground Routes */}
       <Route path="/agent-playground" element={<AgentPlayGround />} />
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentWorkingPage />} />
+      <Route path="/agent-workbench/agent/multilanguage-chatbot" element={<MultiLanguageChat />} />
+      
+      <Route path="/agent-workbench/agent/trip-planning-agent" element={< TripPlanningSystem/>} />
+
       
       {/* Existing Agent Detail Routes */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />

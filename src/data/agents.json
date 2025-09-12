@@ -10,36 +10,40 @@
       "path" :"Agent-playground/agents/{agentId}"
     },
     {
-      "id": "compliance-security",
+      "id": "multilanguage-chatbot",
       "title": "Compliance & Security",
       "description": "Ensure regulatory compliance and maintain security standards",
       "icon": "/images/agents/regulatory 1.png",
       "category": "Foundation Agents",
-      "featured": false
+      "featured": false,
+      "path": "/multilanguage-chatbot"
     },
     {
-      "id": "business-intelligence",
+      "id": "document-summarizer-agent",
       "title": "Business Intelligence & Analysis",
       "description": "Advanced analytics and business intelligence solutions",
       "icon": "/images/agents/online-analytical 1.png",
       "category": "Foundation Agents",
-      "featured": false
+      "featured": false,
+      "path": "/document-summarizer-agent"
     },
     {
-      "id": "communication-assistance",
+      "id": "trip-planning-agent",
       "title": "Communication & Assistance",
       "description": "Intelligent communication and virtual assistance",
       "icon": "/images/agents/robot 1.png",
       "category": "Foundation Agents",
-      "featured": false
+      "featured": false,
+      "path": "/trip-planning-agent"
     },
     {
-      "id": "deep-research-agent",
-      "title": "Deep Research Agent",
+      "id": "logic-validation-agent",
+      "title": "Logic Validation Agent",
       "description": "Advanced research and analysis with comprehensive data gathering",
       "icon": "/images/agents/writing 1.png",
       "category": "Foundation Agents",
-      "featured": true
+      "featured": true,
+      "path": "/logic-validation-agent"
     },
     {
       "id": "document-knowledge",
