@@ -31,8 +31,6 @@ export default function EntityExtractor() {
         body: formData,
       });
       const data = await response.json();
-
-      // ✅ Fix: set entire response to summary
       setEntities(data.entities || []);
       setSummary(data);
     } catch (err) {
@@ -43,28 +41,21 @@ export default function EntityExtractor() {
 
   const exportData = (format) => {
     let content;
+    const header = "Entity Type,Entity Value,Confidence\n";
+    const rows = entities
+      .map(
+        (e) =>
+          `${e.entity_type},${e.entity_value},${(e.confidence * 100).toFixed(1)}%`
+      )
+      .join("\n");
+
     if (format === "csv") {
-      const header = "Entity Type,Entity Value,Confidence\n";
-      const rows = entities
-        .map(
-          (e) =>
-            `${e.entity_type},${e.entity_value},${(e.confidence * 100).toFixed(1)}%`
-        )
-        .join("\n");
       content = header + rows;
       downloadFile(content, "entities.csv", "text/csv");
     } else if (format === "json") {
       content = JSON.stringify(entities, null, 2);
       downloadFile(content, "entities.json", "application/json");
     } else if (format === "excel") {
-      // Simple CSV fallback for Excel
-      const header = "Entity Type,Entity Value,Confidence\n";
-      const rows = entities
-        .map(
-          (e) =>
-            `${e.entity_type},${e.entity_value},${(e.confidence * 100).toFixed(1)}%`
-        )
-        .join("\n");
       content = header + rows;
       downloadFile(content, "entities.xlsx", "application/vnd.ms-excel");
     }
@@ -80,20 +71,18 @@ export default function EntityExtractor() {
   };
 
   const filteredEntities =
-    filter === "all"
-      ? entities
-      : entities.filter((e) => e.entity_type === filter);
+    filter === "all" ? entities : entities.filter((e) => e.entity_type === filter);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 font-sans pt-44">
-      <div className="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
+    <div className="min-h-screen bg-gradient-to-br from-[#F2F6FE] to-[#E9EEFC] p-6 pt-44 font-sans">
+      <div className="max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl p-8">
+        <h1 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-[#064EE3] to-[#3D76EC] bg-clip-text text-transparent">
           Entity Extraction Tool
         </h1>
 
         {/* Input Section */}
         <textarea
-          className="w-full border rounded-lg p-3 mb-4"
+          className="w-full border border-gray-300 rounded-2xl p-4 mb-4 focus:ring-2 focus:ring-[#3D76EC] focus:outline-none"
           rows={4}
           placeholder="Enter your text here..."
           value={rawText}
@@ -102,10 +91,10 @@ export default function EntityExtractor() {
         <div className="mb-4">
           <label
             htmlFor="file-upload"
-            className="flex flex-col items-center justify-center border-2 border-dashed border-blue-400 rounded-lg p-6 cursor-pointer hover:border-blue-600 transition"
+            className="flex flex-col items-center justify-center border-2 border-dashed border-[#3D76EC] rounded-2xl p-6 cursor-pointer hover:border-[#064EE3] transition"
           >
             <svg
-              className="w-8 h-8 text-blue-400 mb-2"
+              className="w-10 h-10 text-[#3D76EC] mb-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -117,7 +106,7 @@ export default function EntityExtractor() {
                 d="M7 16V8a4 4 0 018 0v8m-4 4v-4m0 0H7m4 0h4"
               ></path>
             </svg>
-            <span className="text-blue-600 font-medium">
+            <span className="text-[#064EE3] font-semibold">
               Click to upload or drag & drop
             </span>
             <span className="text-gray-500 text-sm mt-1">
@@ -137,41 +126,42 @@ export default function EntityExtractor() {
             </div>
           )}
         </div>
+
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700"
+          className="w-full bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white px-6 py-3 rounded-2xl font-semibold shadow hover:scale-[1.02] transition disabled:opacity-50"
         >
           {loading ? "Processing..." : "Extract Entities"}
         </button>
 
         {/* Summary Section */}
         {summary && (
-          <div className="mt-6 bg-gray-50 border p-4 rounded-lg">
-            <h2 className="font-semibold text-lg">Response Summary</h2>
+          <div className="mt-6 bg-gray-50 border border-gray-200 p-6 rounded-2xl">
+            <h2 className="font-semibold text-lg text-gray-800">Response Summary</h2>
             {summary.total_entities !== undefined && (
-              <p>Total Entities: {summary.total_entities}</p>
+              <p className="mt-2 text-gray-700">
+                Total Entities: {summary.total_entities}
+              </p>
             )}
             {summary.entities_by_type && (
-              <div className="flex flex-wrap gap-4 mt-2">
-                {Object.entries(summary.entities_by_type).map(
-                  ([type, count]) => (
-                    <span
-                      key={type}
-                      className="px-3 py-1 bg-blue-100 text-blue-800 rounded-lg text-sm"
-                    >
-                      {type}: {String(count)}
-                    </span>
-                  )
-                )}
+              <div className="flex flex-wrap gap-3 mt-3">
+                {Object.entries(summary.entities_by_type).map(([type, count]) => (
+                  <span
+                    key={type}
+                    className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                  >
+                    {type}: {String(count)}
+                  </span>
+                ))}
               </div>
             )}
           </div>
         )}
 
-        {/* No Entities Found Message */}
+        {/* No Entities Found */}
         {entities.length === 0 && summary?.status === "no_entities_found" && (
-          <div className="mt-6 p-4 rounded-lg bg-yellow-50 border border-yellow-300 text-yellow-800 shadow">
+          <div className="mt-6 p-4 rounded-2xl bg-yellow-50 border border-yellow-300 text-yellow-800 shadow">
             <h3 className="font-semibold mb-1">No Entities Found</h3>
             <p>{summary.message}</p>
             <div className="mt-2 text-sm text-gray-700">
@@ -185,9 +175,9 @@ export default function EntityExtractor() {
 
         {/* Filters */}
         {entities.length > 0 && (
-          <div className="mt-6 flex justify-between items-center">
+          <div className="mt-6 flex flex-wrap justify-between items-center gap-4">
             <select
-              className="border px-3 py-2 rounded-lg"
+              className="border px-4 py-2 rounded-2xl focus:ring-2 focus:ring-[#3D76EC]"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             >
@@ -199,22 +189,22 @@ export default function EntityExtractor() {
               ))}
             </select>
 
-            <div className="space-x-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => exportData("csv")}
-                className="bg-green-600 text-white px-3 py-1 rounded-lg"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-2xl shadow"
               >
                 Export CSV
               </button>
               <button
                 onClick={() => exportData("excel")}
-                className="bg-yellow-600 text-white px-3 py-1 rounded-lg"
+                className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-2xl shadow"
               >
                 Export Excel
               </button>
               <button
                 onClick={() => exportData("json")}
-                className="bg-gray-700 text-white px-3 py-1 rounded-lg"
+                className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-2xl shadow"
               >
                 Export JSON
               </button>
@@ -225,12 +215,12 @@ export default function EntityExtractor() {
         {/* Results Table */}
         {filteredEntities.length > 0 && (
           <div className="mt-6 overflow-x-auto">
-            <table className="min-w-full border-collapse border border-gray-300">
+            <table className="min-w-full border-collapse border border-gray-300 rounded-2xl overflow-hidden">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border p-2">Entity Type</th>
-                  <th className="border p-2">Entity Value</th>
-                  <th className="border p-2">Confidence</th>
+                <tr className="bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white">
+                  <th className="border p-3 text-left">Entity Type</th>
+                  <th className="border p-3 text-left">Entity Value</th>
+                  <th className="border p-3 text-left">Confidence</th>
                 </tr>
               </thead>
               <tbody>
@@ -238,12 +228,14 @@ export default function EntityExtractor() {
                   <tr
                     key={idx}
                     className={
-                      entity.confidence < 0.7 ? "bg-red-100" : "bg-white"
+                      entity.confidence < 0.7
+                        ? "bg-red-50 text-red-800"
+                        : "hover:bg-gray-50"
                     }
                   >
-                    <td className="border p-2">{entity.entity_type}</td>
-                    <td className="border p-2">{entity.entity_value}</td>
-                    <td className="border p-2">
+                    <td className="border p-3">{entity.entity_type}</td>
+                    <td className="border p-3">{entity.entity_value}</td>
+                    <td className="border p-3">
                       {(entity.confidence * 100).toFixed(1)}%
                     </td>
                   </tr>
