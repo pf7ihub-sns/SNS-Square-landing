@@ -121,7 +121,15 @@ const Header = () => {
           <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
             Home
           </NavLink>
-          <NavLink to="/agent-workbench" className={linkClasses} onClick={handleNavClick}> 
+          <NavLink 
+            to="/agent-workbench" 
+            className={({ isActive }) => {
+              const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+              return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
+                      ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+            }}
+            onClick={handleNavClick}
+          > 
             Agent Workbench
           </NavLink>
           <NavLink to="/usecase" className={linkClasses} onClick={handleNavClick}>
@@ -174,27 +182,12 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-300"
-                onClick={() => {
-                  // This will be handled by the parent component to open login modal
-                  const event = new CustomEvent('openLoginModal');
-                  window.dispatchEvent(event);
-                }}
+                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
+                onClick={handleContactClick}
               >
-                Login
+                Contact Us
               </Button>
-              <Button
-                variant="secondary"
-                size="small"
-                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
-                onClick={() => {
-                  // This will be handled by the parent component to open signup modal
-                  const event = new CustomEvent('openSignupModal');
-                  window.dispatchEvent(event);
-                }}
-              >
-                Sign Up
-              </Button>
+
             </>
           )}
         </div>
@@ -229,7 +222,11 @@ const Header = () => {
             </NavLink>
             <NavLink 
               to="/agent-workbench" 
-              className={linkClasses} 
+              className={({ isActive }) => {
+                const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+                return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
+                        ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+              }}
               onClick={handleNavClick}
             >
               Agent workbench
@@ -264,14 +261,13 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-300"
+                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
                 onClick={() => {
-                  const event = new CustomEvent('openLoginModal');
-                  window.dispatchEvent(event);
+                  handleContactClick();
                   closeMenu();
                 }}
               >
-                Login
+                Contact Us
               </Button>
               <Button
                 variant="secondary"

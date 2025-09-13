@@ -11,6 +11,9 @@ import AgentWorkbenchIndex from "../pages/agentWorkbench/Index";
 import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
+import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
+import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
+import AgentRouter from "../components/pages/agentWorkBench/AgentRouter";
 import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
@@ -46,9 +49,9 @@ export default function AppRoutes() {
       } />
       {/* Legacy Agent Workbench Routes - All Protected */}
       <Route path="/agent-workbench" element={
-
+   
           <OrbitCircle />
-
+  
       }>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
@@ -76,7 +79,16 @@ export default function AppRoutes() {
         {/* Agent Details */}
         {/* <Route path=":category/:categoryId/:subcategoryId/:agentId" element={<AgentsDetails />} /> */}
         {/* <Route path=":category/:categoryId/:agentId" element={<AgentsDetails />} /> */}
+        
       </Route>
+      
+      {/* New Agent Playground Routes */}
+      <Route path="/agent-playground" element={<AgentPlayGround />} />
+      <Route path="/agent-playground/agent" element={<AgentDisplay />} />
+      <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
+      
+      
+      {/* Existing Agent Detail Routes */}
       
       {/* Legacy Agent Details Routes - Protected */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={
