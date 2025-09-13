@@ -49,9 +49,9 @@ export default function AppRoutes() {
       } />
       {/* Legacy Agent Workbench Routes - All Protected */}
       <Route path="/agent-workbench" element={
-        <ProtectedRoute>
+   
           <OrbitCircle />
-        </ProtectedRoute>
+  
       }>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
