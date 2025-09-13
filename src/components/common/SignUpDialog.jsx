@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Button from "./Button";
 import { useAuthStore } from "../../store/store";
@@ -40,6 +41,7 @@ const validationSchema = Yup.object({
 
 const SignUpModal = ({ isOpen, onClose }) => {
   const signUp = useAuthStore((state) => state.signUp);
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
@@ -66,6 +68,8 @@ const SignUpModal = ({ isOpen, onClose }) => {
             setShowSuccessScreen(false);
             onClose();
             resetForm();
+            // Navigate to media entertainment page after successful signup
+            navigate('/media-entertainment');
           }, 3000);
           return;
         }

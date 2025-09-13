@@ -12,6 +12,9 @@ import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import MediaEntertainment from "../pages/mediaEntertainment";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
+import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -21,8 +24,32 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
-      <Route path="/media-entertainment" element={<MediaEntertainment />} />
-      <Route path="/agent-workbench" element={<OrbitCircle />}>
+      
+      {/* Protected Routes - Require Authentication */}
+      <Route path="/media-entertainment" element={
+        <ProtectedRoute>
+          <MediaEntertainment />
+        </ProtectedRoute>
+      } />
+      
+      {/* Agent Workbench Protected Routes */}
+      <Route path="/agent-workbench/try/:categoryId/:agentId" element={
+        <ProtectedRoute>
+          <AgentTryPage />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/agent-workbench/details/:categoryId/:agentId" element={
+        <ProtectedRoute>
+          <AgentDetailsPage />
+        </ProtectedRoute>
+      } />
+      {/* Legacy Agent Workbench Routes - All Protected */}
+      <Route path="/agent-workbench" element={
+        <ProtectedRoute>
+          <OrbitCircle />
+        </ProtectedRoute>
+      }>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
 
@@ -50,8 +77,18 @@ export default function AppRoutes() {
         {/* <Route path=":category/:categoryId/:subcategoryId/:agentId" element={<AgentsDetails />} /> */}
         {/* <Route path=":category/:categoryId/:agentId" element={<AgentsDetails />} /> */}
       </Route>
-      <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
-      <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={<AgentsDetails />} />
+      
+      {/* Legacy Agent Details Routes - Protected */}
+      <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={
+        <ProtectedRoute>
+          <AgentsDetails />
+        </ProtectedRoute>
+      } />
+      <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={
+        <ProtectedRoute>
+          <AgentsDetails />
+        </ProtectedRoute>
+      } />
     </Routes>
   );
 }

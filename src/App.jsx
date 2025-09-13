@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 function App() {
   const location = useLocation();
   const isAboutUsPage = location.pathname === "/about-us";
+  const isMediaEntertainmentPage = location.pathname === "/media-entertainment";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -14,7 +15,7 @@ function App() {
       <main className="">
         <AppRoutes />
       </main>
-      {!isAboutUsPage && (
+      {!isAboutUsPage && !isMediaEntertainmentPage && (
         <div id="cta-section">
           <CTA />
         </div>

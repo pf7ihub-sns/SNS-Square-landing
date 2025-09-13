@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
 import SignUpModal from '../../common/SignUpDialog';
+import { useAuthStore } from '../../../store/store';
 
 const OrbitHero = () => {
     const location = useLocation();
     const { category } = useParams();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuthStore();
     const [isSignUpOpen, setisSignUpOpen] = useState(false);
     const [activeButton, setActiveButton] = useState('Foundation Agents');
     const [screenWidth, setScreenWidth] = useState(0);
@@ -161,6 +164,29 @@ const OrbitHero = () => {
         return agentContent[activeButton] || agentContent['Foundation Agents'];
     };
 
+    // Handle category click - redirect authenticated users to media entertainment page
+    const handleCategoryClick = (item) => {
+        if (isAuthenticated) {
+            // Redirect authenticated users to media entertainment page
+            navigate('/media-entertainment');
+        } else {
+            // Show signup modal for unauthenticated users
+            localStorage.setItem('selectedCategory', item.title.replace('\n', ' '));
+            setisSignUpOpen(true);
+        }
+    };
+
+    // Handle explore agents button click
+    const handleExploreAgentsClick = () => {
+        if (isAuthenticated) {
+            // Redirect authenticated users to media entertainment page
+            navigate('/media-entertainment');
+        } else {
+            // Show signup modal for unauthenticated users
+            setisSignUpOpen(true);
+        }
+    };
+
     return (
         <div>
             <style>{`
@@ -296,10 +322,7 @@ const OrbitHero = () => {
                                 <div 
                                     key={`${activeButton}-${index}`} 
                                     className="flex flex-col items-center" 
-                                    onClick={() => {
-                                        localStorage.setItem('selectedCategory', item.title.replace('\n', ' '));
-                                        setisSignUpOpen(true);
-                                    }}
+                                    onClick={() => handleCategoryClick(item)}
                                 >
                                     <div className="bg-white rounded-full p-3 shadow-xl mb-2 border-6 border-[#dee0df]">
                                         <img
@@ -339,7 +362,7 @@ const OrbitHero = () => {
             <div className="flex items-center justify-center mt-4  pointer-events-none">
                 <button
                     className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
-                    onClick={() => setisSignUpOpen(true)}
+                    onClick={handleExploreAgentsClick}
                 >
                     Explore agents
                 </button>
