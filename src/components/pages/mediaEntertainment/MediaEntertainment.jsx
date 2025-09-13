@@ -48,9 +48,9 @@ const MediaEntertainment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-white text-xl md:text-1xl font-bold text-center drop-shadow-lg pt-5"
+        className="text-white text-xl md:text-1xl  text-center drop-shadow-lg pt-5"
       >
-        Explore a world of 1500+ AI agents, each crafted to solve real problems. Discover, customize, and let AI work for you faster than ever before.
+        Welcome back, {userName}! Explore our comprehensive suite of AI agents and choose the perfect one for your needs
       </motion.p>
     </div>
   </div>
