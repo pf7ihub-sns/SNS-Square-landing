@@ -1,12 +1,17 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
-import Button from "./Button"; 
+import Button from "./Button";
+import { useAuthStore } from "../../store/store"; 
 
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [status, setStatus] = useState("");
-  const [success, setSuccess] = useState(false); // ✅ new state for success
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const login = useAuthStore((state) => state.login);
 
   if (!isOpen) return null; // Don't render if modal is closed
 
@@ -15,46 +20,38 @@ const LoginModal = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setStatus("Saving...");
-  setSuccess(false);
+    e.preventDefault();
+    setIsLoading(true);
+    setStatus("Logging in...");
+    setSuccess(false);
 
-  try {
-    await fetch(
-      "https://script.google.com/macros/s/AKfycbyM1B4vJmoN6n6loao3F6tj82p1DXBB_0v5MxR8UVlmpOqfbyn3DJIbKsqpwgST_Z5vwA/exec",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+    try {
+      const { success, error } = await login(formData);
+
+      if (success) {
+        setSuccess(true);
+        setStatus("Login Successful!");
+        setFormData({ email: "", password: "" });
+
+        setTimeout(() => {
+          setStatus("");
+          setSuccess(false);
+          onClose();
+          // Navigate to media entertainment page after successful login
+          navigate('/media-entertainment');
+        }, 2000);
+      } else {
+        setStatus(error || "Login failed. Please try again.");
+        setSuccess(false);
       }
-    );
-
-    // ✅ Always mark as success
-    setSuccess(true);
-    setStatus("Login Successful!");
-    setFormData({ email: "", password: "" });
-
-    setTimeout(() => {
-      setStatus("");
+    } catch (err) {
+      console.error(err);
+      setStatus("Login failed. Please try again.");
       setSuccess(false);
-      onClose();
-    }, 2000);
-
-  } catch (err) {
-    console.error(err);
-
-    // ❗️ Even on error, show success
-    setSuccess(true);
-    setStatus("Login Successful!");
-    setFormData({ email: "", password: "" });
-
-    setTimeout(() => {
-      setStatus("");
-      setSuccess(false);
-      onClose();
-    }, 2000);
-  }
-};
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 
   return (
@@ -91,7 +88,9 @@ const LoginModal = ({ isOpen, onClose }) => {
             onChange={handleChange}
           />
 
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </Button>
         </form>
 
         {status && (

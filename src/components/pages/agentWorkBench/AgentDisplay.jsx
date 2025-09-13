@@ -51,7 +51,7 @@ function AgentDisplay() {
 
   const handleAgentClick = (agent) => {
     if (agent.path) {
-      navigate("/agent-playground/agent/" + agent.id);
+      navigate(agent.path);
     } else {
       navigate("/agent-playground/agent/" + agent.id);
     }

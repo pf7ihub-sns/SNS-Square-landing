@@ -146,7 +146,12 @@ export const UseCase = () => {
         {/* Background Pattern */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ backgroundImage: "url('/images/HomeHero.png')" }}
+          style={{ 
+            backgroundImage: "url('/images/HomeHero.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat"
+          }}
         />
         
         {/* Background blur effect */}
@@ -156,7 +161,12 @@ export const UseCase = () => {
         <section className="w-full bg-[linear-gradient(359deg,#ffffff_0%,_#e3ebff_100%)] relative">
           <div 
             className="w-full h-[300px] md:h-[440px] bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/HomeHero.png')" }}
+            style={{ 
+              backgroundImage: "url('/images/HomeHero.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
+              backgroundRepeat: "no-repeat"
+            }}
           >
             <div className="w-full max-w-[300px] xs:max-w-[350px] sm:max-w-[400px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-3 xs:px-4 sm:px-5 lg:px-8 h-full">
 
@@ -183,7 +193,7 @@ export const UseCase = () => {
 
       {/* Main Content */}
       <div className="relative overflow-hidden">
-        <div className="flex flex-col items-center gap-10 md:gap-20 px-4 md:px-8 lg:px-16 py-8 md:py-6 lg:py-10">
+        <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 lg:gap-20 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12">
           <div className="flex flex-col lg:flex-row w-full xl:max-w-[1300px] items-start gap-6 lg:gap-6">
             {/* Category Filters */}
             {/* Mobile Accordion */}
@@ -320,7 +330,7 @@ export const UseCase = () => {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full ">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-6 xl:gap-8 w-full">
                     {useCasesToDisplay.map((useCase) => (
                       <UseCaseCard
                         key={useCase.id}

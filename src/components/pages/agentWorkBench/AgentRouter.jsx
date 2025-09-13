@@ -13,8 +13,12 @@ import DocumentSummarizerAgent from "./agents/documentSummarizer";
 import HealthcareAppointmentClassifier from "./agents/healthcareAppointmentClassifier";
 import CsvExcelConverter from "./agents/csvExcelConverter"; 
 import TripPlanningSystem from "./agents/tripPlanningAgent";
-import <DataQuery> from "./agents/dataQuery";</DataQuery> 
+// import DataGenerationPage from "./agents/dataGenerator";
 
+import EmailThreadSummariser from "./agents/emailthreadsummarizer";
+import InputSourceCard from "./agents/faqagent";
+import StorylineGenerator from "./agents/storytelling";
+import HeadlineGenerator from "./agents/headlinegenerator";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -25,7 +29,7 @@ const AgentRouter = () => {
     // If there is a deep research agent id, map it here
     "deep-research-agent": <AgentWorkingPage />,
     "logic-validation-agent": <AgentWorkingPage />,
-    "document-summarizer-agent": <AgentWorkingPage />,
+    "document-summarizer-agent": <EmailThreadSummariser />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
     "image-generation-agent": <ImageGenerator />,
@@ -39,6 +43,11 @@ const AgentRouter = () => {
     "trip-planning-agent": <TripPlanningSystem />,
     "csv-to-excel-agent": <CsvExcelConverter />,
     "data-query-agent": <DataQuery/>,
+    // "data-generation-agent": <DataGenerationPage />,
+    
+    "developer-support": <InputSourceCard />,
+    "social-media": <StorylineGenerator />,
+    "work-management": <HeadlineGenerator />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
