@@ -121,7 +121,7 @@ const Header = () => {
           <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
             Home
           </NavLink>
-          <NavLink to="/agent-workbench" className={linkClasses} onClick={handleNavClick}> 
+          <NavLink to="/media-entertainment" className={linkClasses} onClick={handleNavClick}> 
             Agent Workbench
           </NavLink>
           <NavLink to="/usecase" className={linkClasses} onClick={handleNavClick}>
@@ -213,7 +213,7 @@ const Header = () => {
               Home
             </NavLink>
             <NavLink 
-              to="/agent-workbench" 
+              to="/media-entertainment" 
               className={linkClasses} 
               onClick={handleNavClick}
             >
