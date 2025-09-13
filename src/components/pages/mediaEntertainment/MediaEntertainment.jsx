@@ -23,6 +23,9 @@ const MediaEntertainment = () => {
     setIsLoading(false);
   }, [isAuthenticated, navigate]);
 
+  // Get user name from localStorage
+  const userName = localStorage.getItem("name") || "User";
+
   // Hero Section
   const heroSection = (
     <div className="relative mt-20 w-full overflow-hidden py-12 px-4 bg-blue-900">
@@ -35,7 +38,14 @@ const MediaEntertainment = () => {
         >
           Agent Categories
         </motion.h1>
-        
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-white/90 text-lg md:text-xl"
+        >
+          Welcome back, {userName}!
+        </motion.p>
       </div>
     </div>
   );
