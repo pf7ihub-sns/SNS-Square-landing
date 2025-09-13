@@ -3,7 +3,7 @@ export const agentCategories = {
         id: "document-processing",
         name: "Document Processing",
         description: "AI agents specialized in document processing, contract review, and policy validation",
-        icon: "📄",
+        icon: "",
         color: "blue",
         agents: [
              {
@@ -69,7 +69,7 @@ export const agentCategories = {
         id: "knowledge-management",
         name: "Knowledge Management",
         description: "AI agents for knowledge retrieval, search, and knowledge base maintenance",
-        icon: "🧠",
+        icon: "",
         color: "purple",
         agents: [
             {
@@ -154,7 +154,7 @@ export const agentCategories = {
         id: "content-handling",
         name: "Content Handling & Summarization",
         description: "AI agents for content processing, summarization, and communication",
-        icon: "📝",
+        icon: "",
         color: "green",
         agents: [
             {
@@ -258,7 +258,7 @@ export const agentCategories = {
         id: "communication-assistance",
         name: "Communication & Assistance",
         description: "AI agents for customer support, communication, and user assistance",
-        icon: "💬",
+        icon: "",
         color: "indigo",
         agents: [
             {
@@ -419,7 +419,7 @@ export const agentCategories = {
         id: "business-intelligence",
         name: "Business Intelligence & Analysis",
         description: "AI agents for analytics, forecasting, and business intelligence",
-        icon: "📊",
+        icon: "",
         color: "orange",
         agents: [
             {
@@ -580,7 +580,7 @@ export const agentCategories = {
         id: "compliance-security",
         name: "Compliance, Security & Privacy",
         description: "AI agents for compliance monitoring, cybersecurity, and data privacy protection",
-        icon: "🔒",
+        icon: "",
         color: "red",
         agents: [
             {
@@ -646,7 +646,7 @@ export const agentCategories = {
         id: "data-processing",
         name: "Data Handling & Processing",
         description: "AI agents for data cleaning, analysis, and processing automation",
-        icon: "🗃️",
+        icon: "",
         color: "cyan",
         agents: [
             {
@@ -788,7 +788,7 @@ export const agentCategories = {
         id: "developer-assistance",
         name: "Developer & Technical Assistance",
         description: "AI agents for development support, testing, and technical automation",
-        icon: "💻",
+        icon: "",
         color: "slate",
         agents: [
             {
@@ -892,7 +892,7 @@ export const agentCategories = {
         id: "productivity-workflow",
         name: "Productivity & Workflow",
         description: "AI agents for task management, scheduling, and productivity enhancement",
-        icon: "⚡",
+        icon: "",
         color: "yellow",
         agents: [
             {
