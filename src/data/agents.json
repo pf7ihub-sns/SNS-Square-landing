@@ -47,7 +47,7 @@
     },
     {
       "id": "idea-refinement-agent",
-      "title": "Idea Refinement Agent",
+      "title": "Idea Refiner",
       "description": "Smart document processing and knowledge base management",
       "icon": "/images/agents/folders 1.png",
       "category": "Foundation Agents",
@@ -55,12 +55,49 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
-      "id": "social-media",
-      "title": "Social & Media",
+      "id": "image-generation-agent",
+      "title": "Image Generator",
       "description": "Social media management and content creation",
       "icon": "/images/agents/social-media 1.png",
       "category": "Foundation Agents",
-      "featured": false
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "entity-extraction-agent",
+      "title": "Entity Extractor",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "automated-linter-agent",
+      "title": "Automated Linter",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+      {
+      "id": "testcase-generation-agent",
+      "title": "Testcase Generator",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+      {
+      "id": "data-generation-agent",
+      "title": "Data Generator",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
     },
     {
       "id": "work-management",
