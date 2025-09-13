@@ -30,8 +30,8 @@ const AgentRouter = () => {
     "image-generation-agent": <ImageGenerator />,
     "entity-extraction-agent": <EntityExtractor />,
     "automated-linter-agent": <AutomatedLinter />,
-    "testcase-generation-agent": <TestCaseGenerationAgent/>
-    "data-generation-agent": <DataGenerationPage />
+    "testcase-generation-agent": <TestCaseGenerationAgent/>,
+    "data-generation-agent": <DataGenerationPage />,
     
     "developer-support": <InputSourceCard />,
     "social-media": <StorylineGenerator />,
