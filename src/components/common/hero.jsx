@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section 
       aria-labelledby="hero-heading" 
-      className="relative bg-gradient-to-b from-[#EEF4FF] to-white w-screen"
+      className="relative bg-gradient-to-b from-[#EEF4FF] to-white w-full"
       style={{
         backgroundImage: `url('/images/HomeHero.png')`,
         backgroundSize: "cover",

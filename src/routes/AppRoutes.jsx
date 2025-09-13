@@ -14,6 +14,10 @@ import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
 import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
 import AgentRouter from "../components/pages/agentWorkBench/AgentRouter";
+import MediaEntertainment from "../pages/mediaEntertainment";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
+import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 export default function AppRoutes() {
   return (
@@ -24,7 +28,32 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
-      <Route path="/agent-workbench" element={<OrbitCircle />}>
+      
+      {/* Protected Routes - Require Authentication */}
+      <Route path="/media-entertainment" element={
+        <ProtectedRoute>
+          <MediaEntertainment />
+        </ProtectedRoute>
+      } />
+      
+      {/* Agent Workbench Protected Routes */}
+      <Route path="/agent-workbench/try/:categoryId/:agentId" element={
+        <ProtectedRoute>
+          <AgentTryPage />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/agent-workbench/details/:categoryId/:agentId" element={
+        <ProtectedRoute>
+          <AgentDetailsPage />
+        </ProtectedRoute>
+      } />
+      {/* Legacy Agent Workbench Routes - All Protected */}
+      <Route path="/agent-workbench" element={
+   
+          <OrbitCircle />
+  
+      }>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
 
@@ -62,8 +91,18 @@ export default function AppRoutes() {
       <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
       {/* Existing Agent Detail Routes */}
-      <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
-      <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={<AgentsDetails />} />
+      
+      {/* Legacy Agent Details Routes - Protected */}
+      <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={
+        <ProtectedRoute>
+          <AgentsDetails />
+        </ProtectedRoute>
+      } />
+      <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={
+        <ProtectedRoute>
+          <AgentsDetails />
+        </ProtectedRoute>
+      } />
     </Routes>
   );
 }
