@@ -23,6 +23,9 @@ const MediaEntertainment = () => {
     setIsLoading(false);
   }, [isAuthenticated, navigate]);
 
+  // Get user name from localStorage
+  const userName = localStorage.getItem("name") || "User";
+
   // Hero Section
  const heroSection = (
   <div

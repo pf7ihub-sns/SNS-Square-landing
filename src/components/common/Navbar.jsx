@@ -174,27 +174,12 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-300"
-                onClick={() => {
-                  // This will be handled by the parent component to open login modal
-                  const event = new CustomEvent('openLoginModal');
-                  window.dispatchEvent(event);
-                }}
+                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
+                onClick={handleContactClick}
               >
-                Login
+                Contact Us
               </Button>
-              <Button
-                variant="secondary"
-                size="small"
-                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
-                onClick={() => {
-                  // This will be handled by the parent component to open signup modal
-                  const event = new CustomEvent('openSignupModal');
-                  window.dispatchEvent(event);
-                }}
-              >
-                Sign Up
-              </Button>
+
             </>
           )}
         </div>
@@ -264,14 +249,13 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-300"
+                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
                 onClick={() => {
-                  const event = new CustomEvent('openLoginModal');
-                  window.dispatchEvent(event);
+                  handleContactClick();
                   closeMenu();
                 }}
               >
-                Login
+                Contact Us
               </Button>
               <Button
                 variant="secondary"

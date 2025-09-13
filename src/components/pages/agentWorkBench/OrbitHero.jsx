@@ -2,13 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
-import SignUpModal from '../../common/SignUpDialog';
 
 const OrbitHero = () => {
     const location = useLocation();
     const { category } = useParams();
     const navigate = useNavigate();
-    const [isSignUpOpen, setisSignUpOpen] = useState(false);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [activeButton, setActiveButton] = useState('Foundation Agents');
     const [screenWidth, setScreenWidth] = useState(0);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -212,7 +211,7 @@ const OrbitHero = () => {
 
     // Handle agent icon click with conditional navigation
     const handleAgentClick = (agentTitle) => {
-        const userId = localStorage.getItem('userId'); // Use 'userId' as mentioned by user
+        const userId = localStorage.getItem('userId'); // Check for userId in localStorage
         console.log('Checking userId in localStorage:', userId); // Debug log
         
         if (userId && userId.trim() !== '') {
@@ -220,9 +219,9 @@ const OrbitHero = () => {
             console.log('Navigating to media entertainment page'); // Debug log
             navigate('/media-entertainment');
         } else {
-            // User is not logged in, show signup modal
-            console.log('No userId found, showing signup'); // Debug log
-            setisSignUpOpen(true);
+            // User is not logged in, show login modal
+            console.log('No userId found, showing login'); // Debug log
+            setIsLoginOpen(true);
         }
     };
 
@@ -390,7 +389,7 @@ const OrbitHero = () => {
                                                     if (userId && userId.trim() !== '') {
                                                         navigate('/media-entertainment');
                                                     } else {
-                                                        setisSignUpOpen(true);
+                                                        setIsLoginOpen(true);
                                                     }
                                                 }}
                                             >
@@ -452,7 +451,7 @@ const OrbitHero = () => {
                             // Navigate to media entertainment page
                             navigate('/media-entertainment');
                         } else {
-                            setisSignUpOpen(true);
+                            setIsLoginOpen(true);
                         }
                     }}
                 >
@@ -462,9 +461,9 @@ const OrbitHero = () => {
                     })()}
                 </button>
             </div>
-            <SignUpModal
-                isOpen={isSignUpOpen}
-                onClose={() => setisSignUpOpen(false)}
+            <LoginModal
+                isOpen={isLoginOpen}
+                onClose={() => setIsLoginOpen(false)}
             />
 
         </div>
