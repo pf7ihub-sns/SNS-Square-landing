@@ -44,9 +44,9 @@ const OrbitHero = () => {
     };
 
     useEffect(() => {
-        // Debug: Check userID on component mount
-        const userId = localStorage.getItem('userID');
-        console.log('OrbitHero mounted, current userID:', userId);
+        // Debug: Check userId on component mount
+        const userId = localStorage.getItem('userId');
+        console.log('OrbitHero mounted, current userId:', userId);
     }, []);
 
     useEffect(() => {
@@ -212,17 +212,16 @@ const OrbitHero = () => {
 
     // Handle agent icon click with conditional navigation
     const handleAgentClick = (agentTitle) => {
-        const userId = localStorage.getItem('userId');
-        console.log('Checking userID in localStorage:', userId); // Debug log
+        const userId = localStorage.getItem('userId'); // Use 'userId' as mentioned by user
+        console.log('Checking userId in localStorage:', userId); // Debug log
         
         if (userId && userId.trim() !== '') {
-            // User is logged in, navigate to agent playground
-            const agentId = getAgentId(agentTitle);
-            console.log('Navigating to agent:', agentId); // Debug log
-            navigate(`/agent-playground/agent/${agentId}`);
+            // User is logged in, navigate to media entertainment page
+            console.log('Navigating to media entertainment page'); // Debug log
+            navigate('/media-entertainment');
         } else {
             // User is not logged in, show signup modal
-            console.log('No userID found, showing signup'); // Debug log
+            console.log('No userId found, showing signup'); // Debug log
             setisSignUpOpen(true);
         }
     };
@@ -387,19 +386,18 @@ const OrbitHero = () => {
                                transition-colors duration-200 text-sm"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    const userId = localStorage.getItem('userID');
-                                                    if (userId) {
-                                                        const agentId = getAgentId(item.title);
-                                                        navigate(`/agent-playground/agent/${agentId}`);
+                                                    const userId = localStorage.getItem('userId');
+                                                    if (userId && userId.trim() !== '') {
+                                                        navigate('/media-entertainment');
                                                     } else {
                                                         setisSignUpOpen(true);
                                                     }
                                                 }}
                                             >
-                                                {localStorage.getItem('userID') ? '� Launch Agent' : '�🔒 Unlock Your Agents'}
+                                                {localStorage.getItem('userId') ? '� Launch Agent' : '�🔒 Unlock Your Agents'}
                                             </button>
                                             <p className="text-gray-600 text-sm mt-3 text-center font-medium">
-                                                {localStorage.getItem('userID') ? 'Start Working' : 'Know More'}
+                                                {localStorage.getItem('userId') ? 'Start Working' : 'Know More'}
                                             </p>
                                         </div>
                                     )}
@@ -448,18 +446,18 @@ const OrbitHero = () => {
                 <button
                     className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
                     onClick={() => {
-                        const userId = localStorage.getItem('userID');
-                        console.log('Bottom button clicked, userID:', userId); // Debug log
+                        const userId = localStorage.getItem('userId');
+                        console.log('Bottom button clicked, userId:', userId); // Debug log
                         if (userId && userId.trim() !== '') {
-                            // Navigate to a default agent or agent selection page
-                            navigate('/agent-playground/agent/data-management');
+                            // Navigate to media entertainment page
+                            navigate('/media-entertainment');
                         } else {
                             setisSignUpOpen(true);
                         }
                     }}
                 >
                     {(() => {
-                        const userId = localStorage.getItem('userID');
+                        const userId = localStorage.getItem('userId');
                         return userId && userId.trim() !== '' ? 'Go to Agents' : 'Explore agents';
                     })()}
                 </button>
