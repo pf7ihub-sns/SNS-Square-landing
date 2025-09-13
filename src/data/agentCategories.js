@@ -158,9 +158,9 @@ export const agentCategories = {
         color: "green",
         agents: [
             {
-                id: "content-summarizer",
-                name: "Content Summarization Agent",
-                description: "Create comprehensive summaries of long documents and content.",
+                id: "email-summarizer-agent",
+                name: "Email Summarization Agent",
+                description: "Create comprehensive summaries of long emails and content.",
                 image: "../../public/images/icons/squares.png",
                 features: [
                     "Extractive summarization",
@@ -262,9 +262,9 @@ export const agentCategories = {
         color: "indigo",
         agents: [
             {
-                id: "customer-support",
-                name: "Customer Support Agent",
-                description: "Provide intelligent customer support and issue resolution.",
+                id: "multilanguage-chatbot",
+                name: "Multilanguage Chatbot",
+                description: "Provide intelligent customer support and issue resolution in multiple languages.",
                 image: "../../public/images/icons/squares.png",
                 features: [
                     "Issue classification",

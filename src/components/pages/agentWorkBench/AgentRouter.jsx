@@ -29,7 +29,7 @@ const AgentRouter = () => {
     // If there is a deep research agent id, map it here
     "deep-research-agent": <AgentWorkingPage />,
     "logic-validation-agent": <AgentWorkingPage />,
-    "document-summarizer-agent": <EmailThreadSummariser />,
+    "email-summarizer-agent": <EmailThreadSummariser />,
     "general-query-agent": <AgentWorkingPage />,
     "data-management": <AgentWorkingPage />,
     "image-generation-agent": <ImageGenerator />,
