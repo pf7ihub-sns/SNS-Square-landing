@@ -34,8 +34,8 @@ const IdeaRefinementUI = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-100 p-6">
-      <div className="bg-white shadow-2xl rounded-3xl p-8 max-w-xl w-full border border-blue-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-100 p-6 pt-44">
+      <div className="bg-white shadow-2xl rounded-3xl p-8 max-w-xl w-full border border-blue-100 ">
         <h1 className="text-3xl font-extrabold mb-6 text-blue-700 text-center">
           💡 Idea Refinement Agent
         </h1>

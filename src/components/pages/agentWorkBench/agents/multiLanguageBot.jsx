@@ -116,11 +116,11 @@ export default function MultiLanguageChat() {
   const currentLanguage = languages.find(lang => lang.code === selectedLanguage) || languages[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 pt-44">
-      <div className="w-full max-w-4xl h-[90vh] bg-white/90 backdrop-blur-lg shadow-2xl rounded-3xl border border-white/30 flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-[#F2F6FE] flex items-center justify-center p-4 pt-44">
+      <div className="w-full max-w-4xl h-[90vh] bg-white shadow-2xl rounded-3xl border border-gray-200 flex flex-col overflow-hidden">
         
         {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-6 py-4 text-white relative">
+        <div className="bg-gradient-to-r from-[#064EE3] to-[#3D76EC] px-6 py-4 text-white relative">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -133,7 +133,7 @@ export default function MultiLanguageChat() {
               </div>
               <div>
                 <h1 className="text-xl font-bold">AI Language Assistant</h1>
-                <div className="flex items-center space-x-2 text-sm text-indigo-100">
+                <div className="flex items-center space-x-2 text-sm text-blue-100">
                   <span className="flex items-center space-x-1">
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                     <span>Online</span>
@@ -168,7 +168,7 @@ export default function MultiLanguageChat() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name (optional)"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#064EE3] focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function MultiLanguageChat() {
                   <select
                     value={selectedLanguage}
                     onChange={(e) => setSelectedLanguage(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#064EE3] focus:border-transparent"
                   >
                     {languages.map((lang) => (
                       <option key={lang.code} value={lang.code}>
@@ -186,17 +186,17 @@ export default function MultiLanguageChat() {
                   </select>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end">
+              {/* <div className="mt-6 flex justify-end">
                 <button
                   onClick={handleExportChat}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-colors"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white rounded-xl hover:from-[#0540D4] hover:to-[#356AE5] transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                   </svg>
                   <span>Export Chat</span>
                 </button>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
@@ -204,12 +204,12 @@ export default function MultiLanguageChat() {
         {/* Chat Messages */}
         <div
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto p-6 bg-gradient-to-b from-gray-50/50 to-white/50 space-y-4"
+          className="flex-1 overflow-y-auto p-6 bg-[#F2F6FE] space-y-4"
         >
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
-              <div className="w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-20 h-20 bg-gradient-to-br from-[#064EE3]/10 to-[#3D76EC]/10 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-10 h-10 text-[#064EE3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
               </div>
@@ -228,7 +228,7 @@ export default function MultiLanguageChat() {
                   {/* Avatar */}
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 shadow-lg ${
                     message.role === 'user' 
-                      ? 'bg-gradient-to-br from-indigo-500 to-purple-500' 
+                      ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC]' 
                       : 'bg-gradient-to-br from-gray-600 to-gray-700'
                   }`}>
                     {message.role === 'user' ? (name ? name[0].toUpperCase() : 'U') : 'AI'}
@@ -237,12 +237,12 @@ export default function MultiLanguageChat() {
                   {/* Message bubble */}
                   <div className={`px-5 py-4 rounded-3xl shadow-lg ${
                     message.role === 'user'
-                      ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white rounded-br-lg'
+                      ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC] text-white rounded-br-lg'
                       : 'bg-white border border-gray-200 text-gray-800 rounded-bl-lg'
                   }`}>
                     <p className="leading-relaxed">{message.content}</p>
                     <div className={`flex items-center space-x-2 text-xs mt-2 ${
-                      message.role === 'user' ? 'text-indigo-100' : 'text-gray-400'
+                      message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
                     }`}>
                       <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
                       <span>•</span>
@@ -261,7 +261,7 @@ export default function MultiLanguageChat() {
                           <button
                             key={i}
                             onClick={() => handleQuickReply(suggestion)}
-                            className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full hover:bg-indigo-100 text-sm font-medium transition-colors border border-indigo-200"
+                            className="px-3 py-1 bg-[#F2F6FE] text-[#064EE3] rounded-full hover:bg-blue-100 text-sm font-medium transition-colors border border-blue-200"
                           >
                             {suggestion}
                           </button>
@@ -306,7 +306,7 @@ export default function MultiLanguageChat() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white/80 backdrop-blur-sm border-t border-gray-200 p-6">
+        <div className="bg-white border-t border-gray-200 p-6">
           <div className="flex items-end space-x-4">
             <div className="flex-1 relative">
               <textarea
@@ -314,7 +314,7 @@ export default function MultiLanguageChat() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder={`Type your message in ${currentLanguage.name}...`}
-                className="w-full resize-none rounded-3xl border-2 border-gray-200 px-6 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800 max-h-32 min-h-[56px] bg-gray-50"
+                className="w-full resize-none rounded-3xl border-2 border-gray-200 px-6 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-[#064EE3] focus:border-transparent text-gray-800 max-h-32 min-h-[56px] bg-white"
                 rows={1}
                 disabled={isLoading}
               />
@@ -326,7 +326,7 @@ export default function MultiLanguageChat() {
             <button
               onClick={() => handleSend()}
               disabled={isLoading || !input.trim()}
-              className="bg-gradient-to-br from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 disabled:from-gray-400 disabled:to-gray-400 text-white p-4 rounded-3xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-lg disabled:transform-none disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-[#064EE3] to-[#3D76EC] hover:from-[#0540D4] hover:to-[#356AE5] disabled:from-gray-400 disabled:to-gray-400 text-white p-4 rounded-3xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#064EE3] focus:ring-offset-2 shadow-lg disabled:transform-none disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <svg className="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
