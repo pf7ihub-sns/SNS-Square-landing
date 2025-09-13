@@ -1,8 +1,8 @@
 {
   "foundationAgents": [
     {
-      "id": "data-management",
-      "title": "Data Management",
+      "id": "deep-research-agent",
+      "title": "Deep Research",
       "description": "Comprehensive data management and organization solutions",
       "icon": "/images/agents/database-management 1.png",
       "category": "Foundation Agents",
@@ -19,22 +19,13 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
-      "id": "document-summarizer-agent",
-      "title": "Business Intelligence & Analysis",
+      "id": "email-thread-summarizer-agent",
+      "title": "Email Thread Summariser",
       "description": "Advanced analytics and business intelligence solutions",
       "icon": "/images/agents/online-analytical 1.png",
       "category": "Foundation Agents",
       "featured": false,
       "path": "/agent-playground/agent/{agentId}"
-    },
-    {
-      "id": "trip-planning-agent",
-      "title": "Communication & Assistance",
-      "description": "Intelligent communication and virtual assistance",
-      "icon": "/images/agents/robot 1.png",
-      "category": "Foundation Agents",
-      "featured": false,
-      "path": "/trip-planning-agent"
     },
     {
       "id": "logic-validation-agent",
@@ -43,7 +34,7 @@
       "icon": "/images/agents/writing 1.png",
       "category": "Foundation Agents",
       "featured": false,
-      "path": "/logic-validation-agent"
+      "path": "/agent-playground/agent/{agentId}"
     },
     {
       "id": "idea-refinement-agent",
@@ -90,9 +81,9 @@
       "featured": false,
       "path": "/agent-playground/agent/{agentId}"
     },
-      {
-      "id": "data-generation-agent",
-      "title": "Data Generator",
+    {
+      "id": "agriculture-query-agent",
+      "title": "Agriculture Query Agent",
       "description": "Streamline workflows and productivity management",
       "icon": "/images/agents/efficiency 1.png",
       "category": "Foundation Agents",
@@ -100,17 +91,8 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
-      "id": "data-query-agent",
-      "title": "Data Query Agent",
-      "description": "Streamline workflows and productivity management",
-      "icon": "/images/agents/efficiency 1.png",
-      "category": "Foundation Agents",
-      "featured": false,
-      "path": "/agent-playground/agent/{agentId}"
-    },
-    {
-      "id": "document-summarizer-agent",
-      "title": "Document Summarizer",
+      "id": "duplicate-expense-detection-agent",
+      "title": "Duplicate Expense Detector",
       "description": "Streamline workflows and productivity management",
       "icon": "/images/agents/efficiency 1.png",
       "category": "Foundation Agents",
@@ -143,30 +125,6 @@
       "category": "Foundation Agents",
       "featured": false,
       "path": "/agent-playground/agent/{agentId}"
-    },
-    {
-      "id": "data-query-agent",
-      "title": "Data Query Agent",
-      "description": "Code analysis, debugging, and development assistance",
-      "icon": "/images/agents/optimizing 1.png",
-      "category": "Foundation Agents",
-      "featured": false
-    },
-    {
-      "id": "work-management",
-      "title": "Work Management",
-      "description": "Streamline workflows and productivity management",
-      "icon": "/images/agents/efficiency 1.png",
-      "category": "Foundation Agents",
-      "featured": false
-    },
-    {
-      "id": "developer-support",
-      "title": "Developer Support",
-      "description": "Code analysis, debugging, and development assistance",
-      "icon": "/images/agents/optimizing 1.png",
-      "category": "Foundation Agents",
-      "featured": false
     }
   ],
   "industrySolutions": [

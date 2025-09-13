@@ -1,9 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import AgentWorkingPage from "./agents/deepResearch";
 import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
-import AgentWorkingPage from "./agents/deepResearch";
+
 import ImageGenerator from "./agents/imageGeneration";
 import EntityExtractor from "./agents/entityExtractor";
 import AutomatedLinter from "./agents/automatedLinter";
@@ -13,38 +14,45 @@ import DocumentSummarizerAgent from "./agents/documentSummarizer";
 import HealthcareAppointmentClassifier from "./agents/healthcareAppointmentClassifier";
 import CsvExcelConverter from "./agents/csvExcelConverter"; 
 import TripPlanningSystem from "./agents/tripPlanningAgent";
-// import DataGenerationPage from "./agents/dataGenerator";
-
 import EmailThreadSummariser from "./agents/emailthreadsummarizer";
 import InputSourceCard from "./agents/faqagent";
 import StorylineGenerator from "./agents/storytelling";
 import HeadlineGenerator from "./agents/headlinegenerator";
+import AgriculturalQueryAgent from "./agents/agriculturalQuery";
+import DuplicateExpenseDetector from "./agents/duplicateExpenceDetector";
+import LogicValidationAgent from "./agents/logicValidation";
+
+
 const AgentRouter = () => {
   const { agentId } = useParams();
+  const [searchParams] = useSearchParams();
 
-  // Map known agent ids to components
+  // If there's a category query parameter but no agentId, show the AgentDisplay
+  if (searchParams.get('category') && !agentId) {
+    return <AgentDisplay />;
+  }
+
+  // Map known agent ids to components - ALL FOUNDATION AGENTS from agents.json
   const agentIdToComponent = {
-    "multilanguage-chatbot": <MultiLanguageChat />,
-    "idea-refinement-agent": <IdeaRefinementUI />,
-    // If there is a deep research agent id, map it here
+    // Foundation Agents (from agents.json foundationAgents array)
     "deep-research-agent": <AgentWorkingPage />,
-    "logic-validation-agent": <AgentWorkingPage />,
-    "document-summarizer-agent": <EmailThreadSummariser />,
-    "general-query-agent": <AgentWorkingPage />,
-    "data-management": <AgentWorkingPage />,
+    "multilanguage-chatbot": <MultiLanguageChat />,
+    "email-thread-summarizer-agent": <EmailThreadSummariser />,
+    "logic-validation-agent": <LogicValidationAgent />,
+    "idea-refinement-agent": <IdeaRefinementUI />,
     "image-generation-agent": <ImageGenerator />,
     "entity-extraction-agent": <EntityExtractor />,
     "automated-linter-agent": <AutomatedLinter />,
-    "testcase-generation-agent": <TestCaseGenerationAgent/>,
-    "data-generation-agent": <DataGenerationPage />,
-    "data-management": <AgentWorkingPage />,
+    "testcase-generation-agent": <TestCaseGenerationAgent />,
+    "data-query-agent": <AgentWorkingPage />, // Using placeholder since dataQuery.jsx is empty
+    "document-summarizer-agent": <DocumentSummarizerAgent />,
     "healthcare-appoinment-classifier": <HealthcareAppointmentClassifier />,
-    "document-summarizer-agent": <DocumentSummarizerAgent/>,
-    "trip-planning-agent": <TripPlanningSystem />,
     "csv-to-excel-agent": <CsvExcelConverter />,
-    "data-query-agent": <DataQuery/>,
-    // "data-generation-agent": <DataGenerationPage />,
-    
+    "trip-planning-agent": <TripPlanningSystem />,
+    "agriculture-query-agent": <AgriculturalQueryAgent />,
+    "duplicate-expense-detection-agent":<DuplicateExpenseDetector />,
+    // Additional agents (keeping existing ones)
+    "data-generation-agent": <DataGenerationPage />,
     "developer-support": <InputSourceCard />,
     "social-media": <StorylineGenerator />,
     "work-management": <HeadlineGenerator />,
@@ -54,5 +62,3 @@ const AgentRouter = () => {
 };
 
 export default AgentRouter;
-
-

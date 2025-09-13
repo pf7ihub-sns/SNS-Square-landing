@@ -43,9 +43,9 @@ function CsvExcelConverter() {
   };
 
   return (
-    <div className="min-h-screen pt-44 bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="min-h-screen pt-44 bg-gradient-to-br from-[#F2F6FE] to-gray-100 p-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-extrabold text-blue-700 mb-6 text-center">
+        <h1 className="text-3xl font-extrabold text-[#064EE3] mb-6 text-center">
           CSV ↔ Excel Converter
           <span className="block text-sm font-normal text-gray-500 mt-1">
             Convert .csv and .xlsx files with one click
@@ -56,7 +56,7 @@ function CsvExcelConverter() {
             {error}
           </div>
         )}
-        <div className="bg-white shadow-xl rounded-xl p-6 border border-blue-100">
+        <div className="bg-white shadow-xl rounded-2xl p-6 border border-blue-100">
           <div className="mb-6">
             <label
               htmlFor="file-input"
@@ -70,7 +70,12 @@ function CsvExcelConverter() {
                 type="file"
                 accept=".csv,.xlsx,.xls"
                 onChange={handleFileChange}
-                className="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-md p-1"
+                className="block w-full text-sm text-gray-900 
+                  file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+                  file:text-sm file:font-semibold 
+                  file:bg-gradient-to-r file:from-[#064EE3] file:to-[#3D76EC] file:text-white 
+                  hover:file:from-[#0540D4] hover:file:to-[#356AE5] 
+                  border border-gray-200 rounded-md p-1"
                 aria-label="Upload CSV or Excel file"
               />
             </div>
@@ -81,13 +86,16 @@ function CsvExcelConverter() {
           </div>
           <div className="mb-6">
             <p className="block text-sm font-medium text-gray-700 mb-2">Target format</p>
-            <div className="inline-flex rounded-md shadow-sm border border-gray-200 overflow-hidden" role="group">
+            <div
+              className="inline-flex rounded-md shadow-sm border border-gray-200 overflow-hidden"
+              role="group"
+            >
               <button
                 type="button"
                 onClick={() => setTargetFormat("excel")}
                 className={`px-4 py-2 text-sm font-medium ${
                   targetFormat === "excel"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
                 aria-pressed={targetFormat === "excel"}
@@ -99,7 +107,7 @@ function CsvExcelConverter() {
                 onClick={() => setTargetFormat("csv")}
                 className={`px-4 py-2 text-sm font-medium border-l border-gray-200 ${
                   targetFormat === "csv"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white"
                     : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
                 aria-pressed={targetFormat === "csv"}
@@ -115,12 +123,31 @@ function CsvExcelConverter() {
             <button
               onClick={handleConvert}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400"
+              className="inline-flex items-center gap-2 px-5 py-2.5 
+                bg-gradient-to-r from-[#064EE3] to-[#3D76EC] 
+                text-white rounded-md 
+                hover:from-[#0540D4] hover:to-[#356AE5] 
+                disabled:from-gray-400 disabled:to-gray-500"
             >
               {loading && (
-                <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                <svg
+                  className="animate-spin h-4 w-4 text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
                 </svg>
               )}
               {loading ? "Converting..." : "Convert & Download"}
