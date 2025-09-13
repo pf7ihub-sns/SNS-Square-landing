@@ -187,7 +187,7 @@ const MediaEntertainment = () => {
         <div className="flex justify-center mb-8">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
             <div className="flex space-x-1">
-              {['foundational', 'industry', 'customer'].map((tab) => (
+              {['foundational', 'industry'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
