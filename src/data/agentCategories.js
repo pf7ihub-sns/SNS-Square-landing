@@ -7,9 +7,9 @@ export const agentCategories = {
         color: "blue",
         agents: [
             {
-                id: "document-classifier",
-                name: "Document Classification Agent",
-                description: "Automatically categorize and classify documents by type, content, and purpose with high accuracy.",
+                id: "deep-research-agent",
+                name: "Deep Research Agent",
+                description: "Classify and route documents to specialized processing pipelines.",
                 image: "/icons/document-classifier.png",
                 features: [
                     "Multi-label classification",
@@ -205,8 +205,8 @@ export const agentCategories = {
         color: "orange",
         agents: [
             {
-                id: "chatbot-assistant",
-                name: "Intelligent Chatbot Agent",
+                id: "multilanguage-chatbot",
+                name: "Multilanguage Chatbot Agent",
                 description: "Provide 24/7 customer support with natural language understanding and context awareness.",
                 image: "/icons/chatbot.png",
                 features: [

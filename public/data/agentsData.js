@@ -13,9 +13,9 @@ foundational:[
       image: "/undraw_add-document_oqbr.png",
       agents: [
         {
-          id: "document-classification",
-          name: "Document Classification Agent",
-          summary: "Categorize documents by type with confidence and routing hints.",
+          id: "deep-research-agent",
+          name: "Deep Research Agent",
+          summary: "Classify and route documents to specialized processing pipelines.",
           image: "/placeholder.jpg",
           solutions: [
             "Multi-label classification",
