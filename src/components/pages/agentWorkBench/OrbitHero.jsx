@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
 import SignUpModal from '../../common/SignUpDialog';
@@ -7,6 +7,7 @@ import SignUpModal from '../../common/SignUpDialog';
 const OrbitHero = () => {
     const location = useLocation();
     const { category } = useParams();
+    const navigate = useNavigate();
     const [isSignUpOpen, setisSignUpOpen] = useState(false);
     const [activeButton, setActiveButton] = useState('Foundation Agents');
     const [screenWidth, setScreenWidth] = useState(0);
@@ -41,6 +42,12 @@ const OrbitHero = () => {
             return { transform: 'translateY(0px)', marginBottom: '96px' };
         }
     };
+
+    useEffect(() => {
+        // Debug: Check userID on component mount
+        const userId = localStorage.getItem('userID');
+        console.log('OrbitHero mounted, current userID:', userId);
+    }, []);
 
     useEffect(() => {
         const updateScreenWidth = () => {
@@ -161,6 +168,63 @@ const OrbitHero = () => {
 
     const getCurrentAgentContent = () => {
         return agentContent[activeButton] || agentContent['Foundation Agents'];
+    };
+
+    // Agent ID mapping for navigation
+    const getAgentId = (title) => {
+        const agentIdMap = {
+            // Foundation Agents
+            'Data\nManagement': 'data-management',
+            'Compliance &\nSecurity': 'compliance-security',
+            'Business\nIntelligence & Analysis': 'business-intelligence',
+            'Communication\n& Assistance': 'communication-assistance',
+            'Summarisation &\nContent Handling': 'summarization-content',
+            'Document &\nKnowledge Management': 'document-knowledge',
+            'Social & Media': 'social-media',
+            'Work Management': 'work-management',
+            'Developer Support': 'developer-support',
+            
+            // Industry Solutions
+            'Manufacturing': 'manufacturing',
+            'Agriculture': 'agriculture',
+            'Healthcare': 'healthcare',
+            'Legal': 'legal',
+            'Media & Entertainment': 'media-entertainment',
+            'Retail': 'retail',
+            'Real Estate': 'real-estate',
+            'Human Resources': 'human-resources',
+            'Fintech': 'fintech',
+            'Banking': 'banking',
+            
+            // Customer Solutions
+            'Personal\nAssistant': 'personal-assistant',
+            'Smart Home\nControl': 'smart-home',
+            'Learning\nCompanion': 'learning-companion',
+            'Health\nTracker': 'health-tracker',
+            'Entertainment\nCurator': 'entertainment-curator',
+            'Shopping\nAdvisor': 'shopping-advisor',
+            'Travel\nPlanner': 'travel-planner',
+            'Finance\nManager': 'finance-manager'
+        };
+        
+        return agentIdMap[title] || 'unknown-agent';
+    };
+
+    // Handle agent icon click with conditional navigation
+    const handleAgentClick = (agentTitle) => {
+        const userId = localStorage.getItem('userId');
+        console.log('Checking userID in localStorage:', userId); // Debug log
+        
+        if (userId && userId.trim() !== '') {
+            // User is logged in, navigate to agent playground
+            const agentId = getAgentId(agentTitle);
+            console.log('Navigating to agent:', agentId); // Debug log
+            navigate(`/agent-playground/agent/${agentId}`);
+        } else {
+            // User is not logged in, show signup modal
+            console.log('No userID found, showing signup'); // Debug log
+            setisSignUpOpen(true);
+        }
     };
 
     return (
@@ -298,6 +362,7 @@ const OrbitHero = () => {
                                     className="relative flex flex-col items-center cursor-pointer group"
                                     onMouseEnter={() => setHoveredIndex(index)}
                                     onMouseLeave={() => setHoveredIndex(null)}
+                                    onClick={() => handleAgentClick(item.title)}
                                 >
                                     {/* 🔒 Hover Unlock Card - Matching the image style */}
                                     {hoveredIndex === index && (
@@ -322,13 +387,19 @@ const OrbitHero = () => {
                                transition-colors duration-200 text-sm"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    setisSignUpOpen(true);
+                                                    const userId = localStorage.getItem('userID');
+                                                    if (userId) {
+                                                        const agentId = getAgentId(item.title);
+                                                        navigate(`/agent-playground/agent/${agentId}`);
+                                                    } else {
+                                                        setisSignUpOpen(true);
+                                                    }
                                                 }}
                                             >
-                                                🔒 Unlock Your Agents
+                                                {localStorage.getItem('userID') ? '� Launch Agent' : '�🔒 Unlock Your Agents'}
                                             </button>
                                             <p className="text-gray-600 text-sm mt-3 text-center font-medium">
-                                                Know More
+                                                {localStorage.getItem('userID') ? 'Start Working' : 'Know More'}
                                             </p>
                                         </div>
                                     )}
@@ -376,9 +447,21 @@ const OrbitHero = () => {
             <div className="flex items-center justify-center mt-4  pointer-events-none">
                 <button
                     className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
-                    onClick={() => setisSignUpOpen(true)}
+                    onClick={() => {
+                        const userId = localStorage.getItem('userID');
+                        console.log('Bottom button clicked, userID:', userId); // Debug log
+                        if (userId && userId.trim() !== '') {
+                            // Navigate to a default agent or agent selection page
+                            navigate('/agent-playground/agent/data-management');
+                        } else {
+                            setisSignUpOpen(true);
+                        }
+                    }}
                 >
-                    Explore agents
+                    {(() => {
+                        const userId = localStorage.getItem('userID');
+                        return userId && userId.trim() !== '' ? 'Go to Agents' : 'Explore agents';
+                    })()}
                 </button>
             </div>
             <SignUpModal
