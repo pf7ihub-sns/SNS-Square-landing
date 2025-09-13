@@ -532,8 +532,8 @@ foundational:[
         image: "/placeholder.jpg",
         agents: [
           {
-            id: "email-classifier",
-            name: "Email Classification Agent",
+            id: "email-summarizer-agent",
+            name: "Email Summarizer Agent",
             summary: "Categorize and prioritize incoming emails automatically.",
             image: "/placeholder.jpg",
             solutions: ["Email categorization", "Priority scoring", "Spam detection"],
