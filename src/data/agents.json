@@ -100,6 +100,59 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
+      "id": "data-query-agent",
+      "title": "Data Query Agent",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "document-summarizer-agent",
+      "title": "Document Summarizer",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "healthcare-appoinment-classifier",
+      "title": "Healthcare Appointment Classifier",
+      "description": "Streamline workflows and productivity management",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },    
+    {
+      "id": "csv-to-excel-agent",
+      "title": "CSV to Excel Convertor",
+      "description": "Csv to excel conversion made easy",
+      "icon": "/images/agents/folders 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "trip-planning-agent",
+      "title": "Trip Planning Agent",
+      "description": "Intelligent communication and virtual assistance",
+      "icon": "/images/agents/robot 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+    {
+      "id": "data-query-agent",
+      "title": "Data Query Agent",
+      "description": "Code analysis, debugging, and development assistance",
+      "icon": "/images/agents/optimizing 1.png",
+      "category": "Foundation Agents",
+      "featured": false
+    },
+    {
       "id": "work-management",
       "title": "Work Management",
       "description": "Streamline workflows and productivity management",

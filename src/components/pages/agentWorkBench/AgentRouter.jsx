@@ -9,7 +9,11 @@ import EntityExtractor from "./agents/entityExtractor";
 import AutomatedLinter from "./agents/automatedLinter";
 import TestCaseGenerationAgent from "./agents/testCaseGeneration";
 import DataGenerationPage from "./agents/dataGenerator";
-
+import DocumentSummarizerAgent from "./agents/documentSummarizer";
+import HealthcareAppointmentClassifier from "./agents/healthcareAppointmentClassifier";
+import CsvExcelConverter from "./agents/csvExcelConverter"; 
+import TripPlanningSystem from "./agents/tripPlanningAgent";
+import <DataQuery> from "./agents/dataQuery";</DataQuery> 
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -27,9 +31,14 @@ const AgentRouter = () => {
     "image-generation-agent": <ImageGenerator />,
     "entity-extraction-agent": <EntityExtractor />,
     "automated-linter-agent": <AutomatedLinter />,
-    "testcase-generation-agent": <TestCaseGenerationAgent/>
-    "data-generation-agent": <DataGenerationPage />
-    
+    "testcase-generation-agent": <TestCaseGenerationAgent/>,
+    "data-generation-agent": <DataGenerationPage />,
+    "data-management": <AgentWorkingPage />,
+    "healthcare-appoinment-classifier": <HealthcareAppointmentClassifier />,
+    "document-summarizer-agent": <DocumentSummarizerAgent/>,
+    "trip-planning-agent": <TripPlanningSystem />,
+    "csv-to-excel-agent": <CsvExcelConverter />,
+    "data-query-agent": <DataQuery/>,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
