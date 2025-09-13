@@ -2,18 +2,23 @@ import { create } from "zustand";
 import { loginUser, signUpUser } from "../api/Service/user";
 import { setEncryptedItem, getEncryptedItem, removeEncryptedItem } from "../lib/encryption";
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   token: typeof window !== "undefined" ? getEncryptedItem("token") : null,
   userId: typeof window !== "undefined" ? getEncryptedItem("userId") : null,
-  user: null,
+  user: typeof window !== "undefined" ? {
+    id: getEncryptedItem("userId"),
+    name: localStorage.getItem("name"),
+    email: localStorage.getItem("userEmail")
+  } : null,
   error: null,
+  isAuthenticated: typeof window !== "undefined" ? !!getEncryptedItem("token") : false,
 
   login: async (loginData) => {
     try {
       const { token, user, success } = await loginUser(loginData);
 
       if (success) {
-        
+
         setEncryptedItem("token", token);
         setEncryptedItem("userId", user.id);
         localStorage.setItem("userEmail", user.email);
@@ -24,6 +29,7 @@ export const useAuthStore = create((set) => ({
           userId: user.id,
           user,
           error: null,
+          isAuthenticated: true,
         });
       }
 
@@ -41,7 +47,7 @@ export const useAuthStore = create((set) => ({
       setEncryptedItem("userId", user.id);
       localStorage.setItem("name", user.name);
       localStorage.setItem("userEmail", user.email);
-      set({ token, userId: user.id, user, error: null });
+      set({ token, userId: user.id, user, error: null, isAuthenticated: true });
       return { success, message };
     } catch (error) {
       set({ error: error.message || "An error occurred" });
@@ -54,7 +60,7 @@ export const useAuthStore = create((set) => ({
     removeEncryptedItem("userId");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("name");
-    set({ user: null, token: null, userId: null });
+    set({ user: null, token: null, userId: null, isAuthenticated: false });
   },
 
   clearError: () => {

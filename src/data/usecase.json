@@ -6,7 +6,7 @@
     "summary": "Turning real-time data into resilient planning",
     "heroTitle": "Forecasting Reimagined with AI Agents",
     "description": "Traditional demand forecasting can't keep up with today's markets. Agents unlock speed, accuracy and autonomy in the process. In supply chain management, guessing demand is no longer an option. Markets evolve quickly, customers change even faster, and static models fall short.",
-    "image": "/images/ai_demand.png",
+    "image": "/images/supplyChain/demandForecasting.webp",
     "tagline": "Turning real-time data into resilient planning",
     "sections": [
       {
@@ -60,7 +60,7 @@
     "summary": "Effortless automation for sourcing & approvals",
     "heroTitle": "Reimagine Procurement with Agentic AI",
     "description": "Smart automation for sourcing, approvals, and suppliers — no complexity, just results. Modern procurement needs to be fast, smart, and flexible.",
-    "image": "/images/ai_procurement.png",
+    "image": "/images/supplyChain/Procurement.webp",
     "tagline": "Effortless automation for sourcing & approvals",
     "sections": [
       {
@@ -117,7 +117,7 @@
     "summary": "Turning pricing into profit with intelligence.",
     "heroTitle": "Agentic Next-Gen Pricing Intelligence: Redefining Supply Chain Profitability",
     "description": "Supply chain pricing is constantly shifting, shaped by raw material costs, logistics, demand, and competition. AI-driven automation changes this by using intelligent agents to track costs and competitor moves in real time.",
-    "image": "/images/ai_pricing.png",
+    "image": "/images/supplyChain/pricingIntelligence.webp",
     "tagline": "Turning pricing into profit with intelligence",
     "sections": [
       {
@@ -170,7 +170,7 @@
     "summary": "Where Smart Decisions Meet Smooth DeliveriesTurning pricing into profit with intelligence.",
     "heroTitle": "Revolutionizing Logistics with AI Agentic Solutions",
     "description": "Logistics companies face rising costs, delays, and inefficiencies due to limited visibility, poor route planning, missed maintenance, and fluctuating fuel expenses.",
-    "image": "/images/ai_logistics.jpg",
+    "image": "/images/supplyChain/logisticsSolutions.webp",
     "tagline": "Where Smart Decisions Meet Smooth Deliveries",
     "sections": [
       {
@@ -216,7 +216,7 @@
     "summary": "Right Stock, Right Time, Every Time",
     "heroTitle": "The Future of Intelligent Inventory Control using Agentic AI",
     "description": "Traditional inventory practices can't keep pace with today's dynamic supply chains. Intelligent agents, automation, and real-time orchestration are reshaping how businesses track, store, and move goods.",
-    "image": "/images/ai_inventory.jpg",
+    "image": "/images/supplyChain/Inventory.webp",
     "tagline": "Right Stock, Right Time, Every Time",
     "sections": [
       {
