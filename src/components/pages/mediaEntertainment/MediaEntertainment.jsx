@@ -24,21 +24,35 @@ const MediaEntertainment = () => {
   }, [isAuthenticated, navigate]);
 
   // Hero Section
-  const heroSection = (
-    <div className="relative mt-20 w-full overflow-hidden py-12 px-4 bg-blue-900">
-      <div className="text-center mb-8 relative">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-white text-3xl md:text-4xl font-bold mb-4"
-        >
-          Agent Categories
-        </motion.h1>
-        
-      </div>
+ const heroSection = (
+  <div
+    className="relative w-full h-[400px] md:h-[440px] bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage: "url('/images/AgentFrame.png')",
+    }}
+  >
+    {/* Overlay content */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-white text-3xl md:text-4xl font-bold text-center drop-shadow-lg"
+      >
+        Agentic Workbench
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-white text-xl md:text-1xl font-bold text-center drop-shadow-lg pt-5"
+      >
+        Explore a world of 1500+ AI agents, each crafted to solve real problems. Discover, customize, and let AI work for you faster than ever before.
+      </motion.p>
     </div>
-  );
+  </div>
+);
+
 
   const getColorClasses = (color) => {
     const colorMap = {
