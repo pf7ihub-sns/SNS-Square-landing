@@ -183,13 +183,13 @@ export default function TripPlanningSystem() {
   };
 
   return (
-    <div className="min-h-screen pt-44 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl h-[95vh] bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl border border-white/30 flex overflow-hidden">
+    <div className="min-h-screen pt-44 bg-gradient-to-br from-[#F2F6FE] to-gray-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-6xl h-[95vh] bg-white shadow-xl rounded-2xl border border-blue-100 flex overflow-hidden">
 
         {/* Sidebar */}
-        <div className="w-80 bg-gradient-to-b from-emerald-600 to-teal-600 text-white flex flex-col">
+        <div className="w-80 bg-gradient-to-b from-[#064EE3] to-[#3D76EC] text-white flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-emerald-500/20">
+          <div className="p-6 border-b border-blue-200/20">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -198,21 +198,21 @@ export default function TripPlanningSystem() {
               </div>
               <div>
                 <h1 className="text-lg font-bold">TravelAI</h1>
-                <p className="text-emerald-100 text-sm">Your Travel Companion</p>
+                <p className="text-blue-100 text-sm">Your Travel Companion</p>
               </div>
             </div>
           </div>
 
           {/* Mode Selector */}
-          <div className="p-6 border-b border-emerald-500/20">
-            <h3 className="text-sm font-medium mb-4 text-emerald-100">Choose Mode</h3>
+          <div className="p-6 border-b border-blue-200/20">
+            <h3 className="text-sm font-medium mb-4 text-blue-100">Choose Mode</h3>
             <div className="space-y-2">
               <button
                 onClick={() => handleModeSwitch('planning')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
                   currentMode === 'planning'
                     ? 'bg-white/20 text-white shadow-lg'
-                    : 'bg-white/10 text-emerald-100 hover:bg-white/15'
+                    : 'bg-white/10 text-blue-100 hover:bg-white/15'
                 }`}
               >
                 {getModeIcon('planning')}
@@ -223,7 +223,7 @@ export default function TripPlanningSystem() {
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
                   currentMode === 'recommendation'
                     ? 'bg-white/20 text-white shadow-lg'
-                    : 'bg-white/10 text-emerald-100 hover:bg-white/15'
+                    : 'bg-white/10 text-blue-100 hover:bg-white/15'
                 }`}
               >
                 {getModeIcon('recommendation')}
@@ -237,21 +237,21 @@ export default function TripPlanningSystem() {
             {currentMode === 'planning' ? (
               /* Trip Planning Form */
               <div className="space-y-4">
-                <h3 className="font-semibold text-emerald-100 mb-4">Trip Details</h3>
+                <h3 className="font-semibold text-blue-100 mb-4">Trip Details</h3>
 
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Destination</label>
+                  <label className="block text-sm text-blue-100 mb-2">Destination</label>
                   <input
                     type="text"
                     value={planningData.destination}
                     onChange={(e) => setPlanningData(prev => ({ ...prev, destination: e.target.value }))}
                     placeholder="Where do you want to go?"
-                    className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-emerald-200 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm text-emerald-100 mb-2">Start Date</label>
+                    <label className="block text-sm text-blue-100 mb-2">Start Date</label>
                     <input
                       type="date"
                       value={planningData.startDate}
@@ -260,7 +260,7 @@ export default function TripPlanningSystem() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-emerald-100 mb-2">End Date</label>
+                    <label className="block text-sm text-blue-100 mb-2">End Date</label>
                     <input
                       type="date"
                       value={planningData.endDate}
@@ -270,7 +270,7 @@ export default function TripPlanningSystem() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Budget Range</label>
+                  <label className="block text-sm text-blue-100 mb-2">Budget Range</label>
                   <select
                     value={planningData.budget}
                     onChange={(e) => setPlanningData(prev => ({ ...prev, budget: e.target.value }))}
@@ -285,7 +285,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Number of Travelers</label>
+                  <label className="block text-sm text-blue-100 mb-2">Number of Travelers</label>
                   <input
                     type="number"
                     min="1"
@@ -296,7 +296,7 @@ export default function TripPlanningSystem() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Accommodation Type</label>
+                  <label className="block text-sm text-blue-100 mb-2">Accommodation Type</label>
                   <select
                     value={planningData.accommodation}
                     onChange={(e) => setPlanningData(prev => ({ ...prev, accommodation: e.target.value }))}
@@ -309,7 +309,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Transportation</label>
+                  <label className="block text-sm text-blue-100 mb-2">Transportation</label>
                   <select
                     value={planningData.transportation}
                     onChange={(e) => setPlanningData(prev => ({ ...prev, transportation: e.target.value }))}
@@ -325,10 +325,10 @@ export default function TripPlanningSystem() {
             ) : (
               /* Trip Recommendation Form */
               <div className="space-y-4">
-                <h3 className="font-semibold text-emerald-100 mb-4">Your Preferences</h3>
+                <h3 className="font-semibold text-blue-100 mb-4">Your Preferences</h3>
 
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Budget Range</label>
+                  <label className="block text-sm text-blue-100 mb-2">Budget Range</label>
                   <select
                     value={recommendationData.budget}
                     onChange={(e) => setRecommendationData(prev => ({ ...prev, budget: e.target.value }))}
@@ -343,7 +343,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Trip Duration</label>
+                  <label className="block text-sm text-blue-100 mb-2">Trip Duration</label>
                   <select
                     value={recommendationData.duration}
                     onChange={(e) => setRecommendationData(prev => ({ ...prev, duration: e.target.value }))}
@@ -356,7 +356,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Preferred Season</label>
+                  <label className="block text-sm text-blue-100 mb-2">Preferred Season</label>
                   <select
                     value={recommendationData.season}
                     onChange={(e) => setRecommendationData(prev => ({ ...prev, season: e.target.value }))}
@@ -369,7 +369,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Travel Style</label>
+                  <label className="block text-sm text-blue-100 mb-2">Travel Style</label>
                   <select
                     value={recommendationData.travelStyle}
                     onChange={(e) => setRecommendationData(prev => ({ ...prev, travelStyle: e.target.value }))}
@@ -382,7 +382,7 @@ export default function TripPlanningSystem() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-emerald-100 mb-2">Group Size</label>
+                  <label className="block text-sm text-blue-100 mb-2">Group Size</label>
                   <input
                     type="number"
                     min="1"
@@ -397,7 +397,7 @@ export default function TripPlanningSystem() {
 
             {/* Preferences/Interests */}
             <div>
-              <label className="block text-sm text-emerald-100 mb-3">
+              <label className="block text-sm text-blue-100 mb-3">
                 {currentMode === 'planning' ? 'Travel Preferences' : 'Interests'}
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -413,7 +413,7 @@ export default function TripPlanningSystem() {
                       className={`px-3 py-2 text-xs rounded-lg border transition-all ${
                         isSelected
                           ? 'bg-white/30 border-white text-white'
-                          : 'bg-white/10 border-white/30 text-emerald-100 hover:bg-white/20'
+                          : 'bg-white/10 border-white/30 text-blue-100 hover:bg-white/20'
                       }`}
                     >
                       {pref}
@@ -427,20 +427,20 @@ export default function TripPlanningSystem() {
             <button
               onClick={handleQuickPlan}
               disabled={isLoading}
-              className="w-full bg-white/20 hover:bg-white/30 text-white font-medium py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/30"
+              className="w-full bg-gradient-to-r from-[#064EE3] to-[#3D76EC] hover:from-[#0540D4] hover:to-[#356AE5] text-white font-medium py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/30"
             >
               {currentMode === 'planning' ? '🗺️ Plan My Trip' : '✨ Get Recommendations'}
             </button>
           </div>
 
           {/* Settings */}
-          <div className="p-6 border-t border-emerald-500/20">
+          <div className="p-6 border-t border-blue-200/20">
             <input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               placeholder="Your name (optional)"
-              className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-emerald-200 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm"
+              className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm"
             />
           </div>
         </div>
@@ -448,21 +448,21 @@ export default function TripPlanningSystem() {
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col">
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 text-white border-b border-emerald-400/20">
+          <div className="bg-gradient-to-r from-[#064EE3] to-[#3D76EC] px-6 py-4 text-white border-b border-blue-200/20">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold">
                   {currentMode === 'planning' ? '🗺️ Trip Planning Assistant' : '✨ Travel Recommendations'}
                 </h2>
-                <p className="text-emerald-100 text-sm">
+                <p className="text-blue-100 text-sm">
                   {currentMode === 'planning'
                     ? 'Let me help you plan your perfect trip'
                     : 'Discover amazing destinations tailored for you'
                   }
                 </p>
               </div>
-              <div className="flex items-center space-x-2 text-emerald-100">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              <div className="flex items-center space-x-2 text-blue-100">
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
                 <span className="text-sm">AI Online</span>
               </div>
             </div>
@@ -475,7 +475,7 @@ export default function TripPlanningSystem() {
           >
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center mb-6">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#064EE3] to-[#3D76EC] rounded-full flex items-center justify-center mb-6">
                   <div className="text-4xl">
                     {currentMode === 'planning' ? '🗺️' : '✨'}
                   </div>
@@ -500,7 +500,7 @@ export default function TripPlanningSystem() {
                     {/* Avatar */}
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 shadow-lg ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-br from-emerald-500 to-teal-500'
+                        ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC]'
                         : 'bg-gradient-to-br from-gray-600 to-gray-700'
                     }`}>
                       {message.role === 'user' ? (userName ? userName[0].toUpperCase() : 'U') : '🤖'}
@@ -509,12 +509,12 @@ export default function TripPlanningSystem() {
                     {/* Message bubble */}
                     <div className={`px-5 py-4 rounded-3xl shadow-lg ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-br-lg'
+                        ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC] text-white rounded-br-lg'
                         : 'bg-white border border-gray-200 text-gray-800 rounded-bl-lg'
                     }`}>
                       <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
                       <div className={`flex items-center space-x-2 text-xs mt-2 ${
-                        message.role === 'user' ? 'text-emerald-100' : 'text-gray-400'
+                        message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
                       }`}>
                         <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
                         <span>•</span>
@@ -538,9 +538,9 @@ export default function TripPlanningSystem() {
                   </div>
                   <div className="bg-white rounded-3xl px-5 py-4 shadow-lg">
                     <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -569,7 +569,7 @@ export default function TripPlanningSystem() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={`Ask me anything about ${currentMode === 'planning' ? 'trip planning' : 'travel recommendations'}...`}
-                  className="w-full resize-none rounded-3xl border-2 border-gray-200 px-6 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-gray-800 max-h-32 min-h-[56px] bg-gray-50"
+                  className="w-full resize-none rounded-3xl border-2 border-gray-200 px-6 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-[#064EE3] focus:border-transparent text-gray-800 max-h-32 min-h-[56px] bg-gray-50"
                   rows={1}
                   disabled={isLoading}
                 />
@@ -581,7 +581,7 @@ export default function TripPlanningSystem() {
               <button
                 onClick={() => handleSend()}
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-br from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 disabled:from-gray-400 disabled:to-gray-400 text-white p-4 rounded-3xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 shadow-lg disabled:transform-none disabled:cursor-not-allowed"
+                className="bg-gradient-to-br from-[#064EE3] to-[#3D76EC] hover:from-[#0540D4] hover:to-[#356AE5] disabled:from-gray-400 disabled:to-gray-400 text-white p-4 rounded-3xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#064EE3] focus:ring-offset-2 shadow-lg disabled:transform-none disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <svg className="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
