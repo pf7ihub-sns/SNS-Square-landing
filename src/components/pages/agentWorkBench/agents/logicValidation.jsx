@@ -37,7 +37,7 @@ const LogicValidationAgent = () => {
         setResult(null);
 
         try {
-            const response = await fetch('https://32e913875221.ngrok-free.app/logic-validation/validate', {
+            const response = await fetch('http://127.0.0.1:8000/logic-validation/validate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
