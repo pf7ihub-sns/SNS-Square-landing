@@ -3,11 +3,14 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/store';
 import { agentCategories, getAllCategories } from '../../../data/agentCategories';
+import AgentDetailsModal from './AgentDetailsModal';
 
 const MediaEntertainment = () => {
   const [selectedCategory, setSelectedCategory] = useState('document-summarization');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
 
@@ -69,7 +72,18 @@ const MediaEntertainment = () => {
   };
 
   const handleViewAgent = (agentId) => {
-    navigate(`/agent-workbench/details/${selectedCategory}/${agentId}`);
+    const agent = agents.find(a => a.id === agentId);
+    const category = categories.find(c => c.id === selectedCategory);
+    
+    if (agent && category) {
+      setSelectedAgent(agent);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedAgent(null);
   };
 
   if (isLoading) {
@@ -172,6 +186,14 @@ const MediaEntertainment = () => {
           </div>
         </div>
       </div>
+
+      {/* Agent Details Modal */}
+      <AgentDetailsModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        agent={selectedAgent}
+        category={categories.find(c => c.id === selectedCategory)}
+      />
     </div>
   );
 };
