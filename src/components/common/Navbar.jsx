@@ -121,7 +121,15 @@ const Header = () => {
           <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
             Home
           </NavLink>
-          <NavLink to="/agent-workbench" className={linkClasses} onClick={handleNavClick}> 
+          <NavLink 
+            to="/agent-workbench" 
+            className={({ isActive }) => {
+              const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+              return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
+                      ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+            }}
+            onClick={handleNavClick}
+          > 
             Agent Workbench
           </NavLink>
           <NavLink to="/usecase" className={linkClasses} onClick={handleNavClick}>
@@ -214,7 +222,11 @@ const Header = () => {
             </NavLink>
             <NavLink 
               to="/agent-workbench" 
-              className={linkClasses} 
+              className={({ isActive }) => {
+                const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+                return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
+                        ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+              }}
               onClick={handleNavClick}
             >
               Agent workbench
