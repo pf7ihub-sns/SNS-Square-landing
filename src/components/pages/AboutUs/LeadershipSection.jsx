@@ -112,7 +112,7 @@ const LeadershipSection = () => {
             </div>
 
             {/* Nalin SNS */}
-            <div className="rounded-2xl text-center md:text-left">
+            <div className="rounded-2xl text-center md:text-left sm:col-span-2 md:col-span-1">
               <div className="w-full max-w-[280px] sm:max-w-xs mx-auto mb-6 overflow-hidden">
                 <img
                   src={leadershipTeam[2].image}
@@ -135,9 +135,9 @@ const LeadershipSection = () => {
         </div>
 
         {/* Second Row - Other Team Members with Tooltip */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
+        {/* <div className="flex flex-col sm:flex-row justify-center items-center gap-8">
           <TestimonialTooltip people={leadershipTeam.slice(3)} />
-        </div>
+        </div> */}
       </div>
     </section>
   );

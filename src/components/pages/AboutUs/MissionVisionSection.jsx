@@ -24,7 +24,7 @@ const MissionVisionSection = () => {
           </div>
           <div className="flex justify-center lg:justify-end">
             <img
-              src="/images/innovation-concept.jpg"
+              src="/images/ChatGPT Image Sep 13, 2025, 10_45_51 AM.png"
               alt="Innovation concept"
               className="w-full max-w-md lg:max-w-lg h-auto object-cover rounded-[32px] shadow-2xl"
             />
