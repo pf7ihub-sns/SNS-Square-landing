@@ -32,7 +32,8 @@ foundational:[
             "Back-office intake automation",
             "Back-office intake automation",
             "Back-office intake automation",
-          ]
+          ],
+          status: "available"
         },
         {
           id: "ocr-agent",
@@ -40,7 +41,8 @@ foundational:[
           summary: "High fidelity OCR with layout awareness and language support.",
           image: "/placeholder.jpg",
           solutions: ["Printed & handwritten OCR", "Layout blocks", "Language detection"],
-          useCases: ["Scan ingestion", "Forms digitization", "Archival search"]
+          useCases: ["Scan ingestion", "Forms digitization", "Archival search"],
+          status: "not available"
         },
         {
           id: "handwriting-recognition",
@@ -48,7 +50,8 @@ foundational:[
           summary: "Extract handwritten content from notes and forms.",
           image: "/placeholder.jpg",
           solutions: ["Stroke modeling", "Confidence scoring", "Inline corrections"],
-          useCases: ["Clinical notes", "Delivery slips", "Service reports"]
+          useCases: ["Clinical notes", "Delivery slips", "Service reports"],
+          status: "not available"
         },
         {
           id: "parsing-extraction",
@@ -56,7 +59,8 @@ foundational:[
           summary: "Parse structured fields and tables into typed JSON.",
           image: "/placeholder.jpg",
           solutions: ["Layout + semantic parsing", "Table extraction", "Schema validation"],
-          useCases: ["Invoices", "Contracts", "Receipts"]
+          useCases: ["Invoices", "Contracts", "Receipts"],
+          status: "not available"
         },
         {
           id: "entity-recognition",
@@ -64,7 +68,8 @@ foundational:[
           summary: "Detect and normalize entities like people, orgs, and amounts.",
           image: "/placeholder.jpg",
           solutions: ["NER + normalization", "Deduplication", "Linking to KB"],
-          useCases: ["KYC", "Document analytics", "Content tagging"]
+          useCases: ["KYC", "Document analytics", "Content tagging"],
+          status: "available"
         }
       ]
     },
@@ -80,7 +85,8 @@ foundational:[
           summary: "Identify critical clauses and obligations in contracts.",
           image: "/placeholder.jpg",
           solutions: ["Legal NLP models", "Clause libraries", "Risk scoring"],
-          useCases: ["Contract approval workflows", "Compliance validation", "Vendor management"]
+          useCases: ["Contract approval workflows", "Compliance validation", "Vendor management"],
+          status: "not available"
         },
         {
           id: "risk-assessment",
@@ -88,7 +94,8 @@ foundational:[
           summary: "Highlight risky terms and missing clauses.",
           image: "/placeholder.jpg",
           solutions: ["Heuristic + ML models", "Legal benchmarks", "Deviation detection"],
-          useCases: ["Negotiation support", "Legal compliance", "Procurement reviews"]
+          useCases: ["Negotiation support", "Legal compliance", "Procurement reviews"],
+          status: "not available"
         }
       ]
     },
@@ -104,7 +111,8 @@ foundational:[
           summary: "Map documents against corporate or regulatory policies.",
           image: "/placeholder.jpg",
           solutions: ["Policy libraries", "Semantic similarity", "Deviation alerts"],
-          useCases: ["HR policy compliance", "Finance audits", "IT governance"]
+          useCases: ["HR policy compliance", "Finance audits", "IT governance"],
+          status: "not available"
         },
         {
           id: "regulation-check",
@@ -112,7 +120,8 @@ foundational:[
           summary: "Check adherence to industry standards and laws.",
           image: "/placeholder.jpg",
           solutions: ["Rule-based + ML checks", "Cross-reference with standards", "Auto-updated regulation DB"],
-          useCases: ["GDPR validation", "HIPAA compliance", "SOX audits"]
+          useCases: ["GDPR validation", "HIPAA compliance", "SOX audits"],
+          status: "not available"
         }
       ]
     },
@@ -128,7 +137,8 @@ foundational:[
           summary: "Retrieve information using semantic similarity and context.",
           image: "/placeholder.jpg",
           solutions: ["Vector embeddings", "Dense retrieval", "Contextual ranking"],
-          useCases: ["Enterprise search", "FAQ retrieval", "Legal discovery"]
+          useCases: ["Enterprise search", "FAQ retrieval", "Legal discovery"],
+          status: "not available"
         },
         {
           id: "contextual-rag",
@@ -136,7 +146,8 @@ foundational:[
           summary: "Combine retrieval with generation for contextual answers.",
           image: "/placeholder.jpg",
           solutions: ["Hybrid retrieval", "LLM integration", "Context grounding"],
-          useCases: ["Chatbots", "Research assistants", "Decision support"]
+          useCases: ["Chatbots", "Research assistants", "Decision support"],
+          status: "not available"
         }
       ]
     },
@@ -152,7 +163,8 @@ foundational:[
           summary: "Filter and curate knowledge base entries.",
           image: "/placeholder.jpg",
           solutions: ["Relevance scoring", "Duplication removal", "Update suggestions"],
-          useCases: ["Internal wiki upkeep", "Customer support KB", "Research libraries"]
+          useCases: ["Internal wiki upkeep", "Customer support KB", "Research libraries"],
+          status: "not available"
         },
         {
           id: "auto-update",
@@ -160,7 +172,8 @@ foundational:[
           summary: "Automatically ingest and update new content into KBs.",
           image: "/placeholder.jpg",
           solutions: ["Scheduled ingestion", "Version control", "Entity alignment"],
-          useCases: ["Technical documentation", "Product updates", "Compliance libraries"]
+          useCases: ["Technical documentation", "Product updates", "Compliance libraries"],
+          status: "not available"
         }
       ]
     },
@@ -176,7 +189,8 @@ foundational:[
           summary: "Convert meeting transcripts into structured notes.",
           image: "/placeholder.jpg",
           solutions: ["ASR + NLP", "Key-point extraction", "Action item detection"],
-          useCases: ["Business meetings", "Classroom lectures", "Workshops"]
+          useCases: ["Business meetings", "Classroom lectures", "Workshops"],
+          status: "not available"
         },
         {
           id: "highlight-extractor",
@@ -184,7 +198,8 @@ foundational:[
           summary: "Extract key highlights from large documents.",
           image: "/placeholder.jpg",
           solutions: ["Keyword extraction", "Abstractive summarization", "Topic clustering"],
-          useCases: ["Research papers", "Books", "Reports"]
+          useCases: ["Research papers", "Books", "Reports"],
+          status: "not available"
         }
       ]
     },
@@ -200,7 +215,8 @@ foundational:[
           summary: "Link extracted entities to canonical knowledge bases.",
           image: "/placeholder.jpg",
           solutions: ["NER + linking", "Ontology mapping", "Disambiguation"],
-          useCases: ["KYC systems", "Research knowledge graphs", "Customer 360"]
+          useCases: ["KYC systems", "Research knowledge graphs", "Customer 360"],
+          status: "not available"
         },
         {
           id: "relationship-extraction",
@@ -208,7 +224,8 @@ foundational:[
           summary: "Identify relationships between entities and build graphs.",
           image: "/placeholder.jpg",
           solutions: ["Relation extraction models", "Graph storage", "Knowledge updates"],
-          useCases: ["Fraud detection", "Healthcare graphs", "Supply chain insights"]
+          useCases: ["Fraud detection", "Healthcare graphs", "Supply chain insights"],
+          status: "not available"
         },
       ],
     },
@@ -233,7 +250,8 @@ foundational:[
             summary: "Create comprehensive summaries of any text content with customizable length and style.",
             image: "/placeholder.jpg",
             solutions: ["Multi-format support", "Customizable length", "Style adaptation"],
-            useCases: ["Document summarization", "Content review", "Information extraction"]
+            useCases: ["Document summarization", "Content review", "Information extraction"],
+            status: "not available"
           },
           {
             id: "extractive-summarizer",
@@ -241,7 +259,8 @@ foundational:[
             summary: "Extract key sentences and phrases directly from source content to create summaries.",
             image: "/placeholder.jpg",
             solutions: ["Key sentence extraction", "Phrase identification", "Source preservation"],
-            useCases: ["Research papers", "Legal documents", "Technical reports"]
+            useCases: ["Research papers", "Legal documents", "Technical reports"],
+            status: "not available"
           },
           {
             id: "abstractive-summarizer",
@@ -249,7 +268,8 @@ foundational:[
             summary: "Generate new, concise summaries by understanding and rephrasing the original content.",
             image: "/placeholder.jpg",
             solutions: ["Content understanding", "Rephrasing generation", "Coherent summaries"],
-            useCases: ["News articles", "Blog posts", "Marketing content"]
+            useCases: ["News articles", "Blog posts", "Marketing content"],
+            status: "not available"
           },
           {
             id: "headline-title-generator",
@@ -257,7 +277,8 @@ foundational:[
             summary: "Generate compelling headlines and titles that capture the essence of content.",
             image: "/placeholder.jpg",
             solutions: ["SEO optimization", "Engagement focus", "Brand consistency"],
-            useCases: ["Article titles", "Email subject lines", "Social media posts"]
+            useCases: ["Article titles", "Email subject lines", "Social media posts"],
+            status: "not available"
           }
         ]
       },
@@ -273,7 +294,8 @@ foundational:[
             summary: "Convert meeting audio to structured text with speaker identification.",
             image: "/placeholder.jpg",
             solutions: ["Real-time transcription", "Speaker diarization", "Timestamp alignment"],
-            useCases: ["Business meetings", "Conference calls", "Training sessions"]
+            useCases: ["Business meetings", "Conference calls", "Training sessions"],
+            status: "not available"
           },
           {
             id: "action-item-extractor",
@@ -281,7 +303,8 @@ foundational:[
             summary: "Identify and track action items, deadlines, and responsibilities.",
             image: "/placeholder.jpg",
             solutions: ["Task identification", "Assignee detection", "Deadline extraction"],
-            useCases: ["Project management", "Team coordination", "Follow-up tracking"]
+            useCases: ["Project management", "Team coordination", "Follow-up tracking"],
+            status: "not available"
           },
           {
             id: "decision-logger",
@@ -289,7 +312,8 @@ foundational:[
             summary: "Document key decisions and their rationale from meetings.",
             image: "/placeholder.jpg",
             solutions: ["Decision point detection", "Rationale extraction", "Vote tracking"],
-            useCases: ["Board meetings", "Strategy sessions", "Policy discussions"]
+            useCases: ["Board meetings", "Strategy sessions", "Policy discussions"],
+            status: "not available"
           }
         ]
       },
@@ -305,7 +329,8 @@ foundational:[
             summary: "Collect and aggregate feedback from multiple sources and channels.",
             image: "/placeholder.jpg",
             solutions: ["Multi-source collection", "Data aggregation", "Feedback consolidation"],
-            useCases: ["Customer surveys", "Product feedback", "Service reviews"]
+            useCases: ["Customer surveys", "Product feedback", "Service reviews"],
+            status: "not available"
           },
           {
             id: "language-detector",
@@ -313,7 +338,8 @@ foundational:[
             summary: "Detect and categorize feedback by language for global analysis.",
             image: "/placeholder.jpg",
             solutions: ["Language identification", "Multi-language support", "Regional analysis"],
-            useCases: ["International feedback", "Localization analysis", "Global customer insights"]
+            useCases: ["International feedback", "Localization analysis", "Global customer insights"],
+            status: "not available"
           },
           {
             id: "sentiment-analyzer",
@@ -321,7 +347,8 @@ foundational:[
             summary: "Analyze sentiment and emotional tone in feedback for deeper insights.",
             image: "/placeholder.jpg",
             solutions: ["Sentiment scoring", "Emotion detection", "Trend analysis"],
-            useCases: ["Customer satisfaction", "Brand perception", "Product sentiment"]
+            useCases: ["Customer satisfaction", "Brand perception", "Product sentiment"],
+            status: "not available"
           }
         ]
       },
@@ -337,7 +364,8 @@ foundational:[
             summary: "Generate engaging social media posts and content for various platforms.",
             image: "/placeholder.jpg",
             solutions: ["Platform optimization", "Engagement focus", "Trend integration"],
-            useCases: ["Social media marketing", "Brand content", "Community engagement"]
+            useCases: ["Social media marketing", "Brand content", "Community engagement"],
+            status: "not available"
           },
           {
             id: "ad-copy-generator",
@@ -345,7 +373,8 @@ foundational:[
             summary: "Create compelling advertising copy for various media channels.",
             image: "/placeholder.jpg",
             solutions: ["Persuasive writing", "CTA optimization", "Audience targeting"],
-            useCases: ["Digital advertising", "Print ads", "Marketing campaigns"]
+            useCases: ["Digital advertising", "Print ads", "Marketing campaigns"],
+            status: "not available"
           },
           {
             id: "email-marketing-agent",
@@ -353,7 +382,8 @@ foundational:[
             summary: "Generate effective email marketing content and campaigns.",
             image: "/placeholder.jpg",
             solutions: ["Campaign creation", "Personalization", "A/B testing"],
-            useCases: ["Email marketing", "Newsletter creation", "Lead nurturing"]
+            useCases: ["Email marketing", "Newsletter creation", "Lead nurturing"],
+            status: "not available"
           },
           {
             id: "product-description-generator",
@@ -361,7 +391,8 @@ foundational:[
             summary: "Create compelling product descriptions and marketing copy.",
             image: "/placeholder.jpg",
             solutions: ["Feature highlighting", "Benefit focus", "SEO optimization"],
-            useCases: ["E-commerce", "Product catalogs", "Marketing materials"]
+            useCases: ["E-commerce", "Product catalogs", "Marketing materials"],
+            status: "not available"
           }
         ]
       },
@@ -377,7 +408,8 @@ foundational:[
             summary: "Conduct research and generate creative ideas for content and projects.",
             image: "/placeholder.jpg",
             solutions: ["Market research", "Trend analysis", "Idea generation"],
-            useCases: ["Content planning", "Product development", "Creative projects"]
+            useCases: ["Content planning", "Product development", "Creative projects"],
+            status: "not available"
           },
           {
             id: "concept-development-agent",
@@ -385,7 +417,8 @@ foundational:[
             summary: "Develop and refine creative concepts and ideas into actionable plans.",
             image: "/placeholder.jpg",
             solutions: ["Concept refinement", "Strategy development", "Implementation planning"],
-            useCases: ["Campaign development", "Product ideation", "Creative strategy"]
+            useCases: ["Campaign development", "Product ideation", "Creative strategy"],
+            status: "not available"
           },
           {
             id: "drafting-agent",
@@ -393,7 +426,8 @@ foundational:[
             summary: "Create initial drafts and rough content for creative projects.",
             image: "/placeholder.jpg",
             solutions: ["Rough drafting", "Content creation", "Structure development"],
-            useCases: ["Content creation", "Creative writing", "Project development"]
+            useCases: ["Content creation", "Creative writing", "Project development"],
+            status: "not available"
           },
           {
             id: "editing-agent",
@@ -401,7 +435,8 @@ foundational:[
             summary: "Review, refine, and polish creative content for final delivery.",
             image: "/placeholder.jpg",
             solutions: ["Content refinement", "Quality assurance", "Style consistency"],
-            useCases: ["Content editing", "Quality control", "Final review"]
+            useCases: ["Content editing", "Quality control", "Final review"],
+            status: "not available"
           }
         ]
       },
@@ -417,7 +452,8 @@ foundational:[
             summary: "Generate diverse ideas and solutions for creative challenges and problems.",
             image: "/placeholder.jpg",
             solutions: ["Divergent thinking", "Idea exploration", "Creative frameworks"],
-            useCases: ["Product development", "Problem solving", "Innovation sessions"]
+            useCases: ["Product development", "Problem solving", "Innovation sessions"],
+            status: "not available"
           },
           {
             id: "problem-reframing-agent",
@@ -425,7 +461,8 @@ foundational:[
             summary: "Reframe problems from different perspectives to unlock new solutions.",
             image: "/placeholder.jpg",
             solutions: ["Perspective shifting", "Problem analysis", "Solution pathways"],
-            useCases: ["Strategic planning", "Innovation challenges", "Complex problem solving"]
+            useCases: ["Strategic planning", "Innovation challenges", "Complex problem solving"],
+            status: "not available"
           },
           {
             id: "mind-mapping-agent",
@@ -433,7 +470,8 @@ foundational:[
             summary: "Create visual mind maps and concept connections for idea organization.",
             image: "/placeholder.jpg",
             solutions: ["Visual mapping", "Concept organization", "Relationship mapping"],
-            useCases: ["Project planning", "Knowledge organization", "Learning facilitation"]
+            useCases: ["Project planning", "Knowledge organization", "Learning facilitation"],
+            status: "not available"
           },
           {
             id: "scamper-method-agent",
@@ -441,7 +479,8 @@ foundational:[
             summary: "Apply SCAMPER technique (Substitute, Combine, Adapt, Modify, Put to other uses, Eliminate, Reverse) for creative problem solving.",
             image: "/placeholder.jpg",
             solutions: ["SCAMPER framework", "Creative techniques", "Innovation methods"],
-            useCases: ["Product innovation", "Process improvement", "Creative problem solving"]
+            useCases: ["Product innovation", "Process improvement", "Creative problem solving"],
+            status: "not available"
           }
         ]
       }
@@ -460,12 +499,31 @@ foundational:[
         image: "/placeholder.jpg",
         agents: [
           {
+            id: "multilanguage-chatbot",
+            name: "Multilanguage Chat Support Agent",
+            summary: "Provide instant customer support with context-aware responses.",
+            image: "/placeholder.jpg",
+            solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+            status: "available"
+          },
+          {
+            id: "trip-planning-agent",
+            name: "Trip Planning Agent",
+            summary: "Assist users in planning their trips with personalized recommendations.",
+            image: "/placeholder.jpg",
+            solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+            status: "available"
+          },
+          {
             id: "chat-support-bot",
             name: "Live Chat Support Agent",
             summary: "Provide instant customer support with context-aware responses.",
             image: "/placeholder.jpg",
             solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
-            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"]
+            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+            status: "not available"
           },
           {
             id: "conversation-manager",
@@ -473,7 +531,8 @@ foundational:[
             summary: "Orchestrate multi-turn conversations with memory and context.",
             image: "/placeholder.jpg",
             solutions: ["Conversation state tracking", "Intent recognition", "Response generation"],
-            useCases: ["Customer onboarding", "Troubleshooting flows", "Appointment booking"]
+            useCases: ["Customer onboarding", "Troubleshooting flows", "Appointment booking"],
+            status: "not available"
           }
         ]
       },
@@ -485,11 +544,12 @@ foundational:[
         agents: [
           {
             id: "faq-bot",
-            name: "FAQ Bot Agent",
-            summary: "Answer common questions using knowledge base and semantic search.",
+            name: "FAQ Generator Agent",
+            summary: "Generates instant, relevant answers to user questions by creating FAQ content from your knowledge base.",
             image: "/placeholder.jpg",
             solutions: ["Knowledge base integration", "Semantic matching", "Confidence scoring"],
-            useCases: ["Product support", "Policy questions", "Service information"]
+            useCases: ["Product support", "Policy questions", "Service information"],
+            status: "available"
           },
           {
             id: "support-triage",
@@ -497,7 +557,8 @@ foundational:[
             summary: "Route customer inquiries to appropriate support channels.",
             image: "/placeholder.jpg",
             solutions: ["Issue classification", "Priority scoring", "Channel routing"],
-            useCases: ["Support ticket routing", "Escalation management", "Resource allocation"]
+            useCases: ["Support ticket routing", "Escalation management", "Resource allocation"],
+            status: "not available"
           }
         ]
       },
@@ -513,7 +574,8 @@ foundational:[
             summary: "Route conversations based on user intent and context.",
             image: "/placeholder.jpg",
             solutions: ["Intent classification", "Skill matching", "Load balancing"],
-            useCases: ["Call center routing", "Chat distribution", "Support escalation"]
+            useCases: ["Call center routing", "Chat distribution", "Support escalation"],
+            status: "not available"
           },
           {
             id: "conversation-analyzer",
@@ -521,7 +583,8 @@ foundational:[
             summary: "Analyze conversation patterns for optimal routing decisions.",
             image: "/placeholder.jpg",
             solutions: ["Sentiment analysis", "Complexity assessment", "Agent skill mapping"],
-            useCases: ["Quality assurance", "Training optimization", "Performance monitoring"]
+            useCases: ["Quality assurance", "Training optimization", "Performance monitoring"],
+            status: "not available"
           }
         ]
       },
@@ -537,7 +600,9 @@ foundational:[
             summary: "Categorize and prioritize incoming emails automatically.",
             image: "/placeholder.jpg",
             solutions: ["Email categorization", "Priority scoring", "Spam detection"],
-            useCases: ["Customer service", "Sales inquiries", "Support tickets"]
+            useCases: ["Customer service", "Sales inquiries", "Support tickets"],
+            status: "available"
+
           },
           {
             id: "email-responder",
@@ -545,7 +610,8 @@ foundational:[
             summary: "Generate contextual email responses and follow-ups.",
             image: "/placeholder.jpg",
             solutions: ["Template generation", "Personalization", "Follow-up scheduling"],
-            useCases: ["Customer inquiries", "Appointment confirmations", "Status updates"]
+            useCases: ["Customer inquiries", "Appointment confirmations", "Status updates"],
+            status: "not available"
           }
         ]
       },
@@ -561,7 +627,8 @@ foundational:[
             summary: "Send personalized notifications based on user preferences and context.",
             image: "/placeholder.jpg",
             solutions: ["Preference management", "Timing optimization", "Channel selection"],
-            useCases: ["App updates", "Security alerts", "Reminder systems"]
+            useCases: ["App updates", "Security alerts", "Reminder systems"],
+            status: "not available"
           },
           {
             id: "alert-manager",
@@ -569,7 +636,8 @@ foundational:[
             summary: "Manage and prioritize alerts with intelligent filtering.",
             image: "/placeholder.jpg",
             solutions: ["Alert aggregation", "Priority scoring", "Escalation rules"],
-            useCases: ["System monitoring", "Security incidents", "Business alerts"]
+            useCases: ["System monitoring", "Security incidents", "Business alerts"],
+            status: "not available"
           }
         ]
       },
@@ -585,7 +653,8 @@ foundational:[
             summary: "Convert audio to text with speaker identification and timestamps.",
             image: "/placeholder.jpg",
             solutions: ["Multi-speaker recognition", "Noise reduction", "Timestamp alignment"],
-            useCases: ["Meeting recordings", "Call center analytics", "Accessibility services"]
+            useCases: ["Meeting recordings", "Call center analytics", "Accessibility services"],
+            status: "not available"
           },
           {
             id: "voice-command-processor",
@@ -593,7 +662,8 @@ foundational:[
             summary: "Process voice commands for system control and automation.",
             image: "/placeholder.jpg",
             solutions: ["Command recognition", "Intent extraction", "Action execution"],
-            useCases: ["Smart home control", "Voice assistants", "Hands-free operation"]
+            useCases: ["Smart home control", "Voice assistants", "Hands-free operation"],
+            status: "not available"
           }
         ]
       },
@@ -609,7 +679,8 @@ foundational:[
             summary: "Generate natural-sounding speech from text content.",
             image: "/placeholder.jpg",
             solutions: ["Voice synthesis", "Emotion control", "Speed adjustment"],
-            useCases: ["Audiobooks", "Accessibility tools", "Voice assistants"]
+            useCases: ["Audiobooks", "Accessibility tools", "Voice assistants"],
+            status: "not available"
           },
           {
             id: "voice-personalizer",
@@ -617,7 +688,8 @@ foundational:[
             summary: "Customize voice characteristics for different contexts and users.",
             image: "/placeholder.jpg",
             solutions: ["Voice cloning", "Style adaptation", "Language support"],
-            useCases: ["Brand voice", "Personal assistants", "Multilingual content"]
+            useCases: ["Brand voice", "Personal assistants", "Multilingual content"],
+            status: "not available"
           }
         ]
       },
@@ -633,7 +705,8 @@ foundational:[
             summary: "Translate text content while preserving meaning and context.",
             image: "/placeholder.jpg",
             solutions: ["Multi-language support", "Context preservation", "Quality assurance"],
-            useCases: ["Website localization", "Document translation", "Customer support"]
+            useCases: ["Website localization", "Document translation", "Customer support"],
+            status: "not available"
           },
           {
             id: "cultural-adaptor",
@@ -641,7 +714,8 @@ foundational:[
             summary: "Adapt content for cultural relevance and local preferences.",
             image: "/placeholder.jpg",
             solutions: ["Cultural context analysis", "Localization rules", "Sensitivity checking"],
-            useCases: ["Marketing campaigns", "Product descriptions", "User interfaces"]
+            useCases: ["Marketing campaigns", "Product descriptions", "User interfaces"],
+            status: "not available"
           }
         ]
       }
@@ -665,7 +739,17 @@ foundational:[
             summary: "Identify and analyze emerging market trends and patterns.",
             image: "/placeholder.jpg",
             solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
-            useCases: ["Product strategy", "Market entry decisions", "Investment planning"]
+            useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+            status: "not available"
+          },
+          {
+            id: "idea-refinement-agent",
+            name: "Idea Refinement Agent",
+            summary: "Refine and enhance business ideas through iterative feedback.",
+            image: "/placeholder.jpg",
+            solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
+            useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+            status: "available"
           },
           {
             id: "market-researcher",
@@ -673,7 +757,8 @@ foundational:[
             summary: "Conduct comprehensive market research and competitive analysis.",
             image: "/placeholder.jpg",
             solutions: ["Data aggregation", "Competitive benchmarking", "Market sizing"],
-            useCases: ["Business planning", "Strategic positioning", "Opportunity assessment"]
+            useCases: ["Business planning", "Strategic positioning", "Opportunity assessment"],
+            status: "not available"
           },
           {
             id: "consumer-behavior-analyzer",
@@ -681,7 +766,8 @@ foundational:[
             summary: "Analyze consumer preferences, behaviors, and purchasing patterns.",
             image: "/placeholder.jpg",
             solutions: ["Behavioral analytics", "Segmentation analysis", "Predictive modeling"],
-            useCases: ["Marketing strategy", "Product development", "Customer targeting"]
+            useCases: ["Marketing strategy", "Product development", "Customer targeting"],
+            status: "not available"
           }
         ]
       },
@@ -697,7 +783,8 @@ foundational:[
             summary: "Analyze financial statements and performance metrics.",
             image: "/placeholder.jpg",
             solutions: ["Ratio analysis", "Cash flow modeling", "Valuation metrics"],
-            useCases: ["Investment analysis", "Credit assessment", "Performance evaluation"]
+            useCases: ["Investment analysis", "Credit assessment", "Performance evaluation"],
+            status: "not available"
           },
           {
             id: "profitability-analyzer",
@@ -705,7 +792,8 @@ foundational:[
             summary: "Evaluate business profitability and revenue optimization opportunities.",
             image: "/placeholder.jpg",
             solutions: ["Margin analysis", "Cost optimization", "Revenue modeling"],
-            useCases: ["Business optimization", "Pricing strategy", "Cost management"]
+            useCases: ["Business optimization", "Pricing strategy", "Cost management"],
+            status: "not available"
           },
           {
             id: "investment-analyzer",
@@ -713,7 +801,8 @@ foundational:[
             summary: "Analyze investment opportunities and portfolio performance.",
             image: "/placeholder.jpg",
             solutions: ["Risk-return analysis", "Portfolio optimization", "Asset allocation"],
-            useCases: ["Investment management", "Asset allocation", "Performance tracking"]
+            useCases: ["Investment management", "Asset allocation", "Performance tracking"],
+            status: "not available"
           }
         ]
       },
@@ -729,7 +818,8 @@ foundational:[
             summary: "Identify and assess various types of business risks.",
             image: "/placeholder.jpg",
             solutions: ["Risk identification", "Impact assessment", "Probability modeling"],
-            useCases: ["Enterprise risk management", "Compliance monitoring", "Strategic planning"]
+            useCases: ["Enterprise risk management", "Compliance monitoring", "Strategic planning"],
+            status: "not available"
           },
           {
             id: "credit-risk-assessor",
@@ -737,7 +827,8 @@ foundational:[
             summary: "Evaluate creditworthiness and default risk for lending decisions.",
             image: "/placeholder.jpg",
             solutions: ["Credit scoring", "Default prediction", "Portfolio risk analysis"],
-            useCases: ["Lending decisions", "Credit management", "Risk mitigation"]
+            useCases: ["Lending decisions", "Credit management", "Risk mitigation"],
+            status: "not available"
           },
           {
             id: "operational-risk-manager",
@@ -745,7 +836,8 @@ foundational:[
             summary: "Monitor and manage operational risks across business processes.",
             image: "/placeholder.jpg",
             solutions: ["Process monitoring", "Incident tracking", "Risk mitigation"],
-            useCases: ["Process optimization", "Compliance management", "Business continuity"]
+            useCases: ["Process optimization", "Compliance management", "Business continuity"],
+            status: "not available"
           }
         ]
       },
@@ -761,7 +853,8 @@ foundational:[
             summary: "Create accurate budget forecasts based on historical data and trends.",
             image: "/placeholder.jpg",
             solutions: ["Time series forecasting", "Scenario modeling", "Variance analysis"],
-            useCases: ["Financial planning", "Budget allocation", "Performance tracking"]
+            useCases: ["Financial planning", "Budget allocation", "Performance tracking"],
+            status: "not available"
           },
           {
             id: "revenue-predictor",
@@ -769,7 +862,8 @@ foundational:[
             summary: "Predict future revenue streams and growth opportunities.",
             image: "/placeholder.jpg",
             solutions: ["Revenue modeling", "Growth projection", "Seasonal analysis"],
-            useCases: ["Sales planning", "Growth strategy", "Investment decisions"]
+            useCases: ["Sales planning", "Growth strategy", "Investment decisions"],
+            status: "not available"
           },
           {
             id: "cost-predictor",
@@ -777,7 +871,8 @@ foundational:[
             summary: "Forecast future costs and identify cost optimization opportunities.",
             image: "/placeholder.jpg",
             solutions: ["Cost modeling", "Trend analysis", "Optimization suggestions"],
-            useCases: ["Cost management", "Budget planning", "Efficiency improvement"]
+            useCases: ["Cost management", "Budget planning", "Efficiency improvement"],
+            status: "not available"
           }
         ]
       },
@@ -793,7 +888,8 @@ foundational:[
             summary: "Analyze expense patterns and identify optimization opportunities.",
             image: "/placeholder.jpg",
             solutions: ["Expense categorization", "Pattern recognition", "Anomaly detection"],
-            useCases: ["Cost control", "Budget management", "Fraud detection"]
+            useCases: ["Cost control", "Budget management", "Fraud detection"],
+            status: "not available"
           },
           {
             id: "expense-categorizer",
@@ -801,7 +897,8 @@ foundational:[
             summary: "Automatically categorize and classify business expenses.",
             image: "/placeholder.jpg",
             solutions: ["ML classification", "Rule-based categorization", "Learning algorithms"],
-            useCases: ["Accounting automation", "Tax preparation", "Financial reporting"]
+            useCases: ["Accounting automation", "Tax preparation", "Financial reporting"],
+            status: "not available"
           },
           {
             id: "expense-optimizer",
@@ -809,7 +906,8 @@ foundational:[
             summary: "Identify cost-saving opportunities and expense reduction strategies.",
             image: "/placeholder.jpg",
             solutions: ["Cost analysis", "Optimization recommendations", "ROI calculation"],
-            useCases: ["Cost reduction", "Efficiency improvement", "Budget optimization"]
+            useCases: ["Cost reduction", "Efficiency improvement", "Budget optimization"],
+            status: "not available"
           }
         ]
       },
@@ -825,7 +923,8 @@ foundational:[
             summary: "Track competitor activities, pricing, and market positioning.",
             image: "/placeholder.jpg",
             solutions: ["Competitive tracking", "Price monitoring", "Activity analysis"],
-            useCases: ["Strategic planning", "Pricing strategy", "Market positioning"]
+            useCases: ["Strategic planning", "Pricing strategy", "Market positioning"],
+            status: "not available"
           },
           {
             id: "competitive-analyzer",
@@ -833,7 +932,8 @@ foundational:[
             summary: "Analyze competitive landscape and identify strategic opportunities.",
             image: "/placeholder.jpg",
             solutions: ["SWOT analysis", "Gap analysis", "Opportunity identification"],
-            useCases: ["Market entry", "Product development", "Strategic positioning"]
+            useCases: ["Market entry", "Product development", "Strategic positioning"],
+            status: "not available"
           },
           {
             id: "market-intelligence",
@@ -841,7 +941,8 @@ foundational:[
             summary: "Gather and analyze market intelligence for strategic decision-making.",
             image: "/placeholder.jpg",
             solutions: ["Data collection", "Market analysis", "Insight generation"],
-            useCases: ["Strategic planning", "Investment decisions", "Business development"]
+            useCases: ["Strategic planning", "Investment decisions", "Business development"],
+            status: "not available"
           }
         ]
       },
@@ -857,7 +958,8 @@ foundational:[
             summary: "Detect unusual patterns and anomalies in business data.",
             image: "/placeholder.jpg",
             solutions: ["Statistical analysis", "Machine learning models", "Real-time monitoring"],
-            useCases: ["Fraud detection", "Quality control", "System monitoring"]
+            useCases: ["Fraud detection", "Quality control", "System monitoring"],
+            status: "not available"
           },
           {
             id: "fraud-detector",
@@ -865,7 +967,8 @@ foundational:[
             summary: "Identify fraudulent activities and suspicious transactions.",
             image: "/placeholder.jpg",
             solutions: ["Pattern recognition", "Risk scoring", "Alert generation"],
-            useCases: ["Financial fraud", "Insurance fraud", "Cybersecurity"]
+            useCases: ["Financial fraud", "Insurance fraud", "Cybersecurity"],
+            status: "not available"
           },
           {
             id: "performance-monitor",
@@ -873,7 +976,8 @@ foundational:[
             summary: "Monitor system and business performance for anomalies.",
             image: "/placeholder.jpg",
             solutions: ["Performance tracking", "Threshold monitoring", "Alert systems"],
-            useCases: ["IT monitoring", "Business operations", "Quality assurance"]
+            useCases: ["IT monitoring", "Business operations", "Quality assurance"],
+            status: "not available"
           }
         ]
       },
@@ -889,15 +993,8 @@ foundational:[
             summary: "Analyze customer sentiment from various data sources.",
             image: "/placeholder.jpg",
             solutions: ["Text analysis", "Emotion detection", "Trend tracking"],
-            useCases: ["Customer feedback", "Brand monitoring", "Product development"]
-          },
-          {
-            id: "social-media-analyzer",
-            name: "Social Media Analyzer Agent",
-            summary: "Monitor and analyze social media sentiment and trends.",
-            image: "/placeholder.jpg",
-            solutions: ["Social listening", "Trend analysis", "Influencer tracking"],
-            useCases: ["Brand reputation", "Marketing campaigns", "Crisis management"]
+            useCases: ["Customer feedback", "Brand monitoring", "Product development"],
+            status: "not available"
           },
           {
             id: "market-sentiment-tracker",
@@ -905,7 +1002,8 @@ foundational:[
             summary: "Track market sentiment and investor confidence indicators.",
             image: "/placeholder.jpg",
             solutions: ["Market analysis", "Sentiment indicators", "Confidence tracking"],
-            useCases: ["Investment decisions", "Market timing", "Risk assessment"]
+            useCases: ["Investment decisions", "Market timing", "Risk assessment"],
+            status: "not available"
           }
         ]
       }
@@ -929,7 +1027,8 @@ foundational:[
             summary: "Monitor compliance with regulatory requirements and standards.",
             image: "/placeholder.jpg",
             solutions: ["Regulation tracking", "Compliance assessment", "Audit preparation"],
-            useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"]
+            useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
+            status: "not available"
           },
           {
             id: "policy-enforcer",
@@ -937,7 +1036,8 @@ foundational:[
             summary: "Enforce organizational policies and procedures automatically.",
             image: "/placeholder.jpg",
             solutions: ["Policy validation", "Violation detection", "Corrective actions"],
-            useCases: ["HR policies", "IT security policies", "Business procedures"]
+            useCases: ["HR policies", "IT security policies", "Business procedures"],
+            status: "not available"
           },
           {
             id: "audit-assistant",
@@ -945,7 +1045,8 @@ foundational:[
             summary: "Prepare and support audit processes with automated documentation.",
             image: "/placeholder.jpg",
             solutions: ["Audit trail generation", "Evidence collection", "Report preparation"],
-            useCases: ["Internal audits", "External audits", "Compliance reviews"]
+            useCases: ["Internal audits", "External audits", "Compliance reviews"],
+            status: "not available"
           }
         ]
       },
@@ -961,7 +1062,8 @@ foundational:[
             summary: "Detect and analyze cybersecurity threats in real-time.",
             image: "/placeholder.jpg",
             solutions: ["Threat intelligence", "Anomaly detection", "Incident response"],
-            useCases: ["Network security", "Endpoint protection", "Cloud security"]
+            useCases: ["Network security", "Endpoint protection", "Cloud security"],
+            status: "not available"
           },
           {
             id: "vulnerability-scanner",
@@ -969,7 +1071,8 @@ foundational:[
             summary: "Scan systems and applications for security vulnerabilities.",
             image: "/placeholder.jpg",
             solutions: ["Vulnerability assessment", "Risk scoring", "Remediation guidance"],
-            useCases: ["Application security", "Infrastructure security", "Compliance scanning"]
+            useCases: ["Application security", "Infrastructure security", "Compliance scanning"],
+            status: "not available"
           },
           {
             id: "security-analyzer",
@@ -977,7 +1080,8 @@ foundational:[
             summary: "Analyze security logs and events for potential threats.",
             image: "/placeholder.jpg",
             solutions: ["Log analysis", "Event correlation", "Threat hunting"],
-            useCases: ["SIEM operations", "Incident investigation", "Security monitoring"]
+            useCases: ["SIEM operations", "Incident investigation", "Security monitoring"],
+            status: "not available"
           }
         ]
       },
@@ -993,7 +1097,8 @@ foundational:[
             summary: "Identify and locate personally identifiable information in documents and data.",
             image: "/placeholder.jpg",
             solutions: ["PII recognition", "Pattern matching", "Confidence scoring"],
-            useCases: ["Document processing", "Data classification", "Privacy compliance"]
+            useCases: ["Document processing", "Data classification", "Privacy compliance"],
+            status: "not available"
           },
           {
             id: "data-redactor",
@@ -1001,7 +1106,8 @@ foundational:[
             summary: "Automatically redact sensitive information from documents and communications.",
             image: "/placeholder.jpg",
             solutions: ["Selective redaction", "Format preservation", "Audit trails"],
-            useCases: ["Legal documents", "Healthcare records", "Financial data"]
+            useCases: ["Legal documents", "Healthcare records", "Financial data"],
+            status: "not available"
           },
           {
             id: "privacy-validator",
@@ -1009,7 +1115,8 @@ foundational:[
             summary: "Validate data handling practices for privacy compliance.",
             image: "/placeholder.jpg",
             solutions: ["Privacy assessment", "Consent verification", "Data flow tracking"],
-            useCases: ["GDPR compliance", "CCPA compliance", "Data governance"]
+            useCases: ["GDPR compliance", "CCPA compliance", "Data governance"],
+            status: "not available"
           }
         ]
       },
@@ -1025,7 +1132,8 @@ foundational:[
             summary: "Validate content against organizational policies and guidelines.",
             image: "/placeholder.jpg",
             solutions: ["Policy matching", "Content analysis", "Compliance checking"],
-            useCases: ["Marketing content", "Internal communications", "External publications"]
+            useCases: ["Marketing content", "Internal communications", "External publications"],
+            status: "not available"
           },
           {
             id: "process-validator",
@@ -1033,7 +1141,8 @@ foundational:[
             summary: "Validate business processes against compliance requirements.",
             image: "/placeholder.jpg",
             solutions: ["Process analysis", "Compliance mapping", "Gap identification"],
-            useCases: ["Workflow validation", "Procedure compliance", "Quality assurance"]
+            useCases: ["Workflow validation", "Procedure compliance", "Quality assurance"],
+            status: "not available"
           }
         ]
       }
@@ -1057,7 +1166,8 @@ foundational:[
             summary: "Clean and validate data by removing duplicates, errors, and inconsistencies.",
             image: "/placeholder.jpg",
             solutions: ["Duplicate removal", "Error correction", "Data validation"],
-            useCases: ["Data preparation", "Analytics pipelines", "Machine learning"]
+            useCases: ["Data preparation", "Analytics pipelines", "Machine learning"],
+            status: "not available"
           },
           {
             id: "data-transformer",
@@ -1065,7 +1175,8 @@ foundational:[
             summary: "Transform and normalize data for consistent processing and analysis.",
             image: "/placeholder.jpg",
             solutions: ["Data normalization", "Format conversion", "Schema mapping"],
-            useCases: ["ETL processes", "Data integration", "Analytics preparation"]
+            useCases: ["ETL processes", "Data integration", "Analytics preparation"],
+            status: "not available"
           },
           {
             id: "data-validator",
@@ -1073,7 +1184,8 @@ foundational:[
             summary: "Validate data quality and integrity across different sources and formats.",
             image: "/placeholder.jpg",
             solutions: ["Quality assessment", "Integrity checking", "Anomaly detection"],
-            useCases: ["Data governance", "Quality assurance", "Compliance monitoring"]
+            useCases: ["Data governance", "Quality assurance", "Compliance monitoring"],
+            status: "not available"
           }
         ]
       },
@@ -1089,7 +1201,8 @@ foundational:[
             summary: "Analyze Excel spreadsheets and extract insights from tabular data.",
             image: "/placeholder.jpg",
             solutions: ["Formula analysis", "Data extraction", "Pattern recognition"],
-            useCases: ["Financial analysis", "Business reporting", "Data processing"]
+            useCases: ["Financial analysis", "Business reporting", "Data processing"],
+            status: "not available"
           },
           {
             id: "spreadsheet-automator",
@@ -1097,7 +1210,8 @@ foundational:[
             summary: "Automate spreadsheet operations and data processing workflows.",
             image: "/placeholder.jpg",
             solutions: ["Workflow automation", "Data manipulation", "Report generation"],
-            useCases: ["Financial modeling", "Inventory management", "Sales tracking"]
+            useCases: ["Financial modeling", "Inventory management", "Sales tracking"],
+            status: "not available"
           }
         ]
       },
@@ -1113,7 +1227,8 @@ foundational:[
             summary: "Optimize database queries for improved performance and efficiency.",
             image: "/placeholder.jpg",
             solutions: ["Query analysis", "Performance tuning", "Index optimization"],
-            useCases: ["Database administration", "Performance monitoring", "System optimization"]
+            useCases: ["Database administration", "Performance monitoring", "System optimization"],
+            status: "not available"
           },
           {
             id: "data-retriever",
@@ -1121,7 +1236,8 @@ foundational:[
             summary: "Retrieve and extract data from various database systems and sources.",
             image: "/placeholder.jpg",
             solutions: ["Multi-source queries", "Data extraction", "Format conversion"],
-            useCases: ["Data integration", "Reporting", "Analytics"]
+            useCases: ["Data integration", "Reporting", "Analytics"],
+            status: "not available"
           },
           {
             id: "database-manager",
@@ -1129,7 +1245,8 @@ foundational:[
             summary: "Manage database operations, maintenance, and administration tasks.",
             image: "/placeholder.jpg",
             solutions: ["Schema management", "Backup automation", "Performance monitoring"],
-            useCases: ["Database administration", "System maintenance", "Data governance"]
+            useCases: ["Database administration", "System maintenance", "Data governance"],
+            status: "not available"
           }
         ]
       },
@@ -1145,7 +1262,8 @@ foundational:[
             summary: "Extract structured data from websites and web applications.",
             image: "/placeholder.jpg",
             solutions: ["HTML parsing", "Data extraction", "Rate limiting"],
-            useCases: ["Market research", "Price monitoring", "Content aggregation"]
+            useCases: ["Market research", "Price monitoring", "Content aggregation"],
+            status: "not available"
           },
           {
             id: "api-extractor",
@@ -1153,7 +1271,8 @@ foundational:[
             summary: "Extract data from APIs and web services efficiently.",
             image: "/placeholder.jpg",
             solutions: ["API integration", "Data transformation", "Authentication handling"],
-            useCases: ["Data integration", "Third-party services", "Real-time data"]
+            useCases: ["Data integration", "Third-party services", "Real-time data"],
+            status: "not available"
           }
         ]
       },
@@ -1169,7 +1288,8 @@ foundational:[
             summary: "Extract key information from invoices and financial documents.",
             image: "/placeholder.jpg",
             solutions: ["OCR processing", "Field extraction", "Data validation"],
-            useCases: ["Accounts payable", "Expense management", "Financial reporting"]
+            useCases: ["Accounts payable", "Expense management", "Financial reporting"],
+            status: "not available"
           },
           {
             id: "invoice-validator",
@@ -1177,7 +1297,8 @@ foundational:[
             summary: "Validate invoice data and detect discrepancies or errors.",
             image: "/placeholder.jpg",
             solutions: ["Data validation", "Error detection", "Compliance checking"],
-            useCases: ["Fraud detection", "Quality control", "Compliance monitoring"]
+            useCases: ["Fraud detection", "Quality control", "Compliance monitoring"],
+            status: "not available"
           }
         ]
       },
@@ -1193,7 +1314,8 @@ foundational:[
             summary: "Convert files between different formats while preserving data integrity.",
             image: "/placeholder.jpg",
             solutions: ["Multi-format support", "Data preservation", "Batch processing"],
-            useCases: ["Document conversion", "Data migration", "System integration"]
+            useCases: ["Document conversion", "Data migration", "System integration"],
+            status: "not available"
           },
           {
             id: "data-formatter",
@@ -1201,7 +1323,8 @@ foundational:[
             summary: "Format and structure data according to specific requirements and standards.",
             image: "/placeholder.jpg",
             solutions: ["Custom formatting", "Standard compliance", "Validation"],
-            useCases: ["Data preparation", "System integration", "Reporting"]
+            useCases: ["Data preparation", "System integration", "Reporting"],
+            status: "not available"
           }
         ]
       },
@@ -1217,7 +1340,8 @@ foundational:[
             summary: "Generate charts and graphs from data for better understanding and presentation.",
             image: "/placeholder.jpg",
             solutions: ["Chart selection", "Data mapping", "Visual optimization"],
-            useCases: ["Business reporting", "Analytics presentation", "Data storytelling"]
+            useCases: ["Business reporting", "Analytics presentation", "Data storytelling"],
+            status: "not available"
           },
           {
             id: "dashboard-creator",
@@ -1225,7 +1349,8 @@ foundational:[
             summary: "Create interactive dashboards and data visualizations.",
             image: "/placeholder.jpg",
             solutions: ["Dashboard design", "Interactive elements", "Real-time updates"],
-            useCases: ["Business intelligence", "Performance monitoring", "Analytics platforms"]
+            useCases: ["Business intelligence", "Performance monitoring", "Analytics platforms"],
+            status: "not available"
           }
         ]
       }
@@ -1249,7 +1374,8 @@ foundational:[
             summary: "Review code for quality, best practices, and potential issues.",
             image: "/placeholder.jpg",
             solutions: ["Code analysis", "Best practice checking", "Security scanning"],
-            useCases: ["Code quality assurance", "Security review", "Team collaboration"]
+            useCases: ["Code quality assurance", "Security review", "Team collaboration"],
+            status: "not available"
           },
           {
             id: "bug-detector",
@@ -1257,7 +1383,8 @@ foundational:[
             summary: "Identify and analyze bugs and issues in code and applications.",
             image: "/placeholder.jpg",
             solutions: ["Static analysis", "Error detection", "Issue classification"],
-            useCases: ["Debugging", "Quality assurance", "Code maintenance"]
+            useCases: ["Debugging", "Quality assurance", "Code maintenance"],
+            status: "not available"
           },
           {
             id: "debug-assistant",
@@ -1265,7 +1392,8 @@ foundational:[
             summary: "Provide debugging guidance and troubleshooting assistance.",
             image: "/placeholder.jpg",
             solutions: ["Error analysis", "Solution suggestions", "Debugging workflows"],
-            useCases: ["Problem solving", "Development support", "Learning assistance"]
+            useCases: ["Problem solving", "Development support", "Learning assistance"],
+            status: "not available"
           }
         ]
       },
@@ -1276,12 +1404,22 @@ foundational:[
         image: "/placeholder.jpg",
         agents: [
           {
-            id: "test-automator",
+            id: "testcase-generation-agent",
             name: "Test Automator Agent",
             summary: "Automate test case generation and execution for applications.",
             image: "/placeholder.jpg",
             solutions: ["Test generation", "Automated execution", "Result analysis"],
-            useCases: ["Regression testing", "Continuous integration", "Quality assurance"]
+            useCases: ["Regression testing", "Continuous integration", "Quality assurance"],
+            status: "available"
+          },
+          {
+            id: "automated-linter-agent",
+            name: "Automated Linter Agent",
+            summary: "Automate code linting and style checking for applications.",
+            image: "/placeholder.jpg",
+            solutions: ["Code linting", "Style checking", "Best practices enforcement"],
+            useCases: ["Code quality assurance", "Development support", "Team collaboration"],
+            status: "available"
           },
           {
             id: "qa-analyzer",
@@ -1289,7 +1427,8 @@ foundational:[
             summary: "Analyze test results and provide quality insights and recommendations.",
             image: "/placeholder.jpg",
             solutions: ["Result analysis", "Quality metrics", "Improvement suggestions"],
-            useCases: ["Quality monitoring", "Release management", "Process improvement"]
+            useCases: ["Quality monitoring", "Release management", "Process improvement"],
+            status: "not available"
           }
         ]
       },
@@ -1305,7 +1444,8 @@ foundational:[
             summary: "Monitor infrastructure performance, health, and resource utilization.",
             image: "/placeholder.jpg",
             solutions: ["Performance monitoring", "Resource tracking", "Alert management"],
-            useCases: ["System monitoring", "Capacity planning", "Performance optimization"]
+            useCases: ["System monitoring", "Capacity planning", "Performance optimization"],
+            status: "not available"
           },
           {
             id: "deployment-manager",
@@ -1313,7 +1453,8 @@ foundational:[
             summary: "Manage and automate deployment processes and release management.",
             image: "/placeholder.jpg",
             solutions: ["Deployment automation", "Release management", "Rollback handling"],
-            useCases: ["Continuous deployment", "Release coordination", "Environment management"]
+            useCases: ["Continuous deployment", "Release coordination", "Environment management"],
+            status: "not available"
           }
         ]
       },
@@ -1329,7 +1470,8 @@ foundational:[
             summary: "Automate development workflows and process optimization.",
             image: "/placeholder.jpg",
             solutions: ["Process automation", "Workflow optimization", "Task scheduling"],
-            useCases: ["Development efficiency", "Process improvement", "Time optimization"]
+            useCases: ["Development efficiency", "Process improvement", "Time optimization"],
+            status: "not available"
           },
           {
             id: "task-automator",
@@ -1337,7 +1479,8 @@ foundational:[
             summary: "Automate repetitive development tasks and operations.",
             image: "/placeholder.jpg",
             solutions: ["Task automation", "Script generation", "Process streamlining"],
-            useCases: ["Build automation", "Deployment scripts", "Maintenance tasks"]
+            useCases: ["Build automation", "Deployment scripts", "Maintenance tasks"],
+            status: "not available"
           }
         ]
       },
@@ -1353,7 +1496,8 @@ foundational:[
             summary: "Manage API development, documentation, and integration processes.",
             image: "/placeholder.jpg",
             solutions: ["API design", "Documentation generation", "Integration testing"],
-            useCases: ["API development", "System integration", "Third-party services"]
+            useCases: ["API development", "System integration", "Third-party services"],
+            status: "not available"
           },
           {
             id: "integration-specialist",
@@ -1361,7 +1505,8 @@ foundational:[
             summary: "Handle system integrations and data flow between applications.",
             image: "/placeholder.jpg",
             solutions: ["System integration", "Data mapping", "Error handling"],
-            useCases: ["Enterprise integration", "Data synchronization", "Service connectivity"]
+            useCases: ["Enterprise integration", "Data synchronization", "Service connectivity"],
+            status: "not available"
           }
         ]
       }
@@ -1385,7 +1530,17 @@ foundational:[
             summary: "Manage project timelines, resources, and deliverables.",
             image: "/placeholder.jpg",
             solutions: ["Timeline management", "Resource allocation", "Progress tracking"],
-            useCases: ["Project planning", "Team coordination", "Delivery management"]
+            useCases: ["Project planning", "Team coordination", "Delivery management"],
+            status: "not available"
+          },
+          {
+            id: "csv-to-excel-agent",
+            name: "CSV to Excel Agent",
+            summary: "Convert CSV files to Excel format and vice versa.",
+            image: "/placeholder.jpg",
+            solutions: ["File conversion", "Data transformation", "Spreadsheet automation"],
+            useCases: ["Data analysis", "Report generation", "Data migration"],
+            status: "available"
           },
           {
             id: "task-organizer",
@@ -1393,7 +1548,8 @@ foundational:[
             summary: "Organize and prioritize tasks for optimal productivity.",
             image: "/placeholder.jpg",
             solutions: ["Task prioritization", "Workflow optimization", "Deadline management"],
-            useCases: ["Personal productivity", "Team coordination", "Workflow management"]
+            useCases: ["Personal productivity", "Team coordination", "Workflow management"],
+            status: "not available"
           },
           {
             id: "collaboration-facilitator",
@@ -1401,7 +1557,8 @@ foundational:[
             summary: "Facilitate team collaboration and communication workflows.",
             image: "/placeholder.jpg",
             solutions: ["Communication management", "Team coordination", "Information sharing"],
-            useCases: ["Team collaboration", "Remote work", "Project coordination"]
+            useCases: ["Team collaboration", "Remote work", "Project coordination"],
+            status: "not available"
           }
         ]
       },
@@ -1417,7 +1574,8 @@ foundational:[
             summary: "Manage and optimize calendar scheduling and time management.",
             image: "/placeholder.jpg",
             solutions: ["Schedule optimization", "Conflict resolution", "Time blocking"],
-            useCases: ["Personal scheduling", "Meeting coordination", "Time management"]
+            useCases: ["Personal scheduling", "Meeting coordination", "Time management"],
+            status: "not available"
           },
           {
             id: "appointment-scheduler",
@@ -1425,7 +1583,8 @@ foundational:[
             summary: "Automate appointment scheduling and booking processes.",
             image: "/placeholder.jpg",
             solutions: ["Automated booking", "Availability management", "Reminder systems"],
-            useCases: ["Customer appointments", "Service booking", "Meeting scheduling"]
+            useCases: ["Customer appointments", "Service booking", "Meeting scheduling"],
+            status: "not available"
           }
         ]
       },
@@ -1441,7 +1600,8 @@ foundational:[
             summary: "Create compelling presentations from content and data.",
             image: "/placeholder.jpg",
             solutions: ["Content organization", "Visual design", "Storytelling"],
-            useCases: ["Business presentations", "Educational content", "Sales pitches"]
+            useCases: ["Business presentations", "Educational content", "Sales pitches"],
+            status: "not available"
           },
           {
             id: "slide-optimizer",
@@ -1449,7 +1609,8 @@ foundational:[
             summary: "Optimize presentation slides for clarity and impact.",
             image: "/placeholder.jpg",
             solutions: ["Content optimization", "Visual enhancement", "Message clarity"],
-            useCases: ["Presentation improvement", "Content refinement", "Audience engagement"]
+            useCases: ["Presentation improvement", "Content refinement", "Audience engagement"],
+            status: "not available"
           }
         ]
       },
@@ -1465,7 +1626,8 @@ foundational:[
             summary: "Conduct comprehensive research and information gathering.",
             image: "/placeholder.jpg",
             solutions: ["Information gathering", "Source validation", "Data synthesis"],
-            useCases: ["Market research", "Academic research", "Competitive analysis"]
+            useCases: ["Market research", "Academic research", "Competitive analysis"],
+            status: "not available"
           },
           {
             id: "data-collector",
@@ -1473,7 +1635,8 @@ foundational:[
             summary: "Collect and organize research data from various sources.",
             image: "/placeholder.jpg",
             solutions: ["Data collection", "Source tracking", "Information organization"],
-            useCases: ["Research projects", "Data analysis", "Report preparation"]
+            useCases: ["Research projects", "Data analysis", "Report preparation"],
+            status: "not available"
           }
         ]
       }
@@ -1497,7 +1660,17 @@ foundational:[
             summary: "Analyze social media performance and engagement metrics.",
             image: "/placeholder.jpg",
             solutions: ["Performance tracking", "Engagement analysis", "Trend monitoring"],
-            useCases: ["Social media marketing", "Brand monitoring", "Campaign analysis"]
+            useCases: ["Social media marketing", "Brand monitoring", "Campaign analysis"],
+            status: "not available"
+          },
+          {
+            id: "social-media",
+            name: "Story Line Generator",
+            summary: "Generate engaging storylines for social media content.",
+            image: "/placeholder.jpg",
+            solutions: ["Content ideation", "Narrative development", "Audience engagement"],
+            useCases: ["Social media campaigns", "Brand storytelling", "Content marketing"],
+            status: "available"
           },
           {
             id: "audience-analyzer",
@@ -1505,7 +1678,8 @@ foundational:[
             summary: "Analyze audience demographics, behavior, and preferences.",
             image: "/placeholder.jpg",
             solutions: ["Demographic analysis", "Behavior tracking", "Preference mapping"],
-            useCases: ["Audience targeting", "Content strategy", "Market research"]
+            useCases: ["Audience targeting", "Content strategy", "Market research"],
+            status: "not available"
           },
           {
             id: "trend-tracker",
@@ -1513,7 +1687,8 @@ foundational:[
             summary: "Track and analyze social media trends and viral content.",
             image: "/placeholder.jpg",
             solutions: ["Trend detection", "Viral analysis", "Content monitoring"],
-            useCases: ["Trend analysis", "Content strategy", "Viral marketing"]
+            useCases: ["Trend analysis", "Content strategy", "Viral marketing"],
+            status: "not available"
           }
         ]
       },
@@ -1529,15 +1704,27 @@ foundational:[
             summary: "Create engaging social media content for various platforms.",
             image: "/placeholder.jpg",
             solutions: ["Content generation", "Platform optimization", "Engagement focus"],
-            useCases: ["Social media marketing", "Brand content", "Campaign creation"]
+            useCases: ["Social media marketing", "Brand content", "Campaign creation"],
+            status: "not available"
           },
+          {
+            id: "work-management",
+            name: "Headline Generator Agent",
+            summary: "Create engaging headlines for social media content.",
+            image: "/placeholder.jpg",
+            solutions: ["Headline optimization", "Audience targeting", "Engagement analysis"],
+            useCases: ["Social media marketing", "Content promotion", "Brand awareness"],
+            status: "available"
+          },
+          
           {
             id: "content-scheduler",
             name: "Content Scheduler Agent",
             summary: "Schedule and optimize content posting for maximum engagement.",
             image: "/placeholder.jpg",
             solutions: ["Optimal timing", "Platform scheduling", "Engagement optimization"],
-            useCases: ["Content management", "Social media strategy", "Audience engagement"]
+            useCases: ["Content management", "Social media strategy", "Audience engagement"],
+            status: "not available"
           },
           {
             id: "hashtag-optimizer",
@@ -1545,7 +1732,17 @@ foundational:[
             summary: "Optimize hashtag strategies for better reach and engagement.",
             image: "/placeholder.jpg",
             solutions: ["Hashtag research", "Trend analysis", "Reach optimization"],
-            useCases: ["Social media marketing", "Content discovery", "Audience growth"]
+            useCases: ["Social media marketing", "Content discovery", "Audience growth"],
+            status: "not available"
+          },
+          {
+            id: "image-generation-agent",
+            name: "Image Generation Agent",
+            summary: "Generate images for social media content.",
+            image: "/placeholder.jpg",
+            solutions: ["Image synthesis", "Style transfer", "Visual content creation"],
+            useCases: ["Social media posts", "Marketing materials", "Brand visuals"],
+            status: "available"
           }
         ]
       }
@@ -2756,6 +2953,16 @@ industry:[
           image: "/placeholder.jpg",
           solutions: ["Patient registration", "History review", "Examination", "Diagnosis", "Treatment planning", "Medication prescription", "Patient education", "Follow-up scheduling"],
           useCases: ["Routine checkups", "Chronic disease management", "Preventive screenings"],
+          
+        },
+        {
+          id: "healthcare-appoinment-classifier",
+          name: "Healthcare Appointment Classifier",
+          summary: "Classify and route healthcare appointments based on patient needs.",
+          image: "/placeholder.jpg",
+          solutions: ["Appointment classification", "Patient need assessment", "Referral routing"],
+          useCases: ["Primary care appointments", "Specialist referrals", "Telehealth consultations"],
+          status:"available"
         },
         {
           id: "specialist-consultation",

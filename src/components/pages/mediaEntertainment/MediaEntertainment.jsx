@@ -110,7 +110,8 @@ const MediaEntertainment = () => {
 );
 
 
-  const filteredAgents = agents.filter(agent =>
+  const filteredAgents = agents
+  .filter(agent =>
     agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     agent.summary?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (agent.description && agent.description.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -314,9 +315,19 @@ const MediaEntertainment = () => {
                           </span>
                         </div>
                       </div>
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
-                        Available
-                      </span>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+  agent.status === "available"
+    ? "bg-green-100 text-green-800"
+    : agent.status === "not available"
+      ? "bg-red-100 text-red-800"
+      : "bg-yellow-100 text-yellow-800"
+}`}>
+  {agent.status === "available"
+    ? "Available"
+    : agent.status === "not available"
+      ? "Not Available"
+      : "Status Unknown"}
+</span>
                     </div>
 
                     {/* Agent Title */}

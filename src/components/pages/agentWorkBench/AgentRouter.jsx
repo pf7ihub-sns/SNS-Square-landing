@@ -28,15 +28,15 @@ const AgentRouter = () => {
     "idea-refinement-agent": <IdeaRefinementUI />,
     // If there is a deep research agent id, map it here
     "deep-research-agent": <AgentWorkingPage />,
-    "logic-validation-agent": <AgentWorkingPage />,
+    // "logic-validation-agent": <AgentWorkingPage />,
     "email-summarizer-agent": <EmailThreadSummariser />,
-    "general-query-agent": <AgentWorkingPage />,
-    "data-management": <AgentWorkingPage />,
+    // "general-query-agent": <AgentWorkingPage />,
+    // "data-management": <AgentWorkingPage />,
     "image-generation-agent": <ImageGenerator />,
-    "entity-extraction-agent": <EntityExtractor />,
+    "entity-recognition": <EntityExtractor />,
     "automated-linter-agent": <AutomatedLinter />,
     "testcase-generation-agent": <TestCaseGenerationAgent/>,
-    "data-generation-agent": <DataGenerationPage />,
+    // "data-generation-agent": <DataGenerationPage />, //dout
     // "data-management": <AgentWorkingPage />,
     "healthcare-appoinment-classifier": <HealthcareAppointmentClassifier />,
     // "document-summarizer-agent": <DocumentSummarizerAgent/>,
@@ -45,7 +45,7 @@ const AgentRouter = () => {
     // "data-query-agent": <DataQuery/>,
     // "data-generation-agent": <DataGenerationPage />,
     
-    "developer-support": <InputSourceCard />,
+    "faq-bot": <InputSourceCard />,
     "social-media": <StorylineGenerator />,
     "work-management": <HeadlineGenerator />,
   };
