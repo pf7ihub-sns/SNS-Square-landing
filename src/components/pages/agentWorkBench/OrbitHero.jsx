@@ -2,20 +2,19 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
-import SignUpModal from '../../common/SignUpDialog';
-import { useAuthStore } from '../../../store/store';
 
 const OrbitHero = () => {
     const location = useLocation();
     const { category } = useParams();
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuthStore();
-    const [isSignUpOpen, setisSignUpOpen] = useState(false);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [activeButton, setActiveButton] = useState('Foundation Agents');
     const [screenWidth, setScreenWidth] = useState(0);
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
+
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     const buttonOptions = useMemo(() => ['Foundation Agents', 'Industry Solutions', 'Customer Solutions'], []);
 
@@ -42,6 +41,12 @@ const OrbitHero = () => {
             return { transform: 'translateY(0px)', marginBottom: '96px' };
         }
     };
+
+    useEffect(() => {
+        // Debug: Check userId on component mount
+        const userId = localStorage.getItem('userId');
+        console.log('OrbitHero mounted, current userId:', userId);
+    }, []);
 
     useEffect(() => {
         const updateScreenWidth = () => {
@@ -164,26 +169,59 @@ const OrbitHero = () => {
         return agentContent[activeButton] || agentContent['Foundation Agents'];
     };
 
-    // Handle category click - redirect authenticated users to media entertainment page
-    const handleCategoryClick = (item) => {
-        if (isAuthenticated) {
-            // Redirect authenticated users to media entertainment page
-            navigate('/media-entertainment');
-        } else {
-            // Show signup modal for unauthenticated users
-            localStorage.setItem('selectedCategory', item.title.replace('\n', ' '));
-            setisSignUpOpen(true);
-        }
+    // Agent ID mapping for navigation
+    const getAgentId = (title) => {
+        const agentIdMap = {
+            // Foundation Agents
+            'Data\nManagement': 'data-management',
+            'Compliance &\nSecurity': 'compliance-security',
+            'Business\nIntelligence & Analysis': 'business-intelligence',
+            'Communication\n& Assistance': 'communication-assistance',
+            'Summarisation &\nContent Handling': 'summarization-content',
+            'Document &\nKnowledge Management': 'document-knowledge',
+            'Social & Media': 'social-media',
+            'Work Management': 'work-management',
+            'Developer Support': 'developer-support',
+            
+            // Industry Solutions
+            'Manufacturing': 'manufacturing',
+            'Agriculture': 'agriculture',
+            'Healthcare': 'healthcare',
+            'Legal': 'legal',
+            'Media & Entertainment': 'media-entertainment',
+            'Retail': 'retail',
+            'Real Estate': 'real-estate',
+            'Human Resources': 'human-resources',
+            'Fintech': 'fintech',
+            'Banking': 'banking',
+            
+            // Customer Solutions
+            'Personal\nAssistant': 'personal-assistant',
+            'Smart Home\nControl': 'smart-home',
+            'Learning\nCompanion': 'learning-companion',
+            'Health\nTracker': 'health-tracker',
+            'Entertainment\nCurator': 'entertainment-curator',
+            'Shopping\nAdvisor': 'shopping-advisor',
+            'Travel\nPlanner': 'travel-planner',
+            'Finance\nManager': 'finance-manager'
+        };
+        
+        return agentIdMap[title] || 'unknown-agent';
     };
 
-    // Handle explore agents button click
-    const handleExploreAgentsClick = () => {
-        if (isAuthenticated) {
-            // Redirect authenticated users to media entertainment page
+    // Handle agent icon click with conditional navigation
+    const handleAgentClick = (agentTitle) => {
+        const userId = localStorage.getItem('userId'); // Check for userId in localStorage
+        console.log('Checking userId in localStorage:', userId); // Debug log
+        
+        if (userId && userId.trim() !== '') {
+            // User is logged in, navigate to media entertainment page
+            console.log('Navigating to media entertainment page'); // Debug log
             navigate('/media-entertainment');
         } else {
-            // Show signup modal for unauthenticated users
-            setisSignUpOpen(true);
+            // User is not logged in, show login modal
+            console.log('No userId found, showing login'); // Debug log
+            setIsLoginOpen(true);
         }
     };
 
@@ -207,11 +245,11 @@ const OrbitHero = () => {
                         Explore a world of 1500+ AI agents, each crafted to solve real problems. Discover, customize, and let AI work for you faster than ever before.
                     </p>
                 </div>
-                
+
                 {/* Mobile Slider Buttons (hidden on tablet/desktop) */}
                 <div className='block sm:hidden mb-12'>
                     <div className='relative overflow-hidden'>
-                        <div 
+                        <div
                             className='flex transition-transform duration-500 ease-in-out'
                             style={{ transform: `translateX(-${currentSlideIndex * 100}%)` }}
                             onTouchStart={onTouchStart}
@@ -229,19 +267,18 @@ const OrbitHero = () => {
                                             {buttonOptions[currentSlideIndex - 1]}
                                         </button>
                                     )}
-                                    
+
                                     {/* Main Active Button */}
                                     <button
-                                        className={`font-semibold py-3 px-6 xs:px-8 text-sm rounded-full shadow-lg transition-all duration-500 ease-in-out whitespace-nowrap z-10 relative ${
-                                            index === currentSlideIndex
-                                                ? 'bg-[#064EE3] text-white border-2 border-blue-900 scale-100 opacity-100'
-                                                : 'bg-white/60 text-blue-900 border border-transparent scale-90 opacity-60'
-                                        }`}
+                                        className={`font-semibold py-3 px-6 xs:px-8 text-sm rounded-full shadow-lg transition-all duration-500 ease-in-out whitespace-nowrap z-10 relative ${index === currentSlideIndex
+                                            ? 'bg-[#064EE3] text-white border-2 border-blue-900 scale-100 opacity-100'
+                                            : 'bg-white/60 text-blue-900 border border-transparent scale-90 opacity-60'
+                                            }`}
                                         onClick={() => handleSlideChange(index)}
                                     >
                                         {option}
                                     </button>
-                                    
+
                                     {/* Next Button Preview */}
                                     {index === currentSlideIndex && currentSlideIndex < buttonOptions.length - 1 && (
                                         <button
@@ -255,17 +292,16 @@ const OrbitHero = () => {
                             ))}
                         </div>
                     </div>
-                    
+
                     {/* Reference Dots */}
                     <div className='flex justify-center gap-2 mt-4'>
                         {buttonOptions.map((_, index) => (
                             <button
                                 key={index}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                    currentSlideIndex === index 
-                                        ? 'bg-white w-6' 
-                                        : 'bg-white/40 hover:bg-white/60'
-                                }`}
+                                className={`w-2 h-2 rounded-full transition-all duration-300 ${currentSlideIndex === index
+                                    ? 'bg-white w-6'
+                                    : 'bg-white/40 hover:bg-white/60'
+                                    }`}
                                 onClick={() => handleSlideChange(index)}
                             />
                         ))}
@@ -319,28 +355,74 @@ const OrbitHero = () => {
                             showExternalText={true}
                         >
                             {getNonRepeatingItems().map((item, index) => (
-                                <div 
-                                    key={`${activeButton}-${index}`} 
-                                    className="flex flex-col items-center" 
-                                    onClick={() => handleCategoryClick(item)}
+                                <div
+                                    key={`${activeButton}-${index}`}
+                                    className="relative flex flex-col items-center cursor-pointer group"
+                                    onMouseEnter={() => setHoveredIndex(index)}
+                                    onMouseLeave={() => setHoveredIndex(null)}
+                                    onClick={() => handleAgentClick(item.title)}
                                 >
-                                    <div className="bg-white rounded-full p-3 shadow-xl mb-2 border-6 border-[#dee0df]">
-                                        <img
-                                            src={item.icon}
-                                            alt={item.alt}
-                                            className="w-10 h-10"
-                                        />
+                                    {/* 🔒 Hover Unlock Card - Matching the image style */}
+                                    {hoveredIndex === index && (
+                                        <div
+                                            className="absolute bottom-full mb-2 w-70 ml-10 bg-white rounded-2xl shadow-2xl p-5 z-20
+                           opacity-0 group-hover:opacity-100 group-hover:scale-100 
+                           transition-all duration-300 ease-out scale-95
+                           border border-gray-100"
+                                            style={{
+                                                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                                            }}
+                                        >
+                                            {/* Speech bubble tail */}
+                                            <div className="absolute top-full left-1/4 transform translate-x-1/9 w-0 h-0 
+                               border-l-[12px] border-l-transparent 
+                               border-r-[12px] border-r-transparent 
+                               border-t-[12px] border-t-white"></div>
+
+                                            <button
+                                                className="w-full bg-[#2563eb] text-white font-semibold py-3 px-6 rounded-full 
+                               flex items-center justify-center gap-2 hover:bg-[#1d4ed8]
+                               transition-colors duration-200 text-sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    const userId = localStorage.getItem('userId');
+                                                    if (userId && userId.trim() !== '') {
+                                                        navigate('/media-entertainment');
+                                                    } else {
+                                                        setIsLoginOpen(true);
+                                                    }
+                                                }}
+                                            >
+                                                {localStorage.getItem('userId') ? '� Launch Agent' : '�🔒 Unlock Your Agents'}
+                                            </button>
+                                            <p className="text-gray-600 text-sm mt-3 text-center font-medium">
+                                                {localStorage.getItem('userId') ? 'Start Working' : 'Know More'}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* Main Agent Icon */}
+                                    <div
+                                        className={`bg-white rounded-full p-3 shadow-xl mb-2 border-4 transition-all duration-200 ${hoveredIndex === index
+                                            ? "border-[#2563eb] shadow-2xl scale-105"
+                                            : "border-[#dee0df]"
+                                            }`}
+                                    >
+                                        <img src={item.icon} alt={item.alt} className="w-10 h-10" />
                                     </div>
+
+                                    {/* Agent Title */}
                                     <span className="text-[18px] font-medium text-white text-center whitespace-nowrap">
-                                        {item.title.split('\n').map((line, lineIndex) => (
+                                        {item.title.split("\n").map((line, lineIndex) => (
                                             <span key={lineIndex}>
                                                 {line}
-                                                {lineIndex < item.title.split('\n').length - 1 && <br />}
+                                                {lineIndex < item.title.split("\n").length - 1 && <br />}
                                             </span>
                                         ))}
                                     </span>
                                 </div>
                             ))}
+
                         </OrbitingCircles>
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
@@ -362,15 +444,28 @@ const OrbitHero = () => {
             <div className="flex items-center justify-center mt-4  pointer-events-none">
                 <button
                     className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
-                    onClick={handleExploreAgentsClick}
+                    onClick={() => {
+                        const userId = localStorage.getItem('userId');
+                        console.log('Bottom button clicked, userId:', userId); // Debug log
+                        if (userId && userId.trim() !== '') {
+                            // Navigate to media entertainment page
+                            navigate('/media-entertainment');
+                        } else {
+                            setIsLoginOpen(true);
+                        }
+                    }}
                 >
-                    Explore agents
+                    {(() => {
+                        const userId = localStorage.getItem('userId');
+                        return userId && userId.trim() !== '' ? 'Go to Agents' : 'Explore agents';
+                    })()}
                 </button>
             </div>
-            <SignUpModal
-                isOpen={isSignUpOpen}
-                onClose={() => setisSignUpOpen(false)}
+            <LoginModal
+                isOpen={isLoginOpen}
+                onClose={() => setIsLoginOpen(false)}
             />
+
         </div>
     )
 }
