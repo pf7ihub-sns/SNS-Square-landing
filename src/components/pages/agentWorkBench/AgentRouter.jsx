@@ -19,6 +19,7 @@ import EmailThreadSummariser from "./agents/emailthreadsummarizer";
 import InputSourceCard from "./agents/faqagent";
 import StorylineGenerator from "./agents/storytelling";
 import HeadlineGenerator from "./agents/headlinegenerator";
+import DataQuery from "./agents/dataQuery";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -42,7 +43,7 @@ const AgentRouter = () => {
     // "document-summarizer-agent": <DocumentSummarizerAgent/>,
     "trip-planning-agent": <TripPlanningSystem />,
     "csv-to-excel-agent": <CsvExcelConverter />,
-    // "data-query-agent": <DataQuery/>,
+    "data-query-agent": <DataQuery/>,
     // "data-generation-agent": <DataGenerationPage />,
     
     "faq-bot": <InputSourceCard />,

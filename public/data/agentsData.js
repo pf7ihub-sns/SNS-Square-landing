@@ -1170,6 +1170,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "data-query-agent",
+            name: "Data Query Agent",
+            summary: "Query and retrieve data from various sources and formats.",
+            image: "/placeholder.jpg",
+            solutions: ["Data retrieval", "Query optimization", "Result formatting"],
+            useCases: ["Business intelligence", "Reporting", "Data exploration"],
+            status: "available"
+          },
+          {
             id: "data-transformer",
             name: "Data Transformer Agent",
             summary: "Transform and normalize data for consistent processing and analysis.",
