@@ -23,7 +23,8 @@ import Evaluation from "./agents/evaluation";
 import DataCleaner from "./agents/dataCleaner";
 import FeedbackAnalysis from "./agents/feedbackAnalysis";
 import RealEstateClassfier from "./agents/realEstateServiceClassifier";
-import RealEstateInquiryAgent from "./agents/realEstateInquiryAgent";;
+import RealEstateInquiryAgent from "./agents/realEstateInquiryAgent";
+import RealEstateNewsBrief from "./agents/realEstateNewsBrief";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -52,6 +53,7 @@ const AgentRouter = () => {
     "feedback-analysis-agent": <FeedbackAnalysis />,
     "real-estate-service-classifier": <RealEstateClassfier />,
     "real-estate-inquiry-agent": <RealEstateInquiryAgent />,
+    "real-estate-news-brief": <RealEstateNewsBrief />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

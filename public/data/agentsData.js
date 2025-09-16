@@ -2070,6 +2070,23 @@ industry:[
             status: "available"
           },
           {
+            id: "real-estate-news-brief",
+            name: "Real Estate News Brief",
+            summary: "Stay updated with the latest real estate news.",
+            image: "/Realestate.png",
+            solutions: [
+              "Service categorization",
+              "Buyer matching",
+              "Contract generation",
+            ],
+            useCases: [
+              "Residential sales",
+              "Commercial sales",
+              "Auction preparation",
+            ],
+            status: "available"
+          },
+          {
             id: "property-purchase",
             name: "Property Purchase Workflow",
             summary:
