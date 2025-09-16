@@ -60,7 +60,7 @@ function DocumentSummarizerAgent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8 mt-18">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
