@@ -120,11 +120,7 @@ export default function RetailComplaint() {
 
                 {/* Two-Column Layout: Summary on Left, Input on Right */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Summary Output (Left) */}
-                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-                        <h2 className="text-lg font-medium text-gray-800 mb-4">Complaint Summary</h2>
-                        {renderSummary()}
-                    </div>
+                    
 
                     {/* Input Form (Right) */}
                     <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
@@ -169,6 +165,11 @@ export default function RetailComplaint() {
                                 {error}
                             </div>
                         )}
+                    </div>
+                    {/* Summary Output (Left) */}
+                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h2 className="text-lg font-medium text-gray-800 mb-4">Complaint Summary</h2>
+                        {renderSummary()}
                     </div>
                 </div>
             </div>

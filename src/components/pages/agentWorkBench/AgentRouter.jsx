@@ -26,6 +26,7 @@ import RealEstateClassfier from "./agents/realEstateServiceClassifier";
 import RealEstateInquiryAgent from "./agents/realEstateInquiryAgent";
 import RealEstateNewsBrief from "./agents/realEstateNewsBrief";
 import RetailComplaint from "./agents/retailComplaint";
+import RetailEntityExtractor from "./agents/retailEntityExtractor";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -56,6 +57,7 @@ const AgentRouter = () => {
     "real-estate-inquiry-agent": <RealEstateInquiryAgent />,
     "real-estate-news-brief": <RealEstateNewsBrief />,
     "retail-complaint-agent": <RetailComplaint />,
+    "retail-entity-extractor": <RetailEntityExtractor />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

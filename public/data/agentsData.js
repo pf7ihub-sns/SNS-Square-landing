@@ -2626,6 +2626,15 @@ industry:[
           status: "available"
         },
         {
+          id: "retail-entity-extractor",
+          name: "Retail Entity Extractor Workflow",
+          summary: "Extract and manage key entities from retail data.",
+          image: "/placeholder.jpg",
+          solutions: ["Entity extraction", "Data categorization", "Information retrieval"],
+          useCases: ["Product categorization", "Customer segmentation", "Sales analysis"],
+          status: "available"
+        },
+        {
           id: "customer-interaction-sales",
           name: "Customer Interaction & Sales Workflow",
           summary: "Assist sales associates with product assistance, billing, and checkout.",
