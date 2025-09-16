@@ -751,6 +751,15 @@ foundational:[
             useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
             status: "not available"
           },
+           {
+            id: "feedback-analysis-agent",
+            name: "Feedback Analysis Agent",
+            summary: "Analyze and generate insights from customer feedback.",
+            image: "/placeholder.jpg",
+            solutions: ["Sentiment analysis", "Topic modeling", "Feedback categorization"],
+            useCases: ["Product improvement", "Customer satisfaction", "Market research"],
+            status: "available"
+          },
           {
             id: "idea-refinement-agent",
             name: "Idea Refinement Agent",

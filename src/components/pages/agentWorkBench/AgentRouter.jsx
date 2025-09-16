@@ -21,6 +21,7 @@ import DataQuery from "./agents/dataQuery";
 import ImgtoPdf from "./agents/imgtoPdf";
 import Evaluation from "./agents/evaluation";
 import DataCleaner from "./agents/dataCleaner";
+import FeedbackAnalysis from "./agents/feedbackAnalysis";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -46,6 +47,7 @@ const AgentRouter = () => {
     "image-to-pdf": <ImgtoPdf />,
     "evaluation-agent": <Evaluation />,
     "data-cleaner-agent": <DataCleaner />,
+    "feedback-analysis-agent": <FeedbackAnalysis />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
