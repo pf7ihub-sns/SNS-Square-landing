@@ -27,6 +27,9 @@ import RealEstateInquiryAgent from "./agents/realEstateInquiryAgent";
 import RealEstateNewsBrief from "./agents/realEstateNewsBrief";
 import RetailComplaint from "./agents/retailComplaint";
 import RetailEntityExtractor from "./agents/retailEntityExtractor";
+import DocumentParser from "./agents/documentParser";
+import SecurityRiskAnalyzer from "./agents/securityRisk";
+
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -58,6 +61,8 @@ const AgentRouter = () => {
     "real-estate-news-brief": <RealEstateNewsBrief />,
     "retail-complaint-agent": <RetailComplaint />,
     "retail-entity-extractor": <RetailEntityExtractor />,
+    "document-parser-agent": <DocumentParser />,
+    "security-risk-analyzer": <SecurityRiskAnalyzer />
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

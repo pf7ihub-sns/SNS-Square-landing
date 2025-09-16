@@ -36,6 +36,15 @@ foundational:[
           status: "available"
         },
         {
+          id: "document-parser-agent",
+          name: "Document Parser Agent",
+          summary: "Extract structured information from documents.",
+          image: "/placeholder.jpg",
+          solutions: ["Layout analysis", "Table extraction", "Schema validation"],
+          useCases: ["Invoices", "Contracts", "Receipts"],
+          status: "available"
+        },
+        {
           id: "ocr-agent",
           name: "OCR (Optical Character Recognition) Agent",
           summary: "High fidelity OCR with layout awareness and language support.",
@@ -1056,6 +1065,15 @@ foundational:[
             solutions: ["Policy validation", "Violation detection", "Corrective actions"],
             useCases: ["HR policies", "IT security policies", "Business procedures"],
             status: "not available"
+          },
+          {
+            id: "security-risk-analyzer",
+            name: "Security Risk Analyzer Agent",
+            summary: "Analyze and mitigate security risks across the organization.",
+            image: "/placeholder.jpg",
+            solutions: ["Risk assessment", "Threat modeling", "Vulnerability management"],
+            useCases: ["Security audits", "Compliance checks", "Incident response"],
+            status: "available"
           },
           {
             id: "audit-assistant",
