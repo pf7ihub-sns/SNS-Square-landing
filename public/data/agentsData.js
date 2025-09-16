@@ -1170,13 +1170,13 @@ foundational:[
         image: "/placeholder.jpg",
         agents: [
           {
-            id: "data-cleaner",
+            id: "data-cleaner-agent",
             name: "Data Cleaner Agent",
             summary: "Clean and validate data by removing duplicates, errors, and inconsistencies.",
             image: "/placeholder.jpg",
             solutions: ["Duplicate removal", "Error correction", "Data validation"],
             useCases: ["Data preparation", "Analytics pipelines", "Machine learning"],
-            status: "not available"
+            status: "available"
           },
           {
             id: "duplicate-expense-detector",

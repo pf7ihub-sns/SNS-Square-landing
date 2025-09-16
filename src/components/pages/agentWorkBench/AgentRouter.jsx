@@ -20,6 +20,7 @@ import HeadlineGenerator from "./agents/headlinegenerator";
 import DataQuery from "./agents/dataQuery";
 import ImgtoPdf from "./agents/imgtoPdf";
 import Evaluation from "./agents/evaluation";
+import DataCleaner from "./agents/dataCleaner";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -44,6 +45,7 @@ const AgentRouter = () => {
     "duplicate-expense-detector": <DuplicateDetector />,
     "image-to-pdf": <ImgtoPdf />,
     "evaluation-agent": <Evaluation />,
+    "data-cleaner-agent": <DataCleaner />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
