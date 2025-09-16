@@ -2053,6 +2053,23 @@ industry:[
             status: "available"
           },
           {
+            id: "real-estate-inquiry-agent",
+            name: "Real Estate Inquiry Agent",
+            summary: "Real estate services based on user inquiries.",
+            image: "/Realestate.png",
+            solutions: [
+              "Service categorization",
+              "Buyer matching",
+              "Contract generation",
+            ],
+            useCases: [
+              "Residential sales",
+              "Commercial sales",
+              "Auction preparation",
+            ],
+            status: "available"
+          },
+          {
             id: "property-purchase",
             name: "Property Purchase Workflow",
             summary:

@@ -23,6 +23,7 @@ import Evaluation from "./agents/evaluation";
 import DataCleaner from "./agents/dataCleaner";
 import FeedbackAnalysis from "./agents/feedbackAnalysis";
 import RealEstateClassfier from "./agents/realEstateServiceClassifier";
+import RealEstateInquiryAgent from "./agents/realEstateInquiryAgent";;
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -50,6 +51,7 @@ const AgentRouter = () => {
     "data-cleaner-agent": <DataCleaner />,
     "feedback-analysis-agent": <FeedbackAnalysis />,
     "real-estate-service-classifier": <RealEstateClassfier />,
+    "real-estate-inquiry-agent": <RealEstateInquiryAgent />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
