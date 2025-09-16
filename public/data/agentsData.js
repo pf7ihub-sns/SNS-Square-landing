@@ -2617,6 +2617,15 @@ industry:[
           useCases: ["Online shopping", "In-store browsing", "Customer satisfaction tracking"],
         },
         {
+          id: "retail-complaint-agent",
+          name: "Retail Complaint Workflow",
+          summary: "Manage and resolve customer complaints effectively.",
+          image: "/placeholder.jpg",
+          solutions: ["Complaint intake", "Issue tracking", "Resolution management", "Feedback collection"],
+          useCases: ["Customer support", "Issue resolution", "Service improvement"],
+          status: "available"
+        },
+        {
           id: "customer-interaction-sales",
           name: "Customer Interaction & Sales Workflow",
           summary: "Assist sales associates with product assistance, billing, and checkout.",
