@@ -19,6 +19,7 @@ import StorylineGenerator from "./agents/storytelling";
 import HeadlineGenerator from "./agents/headlinegenerator";
 import DataQuery from "./agents/dataQuery";
 import ImgtoPdf from "./agents/imgtoPdf";
+import Evaluation from "./agents/evaluation";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -42,6 +43,7 @@ const AgentRouter = () => {
     "work-management": <HeadlineGenerator />,
     "duplicate-expense-detector": <DuplicateDetector />,
     "image-to-pdf": <ImgtoPdf />,
+    "evaluation-agent": <Evaluation />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

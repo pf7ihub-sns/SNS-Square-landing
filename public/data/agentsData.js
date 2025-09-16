@@ -1579,6 +1579,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "evaluation-agent",
+            name: "Evaluation Agent",
+            summary: "Evaluate and assess project outcomes and performance.",
+            image: "/placeholder.jpg",
+            solutions: ["Performance metrics", "Feedback analysis", "Reporting"],
+            useCases: ["Project evaluation", "Team performance", "Outcome assessment"],
+            status: "available"
+          },
+          {
             id: "collaboration-facilitator",
             name: "Collaboration Facilitator Agent",
             summary: "Facilitate team collaboration and communication workflows.",
