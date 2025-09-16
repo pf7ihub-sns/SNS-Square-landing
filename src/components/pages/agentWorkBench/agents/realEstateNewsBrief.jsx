@@ -153,7 +153,7 @@ export default function RealEstateNewsBrief() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 mt-7" style={{ backgroundColor: '#F9FAFB' }}>
             <div className="w-full max-w-4xl">
                 {/* Header */}
                 <h1 className="text-3xl font-semibold text-white text-center mb-3 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -163,7 +163,6 @@ export default function RealEstateNewsBrief() {
                 {/* Instructions */}
                 <div className="text-center mb-3 text-gray-700">
                     <p className="mb-2">Summarize real estate news from text or file uploads.</p>
-                    <p className="text-sm">Supported formats: PDF, DOCX, TXT. Use snippets to focus.</p>
                 </div>
 
                 {/* Two-Column Layout: Summary on Left, Input on Right */}
