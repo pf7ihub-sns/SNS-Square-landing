@@ -254,6 +254,15 @@ foundational:[
             status: "not available"
           },
           {
+          id: "document-summarizer-agent",
+          name: "Document Summarizer Agent",
+          summary: "Summarize long documents while preserving key information.",
+          image: "/placeholder.jpg",
+          solutions: ["Extractive summarization", "Abstractive summarization", "Keyphrase extraction"],
+          useCases: ["Meeting notes", "Research papers", "Legal briefs"],
+          status: "available"
+        },
+          {
             id: "extractive-summarizer",
             name: "Extractive Summarization Agent",
             summary: "Extract key sentences and phrases directly from source content to create summaries.",
@@ -1168,6 +1177,15 @@ foundational:[
             solutions: ["Duplicate removal", "Error correction", "Data validation"],
             useCases: ["Data preparation", "Analytics pipelines", "Machine learning"],
             status: "not available"
+          },
+          {
+            id: "duplicate-expense-detector",
+            name: "Duplicate Expense Detector",
+            summary: "Identify and flag duplicate expenses in financial data.",
+            image: "/placeholder.jpg",
+            solutions: ["Duplicate detection", "Data comparison", "Anomaly detection"],
+            useCases: ["Expense management", "Fraud detection", "Financial auditing"],
+            status: "available"
           },
           {
             id: "data-query-agent",
