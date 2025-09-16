@@ -1770,6 +1770,15 @@ foundational:[
             solutions: ["Image synthesis", "Style transfer", "Visual content creation"],
             useCases: ["Social media posts", "Marketing materials", "Brand visuals"],
             status: "available"
+          },
+          {
+            id: "image-to-pdf",
+            name: "Image to PDF Agent",
+            summary: "Convert images to PDF format.",
+            image: "/placeholder.jpg",
+            solutions: ["Image conversion", "PDF generation"],
+            useCases: ["Document management", "File sharing"],
+            status: "available"
           }
         ]
       }

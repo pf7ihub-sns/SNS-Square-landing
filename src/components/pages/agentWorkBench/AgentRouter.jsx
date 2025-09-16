@@ -18,6 +18,7 @@ import InputSourceCard from "./agents/faqagent";
 import StorylineGenerator from "./agents/storytelling";
 import HeadlineGenerator from "./agents/headlinegenerator";
 import DataQuery from "./agents/dataQuery";
+import ImgtoPdf from "./agents/imgtoPdf";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -40,6 +41,7 @@ const AgentRouter = () => {
     "social-media": <StorylineGenerator />,
     "work-management": <HeadlineGenerator />,
     "duplicate-expense-detector": <DuplicateDetector />,
+    "image-to-pdf": <ImgtoPdf />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
