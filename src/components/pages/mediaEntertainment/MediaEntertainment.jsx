@@ -230,6 +230,26 @@ const MediaEntertainment = () => {
       </motion.div>
 
       <div className="container mx-auto px-4 py-8">
+        {/* Tabs */}
+        <div className="flex justify-center mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+            <div className="flex space-x-1">
+              {['foundational', 'industry'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <div className="flex gap-6">
           <div className="w-80 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5">
@@ -425,15 +445,15 @@ const MediaEntertainment = () => {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Agent Details Modal */}
-      <AgentDetailsModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        agent={selectedAgent}
-        category={getCurrentCategoryData()}
-      />
+        {/* Agent Details Modal */}
+        <AgentDetailsModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          agent={selectedAgent}
+          category={getCurrentCategoryData()}
+        />
+      </div>
     </div>
   );
 };
