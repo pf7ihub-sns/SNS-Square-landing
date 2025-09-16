@@ -22,6 +22,7 @@ import ImgtoPdf from "./agents/imgtoPdf";
 import Evaluation from "./agents/evaluation";
 import DataCleaner from "./agents/dataCleaner";
 import FeedbackAnalysis from "./agents/feedbackAnalysis";
+import RealEstateClassfier from "./agents/realEstateServiceClassifier";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -48,6 +49,7 @@ const AgentRouter = () => {
     "evaluation-agent": <Evaluation />,
     "data-cleaner-agent": <DataCleaner />,
     "feedback-analysis-agent": <FeedbackAnalysis />,
+    "real-estate-service-classifier": <RealEstateClassfier />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

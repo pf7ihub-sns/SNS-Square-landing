@@ -2035,6 +2035,23 @@ industry:[
               "Auction preparation",
             ],
           },
+           {
+            id: "real-estate-service-classifier",
+            name: "Real Estate Service Classifier",
+            summary: "Classify real estate services based on user inquiries.",
+            image: "/Realestate.png",
+            solutions: [
+              "Service categorization",
+              "Buyer matching",
+              "Contract generation",
+            ],
+            useCases: [
+              "Residential sales",
+              "Commercial sales",
+              "Auction preparation",
+            ],
+            status: "available"
+          },
           {
             id: "property-purchase",
             name: "Property Purchase Workflow",
