@@ -51,7 +51,7 @@ foundational:[
           image: "/placeholder.jpg",
           solutions: ["Printed & handwritten OCR", "Layout blocks", "Language detection"],
           useCases: ["Scan ingestion", "Forms digitization", "Archival search"],
-          status: "not available"
+          status: "available"
         },
         {
           id: "handwriting-recognition",
