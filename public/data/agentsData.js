@@ -526,6 +526,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "prompt-optimizer",
+            name: "Prompt Optimizer Agent",
+            summary: "Enhance user prompts for better AI responses.",
+            image: "/placeholder.jpg",
+            solutions: ["Prompt refinement", "Contextual suggestions", "User intent analysis"],
+            useCases: ["Content creation", "Customer support", "Interactive storytelling"],
+            status: "available"
+          },
+          {
             id: "trip-planning-agent",
             name: "Trip Planning Agent",
             summary: "Assist users in planning their trips with personalized recommendations.",

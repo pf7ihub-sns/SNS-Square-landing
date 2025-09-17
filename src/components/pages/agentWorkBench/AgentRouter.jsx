@@ -29,6 +29,7 @@ import RetailComplaint from "./agents/retailComplaint";
 import RetailEntityExtractor from "./agents/retailEntityExtractor";
 import DocumentParser from "./agents/documentParser";
 import SecurityRiskAnalyzer from "./agents/securityRisk";
+import PromptOptimizer from "./agents/promptOptimizer";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -62,7 +63,8 @@ const AgentRouter = () => {
     "retail-complaint-agent": <RetailComplaint />,
     "retail-entity-extractor": <RetailEntityExtractor />,
     "document-parser-agent": <DocumentParser />,
-    "security-risk-analyzer": <SecurityRiskAnalyzer />
+    "security-risk-analyzer": <SecurityRiskAnalyzer />,
+    "prompt-optimizer": <PromptOptimizer />
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
