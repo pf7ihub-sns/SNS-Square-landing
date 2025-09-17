@@ -33,6 +33,7 @@ import PromptOptimizer from "./agents/promptOptimizer";
 import ContentValidation from "./agents/ContentValidation";
 import GeneralChat from "./agents/generalChat";
 import LogicValidation from "./agents/logicValidation";
+import DataGeneration from "./agents/dataGeneration";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -71,6 +72,7 @@ const AgentRouter = () => {
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
     "logic-validation-agent": <LogicValidation />,
+    "data-generation-agent": <DataGeneration />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

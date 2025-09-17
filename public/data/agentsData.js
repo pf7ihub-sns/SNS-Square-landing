@@ -1242,6 +1242,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "data-generation-agent",
+            name: "Data Generation Agent",
+            summary: "Generate synthetic data for various use cases.",
+            image: "/placeholder.jpg",
+            solutions: ["Data synthesis", "Scenario simulation", "Augmented datasets"],
+            useCases: ["Testing", "Training AI models", "Data augmentation"],
+            status: "available"
+          },
+          {
             id: "duplicate-expense-detector",
             name: "Duplicate Expense Detector",
             summary: "Identify and flag duplicate expenses in financial data.",
