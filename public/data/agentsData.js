@@ -526,6 +526,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "content-validation-agent",
+            name: "Content Validation Agent",
+            summary: "Ensure content meets quality and compliance standards.",
+            image: "/placeholder.jpg",
+            solutions: ["Content analysis", "Quality assurance", "Compliance checking"],
+            useCases: ["Content moderation", "Publishing workflows", "Regulatory compliance"],
+            status: "available"
+          },
+          {
             id: "prompt-optimizer",
             name: "Prompt Optimizer Agent",
             summary: "Enhance user prompts for better AI responses.",

@@ -30,6 +30,7 @@ import RetailEntityExtractor from "./agents/retailEntityExtractor";
 import DocumentParser from "./agents/documentParser";
 import SecurityRiskAnalyzer from "./agents/securityRisk";
 import PromptOptimizer from "./agents/promptOptimizer";
+import ContentValidation from "./agents/ContentValidation";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -64,7 +65,8 @@ const AgentRouter = () => {
     "retail-entity-extractor": <RetailEntityExtractor />,
     "document-parser-agent": <DocumentParser />,
     "security-risk-analyzer": <SecurityRiskAnalyzer />,
-    "prompt-optimizer": <PromptOptimizer />
+    "prompt-optimizer": <PromptOptimizer />,
+    "content-validation-agent": <ContentValidation />
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
