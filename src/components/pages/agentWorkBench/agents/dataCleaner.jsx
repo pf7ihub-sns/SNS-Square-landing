@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { ArrowLeft } from 'lucide-react';
 
 function DataCleaner() {
     const [file, setFile] = useState(null);
@@ -94,11 +95,21 @@ function DataCleaner() {
     return (
         <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-emerald-50 min-h-screen">
             {/* Hero Section */}
-            <section className="py-8 px-4 mt-18">
+            <section className="py-8 px-4 mt-19">
                 <div className="max-w-4xl mx-auto text-center mb-4 ">
-                    <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent mb-3">
-                        AI Data Cleaner
-                    </h1>
+
+                    <div className="relative">
+                        <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                            AI Data Cleaner
+                        </h1>
+                        <button
+                            onClick={() => window.location.href = '/media-entertainment'}
+                            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                            <span>Back</span>
+                        </button>
+                    </div>
                     <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
                         Upload your CSV files and let AI clean, organize, and optimize your data automatically.
                     </p>
@@ -139,23 +150,6 @@ function DataCleaner() {
                                             <span className="text-xs text-blue-600 ml-2">({(file.size / 1024).toFixed(1)} KB)</span>
                                         </div>
                                     )}
-                                </div>
-
-                                {/* Instructions */}
-                                <div className="mb-6">
-                                    <label className="block text-base font-semibold text-gray-800 mb-3">
-                                        Cleaning Instructions (Optional) ✨
-                                    </label>
-                                    <textarea
-                                        value={instruction}
-                                        onChange={(e) => setInstruction(e.target.value)}
-                                        placeholder="Remove duplicates, fill missing values with 'N/A', drop columns with >50% missing data..."
-                                        rows={3}
-                                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl bg-white/90 text-gray-800 focus:ring-2 focus:ring-green-500/30 focus:border-green-500 focus:outline-none transition-all resize-none text-sm"
-                                    />
-                                    <div className="absolute bottom-3 right-3 text-xs text-gray-400">
-                                        {instruction.length}/500
-                                    </div>
                                 </div>
 
                                 {/* Submit Button */}
