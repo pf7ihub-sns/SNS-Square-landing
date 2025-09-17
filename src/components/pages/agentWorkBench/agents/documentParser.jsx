@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function DocumentParser() {
     const [file, setFile] = useState(null);
@@ -85,9 +86,19 @@ export default function DocumentParser() {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
             <div className="w-full max-w-4xl">
                 {/* Header */}
-                <h1 className="text-3xl font-semibold text-white text-center mb-3 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                    Document Parser
-                </h1>
+
+                <div className="relative">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white text-center mb-6 p-3 sm:p-4 rounded-lg mx-8 sm:mx-12 lg:mx-0" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                        Document Parser
+                    </h1>
+                    <button
+                        onClick={() => window.location.href = '/media-entertainment'}
+                        className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md"
+                    >
+                        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                        <span>Back</span>
+                    </button>
+                </div>
 
                 {/* Instructions */}
                 <div className="text-center mb-3 text-gray-700">
