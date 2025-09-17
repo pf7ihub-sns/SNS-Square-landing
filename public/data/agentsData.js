@@ -1242,6 +1242,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "data-profiling-agent",
+            name: "Data Profiling Agent",
+            summary: "Analyze and profile data to understand its structure and quality.",
+            image: "/placeholder.jpg",
+            solutions: ["Data profiling", "Quality assessment", "Metadata generation"],
+            useCases: ["Data exploration", "Quality monitoring", "Compliance reporting"],
+            status: "available"
+          },
+          {
             id: "data-generation-agent",
             name: "Data Generation Agent",
             summary: "Generate synthetic data for various use cases.",

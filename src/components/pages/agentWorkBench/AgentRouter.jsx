@@ -34,6 +34,7 @@ import ContentValidation from "./agents/ContentValidation";
 import GeneralChat from "./agents/generalChat";
 import LogicValidation from "./agents/logicValidation";
 import DataGeneration from "./agents/dataGeneration";
+import DataProfiling from "./agents/dataProfiling";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -73,6 +74,7 @@ const AgentRouter = () => {
     "general-chat": <GeneralChat />,
     "logic-validation-agent": <LogicValidation />,
     "data-generation-agent": <DataGeneration />,
+    "data-profiling-agent": <DataProfiling />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
