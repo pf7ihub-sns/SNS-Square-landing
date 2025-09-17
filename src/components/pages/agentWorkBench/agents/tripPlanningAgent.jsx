@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function TripPlanningSystem() {
   const [messages, setMessages] = useState([]);
@@ -216,8 +217,8 @@ export default function TripPlanningSystem() {
               <button
                 onClick={() => handleModeSwitch('planning')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${currentMode === 'planning'
-                    ? 'bg-white/20 text-white shadow-lg'
-                    : 'bg-white/10 text-blue-100 hover:bg-white/15'
+                  ? 'bg-white/20 text-white shadow-lg'
+                  : 'bg-white/10 text-blue-100 hover:bg-white/15'
                   }`}
               >
                 {getModeIcon('planning')}
@@ -226,8 +227,8 @@ export default function TripPlanningSystem() {
               <button
                 onClick={() => handleModeSwitch('recommendation')}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${currentMode === 'recommendation'
-                    ? 'bg-white/20 text-white shadow-lg'
-                    : 'bg-white/10 text-blue-100 hover:bg-white/15'
+                  ? 'bg-white/20 text-white shadow-lg'
+                  : 'bg-white/10 text-blue-100 hover:bg-white/15'
                   }`}
               >
                 {getModeIcon('recommendation')}
@@ -459,9 +460,15 @@ export default function TripPlanningSystem() {
                 </p>
               </div>
               <div className="flex items-center space-x-2 text-blue-100">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                <span className="text-xs sm:text-sm">AI Online</span>
+                <button
+                  onClick={() => window.location.href = '/media-entertainment'}
+                  className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white hover:bg-opacity-10 rounded-md"
+                >
+                  <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                  <span>Back</span>
+                </button>
               </div>
+
             </div>
           </div>
 
