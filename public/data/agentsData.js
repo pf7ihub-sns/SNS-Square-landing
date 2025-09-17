@@ -1242,6 +1242,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "schema-generator-agent",
+            name: "Schema Generator Agent",
+            summary: "Generate and validate data schemas for structured data.",
+            image: "/placeholder.jpg",
+            solutions: ["Schema generation", "Validation rules", "Data mapping"],
+            useCases: ["Database design", "API development", "Data integration"],
+            status: "available"
+          },
+          {
             id: "data-profiling-agent",
             name: "Data Profiling Agent",
             summary: "Analyze and profile data to understand its structure and quality.",
