@@ -76,7 +76,7 @@ const GeneralChat = () => {
                         <span className="text-xs sm:text-sm text-gray-600">AI Online</span>
                         <button
                             onClick={() => window.location.href = '/media-entertainment'}
-                            className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white hover:bg-opacity-10 rounded-md"
+                            className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md"
                         >
                             <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                             <span>Back</span>
