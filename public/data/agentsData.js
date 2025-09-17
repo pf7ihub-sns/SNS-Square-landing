@@ -54,6 +54,15 @@ foundational:[
           status: "available"
         },
         {
+          id: "date-format-agent",
+          name: "Date Format Agent",
+          summary: "Normalize and convert date formats across documents.",
+          image: "/placeholder.jpg",
+          solutions: ["Date parsing", "Format conversion", "Validation"],
+          useCases: ["Legal documents", "Financial reports", "Event logs"],
+          status: "available"
+        },
+        {
           id: "handwriting-recognition",
           name: "Handwriting Recognition Agent",
           summary: "Extract handwritten content from notes and forms.",

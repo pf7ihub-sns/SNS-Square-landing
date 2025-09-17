@@ -37,6 +37,7 @@ import DataGeneration from "./agents/dataGeneration";
 import DataProfiling from "./agents/dataProfiling";
 import SchemaGenerator from "./agents/schemaGenerator";
 import OCR from "./agents/ocr";
+import DateFormat from "./agents/dataFormat";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -78,7 +79,8 @@ const AgentRouter = () => {
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
     "schema-generator-agent": <SchemaGenerator />,
-    "ocr-agent":<OCR/>
+    "ocr-agent":<OCR/>,
+    "date-format-agent":<DateFormat/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
