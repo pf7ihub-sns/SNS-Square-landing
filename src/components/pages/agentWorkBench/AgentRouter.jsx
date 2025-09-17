@@ -31,6 +31,7 @@ import DocumentParser from "./agents/documentParser";
 import SecurityRiskAnalyzer from "./agents/securityRisk";
 import PromptOptimizer from "./agents/promptOptimizer";
 import ContentValidation from "./agents/ContentValidation";
+import GeneralChat from "./agents/generalChat";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -66,7 +67,8 @@ const AgentRouter = () => {
     "document-parser-agent": <DocumentParser />,
     "security-risk-analyzer": <SecurityRiskAnalyzer />,
     "prompt-optimizer": <PromptOptimizer />,
-    "content-validation-agent": <ContentValidation />
+    "content-validation-agent": <ContentValidation />,
+    "general-chat": <GeneralChat />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
