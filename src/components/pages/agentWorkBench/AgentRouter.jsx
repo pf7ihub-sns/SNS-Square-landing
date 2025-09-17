@@ -32,6 +32,7 @@ import SecurityRiskAnalyzer from "./agents/securityRisk";
 import PromptOptimizer from "./agents/promptOptimizer";
 import ContentValidation from "./agents/ContentValidation";
 import GeneralChat from "./agents/generalChat";
+import LogicValidation from "./agents/logicValidation";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -69,6 +70,7 @@ const AgentRouter = () => {
     "prompt-optimizer": <PromptOptimizer />,
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
+    "logic-validation-agent": <LogicValidation />,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

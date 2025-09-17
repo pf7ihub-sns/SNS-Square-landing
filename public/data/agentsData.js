@@ -526,6 +526,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "logic-validation-agent",
+            name: "Logic Validation Agent",
+            summary: "Validate the logical consistency of user inputs.",
+            image: "/placeholder.jpg",
+            solutions: ["Logic analysis", "Error detection", "Contextual validation"],
+            useCases: ["Content moderation", "Interactive storytelling", "User input validation"],
+            status: "available"
+          },
+          {
             id: "general-chat",
             name: "General Chat Support Agent",
             summary: "Provide instant customer support with context-aware responses.",
