@@ -1777,6 +1777,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "product-classifier",
+            name: "Product Classifier Agent",
+            summary: "Generate reports from Product classifier.",
+            image: "/placeholder.jpg",
+            solutions: ["Report generation", "Data visualization", "Automated insights"],
+            useCases: ["Business reporting", "Data analysis", "Performance tracking"],
+            status: "available"
+          },
+          {
             id: "email-draft-agent",
             name: "Email Draft Agent",
             summary: "Assist in drafting and organizing email communications.",

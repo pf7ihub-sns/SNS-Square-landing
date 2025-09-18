@@ -54,6 +54,7 @@ import OutLineGenerator from "./agents/outlineGenerator";
 import GeneralUtility from "./agents/generalUtility";
 import PolicySuggestion from "./agents/policySuggestion";
 import LanguageGrammer from"./agents/languageGrammar";
+import ProductClassifier from "./agents/productClassifier";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -111,7 +112,8 @@ const AgentRouter = () => {
     "outline-generator-agent":<OutLineGenerator/>,
     "general-utility-agent":<GeneralUtility/>,
     "policy-suggest-agent":<PolicySuggestion/>,
-    "language-agent":<LanguageGrammer/>
+    "language-agent":<LanguageGrammer/>,
+    "product-classifier":<ProductClassifier/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
