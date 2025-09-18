@@ -50,6 +50,7 @@ import MomGenerator from"./agents/momGenerator";
 import ResumeAnalyzer from "./agents/resumeAnalyzer";
 import AesAgent from "./agents/aesAgent";
 import EmergingTrends from "./agents/emergingTrend";
+import OutLineGenerator from "./agents/outlineGenerator";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -104,7 +105,8 @@ const AgentRouter = () => {
     "mom-generator-agent":<MomGenerator/>,
     "resume-analyzer-agent":<ResumeAnalyzer/>,
     "aes-agent":<AesAgent/>,
-    "emerging-trends-agent":<EmergingTrends/>
+    "emerging-trends-agent":<EmergingTrends/>,
+    "outline-generator-agent":<OutLineGenerator/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

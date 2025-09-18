@@ -869,6 +869,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "outline-generator-agent",
+            name: "Outline Generator Agent",
+            summary: "Generate structured outlines for various content types.",
+            image: "/placeholder.jpg",
+            solutions: ["Content structuring", "Hierarchical organization", "Thematic categorization"],
+            useCases: ["Content creation", "Educational material development", "Research paper organization"],
+            status: "available"
+          },
+          {
             id: "consumer-behavior-analyzer",
             name: "Consumer Behavior Analyzer Agent",
             summary: "Analyze consumer preferences, behaviors, and purchasing patterns.",
