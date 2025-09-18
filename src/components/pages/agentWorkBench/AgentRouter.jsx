@@ -53,7 +53,7 @@ import EmergingTrends from "./agents/emergingTrend";
 import OutLineGenerator from "./agents/outlineGenerator";
 import GeneralUtility from "./agents/generalUtility";
 import PolicySuggestion from "./agents/policySuggestion";
-
+import LanguageGrammer from"./agents/languageGrammar";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -110,7 +110,8 @@ const AgentRouter = () => {
     "emerging-trends-agent":<EmergingTrends/>,
     "outline-generator-agent":<OutLineGenerator/>,
     "general-utility-agent":<GeneralUtility/>,
-    "policy-suggest-agent":<PolicySuggestion/>
+    "policy-suggest-agent":<PolicySuggestion/>,
+    "language-agent":<LanguageGrammer/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

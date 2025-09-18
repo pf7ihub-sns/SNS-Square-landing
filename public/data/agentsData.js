@@ -589,6 +589,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "language-agent",
+            name: "Language Grammer support Agent",
+            summary: "Provide instant customer support with context-aware responses.",
+            image: "/placeholder.jpg",
+            solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+            status: "available"
+          },
+          {
             id: "prompt-optimizer",
             name: "Prompt Optimizer Agent",
             summary: "Enhance user prompts for better AI responses.",
