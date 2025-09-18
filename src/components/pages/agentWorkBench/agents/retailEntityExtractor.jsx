@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function RetailEntityExtractor() {
     const [rawText, setRawText] = useState('');
@@ -163,9 +164,18 @@ export default function RetailEntityExtractor() {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
             <div className="w-full max-w-4xl">
                 {/* Header */}
-                <h1 className="text-3xl font-semibold text-white text-center mb-3 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                    Retail Entity Extractor
-                </h1>
+                <div className="relative">
+                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                        Retail Entity Extractor
+                    </h1>
+                    <button
+                        onClick={() => window.location.href = '/media-entertainment'}
+                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                        <span>Back</span>
+                    </button>
+                </div>
 
                 {/* Instructions */}
                 <div className="text-center mb-3 text-gray-700">
