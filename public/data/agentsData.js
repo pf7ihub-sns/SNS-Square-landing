@@ -1705,6 +1705,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "report-generator-agent",
+            name: "Report Generator Agent",
+            summary: "Generate reports from various data sources.",
+            image: "/placeholder.jpg",
+            solutions: ["Report generation", "Data visualization", "Automated insights"],
+            useCases: ["Business reporting", "Data analysis", "Performance tracking"],
+            status: "available"
+          },
+          {
             id: "task-organizer",
             name: "Task Organizer Agent",
             summary: "Organize and prioritize tasks for optimal productivity.",

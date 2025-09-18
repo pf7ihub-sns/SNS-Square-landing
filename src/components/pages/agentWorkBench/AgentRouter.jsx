@@ -45,6 +45,7 @@ import SocialMediaContent from "./agents/socialMediaContent";
 import TaskBreakDown from "./agents/taskBreakDown";
 import InvoiceAgent from "./agents/invoiceAgent";
 import QuizGenerator from "./agents/quizGenerator";
+import ReportGenerator from "./agents/reportGenerator";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -94,7 +95,8 @@ const AgentRouter = () => {
     "social-media-content-agent":<SocialMediaContent/>,
     "task-breakdown-agent":<TaskBreakDown/>,
     "invoice-agent":<InvoiceAgent/>,
-    "quiz-generator-agent":<QuizGenerator/>
+    "quiz-generator-agent":<QuizGenerator/>,
+    "report-generator-agent":<ReportGenerator/>,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
