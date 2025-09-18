@@ -43,6 +43,7 @@ import TechDoc from "./agents/techDoc";
 import EmailDraft from"./agents/emailDraft";
 import SocialMediaContent from "./agents/socialMediaContent";
 import TaskBreakDown from "./agents/taskBreakDown";
+import InvoiceAgent from "./agents/invoiceAgent";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -90,7 +91,8 @@ const AgentRouter = () => {
     "tech-documentation-agent":<TechDoc/>,
     "email-draft-agent":<EmailDraft/>,
     "social-media-content-agent":<SocialMediaContent/>,
-    "task-breakdown-agent":<TaskBreakDown/>
+    "task-breakdown-agent":<TaskBreakDown/>,
+    "invoice-agent":<InvoiceAgent/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

@@ -823,6 +823,15 @@ foundational:[
             useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
             status: "not available"
           },
+          {
+            id: "invoice-agent",
+            name: "Invoice Agent",
+            summary: "Automate the creation and management of invoices.",
+            image: "/placeholder.jpg",
+            solutions: ["Invoice generation", "Payment tracking", "Expense management"],
+            useCases: ["Billing", "Financial reporting", "Tax compliance"],
+            status: "available"
+          },
            {
             id: "feedback-analysis-agent",
             name: "Feedback Analysis Agent",
