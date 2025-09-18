@@ -69,7 +69,7 @@ const InvoiceAgent = () => {
                     </h1>
                     <button
                         onClick={() => window.location.href = '/media-entertainment'}
-                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white hover:bg-opacity-10 rounded-md z-10"
+                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         <span>Back</span>
