@@ -42,6 +42,7 @@ import PdfChat from "./agents/pdfChat";
 import TechDoc from "./agents/techDoc";
 import EmailDraft from"./agents/emailDraft";
 import SocialMediaContent from "./agents/socialMediaContent";
+import TaskBreakDown from "./agents/taskBreakDown";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -88,7 +89,8 @@ const AgentRouter = () => {
     "pdf-chat-agent":<PdfChat/>,
     "tech-documentation-agent":<TechDoc/>,
     "email-draft-agent":<EmailDraft/>,
-    "social-media-content-agent":<SocialMediaContent/>
+    "social-media-content-agent":<SocialMediaContent/>,
+    "task-breakdown-agent":<TaskBreakDown/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

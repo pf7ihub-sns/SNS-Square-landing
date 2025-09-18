@@ -1678,6 +1678,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "task-breakdown-agent",
+            name: "Task Breakdown Agent",
+            summary: "Break down tasks into manageable subtasks.",
+            image: "/placeholder.jpg",
+            solutions: ["Task decomposition", "Subtask management", "Progress tracking"],
+            useCases: ["Agile development", "Project planning", "Team collaboration"],
+            status: "available"
+          },
+          {
             id: "csv-to-excel-agent",
             name: "CSV to Excel Agent",
             summary: "Convert CSV files to Excel format and vice versa.",
