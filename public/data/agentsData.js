@@ -72,6 +72,15 @@ foundational:[
           status: "not available"
         },
         {
+          id: "pdf-chat-agent",
+          name: "PDF Chat Agent",
+          summary: "Engage in conversations about PDF documents.",
+          image: "/placeholder.jpg",
+          solutions: ["Document Q&A", "Summarization", "Content extraction"],
+          useCases: ["Legal briefs", "Research papers", "User manuals"],
+          status: "available"
+        },
+        {
           id: "parsing-extraction",
           name: "Document Parsing & Extraction Agent",
           summary: "Parse structured fields and tables into typed JSON.",

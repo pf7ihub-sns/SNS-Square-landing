@@ -38,6 +38,7 @@ import DataProfiling from "./agents/dataProfiling";
 import SchemaGenerator from "./agents/schemaGenerator";
 import OCR from "./agents/ocr";
 import DateFormat from "./agents/dataFormat";
+import PdfChat from "./agents/pdfChat";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -80,7 +81,8 @@ const AgentRouter = () => {
     "data-profiling-agent": <DataProfiling />,
     "schema-generator-agent": <SchemaGenerator />,
     "ocr-agent":<OCR/>,
-    "date-format-agent":<DateFormat/>
+    "date-format-agent":<DateFormat/>,
+    "pdf-chat-agent":<PdfChat/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
