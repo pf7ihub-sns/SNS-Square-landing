@@ -39,6 +39,7 @@ import SchemaGenerator from "./agents/schemaGenerator";
 import OCR from "./agents/ocr";
 import DateFormat from "./agents/dataFormat";
 import PdfChat from "./agents/pdfChat";
+import TechDoc from "./agents/techDoc";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -82,7 +83,8 @@ const AgentRouter = () => {
     "schema-generator-agent": <SchemaGenerator />,
     "ocr-agent":<OCR/>,
     "date-format-agent":<DateFormat/>,
-    "pdf-chat-agent":<PdfChat/>
+    "pdf-chat-agent":<PdfChat/>,
+    "tech-documentation-agent":<TechDoc/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

@@ -81,6 +81,15 @@ foundational:[
           status: "available"
         },
         {
+          id: "tech-documentation-agent",
+          name: "Tech Documentation Agent",
+          summary: "Assist in creating and managing technical documentation.",
+          image: "/placeholder.jpg",
+          solutions: ["Document generation", "Version control", "Collaboration tools"],
+          useCases: ["API documentation", "User manuals", "Knowledge bases"],
+          status: "available"
+        },
+        {
           id: "parsing-extraction",
           name: "Document Parsing & Extraction Agent",
           summary: "Parse structured fields and tables into typed JSON.",
