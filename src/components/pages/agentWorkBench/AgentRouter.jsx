@@ -41,6 +41,7 @@ import DateFormat from "./agents/dataFormat";
 import PdfChat from "./agents/pdfChat";
 import TechDoc from "./agents/techDoc";
 import EmailDraft from"./agents/emailDraft";
+import SocialMediaContent from "./agents/socialMediaContent";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -86,7 +87,8 @@ const AgentRouter = () => {
     "date-format-agent":<DateFormat/>,
     "pdf-chat-agent":<PdfChat/>,
     "tech-documentation-agent":<TechDoc/>,
-    "email-draft-agent":<EmailDraft/>
+    "email-draft-agent":<EmailDraft/>,
+    "social-media-content-agent":<SocialMediaContent/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

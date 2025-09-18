@@ -1826,6 +1826,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "social-media-content-agent",
+            name: "Social Media Content Agent",
+            summary: "Create and manage content for social media platforms.",
+            image: "/placeholder.jpg",
+            solutions: ["Content creation", "Post scheduling", "Engagement tracking"],
+            useCases: ["Social media marketing", "Brand awareness", "Audience engagement"],
+            status: "available"
+          },
+          {
             id: "social-media",
             name: "Story Line Generator",
             summary: "Generate engaging storylines for social media content.",
