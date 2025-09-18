@@ -2,63 +2,82 @@ import React from 'react';
 
 const FeatureCardsSection = () => {
   return (
-    <div className="relative z-30 px-4 xs:px-5 sm:px-6 lg:px-8 py-8 xs:py-10 sm:py-12 md:py-16 lg:py-20 xl:py-24 pb-4 xs:pb-5 sm:pb-6 md:pb-8 lg:pb-10 xl:pb-12">
+    <div className="relative z-30 px-4 xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 xl:py-24">
       <div className="max-w-7xl mx-auto">
-        <div className="relative p-4 xs:p-5 sm:p-6 lg:p-12 xl:p-16 overflow-hidden rounded-xl lg:rounded-2xl" style={{ backgroundImage: "url('/images/Bgframe.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
-          {/* Feature Cards Grid */}
-          <div className="relative z-10 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 lg:gap-8">
-            {/* Domain Versatility Card */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-xl transition-shadow h-auto sm:h-[240px] lg:h-[260px] flex flex-col">
-              <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-                <img src="/images/Frame_3.svg" alt="Domain Versatility" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" />
+        {/* Section Title - Desktop H3 */}
+        <h3 className="font-manrope font-bold text-[22px] md:text-[24px] lg:text-[28px] xl:text-[32px] 2xl:text-[36px] leading-tight text-[#040404] mb-6 md:mb-8 lg:mb-10">
+          The complete Agentic AI suite designed for your needs
+        </h3>
+        {/* Three image-backed cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6 md:mt-8 lg:mt-10">
+          {/* Card 1 */}
+          <article
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white"
+            style={{
+              backgroundImage: "url('/images/home/Link.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[460px] md:h-[520px] flex flex-col justify-between">
+              <div>
+                <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-[#e65300]">
+                  Foundational Agents
+                </h4>
+                <p className="mt-3 text-[#3a3a3a]">
+                  Unlock Agentic intelligence with a comprehensive suite of AI agents ready to
+                  power your applications.
+                </p>
               </div>
-              <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-inter font-medium text-[#040404] mt-3">
-                Domain Versatility
-              </h3>
-              <p className="text-xs xs:text-sm sm:text-sm font-manrope font-medium text-gray-600 mt-3 sm:mt-auto mb-3 xs:mb-4 sm:mb-[20px]">
-                Solutions that adapt across industries.
-              </p>
             </div>
-            
-            {/* AI Engineering First Card */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-xl transition-shadow h-auto sm:h-[240px] lg:h-[260px] flex flex-col">
-              <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-                <img src="/images/Frame_2.svg" alt="AI Engineering First" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" />
+          </article>
+
+          {/* Card 2 */}
+          <article
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white"
+            style={{
+              backgroundImage: "url('/images/home/Link (1).png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[460px] md:h-[520px] flex flex-col justify-between">
+              <div>
+                <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-[#2d2b87]">
+                  Industry Solutions
+                </h4>
+                <p className="mt-3 text-[#3a3a3a]">
+                  Transform your sector with a wide array of AI agents built for efficiency and
+                  innovation.
+                </p>
               </div>
-              <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-inter font-medium text-[#040404] mt-3">
-                AI Engineering <br /> First
-              </h3>
-              <p className="text-xs xs:text-sm sm:text-sm font-manrope font-medium text-gray-600 mt-3 sm:mt-auto mb-3 xs:mb-4 sm:mb-[20px]">
-                Strong foundation in AI, data, and automation.
-              </p>
             </div>
-            
-            {/* Born Agentic Card */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-xl transition-shadow h-auto sm:h-[240px] lg:h-[260px] flex flex-col">
-              <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-                <img src="/images/Frame.svg" alt="Born Agentic" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" />
+          </article>
+
+          {/* Card 3 */}
+          <article
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white"
+            style={{
+              backgroundImage: "url('/images/home/Link (2).png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[460px] md:h-[520px] flex flex-col justify-between">
+              <div>
+                <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-[#0b5dd9]">
+                  Customer Solutions
+                </h4>
+                <p className="mt-3 text-[#3a3a3a]">
+                  Achieve personalized success with a full range of AI agents tailored to your
+                  needs.
+                </p>
               </div>
-              <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-inter font-medium text-[#040404] mt-3">
-                Born Agentic
-              </h3>
-              <p className="text-xs xs:text-sm sm:text-sm font-manrope font-medium text-gray-600 mt-3 sm:mt-auto mb-3 xs:mb-4 sm:mb-[20px]">
-                Native to the era of autonomous AI.
-              </p>
             </div>
-            
-            {/* Outcome Obsession Card */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 hover:shadow-xl transition-shadow h-auto sm:h-[240px] lg:h-[260px] flex flex-col">
-              <div className="bg-[#e6edfc] rounded-lg lg:rounded-xl p-3 xs:p-4 sm:p-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 flex items-center justify-center">
-                <img src="/images/Frame_4.svg" alt="Outcome Obsession" className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" />
-              </div>
-              <h3 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-inter font-medium text-[#040404] mt-3">
-                Outcome obsession
-              </h3>
-              <p className="text-xs xs:text-sm sm:text-sm font-manrope font-medium text-gray-600 mt-3 sm:mt-auto mb-3 xs:mb-4 sm:mb-[20px]">
-                Designed to deliver real impact.
-              </p>
-            </div>
-          </div>
+          </article>
         </div>
       </div>
     </div>
