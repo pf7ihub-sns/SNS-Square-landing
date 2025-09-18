@@ -443,7 +443,7 @@ const OrbitHero = () => {
             </div>
             <div className="flex items-center justify-center mt-4  pointer-events-none">
                 <button
-                    className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
+                    className="pointer-events-auto bg-[#064EE3] text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60 mb-12"
                     onClick={() => {
                         const userId = localStorage.getItem('userId');
                         console.log('Bottom button clicked, userId:', userId); // Debug log

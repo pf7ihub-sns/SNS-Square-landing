@@ -21,25 +21,22 @@ const HamburgerIcon = ({ isOpen, className, ...props }) => (
   >
     <path
       d="M4 12L20 12"
-      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${
-        isOpen 
-          ? 'translate-x-0 translate-y-0 rotate-[315deg]' 
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${isOpen
+          ? 'translate-x-0 translate-y-0 rotate-[315deg]'
           : '-translate-y-[7px]'
-      }`}
+        }`}
     />
     <path
       d="M4 12H20"
-      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] ${
-        isOpen ? 'rotate-45' : 'rotate-0'
-      }`}
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] ${isOpen ? 'rotate-45' : 'rotate-0'
+        }`}
     />
     <path
       d="M4 12H20"
-      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${
-        isOpen 
-          ? 'translate-y-0 rotate-[135deg]' 
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${isOpen
+          ? 'translate-y-0 rotate-[135deg]'
           : 'translate-y-[7px]'
-      }`}
+        }`}
     />
   </svg>
 );
@@ -47,23 +44,21 @@ const HamburgerIcon = ({ isOpen, className, ...props }) => (
 // Animated Arrow Component for Navigation
 const AnimatedArrow = ({ isHovered, className, ...props }) => (
   <div className={`relative inline-flex items-center transition-all duration-300 ease-in-out ${className}`}>
-    <MdOutlineKeyboardArrowRight 
-      className={`absolute transition-all duration-300 ease-in-out ${
-        isHovered 
-          ? 'opacity-0 rotate-90 scale-0' 
+    <MdOutlineKeyboardArrowRight
+      className={`absolute transition-all duration-300 ease-in-out ${isHovered
+          ? 'opacity-0 rotate-90 scale-0'
           : 'opacity-100 rotate-0 scale-100'
-      }`} 
-      size={16} 
-      {...props} 
+        }`}
+      size={16}
+      {...props}
     />
-    <MdOutlineKeyboardArrowDown 
-      className={`absolute transition-all duration-300 ease-in-out ${
-        isHovered 
-          ? 'opacity-100 rotate-0 scale-100' 
+    <MdOutlineKeyboardArrowDown
+      className={`absolute transition-all duration-300 ease-in-out ${isHovered
+          ? 'opacity-100 rotate-0 scale-100'
           : 'opacity-0 -rotate-90 scale-0'
-      }`} 
-      size={16} 
-      {...props} 
+        }`}
+      size={16}
+      {...props}
     />
   </div>
 );
@@ -112,7 +107,7 @@ const Header = () => {
       { label: 'API Reference', href: '/resources/api' }
     ]
   };
-  
+
   const linkClasses = ({ isActive }) =>
     `text-small font-normal font-inter cursor-pointer transition-colors duration-300
      ${isActive ? "text-blue-600" : "text-black hover:text-blue-600"}`;
@@ -189,7 +184,7 @@ const Header = () => {
   // Dropdown component
   const DropdownMenu = ({ items, isVisible }) => {
     if (!isVisible || !items) return null;
-    
+
     return (
       <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
         <div className="flex flex-col">
@@ -245,180 +240,168 @@ const Header = () => {
     <header className="w-full bg-white p-4 fixed top-0 left-0 z-100 backdrop-blur-md shadow-sm">
       <div className="w-[90%] max-w-[1440px] mx-auto relative flex items-center justify-between">
         {/* Logo - left corner */}
-        <div 
+        <div
           className="flex items-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
           onClick={handleLogoClick}
         >
           <img
-            src="/images/img_square_logo_black.png"
+            src="/images/square_logo_black.png"
             alt="SNS Square Logo"
             className="w-[60px] h-[42px] sm:w-[80px] sm:h-[55px] md:w-[96px] md:h-[66px]"
           />
         </div>
-        
+
         {/* Nav - center */}
-        <nav className="hidden lg:flex flex-row items-center gap-4 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+        <nav className="hidden lg:flex flex-row items-center gap-6 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
           <div className="relative group">
-            <NavLink 
-              to="/agent-workbench" 
-              className={({ isActive }) => {
-                const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
-                return `text-small font-normal font-inter cursor-pointer transition-colors duration-300
-                        ${isAgentWorkbenchActive ? "text-blue-600" : "text-black hover:text-blue-600"}`;
-              }}
-              onClick={handleNavClick}
-              onMouseEnter={() => handleDropdownHover('agentic-workbench')}
-              onMouseLeave={handleDropdownLeave}
-            > 
-              Agentic Workbench
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('agentic-workbench')}
               onMouseLeave={handleDropdownLeave}
             >
-              <AnimatedArrow 
+              <NavLink
+                to="/agent-workbench"
+                className={({ isActive }) => {
+                  const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+                  return `text-small font-normal font-inter cursor-pointer transition-colors duration-300
+                  ${isAgentWorkbenchActive ? "text-blue-600" : "text-black hover:text-blue-600"}`;
+                }}
+                onClick={handleNavClick}
+              >
+                Agentic Workbench
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'agentic-workbench'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['agentic-workbench']} 
-              isVisible={hoveredDropdown === 'agentic-workbench'} 
+            <DropdownMenu
+              items={dropdownContent['agentic-workbench']}
+              isVisible={hoveredDropdown === 'agentic-workbench'}
             />
           </div>
 
           <div className="relative group">
-            <NavLink 
-              to="/usecase" 
-              className={linkClasses} 
-              onClick={handleNavClick}
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('use-cases')}
               onMouseLeave={handleDropdownLeave}
             >
-              Use Cases
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('use-cases')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <AnimatedArrow 
+              <NavLink
+                to="/usecase"
+                className={linkClasses}
+                onClick={handleNavClick}
+              >
+                Use Cases
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'use-cases'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['use-cases']} 
-              isVisible={hoveredDropdown === 'use-cases'} 
+            <DropdownMenu
+              items={dropdownContent['use-cases']}
+              isVisible={hoveredDropdown === 'use-cases'}
             />
           </div>
 
           <div className="relative group">
-            <NavLink 
-              to="/life-at-sns" 
-              className={linkClasses} 
-              onClick={handleNavClick}
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('life-at-sns')}
               onMouseLeave={handleDropdownLeave}
             >
-              Life at SNS Square
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('life-at-sns')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <AnimatedArrow 
+              <NavLink
+                to="/life-at-sns"
+                className={linkClasses}
+                onClick={handleNavClick}
+              >
+                Life at SNS Square
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'life-at-sns'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['life-at-sns']} 
-              isVisible={hoveredDropdown === 'life-at-sns'} 
+            <DropdownMenu
+              items={dropdownContent['life-at-sns']}
+              isVisible={hoveredDropdown === 'life-at-sns'}
             />
           </div>
 
           <div className="relative group">
-            <NavLink 
-              to="/about-us" 
-              className={linkClasses} 
-              onClick={handleNavClick}
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('about-us')}
               onMouseLeave={handleDropdownLeave}
             >
-              About Us
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('about-us')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <AnimatedArrow 
+              <NavLink
+                to="/about-us"
+                className={linkClasses}
+                onClick={handleNavClick}
+              >
+                About Us
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'about-us'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['about-us']} 
-              isVisible={hoveredDropdown === 'about-us'} 
+            <DropdownMenu
+              items={dropdownContent['about-us']}
+              isVisible={hoveredDropdown === 'about-us'}
             />
           </div>
 
           <div className="relative group">
-            <NavLink 
-              to="/careers" 
-              className={linkClasses} 
-              onClick={handleNavClick}
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('careers')}
               onMouseLeave={handleDropdownLeave}
             >
-              Careers
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('careers')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <AnimatedArrow 
+              <NavLink
+                to="/careers"
+                className={linkClasses}
+                onClick={handleNavClick}
+              >
+                Careers
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'careers'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['careers']} 
-              isVisible={hoveredDropdown === 'careers'} 
+            <DropdownMenu
+              items={dropdownContent['careers']}
+              isVisible={hoveredDropdown === 'careers'}
             />
           </div>
 
           <div className="relative group">
-            <NavLink 
-              to="/resources" 
-              className={linkClasses} 
-              onClick={handleNavClick}
+            <div
+              className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('resources')}
               onMouseLeave={handleDropdownLeave}
             >
-              Resources
-            </NavLink>
-            <div 
-              className="inline-flex items-center ml-2 cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('resources')}
-              onMouseLeave={handleDropdownLeave}
-            >
-              <AnimatedArrow 
+              <NavLink
+                to="/resources"
+                className={linkClasses}
+                onClick={handleNavClick}
+              >
+                Resources
+              </NavLink>
+              <AnimatedArrow
                 isHovered={hoveredDropdown === 'resources'}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 ml-1"
               />
             </div>
-            <DropdownMenu 
-              items={dropdownContent['resources']} 
-              isVisible={hoveredDropdown === 'resources'} 
+            <DropdownMenu
+              items={dropdownContent['resources']}
+              isVisible={hoveredDropdown === 'resources'}
             />
           </div>
         </nav>
-        
+
         {/* Authentication/User Menu - right corner */}
         <div className="hidden lg:flex items-center space-x-3">
           {isAuthenticated ? (
@@ -435,7 +418,7 @@ const Header = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
+
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
                   <button
@@ -458,7 +441,7 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-black text-white hover:bg-gray-800 transition-colors"
+                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-black text-white hover:bg-gray-800 transition-colors"
                 onClick={() => {
                   const event = new CustomEvent('openSignupModal');
                   window.dispatchEvent(event);
@@ -469,7 +452,7 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black hover:bg-gray-50 transition-colors"
+                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black hover:bg-gray-50 transition-colors"
                 onClick={handleContactClick}
               >
                 Contact Us
@@ -477,7 +460,7 @@ const Header = () => {
             </>
           )}
         </div>
-        
+
         {/* Hamburger Menu Icon (Mobile only) */}
         <button
           className="block lg:hidden p-2 ml-auto hover:bg-gray-100 rounded-lg transition-colors duration-200"
@@ -487,16 +470,16 @@ const Header = () => {
           <HamburgerIcon isOpen={menuOpen} className="text-black" />
         </button>
       </div>
-      
+
       {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div 
-          ref={menuRef} 
+        <div
+          ref={menuRef}
           className={`lg:hidden mt-4 bg-white rounded-lg p-4 flex flex-col gap-4 shadow-lg border border-gray-200 animate-in slide-in-from-top-2 fade-in-0 duration-300 ease-out`}
         >
           <nav className="flex flex-col gap-2">
-            <NavLink 
-              to="/agent-workbench" 
+            <NavLink
+              to="/agent-workbench"
               className={({ isActive }) => {
                 const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
                 return `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
@@ -506,31 +489,31 @@ const Header = () => {
             >
               Agentic Workbench
             </NavLink>
-            <NavLink to="/usecase" className={({ isActive }) => 
+            <NavLink to="/usecase" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
               Use Cases
             </NavLink>
-            <NavLink to="/life-at-sns" className={({ isActive }) => 
+            <NavLink to="/life-at-sns" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
               Life at SNS Square
             </NavLink>
-            <NavLink to="/about-us" className={({ isActive }) => 
+            <NavLink to="/about-us" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
               About Us
             </NavLink>
-            <NavLink to="/careers" className={({ isActive }) => 
+            <NavLink to="/careers" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
               Careers
             </NavLink>
-            <NavLink to="/resources" className={({ isActive }) => 
+            <NavLink to="/resources" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
