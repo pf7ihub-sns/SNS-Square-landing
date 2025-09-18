@@ -824,13 +824,13 @@ foundational:[
         image: "images/business_intel.jpg",
         agents: [
           {
-            id: "trend-analyzer",
+            id: "emerging-trends-agent",
             name: "Market Trend Analyzer Agent",
             summary: "Identify and analyze emerging market trends and patterns.",
             image: "/placeholder.jpg",
             solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
             useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
-            status: "not available"
+            status: "available"
           },
           {
             id: "invoice-agent",
