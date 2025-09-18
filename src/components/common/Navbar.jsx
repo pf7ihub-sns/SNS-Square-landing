@@ -2,18 +2,120 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "./Button2.jsx";
 import { useAuthStore } from "../../store/store";
+import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
+
+// Animated Hamburger Icon Component
+const HamburgerIcon = ({ isOpen, className, ...props }) => (
+  <svg
+    className={`pointer-events-none transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${className}`}
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M4 12L20 12"
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${
+        isOpen 
+          ? 'translate-x-0 translate-y-0 rotate-[315deg]' 
+          : '-translate-y-[7px]'
+      }`}
+    />
+    <path
+      d="M4 12H20"
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] ${
+        isOpen ? 'rotate-45' : 'rotate-0'
+      }`}
+    />
+    <path
+      d="M4 12H20"
+      className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${
+        isOpen 
+          ? 'translate-y-0 rotate-[135deg]' 
+          : 'translate-y-[7px]'
+      }`}
+    />
+  </svg>
+);
+
+// Animated Arrow Component for Navigation
+const AnimatedArrow = ({ isHovered, className, ...props }) => (
+  <div className={`relative inline-flex items-center transition-all duration-300 ease-in-out ${className}`}>
+    <MdOutlineKeyboardArrowRight 
+      className={`absolute transition-all duration-300 ease-in-out ${
+        isHovered 
+          ? 'opacity-0 rotate-90 scale-0' 
+          : 'opacity-100 rotate-0 scale-100'
+      }`} 
+      size={16} 
+      {...props} 
+    />
+    <MdOutlineKeyboardArrowDown 
+      className={`absolute transition-all duration-300 ease-in-out ${
+        isHovered 
+          ? 'opacity-100 rotate-0 scale-100' 
+          : 'opacity-0 -rotate-90 scale-0'
+      }`} 
+      size={16} 
+      {...props} 
+    />
+  </div>
+);
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [hoveredDropdown, setHoveredDropdown] = useState(null);
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
+
+  // Dropdown content for each navigation item
+  const dropdownContent = {
+    'agentic-workbench': [
+      { label: 'AI Agents', href: '/agent-workbench/ai-agents' },
+      { label: 'Workflow Builder', href: '/agent-workbench/workflow-builder' },
+      { label: 'Agent Marketplace', href: '/agent-workbench/marketplace' }
+    ],
+    'use-cases': [
+      { label: 'Healthcare', href: '/usecase/healthcare' },
+      { label: 'Finance', href: '/usecase/finance' },
+      { label: 'E-commerce', href: '/usecase/ecommerce' },
+      { label: 'Manufacturing', href: '/usecase/manufacturing' }
+    ],
+    'life-at-sns': [
+      { label: 'Our Culture', href: '/life-at-sns/culture' },
+      { label: 'Team Stories', href: '/life-at-sns/team' },
+      { label: 'Events', href: '/life-at-sns/events' }
+    ],
+    'about-us': [
+      { label: 'Our Story', href: '/about-us/story' },
+      { label: 'Leadership', href: '/about-us/leadership' },
+      { label: 'Mission & Vision', href: '/about-us/mission' }
+    ],
+    'careers': [
+      { label: 'Open Positions', href: '/careers/positions' },
+      { label: 'Benefits', href: '/careers/benefits' },
+      { label: 'Internships', href: '/careers/internships' }
+    ],
+    'resources': [
+      { label: 'Documentation', href: '/resources/docs' },
+      { label: 'Blog', href: '/resources/blog' },
+      { label: 'Support', href: '/resources/support' },
+      { label: 'API Reference', href: '/resources/api' }
+    ]
+  };
   
   const linkClasses = ({ isActive }) =>
-    `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
-     ${isActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+    `text-small font-normal font-inter cursor-pointer transition-colors duration-300
+     ${isActive ? "text-blue-600" : "text-black hover:text-blue-600"}`;
 
   // Function to handle navigation link clicks
   const handleNavClick = () => {
@@ -67,6 +169,44 @@ const Header = () => {
     closeMenu();
   };
 
+  // Function to handle dropdown hover
+  const handleDropdownHover = (dropdownKey) => {
+    setHoveredDropdown(dropdownKey);
+  };
+
+  // Function to handle dropdown leave
+  const handleDropdownLeave = () => {
+    setHoveredDropdown(null);
+  };
+
+  // Function to handle dropdown item click
+  const handleDropdownItemClick = (href) => {
+    navigate(href);
+    setHoveredDropdown(null);
+    closeMenu();
+  };
+
+  // Dropdown component
+  const DropdownMenu = ({ items, isVisible }) => {
+    if (!isVisible || !items) return null;
+    
+    return (
+      <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
+        <div className="flex flex-col">
+          {items.map((item, index) => (
+            <button
+              key={index}
+              onClick={() => handleDropdownItemClick(item.href)}
+              className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   // Function to handle clicks outside the menu
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -102,11 +242,11 @@ const Header = () => {
   }, [showUserMenu]);
 
   return (
-    <header className="w-full bg-white p-4 fixed top-0 left-0 z-100 backdrop-blur-md">
+    <header className="w-full bg-white p-4 fixed top-0 left-0 z-100 backdrop-blur-md shadow-sm">
       <div className="w-[90%] max-w-[1440px] mx-auto relative flex items-center justify-between">
         {/* Logo - left corner */}
         <div 
-          className="w-[60px] sm:w-[80px] md:w-[96px] cursor-pointer hover:opacity-80 transition-opacity duration-200"
+          className="flex items-center cursor-pointer hover:opacity-80 transition-opacity duration-200"
           onClick={handleLogoClick}
         >
           <img
@@ -117,30 +257,166 @@ const Header = () => {
         </div>
         
         {/* Nav - center */}
-        <nav className="hidden lg:flex flex-row items-center gap-4 xl:gap-8 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-          <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
-            Home
-          </NavLink>
-          <NavLink 
-            to="/agent-workbench" 
-            className={({ isActive }) => {
-              const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
-              return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
-                      ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
-            }}
-            onClick={handleNavClick}
-          > 
-            Agent Workbench
-          </NavLink>
-          <NavLink to="/usecase" className={linkClasses} onClick={handleNavClick}>
-            Use Case
-          </NavLink>
-          <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
-            Life at SNS Square
-          </NavLink>
-          <NavLink to="/about-us" className={linkClasses} onClick={handleNavClick}>
-            About Us
-          </NavLink>
+        <nav className="hidden lg:flex flex-row items-center gap-4 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+          <div className="relative group">
+            <NavLink 
+              to="/agent-workbench" 
+              className={({ isActive }) => {
+                const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
+                return `text-small font-normal font-inter cursor-pointer transition-colors duration-300
+                        ${isAgentWorkbenchActive ? "text-blue-600" : "text-black hover:text-blue-600"}`;
+              }}
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('agentic-workbench')}
+              onMouseLeave={handleDropdownLeave}
+            > 
+              Agentic Workbench
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('agentic-workbench')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'agentic-workbench'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['agentic-workbench']} 
+              isVisible={hoveredDropdown === 'agentic-workbench'} 
+            />
+          </div>
+
+          <div className="relative group">
+            <NavLink 
+              to="/usecase" 
+              className={linkClasses} 
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('use-cases')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              Use Cases
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('use-cases')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'use-cases'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['use-cases']} 
+              isVisible={hoveredDropdown === 'use-cases'} 
+            />
+          </div>
+
+          <div className="relative group">
+            <NavLink 
+              to="/life-at-sns" 
+              className={linkClasses} 
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('life-at-sns')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              Life at SNS Square
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('life-at-sns')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'life-at-sns'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['life-at-sns']} 
+              isVisible={hoveredDropdown === 'life-at-sns'} 
+            />
+          </div>
+
+          <div className="relative group">
+            <NavLink 
+              to="/about-us" 
+              className={linkClasses} 
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('about-us')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              About Us
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('about-us')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'about-us'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['about-us']} 
+              isVisible={hoveredDropdown === 'about-us'} 
+            />
+          </div>
+
+          <div className="relative group">
+            <NavLink 
+              to="/careers" 
+              className={linkClasses} 
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('careers')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              Careers
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('careers')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'careers'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['careers']} 
+              isVisible={hoveredDropdown === 'careers'} 
+            />
+          </div>
+
+          <div className="relative group">
+            <NavLink 
+              to="/resources" 
+              className={linkClasses} 
+              onClick={handleNavClick}
+              onMouseEnter={() => handleDropdownHover('resources')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              Resources
+            </NavLink>
+            <div 
+              className="inline-flex items-center ml-2 cursor-pointer"
+              onMouseEnter={() => handleDropdownHover('resources')}
+              onMouseLeave={handleDropdownLeave}
+            >
+              <AnimatedArrow 
+                isHovered={hoveredDropdown === 'resources'}
+                className="text-gray-400 hover:text-gray-600"
+              />
+            </div>
+            <DropdownMenu 
+              items={dropdownContent['resources']} 
+              isVisible={hoveredDropdown === 'resources'} 
+            />
+          </div>
         </nav>
         
         {/* Authentication/User Menu - right corner */}
@@ -154,23 +430,23 @@ const Header = () => {
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
                   {user?.name?.charAt(0) || 'U'}
                 </div>
-                <span className="text-sm font-medium text-gray-700">{user?.name || 'User'}</span>
+                <span className="text-small font-normal font-inter text-gray-700">{user?.name || 'User'}</span>
                 <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               
               {showUserMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
                   <button
                     onClick={handleAgentWorkbenchClick}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
                   >
                     Agent Workbench
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
                   >
                     Logout
                   </button>
@@ -182,27 +458,33 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
+                className="rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-black text-white hover:bg-gray-800 transition-colors"
+                onClick={() => {
+                  const event = new CustomEvent('openSignupModal');
+                  window.dispatchEvent(event);
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                variant="secondary"
+                size="small"
+                className="rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black hover:bg-gray-50 transition-colors"
                 onClick={handleContactClick}
               >
                 Contact Us
               </Button>
-
             </>
           )}
         </div>
         
         {/* Hamburger Menu Icon (Mobile only) */}
         <button
-          className="block lg:hidden p-2 ml-auto"
-          aria-label="Open menu"
+          className="block lg:hidden p-2 ml-auto hover:bg-gray-100 rounded-lg transition-colors duration-200"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => menuOpen ? closeMenu() : openMenu()}
         >
-          <div className="w-6 h-6 flex flex-col justify-center items-center">
-            <span className="block w-full h-0.5 bg-black mb-1"></span>
-            <span className="block w-full h-0.5 bg-black mb-1"></span>
-            <span className="block w-full h-0.5 bg-black"></span>
-          </div>
+          <HamburgerIcon isOpen={menuOpen} className="text-black" />
         </button>
       </div>
       
@@ -210,76 +492,90 @@ const Header = () => {
       {menuOpen && (
         <div 
           ref={menuRef} 
-          className={`lg:hidden mt-4 bg-global-7 rounded-lg p-4 flex flex-col gap-4 transition-all duration-200 ease-in-out transform ${
-            isAnimating 
-              ? 'opacity-100 translate-y-0 scale-100' 
-              : 'opacity-0 -translate-y-2 scale-95'
-          }`}
+          className={`lg:hidden mt-4 bg-white rounded-lg p-4 flex flex-col gap-4 shadow-lg border border-gray-200 animate-in slide-in-from-top-2 fade-in-0 duration-300 ease-out`}
         >
-          <nav className="flex flex-col gap-4">
-            <NavLink to="/" className={linkClasses} onClick={handleNavClick}>
-              Home
-            </NavLink>
+          <nav className="flex flex-col gap-2">
             <NavLink 
               to="/agent-workbench" 
               className={({ isActive }) => {
                 const isAgentWorkbenchActive = isActive || window.location.pathname === '/media-entertainment';
-                return `text-sm lg:text-sm xl:text-base font-bold font-manrope cursor-pointer transition-colors duration-300
-                        ${isAgentWorkbenchActive ? "text-blue-600" : "text-global-4 hover:text-blue-600"}`;
+                return `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+                        ${isAgentWorkbenchActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`;
               }}
               onClick={handleNavClick}
             >
-              Agent workbench
+              Agentic Workbench
             </NavLink>
-            <NavLink to="/usecase" className={linkClasses} onClick={handleNavClick}>
-              Use Case
+            <NavLink to="/usecase" className={({ isActive }) => 
+              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+            } onClick={handleNavClick}>
+              Use Cases
             </NavLink>
-            <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
+            <NavLink to="/life-at-sns" className={({ isActive }) => 
+              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+            } onClick={handleNavClick}>
               Life at SNS Square
             </NavLink>
-            <NavLink to="/about-us" className={linkClasses} onClick={handleNavClick}>
+            <NavLink to="/about-us" className={({ isActive }) => 
+              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+            } onClick={handleNavClick}>
               About Us
+            </NavLink>
+            <NavLink to="/careers" className={({ isActive }) => 
+              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+            } onClick={handleNavClick}>
+              Careers
+            </NavLink>
+            <NavLink to="/resources" className={({ isActive }) => 
+              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+            } onClick={handleNavClick}>
+              Resources
             </NavLink>
           </nav>
           {isAuthenticated ? (
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-2 border-t border-gray-200 pt-4">
               <button
                 onClick={handleAgentWorkbenchClick}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               >
                 Agent Workbench
               </button>
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
               >
                 Logout
               </button>
             </div>
           ) : (
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-3 border-t border-gray-200 pt-4">
               <Button
                 variant="secondary"
                 size="small"
-                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-black text-white"
-                onClick={() => {
-                  handleContactClick();
-                  closeMenu();
-                }}
-              >
-                Contact Us
-              </Button>
-              <Button
-                variant="secondary"
-                size="small"
-                className="w-full rounded-[18px] px-6 py-1 text-sm font-bold bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
+                className="w-full rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-black text-white hover:bg-gray-800 transition-all duration-200 hover:scale-[1.02]"
                 onClick={() => {
                   const event = new CustomEvent('openSignupModal');
                   window.dispatchEvent(event);
                   closeMenu();
                 }}
               >
-                Sign Up
+                Sign In
+              </Button>
+              <Button
+                variant="secondary"
+                size="small"
+                className="w-full rounded-lg px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black hover:bg-gray-50 transition-all duration-200 hover:scale-[1.02]"
+                onClick={() => {
+                  handleContactClick();
+                  closeMenu();
+                }}
+              >
+                Contact Us
               </Button>
             </div>
           )}
