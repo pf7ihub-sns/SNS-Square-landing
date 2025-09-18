@@ -1,36 +1,54 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, AlertCircle } from 'lucide-react';
+
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+    state = { hasError: false, error: null };
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.error("ErrorBoundary caught an error", error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div className="p-6 text-center text-red-600">
+                    <AlertCircle className="w-12 h-12 mx-auto mb-4" />
+                    <h2 className="text-xl font-semibold">Something Went Wrong</h2>
+                    <p className="text-sm">{this.state.error?.message}</p>
+                    <button
+                        onClick={() => this.setState({ hasError: false, error: null })}
+                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            );
+        }
+        return this.props.children;
+    }
+}
 
 const API_BASE = "http://127.0.0.1:8000";
 
 const AesAgent = () => {
     const [mode, setMode] = useState('encrypt');
-    const [formData, setFormData] = useState({
-        data: '',
-        key: '',
-        encrypted_data: '',
-        iv: ''
-    });
+    const [input, setInput] = useState('');
+    const [key, setKey] = useState(''); // For decryption
+    const [iv, setIv] = useState('');   // For decryption
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-        setError(null);
-        setResult(null);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (mode === 'encrypt' && !formData.data.trim()) {
-            setError('Please enter data to encrypt.');
-            return;
-        }
-        if (mode === 'decrypt' && (!formData.encrypted_data.trim() || !formData.key.trim() || !formData.iv.trim())) {
-            setError('Please provide encrypted data, key, and IV for decryption.');
+        if (!input.trim()) {
+            setError('Please enter data to process.');
             return;
         }
 
@@ -38,153 +56,145 @@ const AesAgent = () => {
         setError(null);
         setResult(null);
 
-        try {
-            const endpoint = `${API_BASE}/aes/${mode}`;
-            const data = {};
-            if (mode === 'encrypt') {
-                data.data = formData.data;
-                if (formData.key.trim()) data.key = formData.key;
-            } else {
-                data.encrypted_data = formData.encrypted_data;
-                data.key = formData.key;
-                data.iv = formData.iv;
+        let message = '';
+        if (mode === 'encrypt') {
+            message = `encrypt this: ${input.trim()}`;
+        } else {
+            if (!key.trim() || !iv.trim()) {
+                setError('Please provide both key and IV for decryption.');
+                setLoading(false);
+                return;
             }
+            message = `decrypt this: ${input.trim()}:${key.trim()}:${iv.trim()}`;
+        }
 
-            const response = await axios.post(endpoint, data, {
+        try {
+            const response = await axios.post(`${API_BASE}/aes/chat`, { message }, {
                 headers: { 'Content-Type': 'application/json' },
             });
-            setResult(response.data);
+            const { response: resultText, status } = response.data;
+
+            if (status === 'success') {
+                if (resultText.includes(':')) {
+                    // Encryption output (encrypted_data:key:iv)
+                    const [encryptedData, keyPart, ivPart] = resultText.split(':');
+                    setResult({ encryptedData, key: keyPart, iv: ivPart, status });
+                } else {
+                    // Decryption output (plain text)
+                    setResult({ decryptedData: resultText, status });
+                }
+            } else {
+                setError(resultText); // Error message from agent
+            }
         } catch (err) {
-            setError(err.response?.data?.detail || `Error in ${mode} operation. Please check your input or backend logs. Status: ${err.response?.status || 500}`);
+            setError(err.response?.data?.detail || 'Error processing request. Please check your input or backend logs.');
+            console.error('API Error:', err.response?.data);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
-            <div className="w-full max-w-5xl mt-19">
-                {/* Header */}
-                <div className="relative">
-                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                        AES Agent
-                    </h1>
-                    <button
-                        onClick={() => window.location.href = '/media-entertainment'}
-                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
-                    >
-                        <ArrowLeft className="w-5 h-5" />
-                        <span>Back</span>
-                    </button>
-                </div>
+        <ErrorBoundary>
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+                <div className="w-full max-w-5xl mt-25">
+                    {/* Header */}
+                    <div className="relative">
+                        <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                            AES Agent
+                        </h1>
+                        <button
+                            onClick={() => window.location.href = '/media-entertainment'}
+                            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                            <span>Back</span>
+                        </button>
+                    </div>
 
-                {/* Instructions */}
-                <div className="text-center mb-4 text-gray-700">
-                    <p className="mb-2">Encrypt or decrypt text using AES encryption.</p>
-                    <p className="text-sm">Enter data for encryption (key is optional, generated by backend if blank), or encrypted data with key and IV for decryption.</p>
-                </div>
+                    {/* Instructions */}
+                    <div className="text-center mb-4 text-gray-700">
+                        <p className="mb-2">Encrypt or decrypt text using AES encryption.</p>
+                        <p className="text-sm">Select mode and provide data (key and IV required for decryption).</p>
+                    </div>
 
-                {/* Main Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Input Section */}
-                    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Mode
-                            </label>
-                            <div className="flex gap-4">
-                                <label className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="mode"
-                                        value="encrypt"
-                                        checked={mode === 'encrypt'}
-                                        onChange={() => setMode('encrypt')}
-                                        className="mr-2"
-                                    />
-                                    Encrypt
-                                </label>
-                                <label className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="mode"
-                                        value="decrypt"
-                                        checked={mode === 'decrypt'}
-                                        onChange={() => setMode('decrypt')}
-                                        className="mr-2"
-                                    />
-                                    Decrypt
-                                </label>
-                            </div>
-                        </div>
+                    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-4">
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            {mode === 'encrypt' ? (
-                                <div>
-                                    <label htmlFor="data" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Data to Encrypt
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Mode
+                                </label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="mode"
+                                            value="encrypt"
+                                            checked={mode === 'encrypt'}
+                                            onChange={() => setMode('encrypt')}
+                                            className="mr-2"
+                                        />
+                                        Encrypt
                                     </label>
-                                    <textarea
-                                        id="data"
-                                        name="data"
-                                        value={formData.data}
-                                        onChange={handleChange}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y h-32 text-sm"
-                                        placeholder="Enter text to encrypt..."
-                                    />
-                                    <label htmlFor="key" className="block text-sm font-medium text-gray-700 mt-2 mb-1">
-                                        Key (Optional, Base64 Encoded 256-bit)
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="mode"
+                                            value="decrypt"
+                                            checked={mode === 'decrypt'}
+                                            onChange={() => setMode('decrypt')}
+                                            className="mr-2"
+                                        />
+                                        Decrypt
                                     </label>
-                                    <input
-                                        id="key"
-                                        name="key"
-                                        value={formData.key}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                        placeholder="Leave blank for random key generated by backend..."
-                                    />
                                 </div>
-                            ) : (
-                                <div>
-                                    <label htmlFor="encrypted_data" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Encrypted Data (Base64)
-                                    </label>
-                                    <textarea
-                                        id="encrypted_data"
-                                        name="encrypted_data"
-                                        value={formData.encrypted_data}
-                                        onChange={handleChange}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y h-32 text-sm"
-                                        placeholder="Enter base64 encoded encrypted data..."
-                                    />
-                                    <label htmlFor="key" className="block text-sm font-medium text-gray-700 mt-2 mb-1">
-                                        Key (Base64 Encoded 256-bit)
-                                    </label>
-                                    <input
-                                        id="key"
-                                        name="key"
-                                        value={formData.key}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                        placeholder="Enter base64 encoded key..."
-                                    />
-                                    <label htmlFor="iv" className="block text-sm font-medium text-gray-700 mt-2 mb-1">
-                                        IV (Base64 Encoded 16-byte)
-                                    </label>
-                                    <input
-                                        id="iv"
-                                        name="iv"
-                                        value={formData.iv}
-                                        onChange={handleChange}
-                                        className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                        placeholder="Enter base64 encoded IV..."
-                                    />
-                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="input" className="block text-sm font-medium text-gray-700 mb-1">
+                                    {mode === 'encrypt' ? 'Data to Encrypt' : 'Encrypted Data (Base64)'}
+                                </label>
+                                <textarea
+                                    id="input"
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y h-32 text-sm"
+                                    placeholder={mode === 'encrypt' ? 'Enter text to encrypt...' : 'Enter base64 encoded encrypted data...'}
+                                />
+                            </div>
+                            {mode === 'decrypt' && (
+                                <>
+                                    <div>
+                                        <label htmlFor="key" className="block text-sm font-medium text-gray-700 mb-1">
+                                            Key (Base64 Encoded 256-bit)
+                                        </label>
+                                        <input
+                                            id="key"
+                                            value={key}
+                                            onChange={(e) => setKey(e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                            placeholder="Enter base64 encoded key..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="iv" className="block text-sm font-medium text-gray-700 mb-1">
+                                            IV (Base64 Encoded 16-byte)
+                                        </label>
+                                        <input
+                                            id="iv"
+                                            value={iv}
+                                            onChange={(e) => setIv(e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                            placeholder="Enter base64 encoded IV..."
+                                        />
+                                    </div>
+                                </>
                             )}
                             <button
                                 type="submit"
-                                disabled={loading || (mode === 'encrypt' && !formData.data.trim()) || (mode === 'decrypt' && (!formData.encrypted_data.trim() || !formData.key.trim() || !formData.iv.trim()))}
-                                className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || (mode === 'encrypt' && !formData.data.trim()) || (mode === 'decrypt' && (!formData.encrypted_data.trim() || !formData.key.trim() || !formData.iv.trim())) ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
-                                style={{ backgroundColor: loading || (mode === 'encrypt' && !formData.data.trim()) || (mode === 'decrypt' && (!formData.encrypted_data.trim() || !formData.key.trim() || !formData.iv.trim())) ? '#9CA3AF' : '#1E3A8A' }}
+                                disabled={loading || !input.trim() || (mode === 'decrypt' && (!key.trim() || !iv.trim()))}
+                                className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || !input.trim() || (mode === 'decrypt' && (!key.trim() || !iv.trim())) ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+                                style={{ backgroundColor: loading || !input.trim() || (mode === 'decrypt' && (!key.trim() || !iv.trim())) ? '#9CA3AF' : '#1E3A8A' }}
                             >
                                 {loading ? `${mode === 'encrypt' ? 'Encrypting' : 'Decrypting'}...` : `${mode === 'encrypt' ? 'Encrypt' : 'Decrypt'}`}
                             </button>
@@ -211,16 +221,16 @@ const AesAgent = () => {
                                 <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
                                     {mode === 'encrypt' ? 'Encryption Result' : 'Decryption Result'}
                                 </h2>
-                                {result.encrypted_data && (
+                                {result.encryptedData && (
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <h3 className="text-md font-medium text-blue-800 mb-2">Encrypted Data</h3>
-                                        <p className="text-gray-700 text-sm break-all">{result.encrypted_data}</p>
+                                        <p className="text-gray-700 text-sm break-all">{result.encryptedData}</p>
                                     </div>
                                 )}
-                                {result.decrypted_data && (
+                                {result.decryptedData && (
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <h3 className="text-md font-medium text-blue-800 mb-2">Decrypted Data</h3>
-                                        <p className="text-gray-700 text-sm">{result.decrypted_data}</p>
+                                        <p className="text-gray-700 text-sm">{result.decryptedData}</p>
                                     </div>
                                 )}
                                 {result.key && (
@@ -239,12 +249,6 @@ const AesAgent = () => {
                                     <h3 className="text-md font-medium text-blue-800 mb-2">Status</h3>
                                     <p className="text-gray-700 text-sm">{result.status}</p>
                                 </div>
-                                {result.error && (
-                                    <div className="bg-red-50 p-4 rounded-lg">
-                                        <h3 className="text-md font-medium text-red-800 mb-2">Error</h3>
-                                        <p className="text-gray-700 text-sm">{result.error}</p>
-                                    </div>
-                                )}
                             </div>
                         )}
                         {!loading && !error && !result && (
@@ -255,7 +259,7 @@ const AesAgent = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </ErrorBoundary>
     );
 };
 
