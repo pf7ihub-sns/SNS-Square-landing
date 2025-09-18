@@ -1,7 +1,7 @@
 import React from "react";
 import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
-import Lock from "./Lock";
+import ScenarioSection from "./scenarioSection";
 import UseCasesSection from "./UseCasesSection";
 import SolutionsSection from "./SolutionsSection";
 
@@ -135,9 +135,9 @@ const Home = () => {
       
       <HeroSection />
       <FeatureCardsSection />
-      
+      <ScenarioSection />
       {/* Lock Component */}
-      <div className='mx-auto py-0'>
+      {/* <div className='mx-auto py-0'>
         <style dangerouslySetInnerHTML={{__html: `
           @media (min-width: 1400px) and (max-width: 1700px) and (max-height: 950px) {
             .lock-container-1600x900 {
@@ -149,9 +149,9 @@ const Home = () => {
           }
         `}} />
         <div className="lock-container-1600x900">
-          <Lock/>
+          <ScenarioSection/>
         </div>
-      </div>
+      </div> */}
       
       <UseCasesSection />
       <SolutionsSection />
