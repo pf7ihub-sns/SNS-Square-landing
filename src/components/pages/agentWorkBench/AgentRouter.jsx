@@ -51,6 +51,7 @@ import ResumeAnalyzer from "./agents/resumeAnalyzer";
 import AesAgent from "./agents/aesAgent";
 import EmergingTrends from "./agents/emergingTrend";
 import OutLineGenerator from "./agents/outlineGenerator";
+import GeneralUtility from "./agents/generalUtility";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -106,7 +107,8 @@ const AgentRouter = () => {
     "resume-analyzer-agent":<ResumeAnalyzer/>,
     "aes-agent":<AesAgent/>,
     "emerging-trends-agent":<EmergingTrends/>,
-    "outline-generator-agent":<OutLineGenerator/>
+    "outline-generator-agent":<OutLineGenerator/>,
+    "general-utility-agent":<GeneralUtility/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

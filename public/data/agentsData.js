@@ -1759,6 +1759,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "general-utility-agent",
+            name: "General Utility Agent",
+            summary: "Provide various utility functions to assist users.",
+            image: "/placeholder.jpg",
+            solutions: ["Data formatting", "Text manipulation", "File management"],
+            useCases: ["Data preparation", "Content creation", "Workflow automation"],
+            status: "available"
+          },
+          {
             id: "email-draft-agent",
             name: "Email Draft Agent",
             summary: "Assist in drafting and organizing email communications.",
