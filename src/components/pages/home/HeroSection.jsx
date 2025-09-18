@@ -100,7 +100,7 @@ const HeroSection = () => {
           
           {/* Gradient Overlay - matches the image gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#a8c5ff]/20 via-[#c8d9ff]/10 to-transparent pointer-events-none z-[2]" />
-          <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[500px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto  h-full relative z-10">
+          <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[500px] md:max-w-[768px] lg:max-w-[900px] xl:max-w-[1330px] 2xl:max-w-[1450px] mx-auto  h-full relative z-10">
 
             {/* Mobile Layout (< 768px) - Stacked Vertically with Spline Background */}
             <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-10 text-center py-6 relative z-10">

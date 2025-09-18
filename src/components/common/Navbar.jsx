@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Button from "./Button2.jsx";
 import { useAuthStore } from "../../store/store";
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { HiMiniSquare3Stack3D } from "react-icons/hi2";
 
 // Animated Hamburger Icon Component
 const HamburgerIcon = ({ isOpen, className, ...props }) => (
@@ -186,15 +187,25 @@ const Header = () => {
     if (!isVisible || !items) return null;
 
     return (
-      <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
-        <div className="flex flex-col">
+      <div className="absolute top-full left-0 mt-2 w-92 bg-white rounded-xl shadow-lg border border-gray-100 py-3 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
+        <div className="flex flex-col gap-2">
           {items.map((item, index) => (
             <button
               key={index}
               onClick={() => handleDropdownItemClick(item.href)}
-              className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+              className="group flex items-center gap-3 w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors duration-200"
             >
-              {item.label}
+              <div className="flex-shrink-0 w-10 h-10 rounded-lg  flex items-center justify-center  transition-colors duration-200">
+                <HiMiniSquare3Stack3D className="w-8 h-5 text-teal-600 rotate-90" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-base font-medium text-gray-900">
+                  {item.label}
+                </span>
+                <span className="text-sm text-gray-500">
+                  Foundational Agents
+                </span>
+              </div>
             </button>
           ))}
         </div>

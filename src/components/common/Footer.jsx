@@ -1,6 +1,7 @@
 // src/components/Footer.jsx
 import { Linkedin, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
+import BlackButton from "./BlackButton";
 
 export default function Footer() {
   return (
@@ -14,9 +15,9 @@ export default function Footer() {
           Ready to transform your business with Agentic AI, autonomous solutions? Partner with us
           and take the first step into the Agentic era.
         </p>
-        <button className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-900 transition-colors">
+        <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">
           Contact US
-        </button>
+        </BlackButton>
       </div>
 
       {/* Footer Links */}
