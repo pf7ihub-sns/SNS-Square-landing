@@ -1157,13 +1157,13 @@ foundational:[
             status: "available"
           },
           {
-            id: "policy-enforcer",
-            name: "Policy Enforcer Agent",
+            id: "policy-suggest-agent",
+            name: "Policy Suggestion Agent",
             summary: "Enforce organizational policies and procedures automatically.",
             image: "/placeholder.jpg",
             solutions: ["Policy validation", "Violation detection", "Corrective actions"],
             useCases: ["HR policies", "IT security policies", "Business procedures"],
-            status: "not available"
+            status: "available"
           },
           {
             id: "security-risk-analyzer",
