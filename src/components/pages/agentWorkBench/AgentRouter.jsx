@@ -40,6 +40,7 @@ import OCR from "./agents/ocr";
 import DateFormat from "./agents/dataFormat";
 import PdfChat from "./agents/pdfChat";
 import TechDoc from "./agents/techDoc";
+import EmailDraft from"./agents/emailDraft";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -84,7 +85,8 @@ const AgentRouter = () => {
     "ocr-agent":<OCR/>,
     "date-format-agent":<DateFormat/>,
     "pdf-chat-agent":<PdfChat/>,
-    "tech-documentation-agent":<TechDoc/>
+    "tech-documentation-agent":<TechDoc/>,
+    "email-draft-agent":<EmailDraft/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

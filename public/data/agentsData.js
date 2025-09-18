@@ -1696,6 +1696,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "email-draft-agent",
+            name: "Email Draft Agent",
+            summary: "Assist in drafting and organizing email communications.",
+            image: "/placeholder.jpg",
+            solutions: ["Email composition", "Template management", "Scheduling"],
+            useCases: ["Email marketing", "Customer communication", "Internal collaboration"],
+            status: "available"
+          },
+          {
             id: "evaluation-agent",
             name: "Evaluation Agent",
             summary: "Evaluate and assess project outcomes and performance.",
