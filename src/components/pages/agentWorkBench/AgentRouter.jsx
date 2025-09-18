@@ -56,6 +56,7 @@ import PolicySuggestion from "./agents/policySuggestion";
 import LanguageGrammer from"./agents/languageGrammar";
 import ProductClassifier from "./agents/productClassifier";
 import VoiceToTxt from "./agents/voicetoTxt";
+import TexttoVoice from "./agents/texttoVoice";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -116,7 +117,8 @@ const AgentRouter = () => {
     "policy-suggest-agent":<PolicySuggestion/>,
     "language-agent":<LanguageGrammer/>,
     "product-classifier":<ProductClassifier/>,
-    "voice-Txt-agent":<VoiceToTxt/>
+    "voice-Txt-agent":<VoiceToTxt/>,
+    "text-voice-agent":<TexttoVoice/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
