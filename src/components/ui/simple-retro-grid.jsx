@@ -10,7 +10,7 @@ export function SimpleRetroGrid({
     <div 
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={{
-        perspective: "200px",
+        perspective: "1200px",
         opacity: opacity
       }}
     >
@@ -34,8 +34,13 @@ export function SimpleRetroGrid({
         />
       </div>
       <div 
-        className="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent"
-        style={{ background: "linear-gradient(to top, rgba(255,255,255,0.05) 0%, transparent 90%)" }}
+        className="absolute inset-0"
+        style={{ 
+          background: `
+            linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0.7) 100%),
+            radial-gradient(ellipse at center top, transparent 0%, rgba(255,255,255,0.1) 30%, transparent 70%)
+          `
+        }}
       />
     </div>
   );
