@@ -290,6 +290,15 @@ foundational:[
             status: "not available"
           },
           {
+            id: "resume-analyzer-agent",
+            name: "Resume Analyzer Agent",
+            summary: "Analyze and extract key information from resumes.",
+            image: "/placeholder.jpg",
+            solutions: ["Resume parsing", "Skill extraction", "Experience matching"],
+            useCases: ["Recruitment", "Talent acquisition", "HR analytics"],
+            status: "available"
+          },
+          {
           id: "document-summarizer-agent",
           name: "Document Summarizer Agent",
           summary: "Summarize long documents while preserving key information.",
