@@ -10,13 +10,17 @@ class ErrorBoundary extends React.Component {
         return { hasError: true, error };
     }
 
+    componentDidCatch(error, errorInfo) {
+        console.error("ErrorBoundary caught an error", error, errorInfo);
+    }
+
     render() {
         if (this.state.hasError) {
             return (
                 <div className="p-6 text-center text-red-600">
                     <AlertCircle className="w-12 h-12 mx-auto mb-4" />
                     <h2 className="text-xl font-semibold">Something Went Wrong</h2>
-                    <p className="text-sm">{this.state.error.message}</p>
+                    <p className="text-sm">{this.state.error?.message}</p>
                     <button
                         onClick={() => this.setState({ hasError: false, error: null })}
                         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -37,8 +41,29 @@ const PolicySuggestion = () => {
     const [context, setContext] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
-    answer: useState(null);
     const [error, setError] = useState(null);
+
+    const cleanApiResponse = (data) => {
+        // If backend wraps answer in ```json ... ``` or returns raw JSON string
+        if (typeof data === "string") {
+            try {
+                const cleaned = data.replace(/```json|```/g, "").trim();
+                const parsed = JSON.parse(cleaned);
+                return {
+                    answer: typeof parsed.answer === "string" ? parsed.answer : cleaned,
+                    sources: parsed.sources || [],
+                };
+            } catch (e) {
+                // If not valid JSON, treat the entire string as the answer
+                return { answer: data, sources: [] };
+            }
+        }
+        // If data is already an object (e.g., { answer, sources })
+        return {
+            answer: data.answer || "No answer available",
+            sources: data.sources || [],
+        };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,13 +77,19 @@ const PolicySuggestion = () => {
         setResult(null);
 
         try {
-            const response = await axios.post(`${API_BASE}/policy-suggestion/query`, {
-                query: query.trim(),
-                context: context.trim() || undefined,
-            }, {
-                headers: { 'Content-Type': 'application/json' },
+            const response = await axios.post(
+                `${API_BASE}/policy-suggestion/query`,
+                { query: query.trim(), context: context.trim() || undefined },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            // 🛠️ Clean JSON if needed
+            const data = cleanApiResponse(response.data);
+
+            setResult({
+                answer: data.answer,
+                sources: data.sources || []
             });
-            setResult(response.data);
         } catch (err) {
             setError(err.response?.data?.detail || 'Error fetching policy advice. Please try again.');
             console.error('API Error:', err.response?.data);
@@ -69,11 +100,13 @@ const PolicySuggestion = () => {
 
     return (
         <ErrorBoundary>
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
                 <div className="w-full max-w-5xl mt-22">
+
                     {/* Header */}
                     <div className="relative">
-                        <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                        <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg"
+                            style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
                             Policy Suggestion
                         </h1>
                         <button
@@ -122,11 +155,12 @@ const PolicySuggestion = () => {
                                 type="submit"
                                 disabled={loading || !query.trim()}
                                 className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || !query.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
-                                style={{ backgroundColor: loading || !query.trim() ? '#9CA3AF' : '#1E3A8A' }}
                             >
                                 {loading ? 'Fetching...' : 'Get Advice'}
                             </button>
                         </form>
+
+                        {/* Loader */}
                         {loading && (
                             <div className="mt-4 text-center">
                                 <div className="w-full bg-gray-200 rounded-full h-2 mb-2 overflow-hidden">
@@ -135,9 +169,12 @@ const PolicySuggestion = () => {
                                 <p className="text-xs text-gray-500">Processing...</p>
                             </div>
                         )}
+
+                        {/* Error */}
                         {error && (
                             <div className="mt-4 p-2 bg-red-50 text-red-700 rounded-lg text-sm">
-                                {error} <button onClick={() => setError(null)} className="ml-2 text-red-600 underline text-xs">Try again</button>
+                                {error}
+                                <button onClick={() => setError(null)} className="ml-2 text-red-600 underline text-xs">Try again</button>
                             </div>
                         )}
                     </div>
@@ -148,19 +185,27 @@ const PolicySuggestion = () => {
                             <div className="space-y-6">
                                 <h2 className="text-2xl font-bold text-gray-800 border-b border-gray-200 pb-4">Policy Advice</h2>
                                 <div className="bg-gray-50 p-4 rounded-lg">
-                                    <p className="text-gray-700 text-base leading-relaxed"><strong>Answer:</strong> {result.answer}</p>
-                                    <p className="mt-2 text-gray-600 text-sm"><strong>Confidence:</strong> {result.confidence * 100}%</p>
+
+
                                     {result.sources.length > 0 && (
                                         <div className="mt-4">
                                             <h3 className="text-lg font-semibold text-gray-800 mb-2">Sources</h3>
                                             <ul className="list-disc pl-5 space-y-2">
                                                 {result.sources.map((source, index) => (
                                                     <li key={index} className="text-gray-600 text-sm">
-                                                        <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                                            {source.document_title}
-                                                        </a>
-                                                        <p className="mt-1">{source.excerpt}</p>
-                                                        <p className="text-xs text-gray-500">Relevance: {source.relevance_score}</p>
+                                                        {typeof source === "string" ? (
+                                                            <a href={source} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                                                {source}
+                                                            </a>
+                                                        ) : (
+                                                            <>
+                                                                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                                                    {source.document_title || "Source"}
+                                                                </a>
+                                                                {source.excerpt && <p className="mt-1">{source.excerpt}</p>}
+                                                                {source.relevance_score && <p className="text-xs text-gray-500">Relevance: {source.relevance_score}</p>}
+                                                            </>
+                                                        )}
                                                     </li>
                                                 ))}
                                             </ul>
