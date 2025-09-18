@@ -63,7 +63,7 @@
 
 
 /* Heading Styles - All use Manrope font */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, h7 {
   font-family: 'Manrope', sans-serif;
   margin: 0;
   padding: 0;
@@ -71,75 +71,82 @@ h1, h2, h3, h4, h5, h6 {
 
 /* H1 - Hero titles */
 h1 {
-  font-weight: 800;
-  line-height: 120%;
+  font-weight: 800; /* Extra-Bold */
+  line-height: auto;
   font-size: 32px; /* Mobile ≤767px */
 }
 
 /* H2 - Section headings */
 h2 {
-  font-weight: 700;
-  line-height: 125%;
-  font-size: 26px; /* Mobile ≤767px */
+  font-weight: 500; /* Medium */
+  line-height: auto;
+  font-size: 28px; /* Mobile ≤767px */
 }
 
 /* H3 - Subsections */
 h3 {
-  font-weight: 600;
-  line-height: 130%;
-  font-size: 22px; /* Mobile ≤767px */
+  font-weight: 700; /* Bold */
+  line-height: auto;
+  font-size: 26px; /* Mobile ≤767px */
 }
 
 /* H4 - Card titles */
 h4 {
-  font-weight: 500;
-  line-height: 135%;
-  font-size: 18px; /* Mobile ≤767px */
+  font-weight: 600; /* Semi-Bold */
+  line-height: auto;
+  font-size: 24px; /* Mobile ≤767px */
 }
 
 /* H5 - Small headings */
 h5 {
-  font-weight: 500;
-  line-height: 140%;
-  font-size: 16px; /* Mobile ≤767px */
+  font-weight: 500; /* Medium */
+  line-height: auto;
+  font-size: 18px; /* Mobile ≤767px */
 }
 
 /* H6 - Metadata */
 h6 {
-  font-weight: 400;
-  line-height: 140%;
+  font-weight: 500; /* Medium */
+  line-height: auto;
+  font-size: 16px; /* Mobile ≤767px */
+}
+
+/* H7 - Small metadata */
+h7 {
+  font-weight: 500; /* Medium */
+  line-height: auto;
   font-size: 14px; /* Mobile ≤767px */
 }
 
 /* Body Text Styles - All use Inter font */
 p, body {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  line-height: 150%;
+  font-weight: 400; /* Regular */
+  line-height: auto;
   font-size: 14px; /* Mobile ≤767px */
 }
 
 /* Body Small Text */
 .text-small, small {
   font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  line-height: 150%;
+  font-weight: 400; /* Regular */
+  line-height: auto;
   font-size: 12px; /* Mobile ≤767px */
 }
 
 /* Caption/Labels */
 .caption, .label, label {
   font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  line-height: 140%;
+  font-weight: 500; /* Medium */
+  line-height: 118.7%;
   font-size: 11px; /* Mobile ≤767px */
 }
 
 /* Quote/Highlight */
 blockquote, .quote, .highlight {
   font-family: 'Manrope', sans-serif;
-  font-weight: 600;
-  line-height: 150%;
+  font-weight: 600; /* Semi-Bold */
+  line-height: auto;
   font-size: 16px; /* Mobile ≤767px */
 }
 
@@ -150,22 +157,26 @@ blockquote, .quote, .highlight {
   }
   
   h2 {
-    font-size: 30px;
+    font-size: 36px;
   }
   
   h3 {
-    font-size: 24px;
+    font-size: 30px;
   }
   
   h4 {
-    font-size: 20px;
+    font-size: 24px;
   }
   
   h5 {
-    font-size: 17px;
+    font-size: 20px;
   }
   
   h6 {
+    font-size: 17px;
+  }
+  
+  h7 {
     font-size: 15px;
   }
   
@@ -193,27 +204,32 @@ blockquote, .quote, .highlight {
   }
   
   h2 {
-    font-size: 36px;
+    font-size: 40px;
   }
   
   h3 {
-    font-size: 28px;
+    font-size: 36px;
   }
   
   h4 {
-    font-size: 22px;
+    font-size: 28px;
   }
   
   h5 {
-    font-size: 18px;
+    font-size: 22px;
   }
   
   h6 {
+    font-size: 18px;
+  }
+  
+  h7 {
     font-size: 16px;
   }
   
   p, body {
     font-size: 16px;
+    line-height: 140%;
   }
   
   .text-small, small {
@@ -222,6 +238,7 @@ blockquote, .quote, .highlight {
   
   .caption, .label, label {
     font-size: 12px;
+    line-height: 118.7%;
   }
   
   blockquote, .quote, .highlight {

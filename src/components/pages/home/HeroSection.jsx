@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import Button from '../../common/Button2';
+import BlackButton from '../../common/BlackButton';
 // import { SimpleRetroGrid } from '@/components/ui/simple-retro-grid';
 import { HeroCarousel } from '../../common/HeroCarousel';
 import { useNavigate as Navigate } from 'react-router-dom';
@@ -105,14 +105,14 @@ const HeroSection = () => {
             {/* Mobile Layout (< 768px) - Stacked Vertically with Spline Background */}
             <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-10 text-center py-6 relative z-10">
               {/* Text Content - Better Mobile Spacing */}
-              <div className="flex flex-col gap-3 xs:gap-8 sm:gap-8 w-full px-4 xs:px-6 sm:px-8 relative z-10">
+              <div className="flex flex-col gap-6 xs:gap-8 sm:gap-10 w-full px-4 xs:px-6 sm:px-8 relative z-10">
                 {/* Small Header */}
-                <div className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] text-global-1 text-center leading-tight px-2">
+                <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium text-global-1 text-center leading-tight px-2">
                   Agentic AI Breakthroughs
-                </div>
+                </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-manrope font-[600] leading-tight text-global-1 min-h-[32px] sm:min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
+                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-manrope font-extrabold leading-tight text-global-1 min-h-[32px] sm:min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={phrases[phraseIndex % phrases.length]}
@@ -129,7 +129,7 @@ const HeroSection = () => {
                 </h1>
 
                 {/* Subtitle */}
-                <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-tight text-global-1 text-center px-2">
+                <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium leading-tight text-global-1 text-center px-2">
                   Everything Unfolds Here
                 </h2>
 
@@ -140,10 +140,10 @@ const HeroSection = () => {
 
                 {/* CTA Button */}
                 <div className="mt-6 sm:mt-6 md:mt-8">
-                  <Button
-                    variant="primary"
+                  <BlackButton
                     size="medium"
-                    className="rounded-2xl sm:rounded-2xl md:rounded-3xl px-8 sm:px-8 md:px-10 py-4 sm:py-4 md:py-5 text-base sm:text-base md:text-lg lg:text-xl font-semibold text-white w-fit mx-auto leading-relaxed"
+                    variant="black"
+                    className="rounded-[4px] px-8 sm:px-8 md:px-10 py-4 sm:py-4 md:py-5 text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
                     onClick={() => {
                       const ctaSection = document.getElementById('cta-section');
                       if (ctaSection) {
@@ -152,7 +152,7 @@ const HeroSection = () => {
                     }}
                   >
                     Start Your Agentic Journey
-                  </Button>
+                  </BlackButton>
                 </div>
               </div>
 
@@ -188,14 +188,14 @@ const HeroSection = () => {
             <div className="hidden md:grid md:grid-cols-10 items-center h-full gap-8 relative z-10">
 
               {/* Left Content Container - 60% */}
-              <div className="md:col-span-5 flex flex-col gap-[8px] lg:gap-[12px] justify-center text-center lg:text-left relative z-10">
+              <div className="md:col-span-5 flex flex-col gap-[16px] lg:gap-[20px] justify-center text-center lg:text-left relative z-10">
                 {/* Small Header */}
-                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[48px] font-manrope font-[800] text-global-1 whitespace-nowrap">
+                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium text-global-1 whitespace-nowrap">
                   Agentic AI Breakthroughs
                 </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[42px] font-manrope font-[600] leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[24px] md:h-[28px] lg:h-[32px] xl:h-[40px] 2xl:h-[48px] overflow-hidden whitespace-nowrap">
+                <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[24px] md:h-[28px] lg:h-[32px] xl:h-[40px] 2xl:h-[48px] overflow-hidden whitespace-nowrap">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={phrases[phraseIndex % phrases.length]}
@@ -212,7 +212,7 @@ const HeroSection = () => {
                 </h1>
 
                 {/* Subtitle */}
-                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[48px] font-manrope font-[800] leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[36px] 2xl:leading-[48px] text-global-1 whitespace-nowrap">
+                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[36px] 2xl:leading-[40px] text-global-1 whitespace-nowrap">
                   Everything Unfolds Here
                 </h2>
 
@@ -222,10 +222,10 @@ const HeroSection = () => {
                 </p>
 
                 {/* CTA Button */}
-                <Button
-                  variant="primary"
+                <BlackButton
                   size="medium"
-                  className="rounded-[20px] lg:rounded-[22px] xl:rounded-[24px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-sm lg:text-base font-semibold text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]"
+                  variant="black"
+                  className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]"
                   onClick={() => {
                     const ctaSection = document.getElementById('cta-section');
                     if (ctaSection) {
@@ -234,7 +234,7 @@ const HeroSection = () => {
                   }}
                 >
                   Start Your Agentic Journey
-                </Button>
+                </BlackButton>
               </div>
 
               {/* Right Spline Container - 40% Desktop */}
