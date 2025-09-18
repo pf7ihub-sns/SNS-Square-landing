@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function RealEstateInquiryAgent() {
     const [description, setDescription] = useState('');
@@ -75,9 +76,18 @@ export default function RealEstateInquiryAgent() {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center mt-10" style={{ backgroundColor: '#F9FAFB' }}>
             <div className="max-w-3xl w-full p-4">
-                <h1 className="text-3xl font-semibold text-white mb-6 text-center border border-gray-200" style={{ backgroundColor: '#1E3A8A', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                    Real Estate Inquiry Classifier
-                </h1>
+                <div className="relative">
+                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                        Real Estate Inquiry Classifier
+                    </h1>
+                    <button
+                        onClick={() => window.location.href = '/media-entertainment'}
+                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                        <span>Back</span>
+                    </button>
+                </div>
 
                 {/* Instructions */}
                 <div className="mb-6 text-center">
