@@ -1705,6 +1705,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "mom-generator-agent",
+            name: "MoM Generator Agent",
+            summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+            image: "/placeholder.jpg",
+            solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+            useCases: ["Team meetings", "Project updates", "Client calls"],
+            status: "available"
+          },
+          {
             id: "report-generator-agent",
             name: "Report Generator Agent",
             summary: "Generate reports from various data sources.",
