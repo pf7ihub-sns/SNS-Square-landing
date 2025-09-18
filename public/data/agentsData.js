@@ -616,6 +616,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "voice-Txt-agent",
+            name: "Voice to Text Agent",
+            summary: "Voice to Text Conversation Agent.",
+            image: "/placeholder.jpg",
+           solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+            useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+            status: "available"
+          },
+          {
             id: "chat-support-bot",
             name: "Live Chat Support Agent",
             summary: "Provide instant customer support with context-aware responses.",
