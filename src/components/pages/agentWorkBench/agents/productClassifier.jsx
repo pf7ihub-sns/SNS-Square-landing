@@ -73,7 +73,7 @@ const ProductClassifier = () => {
                     {/* Header */}
                     <div className="relative">
                         <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                            Product/Service Classifier
+                            Product Service Classifier
                         </h1>
                         <button
                             onClick={() => window.location.href = '/media-entertainment'}
