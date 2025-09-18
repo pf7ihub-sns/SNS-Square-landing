@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { ArrowLeft } from 'lucide-react';
 
 const API_BASE = "http://127.0.0.1:8000";
 
@@ -63,10 +64,20 @@ const ImgtoPdf = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center" style={{ backgroundColor: '#F9FAFB' }}>
-            <div className="max-w-lg w-full p-4">
-                <h1 className="text-3xl font-semibold text-white mb-6 text-center border border-gray-200" style={{ backgroundColor: '#1E3A8A', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                    Image to PDF Converter
-                </h1>
+            <div className="max-w-xl w-full p-4">
+                <div className="relative">
+                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                        Image to PDF Converter
+                    </h1>
+                    <button
+                        onClick={() => window.location.href = '/media-entertainment'}
+                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                        <span>Back</span>
+                    </button>
+                </div>
+
 
                 {/* Welcome and Instructions */}
                 <div className="mb-6 text-center">
