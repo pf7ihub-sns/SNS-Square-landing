@@ -62,7 +62,7 @@ const TaskBreakDown = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-5xl mt-18">
         {/* Header */}
         <div className="relative">
           <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -70,7 +70,7 @@ const TaskBreakDown = () => {
           </h1>
           <button
             onClick={() => window.location.href = '/media-entertainment'}
-            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white hover:bg-opacity-10 rounded-md z-10"
+            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Back</span>
@@ -78,7 +78,7 @@ const TaskBreakDown = () => {
         </div>
 
         {/* Instructions */}
-        <div className="text-center mb-6 text-gray-700">
+        <div className="text-center mb-4 text-gray-700">
           <p className="mb-2">Break down a task into subtasks with priorities and time estimates.</p>
           <p className="text-sm">Enter a task description to generate a detailed breakdown.</p>
         </div>
@@ -86,7 +86,7 @@ const TaskBreakDown = () => {
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Input Section */}
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="task" className="block text-sm font-medium text-gray-700 mb-1">
