@@ -1138,6 +1138,15 @@ foundational:[
             useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
             status: "not available"
           },
+           {
+            id: "aes-agent",
+            name: "AES Agent",
+            summary: "Monitor compliance with regulatory requirements and standards.",
+            image: "/placeholder.jpg",
+            solutions: ["Regulation tracking", "Compliance assessment", "Audit preparation"],
+            useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
+            status: "available"
+          },
           {
             id: "policy-enforcer",
             name: "Policy Enforcer Agent",

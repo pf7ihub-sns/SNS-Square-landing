@@ -48,6 +48,7 @@ import QuizGenerator from "./agents/quizGenerator";
 import ReportGenerator from "./agents/reportGenerator";
 import MomGenerator from"./agents/momGenerator";
 import ResumeAnalyzer from "./agents/resumeAnalyzer";
+import AesAgent from "./agents/aesAgent";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -100,7 +101,8 @@ const AgentRouter = () => {
     "quiz-generator-agent":<QuizGenerator/>,
     "report-generator-agent":<ReportGenerator/>,
     "mom-generator-agent":<MomGenerator/>,
-    "resume-analyzer-agent":<ResumeAnalyzer/>
+    "resume-analyzer-agent":<ResumeAnalyzer/>,
+    "aes-agent":<AesAgent/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
