@@ -1853,6 +1853,15 @@ foundational:[
             status: "available"
           },
           {
+            id: "quiz-generator-agent",
+            name: "Quiz Generator Agent",
+            summary: "Create quizzes and assessments from various content sources.",
+            image: "/placeholder.jpg",
+            solutions: ["Quiz creation", "Question generation", "Assessment design"],
+            useCases: ["Educational content", "Training materials", "Skill assessments"],
+            status: "available"
+          },
+          {
             id: "social-media",
             name: "Story Line Generator",
             summary: "Generate engaging storylines for social media content.",
