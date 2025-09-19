@@ -141,6 +141,7 @@ const Home = () => {
       <WhatWeExcelSection />
       <FeatureCardsSection />
       <ScenarioSection />
+      {/* The WhatWeExcelSection handles its own scroll interception and center snapping. */}
       {/* Lock Component */}
       {/* <div className='mx-auto py-0'>
         <style dangerouslySetInnerHTML={{__html: `
