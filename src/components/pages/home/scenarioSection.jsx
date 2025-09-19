@@ -68,7 +68,7 @@ const RealScenariosSection = () => {
       className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
       style={{ backgroundImage: "url('/images/home/Background-home-RS.png')" }}
     >
-      <div className="max-w-7xl mx-auto py-12 md:py-16 lg:py-20">
+      <div className="max-w-[1480px] mx-auto py-12 md:py-16 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-10 lg:gap-14 items-stretch">
           {/* Left column - two rows stretched to top and bottom */}
           <div className="flex flex-col justify-between min-h-[420px] lg:min-h-[520px]">

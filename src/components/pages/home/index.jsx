@@ -2,8 +2,8 @@ import React from "react";
 import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
 import ScenarioSection from "./scenarioSection";
-import UseCasesSection from "./UseCasesSection";
 import CoreValueSection from "./CoreValueSection";
+import CoreServiceSection from "./CoreServiceSection";
 
 const Home = () => {
   return (
@@ -153,7 +153,7 @@ const Home = () => {
         </div>
       </div> */}
       
-      <UseCasesSection />
+      <CoreServiceSection />
       <CoreValueSection />
     </div>
   );
