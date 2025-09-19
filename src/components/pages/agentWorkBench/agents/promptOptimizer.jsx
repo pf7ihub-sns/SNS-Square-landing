@@ -55,16 +55,16 @@ const PromptOptimizer = () => {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
             <div className="w-full max-w-5xl mt-18">
                 {/* Header */}
-                <div className="relative">
-                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                <div className="relative mb-6">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white text-center py-3 px-4 sm:py-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
                         Prompt Optimizer
                     </h1>
                     <button
                         onClick={() => window.location.href = '/media-entertainment'}
-                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                        className="absolute top-3 sm:top-4 right-2 sm:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10 text-sm sm:text-base"
                     >
-                        <ArrowLeft className="w-5 h-5" />
-                        <span>Back</span>
+                        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="hidden sm:inline">Back</span>
                     </button>
                 </div>
 
