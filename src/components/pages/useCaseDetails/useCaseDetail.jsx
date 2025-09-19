@@ -1,10 +1,14 @@
-import { Clock, Calendar, RefreshCw, Copy, Linkedin, Instagram, Youtube } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Clock, Calendar, RefreshCw, Link} from "lucide-react";
+import { AiOutlineYoutube } from "react-icons/ai";
+import { LuLinkedin } from "react-icons/lu";
+import { FaInstagram } from "react-icons/fa6";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import useCaseData from "../../../data/usecase.json";
 
 export default function UseCaseDetailPage() {
   const params = useParams();
+  const location = useLocation();
   
   // Handle both /usecase/:id and /usecase/:category/:id routes
   let useCaseId;
@@ -30,73 +34,129 @@ export default function UseCaseDetailPage() {
     return progress;
   });
   const [activeSection, setActiveSection] = useState(sectionIds[0] || '');
-
+  const sectionIdsRef = useRef(sectionIds);
+  const scrollHandlerRef = useRef(null);
+  
+  // Update ref when sections change
   useEffect(() => {
-    // Only set up scroll listener if we have sections
-    if (sectionIds.length === 0) return;
+    sectionIdsRef.current = sectionIds;
+    // Update active section when sections change
+    if (sectionIds.length > 0 && !activeSection) {
+      setActiveSection(sectionIds[0]);
+    }
+  }, [sectionIds, activeSection]);
 
+  // Handle navigation when location changes (when user clicks navbar links)
+  useEffect(() => {
+    // List of non-usecase paths that should trigger navigation
+    const nonUseCasePaths = ['/', '/about-us', '/life-at-sns', '/careers', '/resources', '/agent-workbench'];
+    
+    // Check if current path matches any non-usecase path or starts with them
+    const shouldNavigateAway = nonUseCasePaths.some(path => 
+      location.pathname === path || 
+      (path !== '/' && location.pathname.startsWith(path))
+    );
+    
+    // If user clicked a navbar link to go to a non-usecase page, navigate away immediately
+    if (shouldNavigateAway) {
+      console.log('Detected navigation to:', location.pathname);
+      // Use setTimeout to ensure this runs after the current execution cycle
+      setTimeout(() => {
+        console.log('Executing navigation to:', location.pathname);
+        window.location.href = location.pathname;
+      }, 0);
+    }
+  }, [location.pathname]);
+
+  // Create the scroll handler function
+  useEffect(() => {
     const handleScroll = () => {
-      const sections = sectionIds;
+      const currentSectionIds = sectionIdsRef.current;
+      if (currentSectionIds.length === 0) return;
 
       let currentActiveSection = '';
-      const newProgress = { ...scrollProgress };
       const navbarHeight = 160; // Approximate navbar height including sticky offset
 
-      // Reset all progress first
-      sections.forEach(sectionId => {
-        newProgress[sectionId] = 0;
+      // Use functional update to avoid dependency on scrollProgress
+      setScrollProgress(prevProgress => {
+        const newProgress = {};
+        
+        // Reset all progress first
+        currentSectionIds.forEach(sectionId => {
+          newProgress[sectionId] = 0;
+        });
+
+        // Find which section is currently active and calculate progress
+        currentSectionIds.forEach((sectionId, index) => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const heading = element.querySelector('h2');
+            const headingRect = heading ? heading.getBoundingClientRect() : rect;
+            
+            // Determine if this section is active (heading has reached the navbar)
+            if (headingRect.top <= navbarHeight) {
+              currentActiveSection = sectionId;
+            }
+            
+            // Calculate progress for each section independently
+            const sectionTop = rect.top;
+            const sectionBottom = rect.bottom;
+            const sectionHeight = rect.height;
+            
+            if (sectionBottom < navbarHeight) {
+              // Section has completely scrolled past the navbar
+              newProgress[sectionId] = 100;
+            } else if (sectionTop < navbarHeight && sectionBottom > navbarHeight) {
+              // Section is partially scrolled - calculate how much has passed the navbar
+              const scrolledAmount = navbarHeight - sectionTop;
+              const progress = (scrolledAmount / sectionHeight) * 100;
+              newProgress[sectionId] = Math.min(100, Math.max(0, progress));
+            } else {
+              // Section hasn't reached the navbar yet
+              newProgress[sectionId] = 0;
+            }
+          }
+        });
+
+        return newProgress;
       });
 
-      // Find which section is currently active and calculate progress
-      sections.forEach((sectionId, index) => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const heading = element.querySelector('h2');
-          const headingRect = heading ? heading.getBoundingClientRect() : rect;
-          
-          // Determine if this section is active (heading has reached the navbar)
-          if (headingRect.top <= navbarHeight) {
-            currentActiveSection = sectionId;
-          }
-          
-          // Calculate progress for each section independently
-          const sectionTop = rect.top;
-          const sectionBottom = rect.bottom;
-          const sectionHeight = rect.height;
-          
-          if (sectionBottom < navbarHeight) {
-            // Section has completely scrolled past the navbar
-            newProgress[sectionId] = 100;
-          } else if (sectionTop < navbarHeight && sectionBottom > navbarHeight) {
-            // Section is partially scrolled - calculate how much has passed the navbar
-            const scrolledAmount = navbarHeight - sectionTop;
-            const progress = (scrolledAmount / sectionHeight) * 100;
-            newProgress[sectionId] = Math.min(100, Math.max(0, progress));
-          } else {
-            // Section hasn't reached the navbar yet
-            newProgress[sectionId] = 0;
-          }
-        }
-      });
-
-      setScrollProgress(newProgress);
       if (currentActiveSection) {
         setActiveSection(currentActiveSection);
       }
     };
 
+    scrollHandlerRef.current = handleScroll;
+  }, []); // Create handler once
+
+  // Set up scroll listener when sections are available
+  useEffect(() => {
+    if (sectionIds.length === 0 || !scrollHandlerRef.current) return;
+
+    const handleScroll = scrollHandlerRef.current;
+
     // Use passive listener to improve performance and avoid blocking navigation
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial calculation
+    
+    // Trigger initial calculation after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      handleScroll();
+    }, 100);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [sectionIds, scrollProgress]);
+  }, [sectionIds.length]); // Re-run when we get sections
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Calculate offset to account for fixed navbar and sidebar positioning
+      const offsetTop = element.offsetTop - 160; // 160px offset for navbar
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+      setActiveSection(sectionId);
     }
   };
   return (
@@ -110,7 +170,7 @@ export default function UseCaseDetailPage() {
       {/* Main container */}
       <div className="max-w-[1480px] mx-auto">
         {/* Breadcrumb navigation */}
-        <nav className="flex items-center gap-3 py-8 text-sm text-gray-500">
+        <nav className="flex items-center gap-3 px-6 py-8 text-sm text-gray-500">
           <span>Use Cases</span>
           <svg className="w-1.5 h-2.5 text-gray-400" viewBox="0 0 7 11" fill="none">
             <path d="M3.79335 5.40047L0.117188 1.7243L1.23602 0.605469L6.03102 5.40047L1.23602 10.1955L0.117188 9.07664L3.79335 5.40047Z" fill="currentColor"/>
@@ -122,94 +182,96 @@ export default function UseCaseDetailPage() {
           <span className="text-blue-600">{useCase.title}</span>
         </nav>
 
-        {/* Article header section */}
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 lg:gap-8 mb-16">
-          {/* Left sidebar - article metadata */}
-          <div className="lg:col-span-1 space-y-4 relative">
-            <div className="space-y-3 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span>7min reading</span>
+        {/* Main layout with fixed sidebar and scrollable content */}
+        <div className="flex gap-8 px-6">
+          {/* Sticky Left sidebar - Combined metadata and navigation */}
+          <div className="lg:w-80 flex-shrink-0">
+            <div className="sticky top-24 w-80 h-fit max-h-[calc(100vh-16rem)] pb-16 overflow-y-auto">
+              {/* Container with border that covers metadata and navigation */}
+              <div className="border-r border-gray-200 pr-6">
+                {/* Article metadata */}
+                <div className="space-y-4 pb-6 border-b border-gray-200">
+                  <div className="space-y-3 text-sm text-gray-600 pt-6">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      <span>7min reading</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      <span>Published on April 1, 2025</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4" />
+                      <span>Updated on April 24, 2025</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Navigation anchors */}
+                <div className="pt-6 space-y-2">
+                  {sections.map((section) => (
+                    <div 
+                      key={section.id}
+                      className="py-3 hover:bg-gray-50 cursor-pointer transition-colors rounded-lg px-3"
+                      onClick={() => scrollToSection(section.id)}
+                    >
+                      <span className={`text-base font-medium transition-colors ${
+                        activeSection === section.id ? 'text-blue-600' : 'text-gray-900'
+                      }`}>
+                        {section.title}
+                      </span>
+                      {/* Show progress bar only when section is being read (0% < progress < 100%) */}
+                      {scrollProgress[section.id] > 0 && scrollProgress[section.id] < 100 && (
+                        <div className="mt-3 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-blue-600 rounded-full transition-all duration-300 ease-out"
+                            style={{width: `${scrollProgress[section.id]}%`}}
+                          ></div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>Published on April 1, 2025</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <RefreshCw className="w-4 h-4" />
-                <span>Updated on April 24, 2025</span>
-              </div>
+              
+
             </div>
-            {/* Vertical separator line */}
-            <div className="hidden lg:block absolute right-0 top-0 h-full w-px bg-gray-200"></div>
           </div>
 
-          {/* Main content area */}
-          <div className="lg:col-span-4 space-y-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 leading-tight">
-              {useCase.heroTitle || useCase.title}
-            </h1>
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed pt-4">
-              {useCase.description}
-            </p>
-          </div>
-
-          {/* Social media follow section - moved to top right */}
-          <div className="lg:col-span-1 flex justify-center lg:justify-start">
-            <div className="flex flex-col items-center gap-3">
+          {/* Scrollable main content */}
+          <div className="flex-1 min-w-0 relative max-w-4xl">
+            {/* Follow Us section - positioned separately on the right */}
+            <div className="absolute top-0 -right-28 flex flex-col items-center gap-3">
               <span className="text-sm text-gray-600">Follow Us</span>
               <div className="flex flex-col gap-2">
                 <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
-                  <Copy className="w-5 h-5 text-gray-900" />
+                  <Link className="w-5 h-5 text-gray-900" />
                 </button>
                 <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
-                  <Linkedin className="w-5 h-5 text-gray-900" />
+                  <LuLinkedin className="w-5 h-5 text-gray-900" />
                 </button>
                 <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
-                  <Instagram className="w-5 h-5 text-gray-900" />
+                  <FaInstagram className="w-5 h-5 text-gray-900" />
                 </button>
                 <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
-                  <Youtube className="w-5 h-5 text-gray-900" />
+                  <AiOutlineYoutube className="w-5 h-5 text-gray-900" />
                 </button>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Main article content */}
-        <div className="grid grid-cols-1 lg:grid-cols-6 gap-6 lg:gap-8 pb-32">
-          {/* Left sidebar - navigation anchors */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-40 space-y-3">
-              {sections.map((section) => (
-                <div 
-                  key={section.id}
-                  className="py-2 hover:bg-gray-50 cursor-pointer transition-colors rounded-lg"
-                  onClick={() => scrollToSection(section.id)}
-                >
-                  <span className={`text-lg font-medium transition-colors ${
-                    activeSection === section.id ? 'text-blue-600' : 'text-gray-900'
-                  }`}>
-                    {section.title}
-                  </span>
-                  {activeSection === section.id && (
-                    <div className="mt-2 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out" 
-                        style={{width: `${scrollProgress[section.id]}%`}}
-                      ></div>
-                    </div>
-                  )}
-                </div>
-              ))}
+            {/* Article header */}
+            <div className="mb-12 pr-16">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 leading-tight mb-6">
+                {useCase.heroTitle || useCase.title}
+              </h1>
+              <p className="text-lg text-gray-600 leading-relaxed max-w-3xl pt-2">
+                {useCase.description}
+              </p>
             </div>
-          </div>
 
-          {/* Main content */}
-          <div className="lg:col-span-4 space-y-12">
             {/* Hero image */}
             {useCase.image && (
-              <div className="w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden">
+              <div className="w-full h-64 sm:h-80 lg:h-96 rounded-lg overflow-hidden mb-12">
                 <img 
                   src={useCase.image} 
                   alt={useCase.title}
@@ -219,9 +281,9 @@ export default function UseCaseDetailPage() {
             )}
 
             {/* Article sections */}
-            <div className="space-y-12">
+            <div className="space-y-12 pb-64">
               {sections.map((section) => (
-                <section key={section.id} id={section.id} className="space-y-6 progress-section">
+                <section key={section.id} id={section.id} className="space-y-6 progress-section scroll-mt-40">
                   <h2 className="text-xl font-medium text-gray-900 leading-tight">
                     {section.title}
                   </h2>
