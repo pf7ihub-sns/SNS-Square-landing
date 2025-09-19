@@ -128,7 +128,7 @@ function DeepResearchAgent() {
             className="w-full bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-center justify-between text-blue-800 font-medium"
           >
             <span className="flex items-center gap-2">
-              <Menu className="w-4 h-4" />
+              {/* <Menu className="w-4 h-4" /> */}
               How to Use Guide
             </span>
             {showInstructions ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
