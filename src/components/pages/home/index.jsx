@@ -1,8 +1,10 @@
 import React from "react";
 import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
+import WhatWeExcelSection from "./WhatWeExcelSection";
 import ScenarioSection from "./scenarioSection";
 import CoreValueSection from "./CoreValueSection";
+import IdeaSuiteSection from "./IdeaSuiteSection";
 import CoreServiceSection from "./CoreServiceSection";
 
 const Home = () => {
@@ -134,6 +136,7 @@ const Home = () => {
       `}} />
       
       <HeroSection />
+      <WhatWeExcelSection />
       <FeatureCardsSection />
       <ScenarioSection />
       {/* Lock Component */}
@@ -154,7 +157,8 @@ const Home = () => {
       </div> */}
       
       <CoreServiceSection />
-      <CoreValueSection />
+      <IdeaSuiteSection />
+      {/* <CoreValueSection /> */}
     </div>
   );
 };

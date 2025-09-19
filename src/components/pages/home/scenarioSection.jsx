@@ -75,13 +75,13 @@ const RealScenariosSection = () => {
             {/* Row 1: Heading (Desktop H3) */}
             <div>
               <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">
-                Real scenarios where agentic AI changes the game.
+                Beyond Hype: <br/>Agentic AI in Action
               </h3>
             </div>
             {/* Row 2: Paragraph + Button */}
             <div className="mt-6 lg:mt-10">
-              <p className="font-inter text-black/70 mb-4 lg:mb-6">
-                Experience the shift to true autonomy.
+              <p className="font-inter text-[#606060] mb-4 lg:mb-6">
+                Discover practical scenarios where Agentic AI <br/>reshapes industries, accelerates decisions, and <br/>delivers results that once seemed impossible.
               </p>
               <BlackButton
                 size="medium"
@@ -96,7 +96,7 @@ const RealScenariosSection = () => {
           {/* Right column */}
           <div className="flex flex-col gap-4 lg:gap-6">
             {/* Row 1: tabs */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-4">
               {categories.map((c) => (
                 <button
                   key={c.key}
