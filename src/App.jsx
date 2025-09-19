@@ -8,6 +8,7 @@ function App() {
   const location = useLocation();
   const isAboutUsPage = location.pathname === "/about-us";
   const isMediaEntertainmentPage = location.pathname === "/media-entertainment";
+  const isContactUsPage = location.pathname === "/contact-us";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -20,7 +21,7 @@ function App() {
           <CTA />
         </div>
       )} */}
-      <Footer />
+      {!isContactUsPage && <Footer />}
     </div>
   );
 }
