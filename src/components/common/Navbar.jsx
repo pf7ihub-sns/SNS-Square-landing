@@ -264,11 +264,13 @@ const Header = () => {
 
         {/* Nav - center */}
         <nav className="hidden lg:flex flex-row items-center gap-6 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('agentic-workbench')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('agentic-workbench')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/agent-workbench"
@@ -292,11 +294,13 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('use-cases')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('use-cases')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/usecase"
@@ -316,11 +320,13 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('life-at-sns')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('life-at-sns')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/life-at-sns"
@@ -340,11 +346,13 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('about-us')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('about-us')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/about-us"
@@ -364,11 +372,13 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('careers')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('careers')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/careers"
@@ -388,11 +398,13 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          <div
+            className="relative group"
+            onMouseEnter={() => handleDropdownHover('resources')}
+            onMouseLeave={handleDropdownLeave}
+          >
             <div
               className="flex items-center cursor-pointer"
-              onMouseEnter={() => handleDropdownHover('resources')}
-              onMouseLeave={handleDropdownLeave}
             >
               <NavLink
                 to="/resources"
