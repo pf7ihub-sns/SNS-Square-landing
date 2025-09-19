@@ -3,7 +3,7 @@ import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
 import ScenarioSection from "./scenarioSection";
 import UseCasesSection from "./UseCasesSection";
-import SolutionsSection from "./SolutionsSection";
+import CoreValueSection from "./CoreValueSection";
 
 const Home = () => {
   return (
@@ -154,7 +154,7 @@ const Home = () => {
       </div> */}
       
       <UseCasesSection />
-      <SolutionsSection />
+      <CoreValueSection />
     </div>
   );
 };
