@@ -4,14 +4,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 // import CTASection from "../Home/CTASection";
 import useCaseData from "../../../data/usecase.json";
 import HeroSection from "./HeroSection";
-import CategoryFilters from "./CategoryFilters";
+import TopCategoryTabs from "./TopCategoryTabs";
 import UseCasesGrid from "./UseCasesGrid";
 
 // Main App component
 export const UseCase = () => {
   const [activeCategory, setActiveCategory] = useState("supply-chain");
   const [showAllUseCases, setShowAllUseCases] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -107,17 +106,8 @@ export const UseCase = () => {
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
-    setIsDropdownOpen(false); // Close dropdown when category is selected
     // Reset showAllUseCases when category changes
     setShowAllUseCases(false);
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const getActiveFilter = () => {
-    return categoryFilters.find(filter => filter.isActive);
   };
 
   const handleViewAllClick = () => {
@@ -147,27 +137,22 @@ export const UseCase = () => {
 
       {/* Main Content */}
       <div className="relative overflow-hidden">
-        <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 lg:gap-20 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12">
-          <div className="flex flex-col lg:flex-row w-full xl:max-w-[1300px] items-start gap-6 lg:gap-6">
-            {/* Category Filters */}
-            <CategoryFilters
-              isDropdownOpen={isDropdownOpen}
-              toggleDropdown={toggleDropdown}
-              getActiveFilter={getActiveFilter}
-              categoryFilters={categoryFilters}
-              handleCategoryClick={handleCategoryClick}
-            />
+        <div className="flex flex-col items-center gap-8 sm:gap-4 md:gap-6 lg:gap-8 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12">
+          {/* Top Category Tabs */}
+          <TopCategoryTabs
+            categoryFilters={categoryFilters}
+            handleCategoryClick={handleCategoryClick}
+          />
 
-            {/* Use Cases Grid */}
-            <UseCasesGrid
-              currentUseCases={currentUseCases}
-              useCasesToDisplay={useCasesToDisplay}
-              showAllUseCases={showAllUseCases}
-              handleViewAllClick={handleViewAllClick}
-              handleShowLessClick={handleShowLessClick}
-              handleLearnMoreClick={handleLearnMoreClick}
-            />
-          </div>
+          {/* Use Cases Grid */}
+          <UseCasesGrid
+            currentUseCases={currentUseCases}
+            useCasesToDisplay={useCasesToDisplay}
+            showAllUseCases={showAllUseCases}
+            handleViewAllClick={handleViewAllClick}
+            handleShowLessClick={handleShowLessClick}
+            handleLearnMoreClick={handleLearnMoreClick}
+          />
 
           {/* CTA Section */}
           {/* <CTASection /> */}

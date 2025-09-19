@@ -1,5 +1,5 @@
 import React from "react";
-import UseCaseCard from "../../common/UseCaseCard";
+import UseCaseCardNew from "../../common/UseCaseCardNew";
 import Button from "../../common/Button2";
 
 const UseCasesGrid = ({ 
@@ -44,12 +44,13 @@ const UseCasesGrid = ({
 
   return (
     <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-8 md:gap-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-6 xl:gap-8 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
         {useCasesToDisplay.map((useCase) => (
-          <UseCaseCard
+          <UseCaseCardNew
             key={useCase.id}
-            useCase={useCase}
-            onLearnMore={handleLearnMoreClick}
+            title={useCase.title}
+            description={useCase.description}
+            onClick={() => handleLearnMoreClick(useCase.id)}
           />
         ))}
       </div>
