@@ -1612,7 +1612,7 @@ foundational:[
         agents: [
           {
             id: "testcase-generation-agent",
-            name: "Test Automator Agent",
+            name: "Test Case Generation Agent",
             summary: "Automate test case generation and execution for applications.",
             image: "/placeholder.jpg",
             solutions: ["Test generation", "Automated execution", "Result analysis"],
