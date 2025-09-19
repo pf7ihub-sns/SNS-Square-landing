@@ -3,8 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function SecurityRisk() {
     const [file, setFile] = useState(null);
-    const [localIssues, setLocalIssues] = useState([]);
-    const [analysis, setAnalysis] = useState(null);
+    const [result, setResult] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -17,8 +16,7 @@ export default function SecurityRisk() {
 
         setIsLoading(true);
         setError(null);
-        setLocalIssues([]);
-        setAnalysis(null);
+        setResult(null);
 
         try {
             const formData = new FormData();
@@ -38,14 +36,7 @@ export default function SecurityRisk() {
             }
 
             const data = await response.json();
-            setLocalIssues(data.local_issues || []);
-            let parsedAnalysis;
-            try {
-                parsedAnalysis = typeof data.analysis === 'string' ? JSON.parse(data.analysis) : data.analysis;
-            } catch (e) {
-                parsedAnalysis = { risk_level: 'unknown', issues: ['Unable to parse analysis'] };
-            }
-            setAnalysis(parsedAnalysis);
+            setResult(data);
         } catch (err) {
             setError(err.message || 'An error occurred');
         } finally {
@@ -56,18 +47,18 @@ export default function SecurityRisk() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-2xl mt-25">
                 {/* Header */}
-                <div className="relative">
-                    <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+                <div className="relative mb-6">
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white text-center py-3 px-4 sm:py-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
                         Security Risk Analyzer
                     </h1>
                     <button
                         onClick={() => window.location.href = '/media-entertainment'}
-                        className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                        className="absolute top-3 sm:top-4 right-2 sm:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10 text-sm sm:text-base"
                     >
-                        <ArrowLeft className="w-5 h-5" />
-                        <span>Back</span>
+                        <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="hidden sm:inline">Back</span>
                     </button>
                 </div>
 
@@ -113,31 +104,29 @@ export default function SecurityRisk() {
                 </div>
 
                 {/* Analysis Output */}
-                {(localIssues.length > 0 || analysis) && (
-                    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                        <h2 className="text-lg font-medium text-gray-800 mb-4">Security Analysis</h2>
+                {result && (
+                    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        <h2 className="text-lg font-medium text-gray-800 mb-4 border-b border-gray-200 pb-2">Security Analysis</h2>
                         <div className="space-y-4 text-gray-700">
-                            {localIssues.length > 0 && (
-                                <div>
-                                    <p className="font-medium">Local Issues:</p>
-                                    <ul className="list-disc pl-5 space-y-1">
-                                        {localIssues.map((issue, index) => (
-                                            <li key={index}>{issue}</li>
+                            {result.document_excerpt && (
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                    <p className="font-medium text-blue-800 mb-2">Document Excerpt</p>
+                                    <pre className="text-sm text-gray-600 whitespace-pre-wrap">{result.document_excerpt}</pre>
+                                </div>
+                            )}
+                            {result.security_risks && result.security_risks.length > 0 ? (
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                    <p className="font-medium text-blue-800 mb-2">Security Risks</p>
+                                    <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600">
+                                        {result.security_risks.map((risk, index) => (
+                                            <li key={index}>{risk}</li>
                                         ))}
                                     </ul>
                                 </div>
-                            )}
-                            {analysis && (
-                                <div>
-                                    <p><strong>Risk Level:</strong> {analysis.risk_level || 'N/A'}</p>
-                                    <div>
-                                        <p className="font-medium">Detected Issues:</p>
-                                        <ul className="list-disc pl-5 space-y-1">
-                                            {analysis.issues?.length > 0 ? analysis.issues.map((issue, index) => (
-                                                <li key={index}>{issue}</li>
-                                            )) : <li>No issues detected.</li>}
-                                        </ul>
-                                    </div>
+                            ) : (
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                                    <p className="font-medium text-blue-800 mb-2">Security Risks</p>
+                                    <p className="text-sm text-gray-600">No Risks Found</p>
                                 </div>
                             )}
                         </div>
