@@ -63,7 +63,7 @@ const VoicetoTxt = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post(`${API_BASE}/voice/voice-to-text`, formData, {
+            const response = await axios.post(`${API_BASE}/api/voice-to-text`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             setResult(response.data.text);
