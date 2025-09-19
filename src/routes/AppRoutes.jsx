@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UseCase from "../pages/UseCase/UseCase";
 import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail";
 import LifeAtSNSSquare from "../pages/lifeAtSnsSquare";
@@ -19,6 +20,20 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 export default function AppRoutes() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname, hash]);
+
   return (
     <Routes>
       <Route path="/" element={< HomePage />} />

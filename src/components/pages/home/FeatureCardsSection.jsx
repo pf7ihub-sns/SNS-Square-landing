@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdArrowOutward } from "react-icons/md";
 
 const FeatureCardsSection = () => {
   const [cursor, setCursor] = useState({ x: 0, y: 0, visible: false });
+  const navigate = useNavigate();
 
   const handleMouseMove = (e) => {
     setCursor((c) => ({ ...c, x: e.clientX, y: e.clientY }));
@@ -22,7 +24,7 @@ const FeatureCardsSection = () => {
           <h3 className="font-bold leading-tight">
             A Next-Generation Agentic AI Suite, <br /> Built Around You
           </h3>
-          <button className="border border-black rounded-[4px] px-8 py-3 text-black font-medium hidden md:block whitespace-nowrap">
+          <button onClick={() => navigate('/agent-workbench')} className="border border-black rounded-[4px] px-8 py-3 text-black font-medium hidden md:block whitespace-nowrap">
             Explore
           </button>
         </div>
@@ -38,6 +40,7 @@ const FeatureCardsSection = () => {
             className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
             onMouseEnter={showCursor}
             onMouseLeave={hideCursor}
+            onClick={() => navigate('/agent-workbench')}
             style={{
               backgroundImage: "url('/images/home/Link.png')",
               backgroundSize: 'cover',
@@ -67,6 +70,7 @@ const FeatureCardsSection = () => {
             className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
             onMouseEnter={showCursor}
             onMouseLeave={hideCursor}
+            onClick={() => navigate('/agent-workbench')}
             style={{
               backgroundImage: "url('/images/home/Link (1).png')",
               backgroundSize: 'cover',
@@ -96,6 +100,7 @@ const FeatureCardsSection = () => {
             className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
             onMouseEnter={showCursor}
             onMouseLeave={hideCursor}
+            onClick={() => navigate('/agent-workbench')}
             style={{
               backgroundImage: "url('/images/home/Link (2).png')",
               backgroundSize: 'cover',
