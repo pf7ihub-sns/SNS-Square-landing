@@ -5,9 +5,9 @@ const TopCategoryTabs = ({ categoryFilters, handleCategoryClick }) => {
   return (
     <div className="w-full max-w-[1300px] mx-auto">
       {/* Section Title */}
-      <h2 className="text-center mb-8 md:mb-12 ">
+      <p className="text-center mb-4 md:mb-8 highlight">
         Explore your business sector
-      </h2>
+      </p>
       
       {/* Category Tabs */}
       <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12 mt-10">

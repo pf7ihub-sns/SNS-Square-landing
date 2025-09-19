@@ -196,7 +196,7 @@ const Header = () => {
               className="group flex items-center gap-3 w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors duration-200"
             >
               <div className="flex-shrink-0 w-10 h-10 rounded-lg  flex items-center justify-center  transition-colors duration-200">
-                <HiMiniSquare3Stack3D className="w-8 h-5 text-teal-600 rotate-90" />
+                <img src="/images/home/OCS-icon.png" alt="OCS Icon" className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-medium text-gray-900">

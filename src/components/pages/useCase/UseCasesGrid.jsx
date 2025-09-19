@@ -43,14 +43,16 @@ const UseCasesGrid = ({
   }
 
   return (
-    <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-8 md:gap-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
+    <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 w-full items-stretch">
         {useCasesToDisplay.map((useCase) => (
           <UseCaseCardNew
             key={useCase.id}
-            title={useCase.title}
+            title= {useCase.title.length > 23 ? useCase.title.slice(0, 40) + '...' : useCase.title}
             description={useCase.description}
+            image={useCase.image}
             onClick={() => handleLearnMoreClick(useCase.id)}
+            className="h-full"
           />
         ))}
       </div>
