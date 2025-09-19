@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import BlackButton from "../../common/BlackButton";
 
 const categories = [
@@ -45,13 +45,31 @@ const RealScenariosSection = () => {
     setIndex(0);
   }, [active]);
 
+  // slider measurements for peek effect
+  const trackRef = useRef(null);
+  const viewportRef = useRef(null);
+  const [offset, setOffset] = useState(0);
+  const PEEK_PX = 0; // part of the next slide visible at the right edge
+  const GAP_PX = 16; // gap between slides
+
+  useEffect(() => {
+    const updateOffset = () => {
+      if (!viewportRef.current) return;
+      const slideWidth = viewportRef.current.clientWidth - PEEK_PX; // width of each slide to keep peek
+      setOffset(-(slideWidth + GAP_PX) * index);
+    };
+    updateOffset();
+    window.addEventListener('resize', updateOffset);
+    return () => window.removeEventListener('resize', updateOffset);
+  }, [index]);
+
   return (
     <section
-      className="w-full bg-no-repeat bg-cover bg-center"
+      className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
       style={{ backgroundImage: "url('/images/home/Background-home-RS.png')" }}
     >
-      <div className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
+      <div className="max-w-7xl mx-auto py-12 md:py-16 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-10 lg:gap-14 items-stretch">
           {/* Left column - two rows stretched to top and bottom */}
           <div className="flex flex-col justify-between min-h-[420px] lg:min-h-[520px]">
             {/* Row 1: Heading (Desktop H3) */}
@@ -95,46 +113,20 @@ const RealScenariosSection = () => {
               ))}
             </div>
 
-            {/* Row 2: carousel container */}
-            <div className="relative w-full bg-white rounded-[8px] border border-black/10 p-2 h-[360px] md:h-[420px]">
-              {/* image area split like reference: left wide white area, right card */}
-              <div className="absolute inset-0 grid grid-cols-[1fr_520px] md:grid-cols-[1fr_560px] gap-2">
-                <div className="bg-white rounded-[6px] border border-black/5" />
-                <div className="relative rounded-[6px] overflow-hidden border border-black/10">
-                  {activeImages.map((src, i) => (
-                    <img
-                      key={src + i}
-                      src={src}
-                      alt={active}
-                      className={
-                        "absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out " +
-                        (i === index ? "translate-x-0" : i < index ? "-translate-x-full" : "translate-x-full")
-                      }
-                    />
-                  ))}
-                  {/* Slider controls */}
-                  {activeImages.length > 1 && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-between p-2">
-                      <button
-                        type="button"
-                        onClick={() => setIndex((i) => (i - 1 + activeImages.length) % activeImages.length)}
-                        className="pointer-events-auto bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-black"
-                        aria-label="Previous"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setIndex((i) => (i + 1) % activeImages.length)}
-                        className="pointer-events-auto bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-black"
-                        aria-label="Next"
-                      >
-                        ›
-                      </button>
-                    </div>
-                  )}
-                </div>
+            {/* Row 2: slider container (peek next slide) */}
+            <div ref={viewportRef} className="relative w-full bg-transparent rounded-[4px] h-[410px] md:h-[470px]">
+              <div
+                ref={trackRef}
+                className="absolute inset-0 flex gap-4 will-change-transform"
+                style={{ transform: `translateX(${offset}px)`, transition: 'transform 500ms ease-out', paddingRight: `${PEEK_PX}px` }}
+              >
+                {activeImages.map((src, i) => (
+                  <div key={src + i} className="h-full rounded-[6px] overflow-hidden border border-black/10" style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}>
+                    <img src={src} alt={active} className="w-full h-full object-cover" />
+                  </div>
+                ))}
               </div>
+              {/* no navigation arrows as requested */}
             </div>
           </div>
         </div>
