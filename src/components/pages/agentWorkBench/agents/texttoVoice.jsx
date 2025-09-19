@@ -38,19 +38,10 @@ const API_BASE = "http://127.0.0.1:8000";
 
 const TexttoVoice = () => {
     const [text, setText] = useState('');
-    const [voice, setVoice] = useState('alloy'); // Default voice
     const [audioUrl, setAudioUrl] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const audioRef = useRef(null);
-
-    const voiceOptions = [
-        { value: 'alloy', label: 'Alloy' },
-        { value: 'echo', label: 'Echo' },
-        { value: 'fable', label: 'Fable' },
-        { value: 'onyx', label: 'Onyx' },
-        { value: 'nova', label: 'Nova' },
-    ]; // Add more voices as per ElevenLabs options
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,18 +55,38 @@ const TexttoVoice = () => {
         setAudioUrl(null);
 
         try {
-            const response = await axios.post(`${API_BASE}/text-to-voice/`, {
-                text: text.trim(),
-                voice,
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-            });
-            const audioPath = response.data.audio_file;
+            const response = await axios.post(
+                `${API_BASE}/text-to-voice/`,
+                { text: text.trim() },
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    timeout: 30000,
+                }
+            );
+
+            let audioPath = response.data.audio_file;
+            // Normalize path to use forward slashes
+            audioPath = audioPath.replace(/\\/g, '/');
+            if (!audioPath.startsWith('temp_audio/')) {
+                throw new Error('Invalid audio file path received from server.');
+            }
             const fullUrl = `${API_BASE}/${audioPath}`;
             setAudioUrl(fullUrl);
+
+            // Auto-play the audio after setting the URL
+            if (audioRef.current) {
+                audioRef.current.load(); // Reload audio element with new source
+                audioRef.current.play().catch((err) => {
+                    setError('Failed to auto-play audio: ' + err.message);
+                });
+            }
         } catch (err) {
-            setError(err.response?.data?.audio_file || 'Error generating audio. Please try again.');
-            console.error('API Error:', err.response?.data);
+            const errorMessage =
+                err.response?.data?.audio_file ||
+                err.message ||
+                'Error generating audio. Please try again.';
+            setError(errorMessage);
+            console.error('API Error:', err);
         } finally {
             setLoading(false);
         }
@@ -83,7 +94,9 @@ const TexttoVoice = () => {
 
     const handlePlay = () => {
         if (audioRef.current) {
-            audioRef.current.play();
+            audioRef.current.play().catch((err) => {
+                setError('Failed to play audio: ' + err.message);
+            });
         }
     };
 
@@ -101,7 +114,7 @@ const TexttoVoice = () => {
     return (
         <ErrorBoundary>
             <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
-                <div className="w-full max-w-5xl mt-20">
+                <div className="w-full max-w-5xl mt-22">
                     {/* Header */}
                     <div className="relative">
                         <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -118,8 +131,7 @@ const TexttoVoice = () => {
 
                     {/* Instructions */}
                     <div className="text-center mb-4 text-gray-700">
-                        <p className="mb-2">Convert text to speech using ElevenLabs TTS.</p>
-                        <p className="text-sm">Select a voice and enter text to generate audio.</p>
+                        <p className="text-sm">Enter text to generate audio with the default voice.</p>
                     </div>
 
                     {/* Input Section */}
@@ -136,23 +148,6 @@ const TexttoVoice = () => {
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y h-32 text-sm"
                                     placeholder="Enter text to convert to speech..."
                                 />
-                            </div>
-                            <div>
-                                <label htmlFor="voice" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Voice
-                                </label>
-                                <select
-                                    id="voice"
-                                    value={voice}
-                                    onChange={(e) => setVoice(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                                >
-                                    {voiceOptions.map((option) => (
-                                        <option key={option.value} value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </select>
                             </div>
                             <button
                                 type="submit"
