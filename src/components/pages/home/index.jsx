@@ -2,6 +2,7 @@ import React from "react";
 import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
 import WhatWeExcelSection from "./WhatWeExcelSection";
+import ExpertsTechSection from "./ExpertsTechSection";
 import ScenarioSection from "./scenarioSection";
 import CoreValueSection from "./CoreValueSection";
 import IdeaSuiteSection from "./IdeaSuiteSection";
@@ -136,6 +137,7 @@ const Home = () => {
       `}} />
       
       <HeroSection />
+      <ExpertsTechSection />
       <WhatWeExcelSection />
       <FeatureCardsSection />
       <ScenarioSection />
