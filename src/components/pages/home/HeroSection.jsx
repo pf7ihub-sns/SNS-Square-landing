@@ -95,7 +95,7 @@ const HeroSection = () => {
         <div
           className="w-full h-[750px] xs:h-[800px] sm:h-[850px] md:h-[650px] lg:h-[700px] xl:h-[750px] 2xl:h-[802px] bg-cover bg-center bg-no-repeat relative overflow-hidden"
           style={{
-            backgroundImage: 'url(/images/Frame-home-hero.webp)'
+            backgroundImage: 'url(/images/home/Bg.png)'
           }}
         >
            {/* <SimpleRetroGrid

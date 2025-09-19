@@ -1,34 +1,69 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import BlackButton from "../../common/BlackButton";
 
 const categories = [
   {
+    key: "health",
+    label: "Health Care",
+    images: ["/images/home/usecase/Health-care.png"],
+    gradient:
+      // "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+       "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Tortor mollis est sed fermentum interdum placerat.",
+  },
+  {
     key: "supply",
     label: "Supply Chain",
-    images: ["/images/home/usecase/Group - 1.png"],
-  },
-  {
-    key: "it",
-    label: "Information Technology",
-    images: ["/images/home/usecase/Group - 3.png"],
-  },
-  {
-    key: "health",
-    label: "Healthcare",
-    images: ["/images/home/usecase/Group - 5.png"],
+    images: ["/images/home/usecase/SupplyChain.png"],
+    gradient:
+      "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "Enim senectus consectetur consequat sit tellus vitae volutpat.",
   },
   {
     key: "hr",
     label: "Human Resource",
-    images: ["/images/home/usecase/Group - 7.png"],
+    images: ["/images/home/usecase/HumanResource.png"],
+    gradient:
+    "linear-gradient(359.77deg, rgba(249, 238, 241, 0.94) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "A arcu egestas aliquam convallis feugiat ipsum in mattis.",
   },
-  { key: "ins", label: "Insurance", images: ["/images/home/usecase/Group - 10.png"] },
+  {
+    key: "it",
+    label: "Information Technology",
+    images: ["/images/home/usecase/InformationTechnology.png"],
+    gradient:
+    "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "In in velit euismod phasellus volutpat volutpat turpis nam.",
+  },
+  {
+    key: "ins",
+    label: "Insurance",
+    images: ["/images/home/usecase/Insurance.png"],
+    gradient:
+    "linear-gradient(359.77deg, rgba(254, 241, 230, 0.8) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "Orci aliquam quam aliquam quis vitae dui.",
+  },
 ];
 
 const RealScenariosSection = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(categories[0].key);
   const [index, setIndex] = useState(0); // index of category
   const activeImages = useMemo(() => categories[index].images, [index]);
+
+  const keyToUsecaseCategory = {
+    health: 'healthcare',
+    supply: 'supply-chain',
+    hr: 'human-resource',
+    it: 'information-technology',
+    ins: 'insurance',
+  };
 
   useEffect(() => {
     const next = categories.findIndex((c) => c.key === active);
@@ -40,7 +75,7 @@ const RealScenariosSection = () => {
   const viewportRef = useRef(null);
   const [offset, setOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const PEEK_PX = 170; // How much of the next slide to show
+  const PEEK_PX = 180; // How much of the next slide to show
   const GAP_PX = 16; // Corresponds to gap-4 class
 
   // drag state
@@ -171,8 +206,41 @@ const RealScenariosSection = () => {
                 style={{ transform: `translateX(${offset}px)`, transition: isDragging ? 'none' : 'transform 500ms ease-out' }}
               >
                 {categories.map((cat) => (
-                  <div key={cat.key} className="h-full overflow-hidden" style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}>
-                    <img src={cat.images[0]} alt={cat.label} className="w-full h-full object-contain" draggable="false"/>
+                  <div
+                    key={cat.key}
+                    className="h-full overflow-hidden group"
+                    style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}
+                  >
+                    <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2 rounded-[6px] overflow-hidden">
+                      <img
+                        src={cat.images[0]}
+                        alt={cat.label}
+                        className="w-full h-full object-contain"
+                        draggable="false"
+                      />
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ background: cat.gradient }}
+                      />
+                      <div className="absolute left-0 right-0 bottom-0 p-5 md:p-7">
+                        <h4 className="font-manrope font-semibold text-[24px] md:text-[28px] text-white group-hover:text-black text-left transform transition-all duration-500 ease-out group-hover:-translate-y-2">
+                          {cat.label}
+                        </h4>
+                        <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
+                          <p className="font-inter text-black/90 text-sm md:text-base mb-4">
+                            {cat.description}
+                          </p>
+                          <BlackButton
+                            size="small"
+                            variant="black"
+                            className="px-4 py-2"
+                            onClick={() => navigate(`/usecase?category=${keyToUsecaseCategory[cat.key]}`)}
+                          >
+                            Know more
+                          </BlackButton>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
