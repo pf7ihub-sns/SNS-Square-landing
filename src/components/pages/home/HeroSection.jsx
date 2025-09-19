@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BlackButton from '../../common/BlackButton';
 // import { SimpleRetroGrid } from '@/components/ui/simple-retro-grid';
 import { HeroCarousel } from '../../common/HeroCarousel';
@@ -54,6 +54,14 @@ const HeroSection = () => {
   const navigate = Navigate();
   const [index, setIndex] = useState(0);
   const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPhraseIndex(prevIndex => prevIndex + 1);
+    }, 4000); // Change phrase every 3 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
 
   // Get current navigation info based on the phrase
   const getCurrentNavigation = () => {
@@ -145,9 +153,9 @@ const HeroSection = () => {
                     variant="black"
                     className="rounded-[4px] px-8 sm:px-8 md:px-10 py-4 sm:py-4 md:py-5 text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
                     onClick={() => {
-                      const ctaSection = document.getElementById('cta-section');
-                      if (ctaSection) {
-                        ctaSection.scrollIntoView({ behavior: 'smooth' });
+                      const footerSection = document.getElementById('footer');
+                      if (footerSection) {
+                        footerSection.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
                   >
@@ -195,7 +203,7 @@ const HeroSection = () => {
                 </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[24px] md:h-[28px] lg:h-[32px] xl:h-[40px] 2xl:h-[48px] overflow-hidden whitespace-nowrap">
+                <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[28px] md:h-[32px] lg:h-[36px] xl:h-[46px] 2xl:h-[52px] overflow-hidden whitespace-nowrap">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={phrases[phraseIndex % phrases.length]}
@@ -227,9 +235,9 @@ const HeroSection = () => {
                   variant="black"
                   className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]"
                   onClick={() => {
-                    const ctaSection = document.getElementById('cta-section');
-                    if (ctaSection) {
-                      ctaSection.scrollIntoView({ behavior: 'smooth' });
+                    const footerSection = document.getElementById('footer');
+                    if (footerSection) {
+                      footerSection.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
                 >

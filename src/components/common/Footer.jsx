@@ -5,7 +5,7 @@ import BlackButton from "./BlackButton";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff] font-inter">
+    <footer id="footer" className="bg-gradient-to-r from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff] font-inter">
       {/* Top CTA Section */}
       <div className="max-w-7xl mx-auto px-6 py-16 text-center">
         <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
