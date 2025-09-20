@@ -1,23 +1,45 @@
 // src/components/Footer.jsx
 import { Linkedin, Youtube } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import BlackButton from "./BlackButton";
 
 export default function Footer() {
+  const location = useLocation();
+  const isCareersPage = location.pathname === '/careers';
   return (
     <footer id="footer" className="bg-gradient-to-r from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff] font-inter">
       {/* Top CTA Section */}
       <div className="max-w-7xl mx-auto px-6 py-16 text-center">
-        <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
-          Let's Build Your Agentic Future
-        </h2>
-        <p className="text-gray-600 mb-6 max-w-2xl mx-auto mt-12">
-          Ready to transform your business with Agentic AI, autonomous solutions? Partner with us
-          and take the first step into the Agentic era.
-        </p>
-        <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">
-          Contact US
-        </BlackButton>
+        {isCareersPage ? (
+          // Careers Page CTA
+          <>
+            <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
+              Can't find what you're looking for?
+            </h2>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto mt-12">
+              Register on our Candidate Portal and get notified when new roles that match your skills open up.
+            </p>
+            <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">
+              Register Here
+            </BlackButton>
+          </>
+        ) : (
+          // Default CTA
+          <>
+            <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
+              Let's Build Your Agentic Future
+            </h2>
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto mt-12">
+              Ready to transform your business with Agentic AI, autonomous solutions? Partner with us
+              and take the first step into the Agentic era.
+            </p>
+            <Link to="/contact-us">
+              <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">
+                Contact US
+              </BlackButton>
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Footer Links */}

@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../../common/hero";
 import { Card, CardContent } from "../../common/card";
-
+import CoreValueSection from "./CoreValueSection";
 const contentSections = [
 	{
 		id: 1,
@@ -84,8 +84,8 @@ export default function Page() {
         <main className="bg-[#FFFFFF] overflow-x-hidden">
             <Hero />
             <div className="w-full bg-[#FFFFFF] lg:px-10">
-                <section className="max-w-7xl mx-auto rounded-b-2xl bg-[linear-gradient(46deg,rgba(224,233,251,1)_0%,rgba(252,253,254,1)_100%)]">
-                    <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-14">
+                <section className="max-w-7xl mx-auto rounded-b-2xl">
+                    <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-4">
                         {contentSections.map((section) => (
                             <article
                                 key={section.id}
@@ -210,6 +210,7 @@ export default function Page() {
                     </div>
                 </section>
             </div>
+            <CoreValueSection />
         </main>
 	);
 }

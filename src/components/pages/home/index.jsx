@@ -4,7 +4,7 @@ import FeatureCardsSection from "./FeatureCardsSection";
 import WhatWeExcelSection from "./WhatWeExcelSection";
 import ExpertsTechSection from "./ExpertsTechSection";
 import ScenarioSection from "./scenarioSection";
-import CoreValueSection from "./CoreValueSection";
+
 import IdeaSuiteSection from "./IdeaSuiteSection";
 import CoreServiceSection from "./CoreServiceSection";
 

@@ -5,6 +5,8 @@ import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail";
 import LifeAtSNSSquare from "../pages/lifeAtSnsSquare";
 import HomePage from '../pages/Home';
 import AboutUsPage from '../pages/aboutUs';
+import Careers from '../pages/careers';
+import ContactUs from '../pages/contactUs';
 import AgentsDetails from "../pages/agentWorkbench/AgentsDetails";
 import CategoriesAgents from "../pages/agentWorkbench/CategoriesAgents";
 import Categories from "../pages/agentWorkbench/Categories";
@@ -19,6 +21,7 @@ import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
+import { BlogGrid, BlogDetail } from "../pages/blog";
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
 
@@ -38,10 +41,14 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={< HomePage />} />
       <Route path="/about-us" element={<AboutUsPage />} />
+      <Route path="/careers" element={<Careers />} />
+      <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/usecase" element={<UseCase />} />
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/blog" element={<BlogGrid />} />
+      <Route path="/blog/:id" element={<BlogDetail />} />
       
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={

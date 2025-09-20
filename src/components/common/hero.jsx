@@ -1,31 +1,43 @@
 import React from "react";
+import BlackButton from "../common/BlackButton";
 
 const HeroSection = () => {
   return (
-    <>
-    <div className="relative w-full pt-28 md:pt-32 mt-20 px-4">
-      {/* Soft horizontal background gradient */}
-      <div className="absolute inset-0  bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff]" />
+    <div className="relative w-full py-20 mt-20 px-4 " style={{background: 'linear-gradient(to bottom, #d3e0fa, white)'}}>
+      {/* Full background gradient - light blue to white */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#d3e0fa] to-white" />
 
-      {/* Bottom fade to white to blend with content below */}
-      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-white" />
-
-      <div className="relative max-w-[1180px] mx-auto text-center">
-        <h1 className="font-manrope font-extrabold text-[28px] sm:text-[34px] md:text-[42px] lg:text-[52px] leading-[1.15] text-black">
-          A <span className="bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">Culture</span> that Erupts into <span className="bg-gradient-to-r from-[#1d4ed8] to-[#60a5fa] bg-clip-text text-transparent">Brilliance.</span>
+      <div className="relative max-w-6xl mx-auto text-center z-10">
+        {/* Main Heading - matching the image text with exact styling */}
+        <h1 className="font-bold text-gray-800 mb-8 leading-tight text-6xl md:text-7xl">
+          A <span className="text-blue-600">Culture</span> that Erupts into <span className="text-blue-600">Brilliance</span>
         </h1>
-        <p className="font-inter text-black/70 mt-4 md:mt-5 max-w-3xl mx-auto">
-          We are a culture of bold thinkers and fearless doers. Here, boundaries fade, routines transform into freedom,
-          and creativity flows without limits.
+
+        {/* Subtitle - matching the image text with exact styling */}
+        <p className="mt-6 text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed text-xl">
+          We are a culture of bold thinkers and fearless doers. Here, boundaries fade, routines transform into freedom, and creativity flows without limits.
         </p>
+
+        {/* CTA Button */}
+        <BlackButton>
+          Work With Us
+        </BlackButton>
+      </div>
+      
+      {/* Team Image with gradient overlay above it */}
+      <div className="relative z-10 flex justify-center ">
+        <div className="relative w-full max-w-7xl">
+          {/* Gradient overlay above the image - same as useCase */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#DFE9FB] to-transparent z-20" />
+          
+          <img 
+            src="/images/Team.png" 
+            alt="SNS Square Team" 
+            className="w-full  relative z-10"
+          />
+        </div>
       </div>
     </div>
-      <div className="relative ">
-      <div className="relative max-w-[1180px] mx-auto rounded-[8px] overflow-hidden">
-        <img src="/images/Team.png" alt="SNS Square Team" className="w-full h-auto block" />
-      </div>
-    </div>
-    </>
   );
 };
 
