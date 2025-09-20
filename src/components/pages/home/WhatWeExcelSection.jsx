@@ -141,7 +141,7 @@ const WhatWeExcelSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="px-8 xs:px-9 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20" onWheel={handleWheel}>
+    <section ref={sectionRef} className="px-8 xs:px-9 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20" /* onWheel={handleWheel} */>
       <div className="max-w-[1480px] mx-auto">
         <div className="mb-6 md:mb-8">
           <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">

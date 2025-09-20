@@ -388,7 +388,7 @@ const Header = () => {
             />
           </div>
 
-          <div className="relative group">
+          {/* <div className="relative group">
             <div
               className="flex items-center cursor-pointer"
               onMouseEnter={() => handleDropdownHover('resources')}
@@ -410,7 +410,7 @@ const Header = () => {
               items={dropdownContent['resources']}
               isVisible={hoveredDropdown === 'resources'}
             />
-          </div>
+          </div> */}
         </nav>
 
         {/* Authentication/User Menu - right corner */}

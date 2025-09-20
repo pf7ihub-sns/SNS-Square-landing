@@ -3,7 +3,7 @@ import BlackButton from "../common/BlackButton";
 
 const HeroSection = () => {
   return (
-    <div className="relative w-full py-20 mt-20 px-4 min-h-screen" style={{background: 'linear-gradient(to bottom, #d3e0fa, white)'}}>
+    <div className="relative w-full py-20 mt-20 px-4 " style={{background: 'linear-gradient(to bottom, #d3e0fa, white)'}}>
       {/* Full background gradient - light blue to white */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#d3e0fa] to-white" />
 
