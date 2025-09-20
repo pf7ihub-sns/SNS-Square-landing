@@ -25,7 +25,7 @@ const BlogGrid = () => {
     'Supply Chain',
     'Information Technology', 
     'Healthcare',
-    'Human Resource',
+    // 'Human Resource',
     'Insurance'
   ];
 
