@@ -119,7 +119,7 @@ const BlogGrid = () => {
     // Set initial featured and latest blogs
     if (processedBlogs.length > 0) {
       setFeaturedBlog(processedBlogs[0]);
-      setLatestBlogs(processedBlogs.slice(1, 3));
+      setLatestBlogs(processedBlogs.slice(1, 4));
     }
   }, []);
 
@@ -158,7 +158,7 @@ const BlogGrid = () => {
       setFeaturedBlog(featuredBlogFromCategory);
       
       // Set latest blogs (exclude the featured one)
-      const latestBlogsFromCategory = categoryBlogs.filter(blog => blog.id !== featuredBlogFromCategory.id).slice(0, 2);
+      const latestBlogsFromCategory = categoryBlogs.filter(blog => blog.id !== featuredBlogFromCategory.id).slice(0, 3);
       setLatestBlogs(latestBlogsFromCategory);
     } else {
       setFeaturedBlog(null);
