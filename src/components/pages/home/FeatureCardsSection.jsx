@@ -50,16 +50,19 @@ const FeatureCardsSection = () => {
             <div className="absolute inset-0 bg-white/10" />
             <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
               <div>
-                <h4 style={{
-                  background: "linear-gradient(90deg, #FA0800 0%, #FF8A0E 100%)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}>
+                <h4
+                  className="inline-block leading-normal"
+                  style={{
+                    background: "linear-gradient(90deg, #FA0800 0%, #FF8A0E 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
+                >
                   Foundational Agents
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                Foundational Agents are core AI building <br /> blocks, flexible, scalable, and ready to <br /> power your business with Agentic <br /> intelligence, automation and innovation.
+                  Foundational Agents are core AI building <br /> blocks, flexible, scalable, and ready to <br /> power your business with Agentic <br /> intelligence, automation and innovation.
                 </p>
               </div>
             </div>
@@ -80,7 +83,9 @@ const FeatureCardsSection = () => {
             <div className="absolute inset-0 bg-white/10" />
             <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
               <div>
-                <h4 style={{
+                <h4 
+                className="inline-block leading-normal"
+                style={{
                   background: "linear-gradient(90deg, #805DFC 0%, #4C3796 100%)",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
@@ -89,7 +94,7 @@ const FeatureCardsSection = () => {
                   Industry Solutions
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                AI Agents crafted for your industry, <br/>delivering precise insights, efficiency and <br/>growth tailored to your business needs.
+                  AI Agents crafted for your industry, <br />delivering precise insights, efficiency and <br />growth tailored to your business needs.
                 </p>
               </div>
             </div>
@@ -119,7 +124,7 @@ const FeatureCardsSection = () => {
                   Customer Solutions
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                Personalised Agentic AI solutions crafted <br/>to meet your business needs with unique <br/>solutions.
+                  Personalised Agentic AI solutions crafted <br />to meet your business needs with unique <br />solutions.
                 </p>
               </div>
             </div>

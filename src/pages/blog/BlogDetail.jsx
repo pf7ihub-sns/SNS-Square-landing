@@ -22,8 +22,6 @@ const BlogDetail = () => {
   const sectionIdsRef = useRef([]);
   const scrollHandlerRef = useRef(null);
 
-  console.log('BlogDetail component rendered with ID:', id);
-
   const blogDataMap = {
     'supply-chain-1': Array.isArray(supplyChainData) ? supplyChainData[0] : supplyChainData,
     'information-technology-1': Array.isArray(itData) ? itData[0] : itData,
@@ -54,7 +52,7 @@ const BlogDetail = () => {
       const category = multiBlogMatch[1];
       const blogIndex = parseInt(multiBlogMatch[2]) - 1; // Convert to 0-based index
       
-      console.log(`BlogDetail: Found multi-blog match - Category: ${category}, Index: ${blogIndex}`);
+
       
       // Map category names to data arrays
       const categoryDataMap = {
@@ -67,13 +65,10 @@ const BlogDetail = () => {
       
       const dataArray = categoryDataMap[category];
       if (dataArray && Array.isArray(dataArray) && dataArray[blogIndex]) {
-        console.log(`BlogDetail: Found blog data for ${blogId} - Title: ${dataArray[blogIndex].title}`);
         return {
           data: dataArray[blogIndex],
           type: 'main'
         };
-      } else {
-        console.log(`BlogDetail: No blog data found for ${blogId} - Array length: ${dataArray?.length}, Index: ${blogIndex}`);
       }
     }
 
@@ -122,14 +117,12 @@ const BlogDetail = () => {
 
   // Load blog data
   useEffect(() => {
-    console.log('BlogDetail: Looking for blog with ID:', id);
     
     // If no ID, use a default blog for testing
     const blogId = id || 'supply-chain-1';
     const blogResult = findBlogData(blogId);
     
     if (blogResult) {
-      console.log('BlogDetail: Found blog data:', blogResult);
       setBlog({
         id: blogId,
         title: blogResult.data.title,
@@ -139,7 +132,6 @@ const BlogDetail = () => {
         readTime: "7min reading"
       });
     } else {
-      console.log('BlogDetail: Blog not found for ID:', blogId);
       setBlog(null);
     }
   }, [id, findBlogData]);
@@ -154,9 +146,7 @@ const BlogDetail = () => {
     );
     
     if (shouldNavigateAway) {
-      console.log('Detected navigation to:', location.pathname);
       setTimeout(() => {
-        console.log('Executing navigation to:', location.pathname);
         window.location.href = location.pathname;
       }, 0);
     }
@@ -361,7 +351,7 @@ const BlogDetail = () => {
               <div className="space-y-4">
                 {content.smart_supply_chain.capabilities.map((capability, index) => (
                   <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">{capability.name}</h4>
+                    <h5 className="font-semibold text-gray-900 mb-2">{capability.name}</h5>
                     <ul className="list-disc list-inside space-y-1">
                       {capability.functions.map((func, funcIndex) => (
                         <li key={funcIndex}>{func}</li>
@@ -404,7 +394,7 @@ const BlogDetail = () => {
             <div className="space-y-4">
               {content.how_ai_transforms_risk_assessment.map((section, index) => (
                 <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-gray-900 mb-2">{section.section}</h4>
+                  <h5 className="font-semibold text-gray-900 mb-2">{section.section}</h5>
                   <p className="leading-relaxed mb-2">{section.description}</p>
                   {section.example && (
                     <p className="text-sm mb-2"><em>Example: {section.example}</em></p>
@@ -447,9 +437,9 @@ const BlogDetail = () => {
               <div className="space-y-4">
                 {Object.entries(content.industry_examples).map(([key, value]) => (
                   <div key={key} className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2 capitalize">
+                    <h5 className="text-gray-900 mb-3 capitalize">
                       {key.replace(/_/g, ' ')}
-                    </h4>
+                    </h5>
                     <p>{value}</p>
                   </div>
                 ))}
@@ -459,7 +449,7 @@ const BlogDetail = () => {
               <div className="space-y-4">
                 {content.key_applications.map((app, index) => (
                   <div key={index} className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">{app.application}</h4>
+                    <h5 className="font-semibold text-gray-900 mb-2">{app.application}</h5>
                     <p>{app.description}</p>
                   </div>
                 ))}
@@ -621,6 +611,17 @@ const BlogDetail = () => {
                 {title}
               </h1>
             </div>
+
+            {/* Blog Image */}
+            {content.image && (
+              <div className="mb-12 rounded-lg overflow-hidden">
+                <img 
+                  src={content.image} 
+                  alt={title}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            )}
 
             {/* Article sections */}
             <div className="space-y-12 pb-64">

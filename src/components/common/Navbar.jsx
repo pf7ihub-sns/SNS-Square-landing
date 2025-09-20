@@ -125,10 +125,7 @@ const Header = () => {
 
   // Function to handle contact button click
   const handleContactClick = () => {
-    const ctaSection = document.getElementById('cta-section');
-    if (ctaSection) {
-      ctaSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    navigate('/contact-us');
     closeMenu();
   };
 
