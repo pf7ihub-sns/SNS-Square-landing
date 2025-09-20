@@ -33,7 +33,7 @@ const BlogGrid = () => {
     'Supply Chain': supplyChainData,
     'Information Technology': itData,
     'Healthcare': healthCareData,
-    'Human Resource': itData, // Using IT data as placeholder
+    // 'Human Resource': itData, // Using IT data as placeholder
     'Insurance': insuranceData
   };
 
@@ -165,7 +165,7 @@ const BlogGrid = () => {
   }, [selectedCategory, allBlogs]);
 
   const handleBlogClick = (blog) => {
-    navigate(`/blog/${blog.id}`);
+    navigate(`/resources/blog/${blog.id}`);
   };
 
   const handleSearch = (e) => {
@@ -232,7 +232,7 @@ const BlogGrid = () => {
                   description={featuredBlog.description}
                   image={featuredBlog.image}
                   onClick={() => handleBlogClick(featuredBlog)}
-                  badge={selectedCategory === 'All' ? 'Featured' : `Featured ${selectedCategory}`}
+                  // badge={selectedCategory === 'All' ? 'Featured' : `Featured ${selectedCategory}`}
                   date={featuredBlog.date}
                   readTime={featuredBlog.readTime}
                   className=""
@@ -254,7 +254,7 @@ const BlogGrid = () => {
                     description={blog.description}
                     image={blog.image}
                     onClick={() => handleBlogClick(blog)}
-                    badge={selectedCategory === 'All' ? 'Latest' : `Latest ${selectedCategory}`}
+                    // badge={selectedCategory === 'All' ? 'Latest' : `Latest ${selectedCategory}`}
                     date={blog.date}
                     readTime={blog.readTime}
                     className=""
