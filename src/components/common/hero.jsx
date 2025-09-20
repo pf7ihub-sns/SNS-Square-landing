@@ -14,7 +14,7 @@ const HeroSection = ({ showButton = true }) => {
         </h1>
 
         {/* Subtitle - matching the image text with exact styling */}
-        <p className="mt-6 text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed text-xl">
+        <p className="mt-6 text-gray-600  max-w-4xl mx-auto leading-relaxed text-xl">
           We are a culture of bold thinkers and fearless doers. Here, boundaries fade, routines transform into freedom, and creativity flows without limits.
         </p>
 
