@@ -227,11 +227,11 @@ export default function UseCaseDetailPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>Published on April 1, 2025</span>
+                      <span>Published on August 18, 2025</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <RefreshCw className="w-4 h-4" />
-                      <span>Updated on April 24, 2025</span>
+                      <span>Updated on September 2, 2025</span>
                     </div>
                   </div>
                 </div>
