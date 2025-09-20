@@ -57,6 +57,7 @@ import LanguageGrammer from"./agents/languageGrammar";
 import ProductClassifier from "./agents/productClassifier";
 import VoiceToTxt from "./agents/voicetoTxt";
 import TexttoVoice from "./agents/texttoVoice";
+import AppointmentManagement from "./agents/appointmentManagement"
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -118,7 +119,9 @@ const AgentRouter = () => {
     "language-agent":<LanguageGrammer/>,
     "product-classifier":<ProductClassifier/>,
     "voice-Txt-agent":<VoiceToTxt/>,
-    "text-voice-agent":<TexttoVoice/>
+    "text-voice-agent":<TexttoVoice/>,
+    "Appointment-management":<AppointmentManagement/>
+
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
