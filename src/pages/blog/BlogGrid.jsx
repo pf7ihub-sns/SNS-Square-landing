@@ -56,7 +56,7 @@ const BlogGrid = () => {
             date: "Sep 10, 2025",
             readTime: "5 min read",
             content: blogEntry,
-            image: null,
+            image: blogEntry.image || null,
             featured: index === 0 // First blog in each category is featured
           };
           processedBlogs.push(blog);
@@ -71,7 +71,7 @@ const BlogGrid = () => {
           date: "Sep 10, 2025",
           readTime: "5 min read",
           content: data,
-          image: null,
+          image: data.image || null,
           featured: true
         };
         processedBlogs.push(blog);
@@ -88,7 +88,7 @@ const BlogGrid = () => {
               date: "Sep 10, 2025",
               readTime: "3 min read",
               content: { ...data, focus: app },
-              image: null
+              image: data.image || null
             };
             processedBlogs.push(appBlog);
           });
@@ -105,7 +105,7 @@ const BlogGrid = () => {
             date: "Sep 10, 2025",
             readTime: "4 min read",
             content: { ...data, focus: 'benefits' },
-            image: null
+            image: data.image || null
           };
           processedBlogs.push(benefitsBlog);
         }
