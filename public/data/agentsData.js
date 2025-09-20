@@ -3259,6 +3259,15 @@ industry:[
       description: "Paralegal services, document management, and research support",
       image: "/placeholder.jpg",
       agents: [
+                {
+          id: "contract-management",
+          name: "Contract Management",
+          summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+          image: "/placeholder.jpg",
+          solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+          useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+          status: "available"
+        },
         {
           id: "paralegal-document-management",
           name: "Document Management Workflow",
@@ -3477,7 +3486,8 @@ industry:[
           image: "/placeholder.jpg",
           solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
           useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
-          status:"available"
+          status:"available",
+          externalLink: "http://industry-specific-workflow.s3-website-ap-southeast-2.amazonaws.com/healthcare/agent-1/run" // Add this only for this agent
         },
         {
           id: "financial-oversight",
@@ -3522,8 +3532,7 @@ industry:[
       ]
     }
   ]
-}
-,
+},
   {
     id: "agriculture",
     name: "Agriculture",
@@ -4382,6 +4391,15 @@ industry:[
     "solutions": ["Payment initiation", "Authentication", "Fraud detection", "Authorization"],
     "useCases": ["Instant payments", "Cross-channel transactions", "Secure settlements"]
   },
+    {
+    "id": "invoice-processing",
+    "name": "Invoice Processing",
+    "summary": "Convert invoices into instant cash flow with automated verification.",
+    "image": "/placeholder.jpg",
+    "solutions": ["Invoice validation", "Credit checking", "Advance calculation"],
+    "useCases": ["Invoice funding", "Working capital optimization", "Collections management"],
+    status: "available"
+  },
   {
     "id": "personal-lending",
     "name": "Personal Lending",
@@ -4454,14 +4472,7 @@ industry:[
     "solutions": ["Financial statement analysis", "Cash flow assessment", "Loan structuring"],
     "useCases": ["SME lending", "Credit evaluation", "Business loan disbursals"]
   },
-  {
-    "id": "invoice-financing",
-    "name": "Invoice Financing",
-    "summary": "Convert invoices into instant cash flow with automated verification.",
-    "image": "/placeholder.jpg",
-    "solutions": ["Invoice validation", "Credit checking", "Advance calculation"],
-    "useCases": ["Invoice funding", "Working capital optimization", "Collections management"]
-  },
+
   {
     "id": "payroll-management",
     "name": "Payroll Management",
@@ -4496,6 +4507,24 @@ industry:[
   }
     ],
   },
+ {
+    id: "general",
+    name: "General",
+    description: "General purpose agents for various applications.",
+    image: "/industry/Fintech.png",
+    agents: [
+  {
+    "id": "email-triage",
+    "name": "Email Triage",
+    "summary": "Automate email sorting, prioritization, and response generation.",
+    "image": "/placeholder.jpg",
+    "solutions": ["Email classification", "Priority tagging", "Response drafting"],
+    "useCases": ["Inbox management", "Customer support", "Internal communications"],
+    status: "available"
+  },
+    ],
+  },
+  
 ]
 }
 

@@ -58,6 +58,9 @@ import ProductClassifier from "./agents/productClassifier";
 import VoiceToTxt from "./agents/voicetoTxt";
 import TexttoVoice from "./agents/texttoVoice";
 import AppointmentManagement from "./agents/appointmentManagement"
+import InvoiceProcessing from "./agents/invoiceProcessing";
+import ContractManagement from "./agents/contractManagement";
+import EmailTriage from "./agents/emailTriage";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -120,8 +123,10 @@ const AgentRouter = () => {
     "product-classifier":<ProductClassifier/>,
     "voice-Txt-agent":<VoiceToTxt/>,
     "text-voice-agent":<TexttoVoice/>,
-    "Appointment-management":<AppointmentManagement/>
-
+    "Appointment-management":<AppointmentManagement/>,
+    "invoice-processing": <InvoiceProcessing />,
+    "contract-management": <ContractManagement />,
+    "email-triage": <EmailTriage />
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
