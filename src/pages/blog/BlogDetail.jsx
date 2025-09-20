@@ -48,6 +48,35 @@ const BlogDetail = () => {
       };
     }
 
+    // Handle multiple blog entries from same category (e.g., supply-chain-2, supply-chain-3)
+    const multiBlogMatch = blogId.match(/^(.+)-(\d+)$/);
+    if (multiBlogMatch) {
+      const category = multiBlogMatch[1];
+      const blogIndex = parseInt(multiBlogMatch[2]) - 1; // Convert to 0-based index
+      
+      console.log(`BlogDetail: Found multi-blog match - Category: ${category}, Index: ${blogIndex}`);
+      
+      // Map category names to data arrays
+      const categoryDataMap = {
+        'supply-chain': supplyChainData,
+        'information-technology': itData,
+        'healthcare': healthCareData,
+        'human-resource': itData,
+        'insurance': insuranceData
+      };
+      
+      const dataArray = categoryDataMap[category];
+      if (dataArray && Array.isArray(dataArray) && dataArray[blogIndex]) {
+        console.log(`BlogDetail: Found blog data for ${blogId} - Title: ${dataArray[blogIndex].title}`);
+        return {
+          data: dataArray[blogIndex],
+          type: 'main'
+        };
+      } else {
+        console.log(`BlogDetail: No blog data found for ${blogId} - Array length: ${dataArray?.length}, Index: ${blogIndex}`);
+      }
+    }
+
     // Handle app-specific entries (e.g., supply-chain-app-1)
     const appMatch = blogId.match(/^(.+)-app-(\d+)$/);
     if (appMatch) {
