@@ -362,7 +362,7 @@ const Header = () => {
               className={linkClasses}
               onClick={handleNavClick}
             >
-              Resources
+              Blogs
             </NavLink>
           </div>
         </nav>
