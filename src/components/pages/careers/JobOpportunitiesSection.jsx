@@ -6,25 +6,25 @@ const JobOpportunitiesSection = () => {
       id: 1,
       title: "Software Developers",
       description: "Build and maintain applications that solve real-world problems. Collaborate with teams to deliver high-quality software.",
-      icon: "💻"
+      icon: "/icons/Career/SoftwareDeveloper.png"
     },
     {
       id: 2,
       title: "UI/UX Designers",
       description: "Design intuitive interfaces and seamless experiences for users. Focus on aesthetics and usability to enhance engagement.",
-      icon: "🎨"
+      icon: "/icons/Career/UIUX.png"
     },
     {
       id: 3,
       title: "Data Scientists",
       description: "Analyze data to uncover insights and drive business decisions. Build predictive models and visualize trends effectively.",
-      icon: "📊"
+      icon: "/icons/Career/Data.png"
     },
     {
       id: 4,
       title: "DevOps Engineers",
       description: "Streamline software development and deployment processes. Ensure reliable infrastructure and continuous integration.",
-      icon: "⚙️"
+      icon: "/icons/Career/Devops.png"
     }
   ];
 
@@ -45,7 +45,7 @@ const JobOpportunitiesSection = () => {
             >
               {/* Icon */}
               <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-yellow-400 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-2xl text-white">📄</span>
+                <img src={job.icon} alt={job.title} className="w-8 h-8 object-contain" />
               </div>
 
               {/* Job Title */}
