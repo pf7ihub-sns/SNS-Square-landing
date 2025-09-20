@@ -458,6 +458,19 @@ const BlogDetail = () => {
           </div>
         </section>
       );
+
+      // Add second image after examples if it exists
+      if (content.image2) {
+        sections.push(
+          <div key="image2" className="mb-12 rounded-lg overflow-hidden">
+            <img 
+              src={content.image2} 
+              alt={`${title} - Additional Content`}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        );
+      }
     }
 
     // Future/Road Ahead

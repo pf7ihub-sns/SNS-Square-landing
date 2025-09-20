@@ -24,8 +24,9 @@ const BlogGrid = () => {
 
   const categories = [
     'All',
+    'Information Technology',
     'Supply Chain',
-    'Information Technology', 
+ 
     'Healthcare',
     // 'Human Resource',
     'Insurance'
