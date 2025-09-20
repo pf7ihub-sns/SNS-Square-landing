@@ -1,7 +1,7 @@
 import React from "react";
 import BlackButton from "../common/BlackButton";
 
-const HeroSection = () => {
+const HeroSection = ({ showButton = true }) => {
   return (
     <div className="relative w-full py-20 mt-20 px-4 " style={{background: 'linear-gradient(to bottom, #d3e0fa, white)'}}>
       {/* Full background gradient - light blue to white */}
@@ -19,17 +19,18 @@ const HeroSection = () => {
         </p>
 
         {/* CTA Button */}
-        <BlackButton>
-          Work With Us
-        </BlackButton>
+        {showButton && (
+          <BlackButton>
+            Work With Us
+          </BlackButton>
+        )}
       </div>
       
       {/* Team Image with gradient overlay above it */}
       <div className="relative z-10 flex justify-center ">
         <div className="relative w-full max-w-7xl">
           {/* Gradient overlay above the image - same as useCase */}
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#DFE9FB] to-transparent z-20" />
-          
+          <div className="absolute top-0 left-0 right-0 h-0 bg-gradient-to-b from-[#DFE9FB] to-transparent z-20" />
           <img 
             src="/images/Team.png" 
             alt="SNS Square Team" 

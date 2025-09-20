@@ -82,7 +82,7 @@ const contentSections = [
 export default function Page() {
     return (
         <main className="bg-[#FFFFFF] overflow-x-hidden">
-            <Hero />
+            <Hero showButton={false} />
             <div className="w-full bg-[#FFFFFF] lg:px-10">
                 <section className="max-w-7xl mx-auto rounded-b-2xl">
                     <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-4">
