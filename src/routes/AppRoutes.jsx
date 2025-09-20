@@ -47,8 +47,9 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
-      <Route path="/blog" element={<BlogGrid />} />
-      <Route path="/blog/:id" element={<BlogDetail />} />
+      <Route path="/resources" element={<BlogGrid />} />
+      <Route path="/resources/blog" element={<BlogGrid />} />
+      <Route path="/resources/blog/:id" element={<BlogDetail />} />
       
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
