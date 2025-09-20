@@ -43,25 +43,54 @@ const PolicySuggestion = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Fixed cleanApiResponse function
     const cleanApiResponse = (data) => {
-        // If backend wraps answer in ```json ... ``` or returns raw JSON string
+        console.log('Raw API response:', data); // Debug log
+        
+        // If data is already a clean object with answer/sources, return it directly
+        if (data && typeof data === 'object' && data.answer && data.sources) {
+            console.log('Direct object response, returning as-is');
+            return {
+                answer: data.answer || "No answer available",
+                sources: Array.isArray(data.sources) ? data.sources : [],
+                confidence: data.confidence || 0.7
+            };
+        }
+
+        // If it's a string, try to parse JSON
         if (typeof data === "string") {
             try {
-                const cleaned = data.replace(/```json|```/g, "").trim();
+                // Clean markdown code blocks if present
+                const cleaned = data
+                    .replace(/```json|```/g, "")
+                    .trim();
+                
+                console.log('Cleaned string:', cleaned);
+                
                 const parsed = JSON.parse(cleaned);
+                
                 return {
-                    answer: typeof parsed.answer === "string" ? parsed.answer : cleaned,
-                    sources: parsed.sources || [],
+                    answer: parsed.answer || "No answer available",
+                    sources: Array.isArray(parsed.sources) ? parsed.sources : [],
+                    confidence: parsed.confidence || 0.7
                 };
             } catch (e) {
-                // If not valid JSON, treat the entire string as the answer
-                return { answer: data, sources: [] };
+                console.error('JSON parsing failed:', e);
+                // If parsing fails, treat the entire string as answer
+                return { 
+                    answer: data, 
+                    sources: [], 
+                    confidence: 0.0 
+                };
             }
         }
-        // If data is already an object (e.g., { answer, sources })
-        return {
-            answer: data.answer || "No answer available",
-            sources: data.sources || [],
+
+        // Fallback for unexpected formats
+        console.warn('Unexpected response format:', typeof data, data);
+        return { 
+            answer: "Unexpected response format", 
+            sources: [], 
+            confidence: 0.0 
         };
     };
 
@@ -77,32 +106,50 @@ const PolicySuggestion = () => {
         setResult(null);
 
         try {
+            console.log('Sending request with query:', query); // Debug log
+            
             const response = await axios.post(
                 `${API_BASE}/policy-suggestion/query`,
                 { query: query.trim(), context: context.trim() || undefined },
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
-            // 🛠️ Clean JSON if needed
+            console.log('Full response:', response); // Debug log
+            console.log('Response data:', response.data); // Debug log
+
+            // Clean the response
             const data = cleanApiResponse(response.data);
+
+            console.log('Processed data:', data); // Debug log
 
             setResult({
                 answer: data.answer,
-                sources: data.sources || []
+                sources: data.sources,
+                confidence: data.confidence
             });
         } catch (err) {
-            setError(err.response?.data?.detail || 'Error fetching policy advice. Please try again.');
-            console.error('API Error:', err.response?.data);
+            console.error('Full error object:', err); // Debug log
+            const errorMessage = err.response?.data?.detail || 
+                               err.response?.data?.message || 
+                               err.message || 
+                               'Error fetching policy advice. Please try again.';
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
     };
 
+    // Debug function to log result state
+    React.useEffect(() => {
+        if (result) {
+            console.log('Result state updated:', result);
+        }
+    }, [result]);
+
     return (
         <ErrorBoundary>
             <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
                 <div className="w-full max-w-5xl mt-22">
-
                     {/* Header */}
                     <div className="relative">
                         <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg"
@@ -184,38 +231,75 @@ const PolicySuggestion = () => {
                         {result ? (
                             <div className="space-y-6">
                                 <h2 className="text-2xl font-bold text-gray-800 border-b border-gray-200 pb-4">Policy Advice</h2>
+                                
                                 <div className="bg-gray-50 p-4 rounded-lg">
+                                    {/* Answer Section */}
+                                    {result.answer && (
+                                        <div className="mb-6 p-4 bg-white rounded-lg border-l-4 border-blue-500 shadow-sm">
+                                            <div className="flex justify-between items-start mb-3">
+                                                <h3 className="font-semibold text-gray-800">Your Policy Summary</h3>
+                                                {result.confidence !== undefined && (
+                                                    <span className="text-sm text-gray-600 bg-blue-100 px-2 py-1 rounded-full">
+                                                        Confidence: {(result.confidence * 100).toFixed(0)}%
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="text-gray-700 leading-relaxed whitespace-pre-wrap text-sm">
+                                                {result.answer}
+                                            </div>
+                                        </div>
+                                    )}
 
-
-                                    {result.sources.length > 0 && (
-                                        <div className="mt-4">
-                                            <h3 className="text-lg font-semibold text-gray-800 mb-2">Sources</h3>
-                                            <ul className="list-disc pl-5 space-y-2">
+                                    {/* Sources Section */}
+                                    {result.sources && result.sources.length > 0 && (
+                                        <div className="mt-6">
+                                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                                Sources
+                                                <span className="ml-2 text-sm text-gray-500 bg-gray-200 px-2 py-1 rounded-full">
+                                                    {result.sources.length}
+                                                </span>
+                                            </h3>
+                                            <div className="space-y-3">
                                                 {result.sources.map((source, index) => (
-                                                    <li key={index} className="text-gray-600 text-sm">
-                                                        {typeof source === "string" ? (
-                                                            <a href={source} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                                                {source}
+                                                    <div key={index} className="p-3 bg-white rounded-lg border border-gray-200 hover:shadow-sm transition-shadow">
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <a 
+                                                                href={source.url} 
+                                                                target="_blank" 
+                                                                rel="noopener noreferrer" 
+                                                                className="text-blue-600 hover:text-blue-800 font-medium text-sm hover:underline"
+                                                            >
+                                                                {source.document_title || `Source ${index + 1}`}
                                                             </a>
-                                                        ) : (
-                                                            <>
-                                                                <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                                                    {source.document_title || "Source"}
-                                                                </a>
-                                                                {source.excerpt && <p className="mt-1">{source.excerpt}</p>}
-                                                                {source.relevance_score && <p className="text-xs text-gray-500">Relevance: {source.relevance_score}</p>}
-                                                            </>
+                                                            {source.relevance_score && (
+                                                                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                                                                    {Math.round(source.relevance_score * 100)}%
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        {source.excerpt && (
+                                                            <p className="text-gray-600 text-xs mt-1 leading-relaxed line-clamp-3">
+                                                                {source.excerpt}
+                                                            </p>
                                                         )}
-                                                    </li>
+                                                        <a 
+                                                            href={source.url} 
+                                                            target="_blank" 
+                                                            rel="noopener noreferrer" 
+                                                            className="text-xs text-blue-500 hover:underline block mt-2"
+                                                        >
+                                                            → Read full source
+                                                        </a>
+                                                    </div>
                                                 ))}
-                                            </ul>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             </div>
                         ) : !loading && !error ? (
                             <div className="w-full h-96 flex items-center justify-center text-gray-500 text-lg">
-                                Your policy advice will appear here
+                                Your policy advice will appear here once you submit a query.
                             </div>
                         ) : null}
                     </div>
