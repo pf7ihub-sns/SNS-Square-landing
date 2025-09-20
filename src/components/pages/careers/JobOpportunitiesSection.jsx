@@ -5,50 +5,26 @@ const JobOpportunitiesSection = () => {
     {
       id: 1,
       title: "Software Developers",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
+      description: "Build and maintain applications that solve real-world problems. Collaborate with teams to deliver high-quality software.",
       icon: "💻"
     },
     {
       id: 2,
       title: "UI/UX Designers",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
+      description: "Design intuitive interfaces and seamless experiences for users. Focus on aesthetics and usability to enhance engagement.",
       icon: "🎨"
     },
     {
       id: 3,
       title: "Data Scientists",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
+      description: "Analyze data to uncover insights and drive business decisions. Build predictive models and visualize trends effectively.",
       icon: "📊"
     },
     {
       id: 4,
       title: "DevOps Engineers",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
+      description: "Streamline software development and deployment processes. Ensure reliable infrastructure and continuous integration.",
       icon: "⚙️"
-    },
-    {
-      id: 5,
-      title: "Product Managers",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
-      icon: "📋"
-    },
-    {
-      id: 6,
-      title: "AI/ML Engineers",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
-      icon: "🤖"
-    },
-    {
-      id: 7,
-      title: "Quality Assurance",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
-      icon: "✅"
-    },
-    {
-      id: 8,
-      title: "Business Analysts",
-      description: "Lorem ipsum dolor sit amet consectetur. Massa mattis sed magna sociis volutpat tristique eget.",
-      icon: "📈"
     }
   ];
 
@@ -73,12 +49,12 @@ const JobOpportunitiesSection = () => {
               </div>
 
               {/* Job Title */}
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
+              <h6 className="text-xl font-bold text-gray-900 mb-3">
                 {job.title}
-              </h3>
+              </h6>
 
               {/* Job Description */}
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-gray-600 mb-6 leading-relaxed text-small mt-4">
                 {job.description}
               </p>
 
