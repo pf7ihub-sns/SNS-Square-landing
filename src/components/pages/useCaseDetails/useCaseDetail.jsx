@@ -3,12 +3,31 @@ import { AiOutlineYoutube } from "react-icons/ai";
 import { LuLinkedin } from "react-icons/lu";
 import { FaInstagram } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import useCaseData from "../../../data/usecase.json";
 
 export default function UseCaseDetailPage() {
   const params = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Category mapping for breadcrumb display and navigation
+  const categoryMapping = {
+    "Supply Chain": "supply-chain",
+    "Technology": "technology", // Use "Technology" as it appears in the data
+    "Healthcare": "healthcare",
+    "Human Resource": "human-resource",
+    "Insurance": "insurance"
+  };
+
+  // Reverse mapping for breadcrumb display
+  const breadcrumbCategoryNames = {
+    "Supply Chain": "Supply Chain",
+    "Technology": "Technology", // This matches the actual data category
+    "Healthcare": "Healthcare",
+    "Human Resource": "Human Resource", 
+    "Insurance": "Insurance"
+  };
   
   // Handle both /usecase/:id and /usecase/:category/:id routes
   let useCaseId;
@@ -171,11 +190,21 @@ export default function UseCaseDetailPage() {
       <div className="max-w-[1480px] mx-auto">
         {/* Breadcrumb navigation */}
         <nav className="flex items-center gap-3 px-6 py-8 text-sm text-gray-500">
-          <span>Use Cases</span>
+          <button 
+            onClick={() => navigate('/usecase')}
+            className="hover:text-blue-600 transition-colors cursor-pointer"
+          >
+            Use Cases
+          </button>
           <svg className="w-1.5 h-2.5 text-gray-400" viewBox="0 0 7 11" fill="none">
             <path d="M3.79335 5.40047L0.117188 1.7243L1.23602 0.605469L6.03102 5.40047L1.23602 10.1955L0.117188 9.07664L3.79335 5.40047Z" fill="currentColor"/>
           </svg>
-          <span>{useCase.category}</span>
+          <button 
+            onClick={() => navigate(`/usecase?category=${categoryMapping[useCase.category] || useCase.category?.toLowerCase().replace(/\s+/g, '-')}`)}
+            className="hover:text-blue-600 transition-colors cursor-pointer"
+          >
+            {breadcrumbCategoryNames[useCase.category] || useCase.category}
+          </button>
           <svg className="w-1.5 h-2.5 text-gray-400" viewBox="0 0 7 11" fill="none">
             <path d="M4.02382 5.40047L0.347656 1.7243L1.46649 0.605469L6.26149 5.40047L1.46649 10.1955L0.347656 9.07664L4.02382 5.40047Z" fill="currentColor"/>
           </svg>
