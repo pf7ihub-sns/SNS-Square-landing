@@ -21,6 +21,7 @@ import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
+import { BlogGrid, BlogDetail } from "../pages/blog";
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
 
@@ -46,6 +47,8 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/blog" element={<BlogGrid />} />
+      <Route path="/blog/:id" element={<BlogDetail />} />
       
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
