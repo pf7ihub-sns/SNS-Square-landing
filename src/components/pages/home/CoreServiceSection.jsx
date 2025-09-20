@@ -1,11 +1,42 @@
 import React, { useState } from 'react';
 
 const TABS = [
-  { key: 'marketplace', label: 'Agentic AI Marketplace', desc: 'Agentic AI Marketplace', icon: '/images/home/OCS-icon.png' },
-  { key: 'digital', label: 'Digital Transformation', desc: 'Digital Transformation', icon: '/images/home/OCS-icon.png' },
-  { key: 'data', label: 'AI & Data Solutions', desc: 'AI & Data Solutions', icon: '/images/home/OCS-icon.png' },
-  { key: 'platform', label: 'Enterprise Platform Services', desc: 'Enterprise Platform Services', icon: '/images/home/OCS-icon.png' },
-  { key: 'custom', label: 'Custom Development', desc: 'Custom Development', icon: '/images/home/OCS-icon.png' },
+  { 
+    key: 'marketplace', 
+    label: 'Agentic AI Marketplace', 
+    desc: 'We offer 1,500+ pre-built foundation agents forming 250+ industry and 12+ customer solutions designed to solve real-world problems with speed and scale.', 
+    icon: '/images/home/OCS-icon.png',
+    image: '/images/home/coreservice/agentic_marketplace.png', // Add your specific image for marketplace
+  },
+  { 
+    key: 'digital', 
+    label: 'Digital Transformation', 
+    desc: 'We help businesses leverage digital technologies to innovate, streamline workflows, and unlock new opportunities for growth.', 
+    icon: '/images/home/OCS-icon.png',
+    image: '/images/home/coreservice/transformation.png', // Add your specific image for digital transformation
+  },
+  { 
+    key: 'data', 
+    label: 'AI & Data Solutions', 
+    desc: 'Our team provides advanced AI and data-driven strategies along with practical implementations that accelerate decision-making and create measurable impact.', 
+    icon: '/images/home/OCS-icon.png',
+    image: '/images/home/coreservice/data_transformation.png', // Add your specific image for AI & data
+
+  },
+  { 
+    key: 'platform', 
+    label: 'Enterprise Platform Services', 
+    desc: 'We deliver scalable platform solutions customized for enterprise needs, ensuring flexibility, reliability, and long-term sustainability.', 
+    icon: '/images/home/OCS-icon.png',
+    image: '/images/home/coreservice/platformsrvc.png', // Add your specific image for platform services
+  },
+  { 
+    key: 'custom', 
+    label: 'Custom Development', 
+    desc: 'Our experts design and build tailored software and solutions that meet specific client requirements, ensuring business goals are achieved with precision.', 
+    icon: '/images/home/OCS-icon.png',
+    image: '/images/home/coreservice/custom_dev.png', // Add your specific image for custom development
+  },
 ];
 
 const CoreServiceSection = () => {
@@ -48,14 +79,24 @@ const CoreServiceSection = () => {
           </div>
 
           {/* Right column: background image card with title + description */}
-          <div className="relative rounded-[4px] overflow-hidden min-h-[320px] lg:min-h-[420px] bg-cover bg-center"
-               style={{ backgroundImage: "url('/images/Frame 584.png')" }}>
-            {/* bottom banner */}
-            <div className="absolute bottom-15 left-0 right-0 text-white p-6">
-              <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug">
-                {active.label}
-              </h4>
-              <p className="mt-4 opacity-90">{active.desc}</p>
+          <div className="relative rounded-[6px] overflow-hidden min-h-[320px] lg:min-h-[420px] group">
+            <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2">
+              <img
+                src={active.image}
+                alt={active.label}
+                className="w-full h-full object-cover"
+              />
+              {/* bottom banner */}
+              <div className="absolute left-0 right-0 bottom-0 p-6">
+                <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-white group-hover:text-white transform transition-all duration-500 ease-out group-hover:-translate-y-2">
+                  {active.label}
+                </h4>
+                <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75 text-white">
+                  <p className="font-inter font-white text-sm md:text-base mb-4">
+                    {active.desc}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
