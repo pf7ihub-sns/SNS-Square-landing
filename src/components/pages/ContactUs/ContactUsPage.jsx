@@ -27,7 +27,10 @@ const ContactUsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff]">
+    <div 
+      className="min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/Frame 97499.png')" }}
+    >
       {/* Header */}
 
       {/* Main Content */}
@@ -35,19 +38,19 @@ const ContactUsPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
           {/* Left Content */}
           <div className="space-y-6">
-            <h1 className="text-4xl lg:text-5xl font-bold text-black leading-tight">
+            <h1 className="text-black leading-tight">
               Connect with our experts to explore your use case in detail
             </h1>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mt-4">
               Schedule a consultation to explore how our Agent Platform will drives the value and innovation you need.
             </p>
           </div>
 
           {/* Right Content - Contact Form */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-black mb-6">Tell Us About Your Project!</h2>
+            <h4 className="text-black mb-6">Tell Us About Your Project!</h4>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 mt-4">
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
