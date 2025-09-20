@@ -33,7 +33,7 @@ const BlogGrid = () => {
     'Supply Chain': supplyChainData,
     'Information Technology': itData,
     'Healthcare': healthCareData,
-    'Human Resource': itData, // Using IT data as placeholder
+    // 'Human Resource': itData, // Using IT data as placeholder
     'Insurance': insuranceData
   };
 
@@ -42,58 +42,83 @@ const BlogGrid = () => {
     const processedBlogs = [];
     
     Object.entries(blogDataMap).forEach(([category, data]) => {
-      // Create main blog entry
-      const blog = {
-        id: `${category.toLowerCase().replace(/\s+/g, '-')}-main`,
-        title: data.title,
-        description: data.introduction?.context || data.introduction?.overview || data.introduction?.description || "Discover the latest insights and innovations in this field.",
-        category: category,
-        date: "Sep 10, 2025",
-        readTime: "5 min read",
-        content: data,
-        image: null,
-        featured: true
-      };
-      processedBlogs.push(blog);
-
-      // Create additional blog entries based on content sections
-      if (data.key_applications || data.smart_supply_chain?.capabilities) {
-        const applications = data.key_applications || data.smart_supply_chain?.capabilities || [];
-        applications.slice(0, 2).forEach((app, index) => {
-          const appBlog = {
-            id: `${category.toLowerCase().replace(/\s+/g, '-')}-app-${index + 1}`,
-            title: app.application || app.name || `${data.title} - Application ${index + 1}`,
-            description: app.description || app.functions?.join('. ') || "Explore practical applications and use cases.",
+      // Handle array of blog entries
+      if (Array.isArray(data)) {
+        data.forEach((blogEntry, index) => {
+          const blog = {
+            id: `${category.toLowerCase().replace(/\s+/g, '-')}-${index + 1}`,
+            title: blogEntry.title,
+            description: blogEntry.introduction?.context || 
+                         blogEntry.introduction?.overview || 
+                         blogEntry.introduction?.description || 
+                         "Discover the latest insights and innovations in this field.",
             category: category,
             date: "Sep 10, 2025",
-            readTime: "3 min read",
-            content: { ...data, focus: app },
-            image: null
+            readTime: "5 min read",
+            content: blogEntry,
+            image: null,
+            featured: index === 0 // First blog in each category is featured
           };
-          processedBlogs.push(appBlog);
+          processedBlogs.push(blog);
         });
-      }
-
-      // Create blog entry for benefits/insights
-      if (data.benefits || data.key_takeaways) {
-        const benefits = data.benefits || data.key_takeaways || [];
-        const benefitsBlog = {
-          id: `${category.toLowerCase().replace(/\s+/g, '-')}-benefits`,
-          title: `${data.title} - Key Benefits & Insights`,
-          description: Array.isArray(benefits) ? benefits.slice(0, 3).join('. ') : benefits,
+      } else {
+        // Handle single blog object (fallback for old structure)
+        const blog = {
+          id: `${category.toLowerCase().replace(/\s+/g, '-')}-main`,
+          title: data.title,
+          description: data.introduction?.context || data.introduction?.overview || data.introduction?.description || "Discover the latest insights and innovations in this field.",
           category: category,
           date: "Sep 10, 2025",
-          readTime: "4 min read",
-          content: { ...data, focus: 'benefits' },
-          image: null
+          readTime: "5 min read",
+          content: data,
+          image: null,
+          featured: true
         };
-        processedBlogs.push(benefitsBlog);
+        processedBlogs.push(blog);
+
+        // Create additional blog entries based on content sections
+        if (data.key_applications || data.smart_supply_chain?.capabilities) {
+          const applications = data.key_applications || data.smart_supply_chain?.capabilities || [];
+          applications.slice(0, 2).forEach((app, index) => {
+            const appBlog = {
+              id: `${category.toLowerCase().replace(/\s+/g, '-')}-app-${index + 1}`,
+              title: app.application || app.name || `${data.title} - Application ${index + 1}`,
+              description: app.description || app.functions?.join('. ') || "Explore practical applications and use cases.",
+              category: category,
+              date: "Sep 10, 2025",
+              readTime: "3 min read",
+              content: { ...data, focus: app },
+              image: null
+            };
+            processedBlogs.push(appBlog);
+          });
+        }
+
+        // Create blog entry for benefits/insights
+        if (data.benefits || data.key_takeaways) {
+          const benefits = data.benefits || data.key_takeaways || [];
+          const benefitsBlog = {
+            id: `${category.toLowerCase().replace(/\s+/g, '-')}-benefits`,
+            title: `${data.title} - Key Benefits & Insights`,
+            description: Array.isArray(benefits) ? benefits.slice(0, 3).join('. ') : benefits,
+            category: category,
+            date: "Sep 10, 2025",
+            readTime: "4 min read",
+            content: { ...data, focus: 'benefits' },
+            image: null
+          };
+          processedBlogs.push(benefitsBlog);
+        }
       }
     });
 
     setAllBlogs(processedBlogs);
-    setFeaturedBlog(processedBlogs[0]);
-    setLatestBlogs(processedBlogs.slice(1, 3));
+    
+    // Set initial featured and latest blogs
+    if (processedBlogs.length > 0) {
+      setFeaturedBlog(processedBlogs[0]);
+      setLatestBlogs(processedBlogs.slice(1, 3));
+    }
   }, []);
 
   // Filter blogs based on category and search term
@@ -116,8 +141,31 @@ const BlogGrid = () => {
     setFilteredBlogs(filtered);
   }, [selectedCategory, searchTerm, allBlogs]);
 
+  // Update featured and latest blogs based on selected category
+  useEffect(() => {
+    let categoryBlogs = allBlogs;
+    
+    // Filter by selected category for featured and latest
+    if (selectedCategory && selectedCategory !== 'All') {
+      categoryBlogs = allBlogs.filter(blog => blog.category === selectedCategory);
+    }
+
+    // Set featured blog (first blog marked as featured or first blog from the category)
+    if (categoryBlogs.length > 0) {
+      const featuredBlogFromCategory = categoryBlogs.find(blog => blog.featured) || categoryBlogs[0];
+      setFeaturedBlog(featuredBlogFromCategory);
+      
+      // Set latest blogs (exclude the featured one)
+      const latestBlogsFromCategory = categoryBlogs.filter(blog => blog.id !== featuredBlogFromCategory.id).slice(0, 2);
+      setLatestBlogs(latestBlogsFromCategory);
+    } else {
+      setFeaturedBlog(null);
+      setLatestBlogs([]);
+    }
+  }, [selectedCategory, allBlogs]);
+
   const handleBlogClick = (blog) => {
-    navigate(`/blog/${blog.id}`);
+    navigate(`/resources/blog/${blog.id}`);
   };
 
   const handleSearch = (e) => {
@@ -178,36 +226,45 @@ const BlogGrid = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             {/* Featured Blog */}
             <div className="lg:col-span-2">
-              {featuredBlog && (
+              {featuredBlog ? (
                 <BlogCard
                   title={featuredBlog.title}
                   description={featuredBlog.description}
                   image={featuredBlog.image}
                   onClick={() => handleBlogClick(featuredBlog)}
-                  badge="Featured"
+                  // badge={selectedCategory === 'All' ? 'Featured' : `Featured ${selectedCategory}`}
                   date={featuredBlog.date}
                   readTime={featuredBlog.readTime}
                   className=""
                 />
+              ) : (
+                <div className="p-8 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                  <p className="text-gray-500">No featured blog available</p>
+                </div>
               )}
             </div>
 
             {/* Latest Blogs */}
             <div className="space-y-6">
-              <h3 className="font-manrope font-bold text-xl text-black mb-4">Latest</h3>
-              {latestBlogs.map((blog, index) => (
-                <BlogCard
-                  key={blog.id}
-                  title={blog.title}
-                  description={blog.description}
-                  image={blog.image}
-                  onClick={() => handleBlogClick(blog)}
-                  badge="Latest"
-                  date={blog.date}
-                  readTime={blog.readTime}
-                  className=""
-                />
-              ))}
+              {latestBlogs.length > 0 ? (
+                latestBlogs.map((blog, index) => (
+                  <BlogCard
+                    key={blog.id}
+                    title={blog.title}
+                    description={blog.description}
+                    image={blog.image}
+                    onClick={() => handleBlogClick(blog)}
+                    // badge={selectedCategory === 'All' ? 'Latest' : `Latest ${selectedCategory}`}
+                    date={blog.date}
+                    readTime={blog.readTime}
+                    className=""
+                  />
+                ))
+              ) : (
+                <div className="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                  <p className="text-gray-500 text-sm">No latest blogs available</p>
+                </div>
+              )}
             </div>
           </div>
 
