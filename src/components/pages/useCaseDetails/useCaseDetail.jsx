@@ -1,12 +1,40 @@
-import { Clock, Calendar, RefreshCw, Link} from "lucide-react";
+import { Clock, Calendar, RefreshCw,} from "lucide-react";
 import { AiOutlineYoutube } from "react-icons/ai";
 import { LuLinkedin } from "react-icons/lu";
 import { FaInstagram } from "react-icons/fa6";
+import { RiShareForwardLine } from "react-icons/ri";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import useCaseData from "../../../data/usecase.json";
+import { FaWhatsapp, FaLinkedinIn, FaInstagram as FaInsta, FaTimes } from 'react-icons/fa';
 
 export default function UseCaseDetailPage() {
+  const [showShareMenu, setShowShareMenu] = useState(false);
+
+  // Get current page URL and title for sharing
+  const currentUrl = window.location.href;
+  const pageTitle = document.title;
+
+  const shareOptions = [
+    {
+      name: 'LinkedIn',
+      icon: <FaLinkedinIn className="w-4 h-4" />,
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+      bgColor: 'bg-blue-50 hover:bg-blue-100'
+    },
+    {
+      name: 'WhatsApp',
+      icon: <FaWhatsapp className="w-4 h-4" />,
+      url: `https://wa.me/?text=${encodeURIComponent(`${pageTitle} - ${currentUrl}`)}`,
+      bgColor: 'bg-green-50 hover:bg-green-100'
+    },
+    {
+      name: 'Instagram',
+      icon: <FaInsta className="w-4 h-4" />,
+      url: `https://www.instagram.com/?url=${encodeURIComponent(currentUrl)}`,
+      bgColor: 'bg-purple-50 hover:bg-purple-100'
+    }
+  ];
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -272,19 +300,74 @@ export default function UseCaseDetailPage() {
             {/* Follow Us section - positioned separately on the right */}
             <div className="absolute top-0 -right-28 flex flex-col items-center gap-3">
               <span className="text-sm text-gray-600">Follow Us</span>
-              <div className="flex flex-col gap-2">
-                <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
-                  <Link className="w-5 h-5 text-gray-900" />
-                </button>
-                <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
+              <div className="flex flex-col gap-2 relative">
+                {/* Direct Social Links */}
+                <a 
+                  href="https://www.linkedin.com/company/snssquare/posts/?feedView=all" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
+                >
                   <LuLinkedin className="w-5 h-5 text-gray-900" />
-                </button>
-                <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
+                </a>
+                
+                <a 
+                  href="https://instagram.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
+                >
                   <FaInstagram className="w-5 h-5 text-gray-900" />
-                </button>
-                <button className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors">
+                </a>
+                
+                <a 
+                  href="https://www.youtube.com/@snssquare" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
+                >
                   <AiOutlineYoutube className="w-5 h-5 text-gray-900" />
-                </button>
+                </a>
+
+                {/* Share Button with Dropdown - Now Last */}
+                <div className="relative">
+                  <button 
+                    onClick={() => setShowShareMenu(!showShareMenu)}
+                    className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
+                  >
+                    <RiShareForwardLine className="w-5 h-5 text-gray-900" />
+                  </button>
+                  
+                  {/* Share Dropdown Menu */}
+                  {showShareMenu && (
+                    <div className="absolute left-12 top-0 bg-white rounded-lg shadow-lg border p-2 min-w-[140px] z-10">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs text-gray-600 font-medium">Share via</span>
+                        <button 
+                          onClick={() => setShowShareMenu(false)}
+                          className="w-4 h-4 text-gray-400 hover:text-gray-600"
+                        >
+                          <FaTimes className="w-3 h-3" />
+                        </button>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        {shareOptions.map((option, index) => (
+                          <a
+                            key={index}
+                            href={option.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 p-2 rounded-md ${option.bgColor} transition-colors`}
+                            onClick={() => setShowShareMenu(false)}
+                          >
+                            {option.icon}
+                            <span className="text-sm text-gray-800">{option.name}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
