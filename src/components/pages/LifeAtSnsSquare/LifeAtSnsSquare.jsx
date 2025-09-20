@@ -85,7 +85,8 @@ export default function Page() {
             <Hero showButton={false} />
             <div className="w-full bg-[#FFFFFF] lg:px-10">
                 <section className="max-w-7xl mx-auto rounded-b-2xl">
-                    <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-4">
+                    <h4 className=" text-black text-center">What defines us</h4>
+                    <div className="flex flex-col items-center gap-6 lg:gap-2.5 p-4 lg:py-4 mt-6 mb-20">
                         {contentSections.map((section) => (
                             <article
                                 key={section.id}
