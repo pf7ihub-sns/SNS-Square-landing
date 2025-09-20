@@ -3032,6 +3032,26 @@ industry:[
         {
           id: "workforce-recruitment-training",
           name: "Workforce Recruitment & Training Workflow",
+          summary: "Streamline retail hiring processes, from attracting candidates to onboarding and employee skill development.",
+          image: "/placeholder.jpg",
+          solutions: [
+            "Retail job posting & advertising",
+            "Candidate sourcing & screening",
+            "Interview scheduling & support",
+            "Onboarding & orientation",
+            "Retail staff training & development"
+          ],
+          useCases: [
+            "Retail store staffing",
+            "New employee onboarding",
+            "Employee upskilling in retail operations",
+            "Seasonal workforce management"
+          ],
+        },
+
+          {
+          id: "Product-listing-Agent",
+          name: "Product listing Agent",
           summary: "Support HR in job posting, screening, hiring, and training.",
           image: "/placeholder.jpg",
           solutions: ["Job posting", "Candidate screening", "Interview assistance", "Hiring", "Training & development"],
@@ -3403,8 +3423,8 @@ industry:[
       image: "/placeholder.jpg",
       agents: [
         {
-          id: "laboratory-testing",
-          name: "Laboratory Testing Workflow",
+          id: "Lab-results-extractor",
+          name: "Lab Results Extractor",
           summary: "Manage sample collection, processing, analysis, quality control, and reporting.",
           image: "/placeholder.jpg",
           solutions: ["Sample collection", "Processing", "Test preparation", "Analysis execution", "Quality control", "Result validation", "Data recording", "Report generation", "Result communication"],
@@ -3449,6 +3469,15 @@ industry:[
           image: "/placeholder.jpg",
           solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
           useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
+        },
+                {
+          id: "Appointment-management",
+          name: "Appointment Management",
+          summary: "Book and manage healthcare appointments",
+          image: "/placeholder.jpg",
+          solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
+          useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
+          status:"available"
         },
         {
           id: "financial-oversight",
