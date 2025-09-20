@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
-import Button from "./Button2.jsx";
+import Button from "./BlackButton.jsx";
 import { useAuthStore } from "../../store/store";
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { HiMiniSquare3Stack3D } from "react-icons/hi2";
@@ -417,7 +417,7 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black hover:bg-gray-50 transition-colors"
+                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black transition-colors"
                 onClick={handleContactClick}
               >
                 Contact Us
