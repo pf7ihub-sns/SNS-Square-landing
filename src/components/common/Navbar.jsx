@@ -70,43 +70,24 @@ const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
   const menuRef = useRef(null);
+  const dropdownTimeoutRef = useRef(null);
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
 
   // Dropdown content for each navigation item
   const dropdownContent = {
     'agentic-workbench': [
-      { label: 'AI Agents', href: '/agent-workbench/ai-agents' },
-      { label: 'Workflow Builder', href: '/agent-workbench/workflow-builder' },
-      { label: 'Agent Marketplace', href: '/agent-workbench/marketplace' }
+      { label: 'Foundation Agents', href: '/agent-workbench/ai-agents' },
+      { label: 'Industry Solutions', href: '/agent-workbench/workflow-builder' },
+      { label: 'Customer Solutions', href: '/agent-workbench/marketplace' }
     ],
     'use-cases': [
-      { label: 'Healthcare', href: '/usecase/healthcare' },
-      { label: 'Finance', href: '/usecase/finance' },
-      { label: 'E-commerce', href: '/usecase/ecommerce' },
-      { label: 'Manufacturing', href: '/usecase/manufacturing' }
+      { label: 'Supply Chain', href: '/usecase?category=supply-chain' },
+      { label: 'Information Technology', href: '/usecase?category=information-technology' },
+      { label: 'Healthcare', href: '/usecase?category=healthcare' },
+      { label: 'Human Resource', href: '/usecase?category=human-resource' },
+      { label: 'Insurance', href: '/usecase?category=insurance' }
     ],
-    'life-at-sns': [
-      { label: 'Our Culture', href: '/life-at-sns/culture' },
-      { label: 'Team Stories', href: '/life-at-sns/team' },
-      { label: 'Events', href: '/life-at-sns/events' }
-    ],
-    'about-us': [
-      { label: 'Our Story', href: '/about-us/story' },
-      { label: 'Leadership', href: '/about-us/leadership' },
-      { label: 'Mission & Vision', href: '/about-us/mission' }
-    ],
-    'careers': [
-      { label: 'Open Positions', href: '/careers/positions' },
-      { label: 'Benefits', href: '/careers/benefits' },
-      { label: 'Internships', href: '/careers/internships' }
-    ],
-    'resources': [
-      { label: 'Documentation', href: '/resources/docs' },
-      { label: 'Blog', href: '/resources/blog' },
-      { label: 'Support', href: '/resources/support' },
-      { label: 'API Reference', href: '/resources/api' }
-    ]
   };
 
   const linkClasses = ({ isActive }) =>
@@ -167,12 +148,25 @@ const Header = () => {
 
   // Function to handle dropdown hover
   const handleDropdownHover = (dropdownKey) => {
+    // Clear any existing timeout
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
     setHoveredDropdown(dropdownKey);
   };
 
-  // Function to handle dropdown leave
+  // Function to handle dropdown leave with delay
   const handleDropdownLeave = () => {
-    setHoveredDropdown(null);
+    // Clear any existing timeout
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    // Set a new timeout
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setHoveredDropdown(null);
+      dropdownTimeoutRef.current = null;
+    }, 150);
   };
 
   // Function to handle dropdown item click
@@ -183,11 +177,15 @@ const Header = () => {
   };
 
   // Dropdown component
-  const DropdownMenu = ({ items, isVisible }) => {
+  const DropdownMenu = ({ items, isVisible, dropdownKey }) => {
     if (!isVisible || !items) return null;
 
     return (
-      <div className="absolute top-full left-0 mt-2 w-92 bg-white rounded-xl shadow-lg border border-gray-100 py-3 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
+      <div 
+        className="absolute top-full left-0 mt-0 w-92 bg-white rounded-xl shadow-lg border border-gray-100 py-3 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200"
+        onMouseEnter={() => handleDropdownHover(dropdownKey)}
+        onMouseLeave={handleDropdownLeave}
+      >
         <div className="flex flex-col gap-2">
           {items.map((item, index) => (
             <button
@@ -202,9 +200,9 @@ const Header = () => {
                 <span className="text-base font-medium text-gray-900">
                   {item.label}
                 </span>
-                <span className="text-sm text-gray-500">
+                {/* <span className="text-sm text-gray-500">
                   Foundational Agents
-                </span>
+                </span> */}
               </div>
             </button>
           ))}
@@ -246,6 +244,15 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showUserMenu]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <header className="w-full bg-white p-4 fixed top-0 left-0 z-100 backdrop-blur-md shadow-sm">
@@ -291,6 +298,7 @@ const Header = () => {
             <DropdownMenu
               items={dropdownContent['agentic-workbench']}
               isVisible={hoveredDropdown === 'agentic-workbench'}
+              dropdownKey="agentic-workbench"
             />
           </div>
 
@@ -317,111 +325,48 @@ const Header = () => {
             <DropdownMenu
               items={dropdownContent['use-cases']}
               isVisible={hoveredDropdown === 'use-cases'}
+              dropdownKey="use-cases"
             />
           </div>
 
-          <div
-            className="relative group"
-            onMouseEnter={() => handleDropdownHover('life-at-sns')}
-            onMouseLeave={handleDropdownLeave}
-          >
-            <div
-              className="flex items-center cursor-pointer"
+          <div className="relative group">
+            <NavLink
+              to="/life-at-sns"
+              className={linkClasses}
+              onClick={handleNavClick}
             >
-              <NavLink
-                to="/life-at-sns"
-                className={linkClasses}
-                onClick={handleNavClick}
-              >
-                Life at SNS Square
-              </NavLink>
-              <AnimatedArrow
-                isHovered={hoveredDropdown === 'life-at-sns'}
-                className="text-gray-400 hover:text-gray-600 ml-1"
-              />
-            </div>
-            <DropdownMenu
-              items={dropdownContent['life-at-sns']}
-              isVisible={hoveredDropdown === 'life-at-sns'}
-            />
+              Life at SNS Square
+            </NavLink>
           </div>
 
-          <div
-            className="relative group"
-            onMouseEnter={() => handleDropdownHover('about-us')}
-            onMouseLeave={handleDropdownLeave}
-          >
-            <div
-              className="flex items-center cursor-pointer"
+          <div className="relative group">
+            <NavLink
+              to="/about-us"
+              className={linkClasses}
+              onClick={handleNavClick}
             >
-              <NavLink
-                to="/about-us"
-                className={linkClasses}
-                onClick={handleNavClick}
-              >
-                About Us
-              </NavLink>
-              <AnimatedArrow
-                isHovered={hoveredDropdown === 'about-us'}
-                className="text-gray-400 hover:text-gray-600 ml-1"
-              />
-            </div>
-            <DropdownMenu
-              items={dropdownContent['about-us']}
-              isVisible={hoveredDropdown === 'about-us'}
-            />
+              About Us
+            </NavLink>
           </div>
 
-          <div
-            className="relative group"
-            onMouseEnter={() => handleDropdownHover('careers')}
-            onMouseLeave={handleDropdownLeave}
-          >
-            <div
-              className="flex items-center cursor-pointer"
+          <div className="relative group">
+            <NavLink
+              to="/careers"
+              className={linkClasses}
+              onClick={handleNavClick}
             >
-              <NavLink
-                to="/careers"
-                className={linkClasses}
-                onClick={handleNavClick}
-              >
-                Careers
-              </NavLink>
-              <AnimatedArrow
-                isHovered={hoveredDropdown === 'careers'}
-                className="text-gray-400 hover:text-gray-600 ml-1"
-              />
-            </div>
-            <DropdownMenu
-              items={dropdownContent['careers']}
-              isVisible={hoveredDropdown === 'careers'}
-            />
+              Careers
+            </NavLink>
           </div>
 
-          <div
-            className="relative group"
-            onMouseEnter={() => handleDropdownHover('resources')}
-            onMouseLeave={handleDropdownLeave}
-          >
-            <div
-              className="flex items-center cursor-pointer"
+          <div className="relative group">
+            <NavLink
+              to="/resources"
+              className={linkClasses}
+              onClick={handleNavClick}
             >
-              <NavLink
-                to="/resources"
-                className={linkClasses}
-                onClick={handleNavClick}
-              >
-                Resources
-              </NavLink>
-              <AnimatedArrow
-                isHovered={hoveredDropdown === 'resources'}
-                className="text-gray-400 hover:text-gray-600 ml-1"
-              />
-            </div>
-            <DropdownMenu
-              items={dropdownContent['resources']}
-              isVisible={hoveredDropdown === 'resources'}
-            />
+              Resources
+            </NavLink>
           </div>
         </nav>
 
