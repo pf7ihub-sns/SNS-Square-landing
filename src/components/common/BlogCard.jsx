@@ -53,10 +53,10 @@ const BlogCard = ({
       {/* Lower section with white background and text */}
       <div className="p-4 bg-white flex flex-col flex-1 justify-between">
         <div className="flex-1">
-          <h4 className="text-gray-900 mb-2 leading-tight text-base font-semibold">
+          <h5 className="text-gray-900 mb-2 leading-tight text-base font-semibold">
             {title}
-          </h4>
-          <p className="text-gray-600 leading-relaxed text-sm mt-2">
+          </h5>
+          <p className="text-gray-600 leading-relaxed text-sm mt-2 text-small">
             {description}
           </p>
         </div>

@@ -83,14 +83,14 @@ const IdeaSuiteSection = () => {
                 {/* Blog Content */}
                 <div className="p-6">
                   <div className="mb-2">
-                    <span className="inline-block px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-full">
+                    <span className="inline-block px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-full mb-4">
                       {blog.category}
                     </span>
                   </div>
-                  <h4 className="font-manrope font-semibold text-lg text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                  <h5 className=" text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors ">
                     {blog.title}
-                  </h4>
-                  <p className="font-inter text-gray-600 text-sm line-clamp-2">
+                  </h5>
+                  <p className="text-small text-gray-600 text-sm line-clamp-2 mt-4">
                     {blog.description}
                   </p>
                 </div>

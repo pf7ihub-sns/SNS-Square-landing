@@ -56,7 +56,7 @@ const FeaturedBlogCard = ({
           <h4 className="text-gray-900 mb-3 leading-tight text-xl font-semibold">
             {title}
           </h4>
-          <p className="text-gray-600 leading-relaxed text-base mt-4">
+          <p className="text-gray-600 leading-relaxed text-base mt-4 text-small">
             {description}
           </p>
         </div>

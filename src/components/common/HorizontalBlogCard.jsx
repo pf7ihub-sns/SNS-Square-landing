@@ -47,7 +47,7 @@ const HorizontalBlogCard = ({
           <h5 className="text-gray-900 mb-1 leading-tight text-sm font-semibold line-clamp-2 ">
             {title}
           </h5>
-          <p className="text-gray-600 leading-relaxed text-xs mt-1 line-clamp-2">
+          <p className="text-gray-600 leading-relaxed text-xs mt-1 line-clamp-2 text-small">
             {description}
           </p>
         </div>
