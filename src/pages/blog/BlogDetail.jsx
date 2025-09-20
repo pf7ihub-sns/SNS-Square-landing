@@ -25,17 +25,17 @@ const BlogDetail = () => {
   console.log('BlogDetail component rendered with ID:', id);
 
   const blogDataMap = {
-    'supply-chain-main': supplyChainData,
-    'information-technology-main': itData,
-    'healthcare-main': healthCareData,
-    'human-resource-main': itData,
-    'insurance-main': insuranceData,
+    'supply-chain-1': Array.isArray(supplyChainData) ? supplyChainData[0] : supplyChainData,
+    'information-technology-1': Array.isArray(itData) ? itData[0] : itData,
+    'healthcare-1': Array.isArray(healthCareData) ? healthCareData[0] : healthCareData,
+    'human-resource-1': Array.isArray(itData) ? itData[0] : itData,
+    'insurance-1': Array.isArray(insuranceData) ? insuranceData[0] : insuranceData,
     // Legacy support for old IDs
-    'supply-chain-1': supplyChainData,
-    'information-technology-1': itData,
-    'healthcare-1': healthCareData,
-    'human-resource-1': itData,
-    'insurance-1': insuranceData
+    'supply-chain-main': Array.isArray(supplyChainData) ? supplyChainData[0] : supplyChainData,
+    'information-technology-main': Array.isArray(itData) ? itData[0] : itData,
+    'healthcare-main': Array.isArray(healthCareData) ? healthCareData[0] : healthCareData,
+    'human-resource-main': Array.isArray(itData) ? itData[0] : itData,
+    'insurance-main': Array.isArray(insuranceData) ? insuranceData[0] : insuranceData
   };
 
   // Function to find blog data based on ID pattern
@@ -96,7 +96,7 @@ const BlogDetail = () => {
     console.log('BlogDetail: Looking for blog with ID:', id);
     
     // If no ID, use a default blog for testing
-    const blogId = id || 'supply-chain-main';
+    const blogId = id || 'supply-chain-1';
     const blogResult = findBlogData(blogId);
     
     if (blogResult) {

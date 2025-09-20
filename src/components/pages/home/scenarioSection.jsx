@@ -11,7 +11,7 @@ const categories = [
       // "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
        "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Tortor mollis est sed fermentum interdum placerat.",
+      "Agentic AI powers healthcare that is precise, predictive, and compassionate, enabling personalized patient care, smarter operations, and lighter burdens for caregivers.",
   },
   {
     key: "supply",
@@ -20,7 +20,7 @@ const categories = [
     gradient:
       "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Enim senectus consectetur consequat sit tellus vitae volutpat.",
+      "Agentic AI transforms supply chains into proactive, intelligent networks, predicting disruptions, optimizing flows, and ensuring products reach the right place at the right time with unmatched efficiency.",
   },
   {
     key: "hr",
@@ -29,7 +29,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(249, 238, 241, 0.94) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "A arcu egestas aliquam convallis feugiat ipsum in mattis.",
+      "Agentic AI empowers HR to unlock human potential, from intelligent recruitment and predictive retention to adaptive learning, turning people-first strategies into scalable impact.",
   },
   {
     key: "it",
@@ -38,7 +38,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "In in velit euismod phasellus volutpat volutpat turpis nam.",
+      "Agentic AI turns IT into a strategic engine, self-monitoring, self-healing, and continuously optimizing systems to accelerate digital transformation and reduce risk.",
   },
   {
     key: "ins",
@@ -47,7 +47,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(254, 241, 230, 0.8) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Orci aliquam quam aliquam quis vitae dui.",
+      "Agentic AI strengthens trust and agility in insurance, detecting fraud in real time, automating claims, and delivering hyper-personalized policies with speed and confidence.",
   },
 ];
 
