@@ -1350,7 +1350,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Duplicate removal", "Error correction", "Data validation"],
               useCases: ["Data preparation", "Analytics pipelines", "Machine learning"],
-              description:["AI Data Cleaner enables users to upload CSV files and automatically clean, organize, and optimize the data using AI. It provides real-time progress feedback, previews the cleaned data, and allows easy download of the processed CSV. The interface includes error handling, loading states, and action buttons for seamless workflow."],
+              description: ["AI Data Cleaner enables users to upload CSV files and automatically clean, organize, and optimize the data using AI. It provides real-time progress feedback, previews the cleaned data, and allows easy download of the processed CSV. The interface includes error handling, loading states, and action buttons for seamless workflow."],
               status: "available"
             },
             {
@@ -1360,7 +1360,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Schema generation", "Validation rules", "Data mapping"],
               useCases: ["Database design", "API development", "Data integration"],
-              description:["Schema Generator allows users to upload CSV or Excel files and automatically generate platform-specific SQL schemas (Databricks, Snowflake, Teradata, Netezza). It analyzes file structure, column types, and previews sample data while providing a fully formatted SQL schema. The interface includes error handling, loading states, and an organized output for quick integration into data pipelines."],
+              description: ["Schema Generator allows users to upload CSV or Excel files and automatically generate platform-specific SQL schemas (Databricks, Snowflake, Teradata, Netezza). It analyzes file structure, column types, and previews sample data while providing a fully formatted SQL schema. The interface includes error handling, loading states, and an organized output for quick integration into data pipelines."],
               status: "available"
             },
             {
@@ -1370,7 +1370,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data profiling", "Quality assessment", "Metadata generation"],
               useCases: ["Data exploration", "Quality monitoring", "Compliance reporting"],
-              description:["The DataProfiler is a web application that allows users to upload CSV or Excel files (up to 10MB) for comprehensive data profiling. It generates detailed reports on dataset statistics, quality issues, pattern recognition, correlations, and business rule validations. Users can drag-and-drop files, analyze data, and download results as a JSON report. The interface features collapsible sections for easy navigation and visualization of profiling insights."],
+              description: ["The DataProfiler is a web application that allows users to upload CSV or Excel files (up to 10MB) for comprehensive data profiling. It generates detailed reports on dataset statistics, quality issues, pattern recognition, correlations, and business rule validations. Users can drag-and-drop files, analyze data, and download results as a JSON report. The interface features collapsible sections for easy navigation and visualization of profiling insights."],
               status: "available"
             },
             {
@@ -1380,7 +1380,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data synthesis", "Scenario simulation", "Augmented datasets"],
               useCases: ["Testing", "Training AI models", "Data augmentation"],
-              description:["The DataGeneration tool is a web application that enables users to create custom datasets using AI-driven methods. Users can generate data by defining table names, domains, and columns, uploading a sample CSV, or providing an SQL schema. The tool supports voice input for instructions, customizable column types, and data preview, with the ability to download results as CSV files. Its intuitive interface includes collapsible sections for easy configuration and visualization of generated data."],
+              description: ["The DataGeneration tool is a web application that enables users to create custom datasets using AI-driven methods. Users can generate data by defining table names, domains, and columns, uploading a sample CSV, or providing an SQL schema. The tool supports voice input for instructions, customizable column types, and data preview, with the ability to download results as CSV files. Its intuitive interface includes collapsible sections for easy configuration and visualization of generated data."],
               status: "available"
             },
             {
@@ -1390,7 +1390,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Duplicate detection", "Data comparison", "Anomaly detection"],
               useCases: ["Expense management", "Fraud detection", "Financial auditing"],
-              description:["Duplicate Expense Detector helps users upload CSV or Excel files to automatically identify duplicate expense entries. It analyzes the dataset, highlights flagged duplicates with confidence scores, and summarizes total records versus duplicates found. The interface provides a clean, tabular view for easy review and validation."],
+              description: ["Duplicate Expense Detector helps users upload CSV or Excel files to automatically identify duplicate expense entries. It analyzes the dataset, highlights flagged duplicates with confidence scores, and summarizes total records versus duplicates found. The interface provides a clean, tabular view for easy review and validation."],
               status: "available"
             },
             {
@@ -1400,7 +1400,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data retrieval", "Query optimization", "Result formatting"],
               useCases: ["Business intelligence", "Reporting", "Data exploration"],
-              description:["RAG Data Query enables users to upload CSV or JSON files, store them in a Retrieval-Augmented Generation (RAG) system, and query the data using natural language. It provides instant answers along with source references and allows users to manage the stored document repository. The interface is interactive, user-friendly, and supports real-time data operations."],
+              description: ["RAG Data Query enables users to upload CSV or JSON files, store them in a Retrieval-Augmented Generation (RAG) system, and query the data using natural language. It provides instant answers along with source references and allows users to manage the stored document repository. The interface is interactive, user-friendly, and supports real-time data operations."],
               status: "available"
             },
             {
@@ -1644,6 +1644,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Test generation", "Automated execution", "Result analysis"],
               useCases: ["Regression testing", "Continuous integration", "Quality assurance"],
+              description: ["Test Case Generation Agent automatically generates structured test cases from user-provided requirements or user stories. It parses input, produces clean, well-formatted test cases, and displays them interactively with options to download as Markdown or TXT. The interface supports real-time processing with clear error handling and visual feedback."],
               status: "available"
             },
             {
@@ -1653,6 +1654,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Code linting", "Style checking", "Best practices enforcement"],
               useCases: ["Code quality assurance", "Development support", "Team collaboration"],
+              description: ["The Automated Linter is a web-based tool that analyzes source code for errors, style violations, and potential improvements. It supports multiple programming languages and provides detailed suggestions for code quality, refactoring, and AI-assisted insights. Users can input code directly or upload files for instant linting results."],
               status: "available"
             },
             {
