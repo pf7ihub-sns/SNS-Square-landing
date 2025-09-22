@@ -250,7 +250,7 @@ const AgentDetailsModal = ({ isOpen, onClose, agent, category }) => {
                       <div className="border-b border-gray-200 pb-3 mb-3">
                         <h4 className="text-md font-medium mb-2" style={{ color: '#1E3A8A' }}>Overview</h4>
                       </div>
-                      <p className="text-gray-700 leading-relaxed text-sm">
+                      <p className="text-gray-900 leading-relaxed text-md">
                         {agent.description}
                       </p>
                     </div>
