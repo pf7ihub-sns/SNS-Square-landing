@@ -29,9 +29,7 @@ const FeatureCardsSection = () => {
           </button>
         </div>
         <p className="mt-3 text-[#606060]">
-          Not just another AI platform. A complete Agentic AI suite engineered
-          to adapt to your <br /> challenges, empower your teams, and unlock
-          new possibilities.
+          Not just another AI platform. A complete Agentic AI suite engineered to adapt to your challenges, empower your teams, and unlock new possibilities.
         </p>
         {/* Three image-backed cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-8 mt-6 md:mt-8 lg:mt-10">
@@ -62,7 +60,7 @@ const FeatureCardsSection = () => {
                   Foundational Agents
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                  Foundational Agents are core AI building <br /> blocks, flexible, scalable, and ready to <br /> power your business with Agentic <br /> intelligence, automation and innovation.
+                  Foundational Agents are core AI building blocks, flexible, scalable, and ready to power your business with Agentic intelligence, automation and innovation.
                 </p>
               </div>
             </div>
@@ -94,7 +92,7 @@ const FeatureCardsSection = () => {
                   Industry Solutions
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                  AI Agents crafted for your industry, <br />delivering precise insights, efficiency and <br />growth tailored to your business needs.
+                  AI Agents crafted for your industry, delivering precise insights, efficiency and growth tailored to your business needs.
                 </p>
               </div>
             </div>
@@ -124,7 +122,7 @@ const FeatureCardsSection = () => {
                   Customer Solutions
                 </h4>
                 <p className="mt-3 text-[#606060]">
-                  Personalised Agentic AI solutions crafted <br />to meet your business needs with unique <br />solutions.
+                  Personalised Agentic AI solutions crafted to meet your business needs with unique solutions.
                 </p>
               </div>
             </div>
