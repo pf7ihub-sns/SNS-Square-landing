@@ -27,8 +27,8 @@ const ContactUsPage = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center"
+    <div
+      className=" bg-fill "
       style={{ backgroundImage: "url('/images/Frame 97499.png')" }}
     >
       {/* Header */}
@@ -47,10 +47,11 @@ const ContactUsPage = () => {
           </div>
 
           {/* Right Content - Contact Form */}
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h4 className="text-black mb-6">Tell Us About Your Project!</h4>
-            
-            <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+          <div className="bg-white rounded-lg shadow-lg  ">
+            <div className='flex flex-col w-full item-center bg-[#E4ECFF] p-6 rounded-t-lg'>
+              <h4 className=" flex text-black mb-6 item-center ">Tell Us About Your Project!</h4>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-6 mt-4 px-8 pb-8">
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -120,7 +121,7 @@ const ContactUsPage = () => {
               </div>
 
               {/* Submit Button */}
-              <BlackButton 
+              <BlackButton
                 type="submit"
                 className="w-full bg-gray-800 text-white py-4 rounded-md hover:bg-gray-700 transition-colors font-medium text-lg"
               >

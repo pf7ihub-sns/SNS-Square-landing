@@ -34,7 +34,7 @@ const HeroSection = ({ showButton = true }) => {
           <img 
             src="/images/Team.png" 
             alt="SNS Square Team" 
-            className="w-full  relative z-10"
+            className="w-full rounded-b-lg  relative z-10"
           />
         </div>
       </div>
