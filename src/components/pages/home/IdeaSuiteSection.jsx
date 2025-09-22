@@ -53,7 +53,7 @@ const IdeaSuiteSection = () => {
     <section className="px-4 xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
       <div className="max-w-[1480px] mx-auto">
         <div className="mb-8 lg:mb-12">
-          <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">
+          <h3 className="font-manrope font-bold text-[24px] md:text-[30px] lg:text-[36px] leading-tight text-black">
             Idea Suite
           </h3>
           <p className="font-inter text-black/70 mt-3">
@@ -81,13 +81,13 @@ const IdeaSuiteSection = () => {
                 )}
                 
                 {/* Blog Content */}
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="mb-2">
                     <span className="inline-block px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-full mb-4">
                       {blog.category}
                     </span>
                   </div>
-                  <h5 className=" text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors ">
+                  <h5 className=" text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors text-base sm:text-lg">
                     {blog.title}
                   </h5>
                   <p className="text-small text-gray-600 text-sm line-clamp-2 mt-4">

@@ -4,6 +4,24 @@ import BlackButton from "../../common/BlackButton";
 
 const categories = [
   {
+    key: "supply",
+    label: "Supply Chain",
+    images: ["/images/home/usecase/SupplyChain.png"],
+    gradient:
+      "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "Agentic AI transforms supply chains into proactive, intelligent networks, predicting disruptions, optimizing flows, and ensuring products reach the right place at the right time with unmatched efficiency.",
+  },
+  {
+    key: "it",
+    label: "Information Technology",
+    images: ["/images/home/usecase/InformationTechnology.png"],
+    gradient:
+    "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+    description:
+      "Agentic AI turns IT into a strategic engine, self-monitoring, self-healing, and continuously optimizing systems to accelerate digital transformation and reduce risk.",
+  },  
+  {
     key: "health",
     label: "Health Care",
     images: ["/images/home/usecase/Health-care.png"],
@@ -14,15 +32,6 @@ const categories = [
       "Agentic AI powers healthcare that is precise, predictive, and compassionate, enabling personalized patient care, smarter operations, and lighter burdens for caregivers.",
   },
   {
-    key: "supply",
-    label: "Supply Chain",
-    images: ["/images/home/usecase/SupplyChain.png"],
-    gradient:
-      "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
-    description:
-      "Agentic AI transforms supply chains into proactive, intelligent networks, predicting disruptions, optimizing flows, and ensuring products reach the right place at the right time with unmatched efficiency.",
-  },
-  {
     key: "hr",
     label: "Human Resource",
     images: ["/images/home/usecase/HumanResource.png"],
@@ -30,15 +39,6 @@ const categories = [
     "linear-gradient(359.77deg, rgba(249, 238, 241, 0.94) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
       "Agentic AI empowers HR to unlock human potential, from intelligent recruitment and predictive retention to adaptive learning, turning people-first strategies into scalable impact.",
-  },
-  {
-    key: "it",
-    label: "Information Technology",
-    images: ["/images/home/usecase/InformationTechnology.png"],
-    gradient:
-    "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
-    description:
-      "Agentic AI turns IT into a strategic engine, self-monitoring, self-healing, and continuously optimizing systems to accelerate digital transformation and reduce risk.",
   },
   {
     key: "ins",
@@ -51,12 +51,14 @@ const categories = [
   },
 ];
 
+
 const RealScenariosSection = () => {
   const navigate = useNavigate();
   const [active, setActive] = useState(categories[0].key);
   const [index, setIndex] = useState(0); // index of category
   const activeImages = useMemo(() => categories[index].images, [index]);
 
+  // Fixed mapping to match the useCase.jsx categories
   const keyToUsecaseCategory = {
     health: 'healthcare',
     supply: 'supply-chain',
@@ -75,8 +77,21 @@ const RealScenariosSection = () => {
   const viewportRef = useRef(null);
   const [offset, setOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const PEEK_PX = 180; // How much of the next slide to show
+  const [PEEK_PX, setPEEK_PX] = useState(180);
   const GAP_PX = 16; // Corresponds to gap-4 class
+
+  useEffect(() => {
+    const updatePeek = () => {
+      if (window.innerWidth < 450) {
+        setPEEK_PX(100);
+      } else {
+        setPEEK_PX(180);
+      }
+    };
+    updatePeek();
+    window.addEventListener("resize", updatePeek);
+    return () => window.removeEventListener("resize", updatePeek);
+  }, []);
 
   // drag state
   const draggingRef = useRef(false);
@@ -93,7 +108,7 @@ const RealScenariosSection = () => {
     updateOffset();
     window.addEventListener('resize', updateOffset);
     return () => window.removeEventListener('resize', updateOffset);
-  }, [index]);
+  }, [index, PEEK_PX]);
 
   const onPointerDown = (e) => {
     if (!viewportRef.current) return;
@@ -137,30 +152,44 @@ const RealScenariosSection = () => {
     }
   };
 
+  const handleKnowMoreClick = (e, categoryKey) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const mappedCategory = keyToUsecaseCategory[categoryKey];
+    if (mappedCategory) {
+      navigate(`/usecase?category=${mappedCategory}`);
+    } else {
+      // Fallback to just /usecase if mapping not found
+      navigate('/usecase');
+    }
+  };
+
   return (
     <section
       className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
       style={{ backgroundImage: "url('/images/home/Background-home-RS.png')" }}
     >
-      <div className="max-w-[1480px] mx-auto xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-10 lg:gap-14 items-stretch">
+      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-6 lg:gap-10 items-start">
           {/* Left column - two rows stretched to top and bottom */}
-          <div className="flex flex-col justify-between min-h-[420px] lg:min-h-[520px]">
+          <div className="flex flex-col justify-start sticky top-24 lg:min-h-[400px]">
             {/* Row 1: Heading (Desktop H3) */}
             <div>
-              <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black scenario-section">
+              <h3 className="font-manrope font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-tight text-black scenario-section mb-4">
                 Beyond Hype: <br/>Agentic AI in Action
               </h3>
             </div>
             {/* Row 2: Paragraph + Button */}
-            <div className="mt-6 lg:mt-10">
-              <p className="font-inter text-[#606060] mb-4 lg:mb-6">
+            <div className="mt-4 lg:mt-6">
+              <p className="font-inter text-[#606060] mb-6 lg:mb-8 text-[16px] md:text-[18px] leading-relaxed">
                 Discover practical scenarios where Agentic AI reshapes industries, accelerates decisions, and delivers results that once seemed impossible.
               </p>
               <BlackButton
                 size="medium"
                 variant="black"
-                className="text-lg font-medium font-manrope px-6 py-3 w-fit"
+                className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300"
+                onClick={() => navigate("/usecase")}
               >
                 View More
               </BlackButton>
@@ -170,7 +199,7 @@ const RealScenariosSection = () => {
           {/* Right column */}
           <div className="flex flex-col gap-4 lg:gap-6">
             {/* Row 1: tabs */}
-            <div className="flex flex-wrap gap-2 lg:gap-4 scenario-tabs">
+            <div className="flex flex-wrap gap-2 lg:gap-4 scenario-tabs mb-4 lg:mb-6">
               {categories.map((c) => (
                 <button
                   key={c.key}
@@ -178,8 +207,8 @@ const RealScenariosSection = () => {
                   className={
                     (active === c.key
                       ? "bg-black text-white"
-                      : "bg-white text-black border border-black/10") +
-                    " rounded-[6px] px-3 py-2 lg:px-4 text-sm lg:text-base font-inter scenario-tab-button"
+                      : "bg-white text-black border border-black/10 hover:bg-black/5") +
+                    " rounded-[6px] px-4 py-2.5 lg:px-5 text-sm lg:text-base font-inter scenario-tab-button transition-all duration-300"
                   }
                 >
                   {c.label}
@@ -190,7 +219,7 @@ const RealScenariosSection = () => {
             {/* Row 2: slider container (peek next slide) */}
             <div
               ref={viewportRef}
-              className="relative w-full bg-transparent rounded-[4px] h-[410px] md:h-[470px] cursor-grab active:cursor-grabbing"
+              className="relative w-full bg-transparent rounded-[4px] h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
               style={{ clipPath: "inset(0 -100vw 0 0)" }}
               onMouseDown={onPointerDown}
               onMouseMove={onPointerMove}
@@ -215,10 +244,10 @@ const RealScenariosSection = () => {
                       <img
                         src={cat.images[0]}
                         alt={cat.label}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover"
                         draggable="false"
                       />
-                      <div
+                        <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                         style={{ background: cat.gradient }}
                       />
@@ -230,11 +259,14 @@ const RealScenariosSection = () => {
                           <p className="font-inter text-black/90 text-sm md:text-base mb-4">
                             {cat.description}
                           </p>
+                   
                           <BlackButton
                             size="small"
                             variant="black"
                             className="px-4 py-2"
-                            onClick={() => navigate(`/usecase?category=${keyToUsecaseCategory[cat.key]}`)}
+                            onClick={(e) => handleKnowMoreClick(e, cat.key)}
+                            
+                          
                           >
                             Know more
                           </BlackButton>

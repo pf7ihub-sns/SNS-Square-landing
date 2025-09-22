@@ -47,7 +47,7 @@ const CoreServiceSection = () => {
       <div className="max-w-[1480px] mx-auto">
         {/* Row 1: heading + paragraph */}
         <div className="mb-8 lg:mb-12">
-          <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">
+          <h3 className="font-manrope font-bold text-[24px] md:text-[30px] lg:text-[36px] leading-tight text-black">
             Our Core Service
           </h3>
           <p className="font-inter text-black/70 mt-3">
@@ -67,11 +67,11 @@ const CoreServiceSection = () => {
                   (active.key === t.key
                     ? 'bg-[#1357E5] text-white'
                     : 'bg-[#F8F8F8] text-black') +
-                  ' w-full text-left rounded-[4px] px-4 py-6 transition-colors flex items-center gap-4'
+                  ' w-full text-left rounded-[4px] px-4 py-3 sm:py-6 transition-colors flex items-center gap-4'
                 }
               >
                 <img src={t.icon} alt={t.label} className="w-6 h-6" />
-                <h6 className="font-manrope font-medium text-[16px] md:text-[17px] lg:text-[18px]">
+                <h6 className="font-manrope font-medium text-[14px] sm:text-[16px] md:text-[17px] lg:text-[18px]">
                   {t.label}
                 </h6>
               </button>
@@ -88,7 +88,7 @@ const CoreServiceSection = () => {
               />
               {/* bottom banner */}
               <div className="absolute left-0 right-0 bottom-0 p-6">
-                <h4 className="font-manrope font-semibold text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-white group-hover:text-white transform transition-all duration-500 ease-out group-hover:-translate-y-2">
+                <h4 className="font-manrope font-semibold text-[20px] sm:text-[22px] md:text-[24px] lg:text-[28px] leading-snug text-white group-hover:text-white transform transition-all duration-500 ease-out group-hover:-translate-y-2">
                   {active.label}
                 </h4>
                 <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75 text-white">
