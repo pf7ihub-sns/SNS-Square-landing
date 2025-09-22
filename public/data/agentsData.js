@@ -1,3 +1,5 @@
+import { desc } from "framer-motion/client";
+
 export default {
   foundational: [
     {
@@ -1776,6 +1778,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Task decomposition", "Subtask management", "Progress tracking"],
               useCases: ["Agile development", "Project planning", "Team collaboration"],
+              description: ["Task Breakdown Agent converts your project PDFs into a structured task overview. It extracts key details like title, summary, complexity, subtasks, risks, and recommended resources. Ideal for teams, managers, and professionals to plan, prioritize, and track projects efficiently."],
               status: "available"
             },
             {
@@ -1785,6 +1788,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["File conversion", "Data transformation", "Spreadsheet automation"],
               useCases: ["Data analysis", "Report generation", "Data migration"],
+              description:["CSV ↔ Excel Converter lets you quickly convert files between CSV and Excel formats. It supports .csv, .xlsx, and .xls, handling uploads, conversion, and downloads seamlessly. Perfect for professionals who need fast, reliable, and user-friendly data format conversions."],
               status: "available"
             },
             {
@@ -1794,6 +1798,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
               useCases: ["Team meetings", "Project updates", "Client calls"],
+              description:["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
               status: "available"
             },
             {
@@ -1803,6 +1808,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Report generation", "Data visualization", "Automated insights"],
               useCases: ["Business reporting", "Data analysis", "Performance tracking"],
+              description:["Report Generator transforms your PDF or Excel files into a structured, professional report. It extracts key information and presents it in a clear, readable format. Perfect for professionals and teams to summarize data efficiently and save time."],
               status: "available"
             },
             {
@@ -1821,6 +1827,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data formatting", "Text manipulation", "File management"],
               useCases: ["Data preparation", "Content creation", "Workflow automation"],
+              description: ["General Utility Conversion lets you convert time zones, units, or currencies with ease. It supports natural language queries or structured inputs for precise conversions. Perfect for professionals, travelers, and teams needing quick, accurate transformations."],
               status: "available"
             },
             {
@@ -1830,6 +1837,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Report generation", "Data visualization", "Automated insights"],
               useCases: ["Business reporting", "Data analysis", "Performance tracking"],
+              description: ["Product Service Classifier lets you categorize any product or service description quickly. It provides primary and secondary categories, confidence scores, sentiment, industry, use case, and target audience."],
               status: "available"
             },
             {
@@ -1839,6 +1847,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Email composition", "Template management", "Scheduling"],
               useCases: ["Email marketing", "Customer communication", "Internal collaboration"],
+              description: ["Email Drafting Agent helps you generate professional emails quickly. It produces complete drafts with subject, greeting, body, sign-off, signature, and optional follow-ups. Perfect for professionals, teams, and anyone needing polished, ready-to-send emails."],
               status: "available"
             },
             {
@@ -1848,6 +1857,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Performance metrics", "Feedback analysis", "Reporting"],
               useCases: ["Project evaluation", "Team performance", "Outcome assessment"],
+              description: ["Text Evaluation Agent analyzes your summaries or notes for accuracy, tone, and completeness. It detects key elements like topics, participants, timelines, and action items. Ideal for teams and professionals seeking clear, actionable feedback on written content."],
               status: "available"
             },
             {
@@ -1979,7 +1989,8 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Quiz creation", "Question generation", "Assessment design"],
               useCases: ["Educational content", "Training materials", "Skill assessments"],
-              status: "available"
+              status: "available",
+              description:["Quiz Generator makes quiz creation effortless by turning any topic into ready-to-use multiple-choice questions. Customize the number of questions and get instant quizzes with correct answers includedPerfect for educators, trainers, and learners to save time and boost engagement."],
             },
             {
               id: "social-media",
@@ -1988,7 +1999,8 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content ideation", "Narrative development", "Audience engagement"],
               useCases: ["Social media campaigns", "Brand storytelling", "Content marketing"],
-              status: "available"
+              status: "available",
+              description:["Storyline Generator turns your ideas into engaging story plots with AI-crafted narratives.Simply enter a theme and get structured, ready-to-use storylines instantly.Perfect for writers, filmmakers, and creatives to save time and spark imagination."]
             },
             {
               id: "audience-analyzer",
@@ -2032,6 +2044,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Headline optimization", "Audience targeting", "Engagement analysis"],
               useCases: ["Social media marketing", "Content promotion", "Brand awareness"],
+              description:["Headline Generator instantly transforms your text into catchy, engaging headlines powered by AI.Just input your content and get multiple compelling headline options in seconds.Perfect for marketers, bloggers, and media creators to boost attention and clicks."],
               status: "available"
             },
 
@@ -2060,6 +2073,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Image synthesis", "Style transfer", "Visual content creation"],
               useCases: ["Social media posts", "Marketing materials", "Brand visuals"],
+              description: ["AI Image Generator transforms your text prompts into stunning, high-quality images instantly.Choose from styles like realistic, professional, or artistic to match your needs.Perfect for designers, marketers, and creators looking for fast, customized visuals."],
               status: "available"
             },
             {
@@ -2069,6 +2083,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Image conversion", "PDF generation"],
               useCases: ["Document management", "File sharing"],
+              description: ["Image to PDF Converter turns your images into professional, multi-page PDFs effortlessly. Supports JPG and PNG formats, allowing batch uploads for seamless conversion. Ideal for students, professionals, and creators needing fast, high-quality PDFs."],
               status: "available"
             }
           ]
