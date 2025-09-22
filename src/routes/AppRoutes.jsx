@@ -18,6 +18,7 @@ import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
+import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -87,6 +88,7 @@ export default function AppRoutes() {
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
       
+      <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
       {/* Existing Agent Detail Routes */}
       

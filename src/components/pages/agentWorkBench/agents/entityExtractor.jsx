@@ -44,14 +44,15 @@ export default function EntityExtractor() {
 
   const exportData = (format) => {
     let content;
+    const header = "Entity Type,Entity Value,Confidence\n";
+    const rows = entities
+      .map(
+        (e) =>
+          `${e.entity_type},${e.entity_value},${(e.confidence * 100).toFixed(1)}%`
+      )
+      .join("\n");
+
     if (format === "csv") {
-      const header = "Entity Type,Entity Value,Confidence\n";
-      const rows = entities
-        .map(
-          (e) =>
-            `${e.entity_type},${e.entity_value},${(e.confidence * 100).toFixed(1)}%`
-        )
-        .join("\n");
       content = header + rows;
       downloadFile(content, "entities.csv", "text/csv");
     } else if (format === "json") {
@@ -80,9 +81,7 @@ export default function EntityExtractor() {
   };
 
   const filteredEntities =
-    filter === "all"
-      ? entities
-      : entities.filter((e) => e.entity_type === filter);
+    filter === "all" ? entities : entities.filter((e) => e.entity_type === filter);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 mt-3" style={{ backgroundColor: '#F9FAFB' }}>
@@ -186,7 +185,7 @@ export default function EntityExtractor() {
           </div>
         )}
 
-        {/* No Entities Found Message */}
+        {/* No Entities Found */}
         {entities.length === 0 && summary?.status === "no_entities_found" && (
           <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6">
             <h3 className="font-semibold text-lg text-gray-800 mb-1">No Entities Found</h3>

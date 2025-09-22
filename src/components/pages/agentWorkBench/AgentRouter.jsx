@@ -4,6 +4,7 @@ import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
 import AgentWorkingPage from "./agents/deepResearch";
+import LogicValidationAgent from "./agents/logicValidation";
 import ImageGenerator from "./agents/imageGeneration";
 import EntityExtractor from "./agents/entityExtractor";
 import AutomatedLinter from "./agents/automatedLinter";
@@ -70,6 +71,7 @@ const AgentRouter = () => {
     "multilanguage-chatbot": <MultiLanguageChat />,
     "idea-refinement-agent": <IdeaRefinementUI />,
     "deep-research-agent": <AgentWorkingPage />,
+    "logic-validation-agent": <LogicValidationAgent />,
     "email-summarizer-agent": <EmailThreadSummariser />,
     "image-generation-agent": <ImageGenerator />,
     "entity-recognition": <EntityExtractor />,

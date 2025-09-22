@@ -584,16 +584,31 @@ const MediaEntertainment = () => {
 
   const filteredAgents = agents.filter(agent => {
     const query = searchQuery.trim().toLowerCase();
-    const matchesSearch =
-      !query ||
-      agent.name.toLowerCase().includes(query) ||
-      (agent.summary && agent.summary.toLowerCase().includes(query)) ||
-      (agent.description && agent.description.toLowerCase().includes(query)) ||
-      (agent.solutions && agent.solutions.some(sol => sol.toLowerCase().includes(query)));
+
+    // If no search query, only filter by status
+    if (!query) {
+      const matchesStatus =
+        statusFilter === 'all' ||
+        (statusFilter === 'available' && agent.status === 'available') ||
+        (statusFilter === 'not available' && agent.status === 'not available');
+      return matchesStatus;
+    }
+
+    // Search in multiple fields
+    const searchableText = [
+      agent.name || '',
+      agent.summary || '',
+      agent.description || '',
+      ...(agent.solutions || [])
+    ].join(' ').toLowerCase();
+
+    const matchesSearch = searchableText.includes(query);
+
     const matchesStatus =
       statusFilter === 'all' ||
       (statusFilter === 'available' && agent.status === 'available') ||
       (statusFilter === 'not available' && agent.status === 'not available');
+
     return matchesSearch && matchesStatus;
   });
 
@@ -648,12 +663,11 @@ const MediaEntertainment = () => {
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
-      
+
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${
-          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed left-0 top-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
@@ -668,36 +682,32 @@ const MediaEntertainment = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="p-4">
           <div className="space-y-2">
             {categories.map((category) => (
               <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
                 <button
                   onClick={() => handleCategoryClick(category.id)}
-                  className={`w-full px-4 py-4 text-left transition-all duration-300 ${
-                    selectedCategory === category.id
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
-                  }`}
+                  className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
+                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="font-semibold text-base">{category.name}</div>
-                      <div className={`text-sm mt-1 ${
-                        selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
-                      }`}>
+                      <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
+                        }`}>
                         {category.subCategories?.length || category.agents?.length || 0} {category.subCategories ? 'subcategories' : 'agents'}
                       </div>
                     </div>
                     {category.subCategories && (
-                      <div className={`p-1 rounded-full transition-all duration-300 ${
-                        selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
-                      }`}>
+                      <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
+                        }`}>
                         <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${
-                            selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
-                          }`}
+                          className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
+                            }`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -716,16 +726,14 @@ const MediaEntertainment = () => {
                         <button
                           key={subCategory.id}
                           onClick={() => handleSubCategoryClick(subCategory.id)}
-                          className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${
-                            selectedSubCategory === subCategory.id
-                              ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
-                              : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
-                          }`}
+                          className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
+                            ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
+                            : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
+                            }`}
                         >
                           <div className="font-medium text-sm">{subCategory.name}</div>
-                          <div className={`text-xs mt-1 ${
-                            selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
-                          }`}>
+                          <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
+                            }`}>
                             {subCategory.agents?.length || 0} agents
                           </div>
                         </button>
@@ -755,7 +763,7 @@ const MediaEntertainment = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {heroSection}
-      
+
       {/* Search and Filter Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -814,11 +822,10 @@ const MediaEntertainment = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === tab
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
+                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
@@ -851,29 +858,25 @@ const MediaEntertainment = () => {
                   <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
                     <button
                       onClick={() => handleCategoryClick(category.id)}
-                      className={`w-full px-4 py-4 text-left transition-all duration-300 ${
-                        selectedCategory === category.id
-                          ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
-                          : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
-                      }`}
+                      className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
+                        : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="font-semibold text-base">{category.name}</div>
-                          <div className={`text-sm mt-1 ${
-                            selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
-                          }`}>
+                          <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
+                            }`}>
                             {category.subCategories?.length || category.agents?.length || 0} {category.subCategories ? 'subcategories' : 'agents'}
                           </div>
                         </div>
                         {category.subCategories && (
-                          <div className={`p-1 rounded-full transition-all duration-300 ${
-                            selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
-                          }`}>
+                          <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
+                            }`}>
                             <svg
-                              className={`w-4 h-4 transition-transform duration-300 ${
-                                selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
-                              }`}
+                              className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
+                                }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -892,16 +895,14 @@ const MediaEntertainment = () => {
                             <button
                               key={subCategory.id}
                               onClick={() => handleSubCategoryClick(subCategory.id)}
-                              className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${
-                                selectedSubCategory === subCategory.id
-                                  ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
-                                  : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
-                              }`}
+                              className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
+                                ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
+                                : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
+                                }`}
                             >
                               <div className="font-medium text-sm">{subCategory.name}</div>
-                              <div className={`text-xs mt-1 ${
-                                selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
-                              }`}>
+                              <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
+                                }`}>
                                 {subCategory.agents?.length || 0} agents
                               </div>
                             </button>
@@ -958,13 +959,12 @@ const MediaEntertainment = () => {
                           </span>
                         </div>
                       </div>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        agent.status === 'available'
-                          ? 'bg-green-100 text-green-800'
-                          : agent.status === 'not available'
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${agent.status === 'available'
+                        ? 'bg-green-100 text-green-800'
+                        : agent.status === 'not available'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                        }`}>
                         {agent.status === 'available'
                           ? 'Available'
                           : agent.status === 'not available'

@@ -36,14 +36,14 @@
       "featured": false,
       "path": "/trip-planning-agent"
     },
-    {
+{
       "id": "logic-validation-agent",
       "title": "Logic Validation Agent",
       "description": "Advanced research and analysis with comprehensive data gathering",
       "icon": "/images/agents/writing 1.png",
       "category": "Foundation Agents",
-      "featured": false,
-      "path": "/logic-validation-agent"
+      "featured": true,
+      "path": "/agent-playground/agents/{agentId}"
     },
     {
       "id": "idea-refinement-agent",

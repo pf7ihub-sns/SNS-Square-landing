@@ -99,7 +99,7 @@ function CsvExcelConverter() {
               >
                 Convert to Excel (.xlsx)
               </button>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setTargetFormat("csv")}
                 className={`px-4 py-2 text-sm font-medium border-l border-gray-200 ${targetFormat === "csv"
@@ -109,7 +109,7 @@ function CsvExcelConverter() {
                 aria-pressed={targetFormat === "csv"}
               >
                 Convert to CSV (.csv)
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="flex items-center justify-between">
