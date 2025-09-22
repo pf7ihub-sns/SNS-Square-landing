@@ -870,15 +870,17 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
               useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+              description: ["Emerging Tech Trends analyzes the latest technologies and sectors, providing insights and trend scores. Users can enter a technology or domain to get a summary, key insights, and actionable feedback. The tool helps stay ahead by identifying emerging trends for strategic decisions in 2025."],
               status: "available"
             },
             {
               id: "invoice-agent",
               name: "Invoice Agent",
-              summary: "Automate the creation and management of invoices.",
+              summary: "Automate the extraction and management of invoices.",
               image: "/placeholder.jpg",
               solutions: ["Invoice generation", "Payment tracking", "Expense management"],
               useCases: ["Billing", "Financial reporting", "Tax compliance"],
+              description: ["Invoice Agent extracts and analyzes key fields from invoices, whether entered as text or uploaded as PDFs. It provides structured details including vendor, dates, totals, line items, taxes, and a summary. This tool helps automate invoice processing and gives a clear overview of financial data."],
               status: "available"
             },
             {
@@ -888,6 +890,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Sentiment analysis", "Topic modeling", "Feedback categorization"],
               useCases: ["Product improvement", "Customer satisfaction", "Market research"],
+              description: ["Feedback Analysis allows users to upload survey files or input text feedback and generate structured insights. It categorizes responses, summarizes trends, and highlights actionable items. Users can download the processed feedback as a CSV for reporting or further analysis."],
               status: "available"
             },
             {
@@ -897,6 +900,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
               useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+              description: ["Idea Refinement Agent helps users transform raw, unstructured ideas into polished and actionable concepts. Users can input their idea, and the system provides a refined version with clean formatting and structured paragraphs. This UI offers a clear input-output workflow with visual feedback, making idea enhancement simple and intuitive."],
               status: "available"
             },
             {
@@ -915,6 +919,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content structuring", "Hierarchical organization", "Thematic categorization"],
               useCases: ["Content creation", "Educational material development", "Research paper organization"],
+              description: ["Outline Generator helps users create structured outlines from a given topic and optional context. Users can select the desired detail level, and the system produces a clear, hierarchical outline with headings, subpoints, and feedback. The interface provides real-time feedback, loading states, and error handling for smooth interaction."],
               status: "available"
             },
             {
@@ -1194,6 +1199,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Regulation tracking", "Compliance assessment", "Audit preparation"],
               useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
+              description: ["AES Agent allows users to securely encrypt and decrypt text using AES encryption. Users can switch between encryption and decryption modes, providing necessary input, keys, and IVs as required. The UI displays real-time results with error handling, loading states, and a clean structured output for easy readability."],
               status: "available"
             },
             {
@@ -1203,6 +1209,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Policy validation", "Violation detection", "Corrective actions"],
               useCases: ["HR policies", "IT security policies", "Business procedures"],
+              description: ["Policy Suggestion provides users with expert guidance on government policies and regulations. Users can submit a query with optional context, and the system fetches structured advice along with credible sources. The UI handles loading states, errors, and displays results in a clean, readable format."],
               status: "available"
             },
             {
@@ -1212,6 +1219,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Risk assessment", "Threat modeling", "Vulnerability management"],
               useCases: ["Security audits", "Compliance checks", "Incident response"],
+              description: ["Security Risk Analyzer allows users to upload documents (PDF, DOCX, TXT) for automated security risk assessment. It evaluates content using local checks and AI scoring, highlighting potential risks and providing document excerpts. The interface handles file upload, loading states, errors, and displays results in a structured, readable format."],
               status: "available"
             },
             {
@@ -1342,6 +1350,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Duplicate removal", "Error correction", "Data validation"],
               useCases: ["Data preparation", "Analytics pipelines", "Machine learning"],
+              description: ["AI Data Cleaner enables users to upload CSV files and automatically clean, organize, and optimize the data using AI. It provides real-time progress feedback, previews the cleaned data, and allows easy download of the processed CSV. The interface includes error handling, loading states, and action buttons for seamless workflow."],
               status: "available"
             },
             {
@@ -1351,6 +1360,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Schema generation", "Validation rules", "Data mapping"],
               useCases: ["Database design", "API development", "Data integration"],
+              description: ["Schema Generator allows users to upload CSV or Excel files and automatically generate platform-specific SQL schemas (Databricks, Snowflake, Teradata, Netezza). It analyzes file structure, column types, and previews sample data while providing a fully formatted SQL schema. The interface includes error handling, loading states, and an organized output for quick integration into data pipelines."],
               status: "available"
             },
             {
@@ -1360,6 +1370,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data profiling", "Quality assessment", "Metadata generation"],
               useCases: ["Data exploration", "Quality monitoring", "Compliance reporting"],
+              description: ["The DataProfiler is a web application that allows users to upload CSV or Excel files (up to 10MB) for comprehensive data profiling. It generates detailed reports on dataset statistics, quality issues, pattern recognition, correlations, and business rule validations. Users can drag-and-drop files, analyze data, and download results as a JSON report. The interface features collapsible sections for easy navigation and visualization of profiling insights."],
               status: "available"
             },
             {
@@ -1369,6 +1380,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data synthesis", "Scenario simulation", "Augmented datasets"],
               useCases: ["Testing", "Training AI models", "Data augmentation"],
+              description: ["The DataGeneration tool is a web application that enables users to create custom datasets using AI-driven methods. Users can generate data by defining table names, domains, and columns, uploading a sample CSV, or providing an SQL schema. The tool supports voice input for instructions, customizable column types, and data preview, with the ability to download results as CSV files. Its intuitive interface includes collapsible sections for easy configuration and visualization of generated data."],
               status: "available"
             },
             {
@@ -1378,6 +1390,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Duplicate detection", "Data comparison", "Anomaly detection"],
               useCases: ["Expense management", "Fraud detection", "Financial auditing"],
+              description: ["Duplicate Expense Detector helps users upload CSV or Excel files to automatically identify duplicate expense entries. It analyzes the dataset, highlights flagged duplicates with confidence scores, and summarizes total records versus duplicates found. The interface provides a clean, tabular view for easy review and validation."],
               status: "available"
             },
             {
@@ -1387,6 +1400,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Data retrieval", "Query optimization", "Result formatting"],
               useCases: ["Business intelligence", "Reporting", "Data exploration"],
+              description: ["RAG Data Query enables users to upload CSV or JSON files, store them in a Retrieval-Augmented Generation (RAG) system, and query the data using natural language. It provides instant answers along with source references and allows users to manage the stored document repository. The interface is interactive, user-friendly, and supports real-time data operations."],
               status: "available"
             },
             {
@@ -1630,6 +1644,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Test generation", "Automated execution", "Result analysis"],
               useCases: ["Regression testing", "Continuous integration", "Quality assurance"],
+              description: ["Test Case Generation Agent automatically generates structured test cases from user-provided requirements or user stories. It parses input, produces clean, well-formatted test cases, and displays them interactively with options to download as Markdown or TXT. The interface supports real-time processing with clear error handling and visual feedback."],
               status: "available"
             },
             {
@@ -1639,6 +1654,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Code linting", "Style checking", "Best practices enforcement"],
               useCases: ["Code quality assurance", "Development support", "Team collaboration"],
+              description: ["The Automated Linter is a web-based tool that analyzes source code for errors, style violations, and potential improvements. It supports multiple programming languages and provides detailed suggestions for code quality, refactoring, and AI-assisted insights. Users can input code directly or upload files for instant linting results."],
               status: "available"
             },
             {
@@ -1953,7 +1969,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content creation", "Post scheduling", "Engagement tracking"],
               useCases: ["Social media marketing", "Brand awareness", "Audience engagement"],
-              description:["Social Media Content Generator helps users create platform-specific posts effortlessly. It generates engaging content tailored to your topic, audience, and purpose, including suggested hashtags and step-by-step posting strategies. The tool streamlines social media planning, saving time and boosting engagement."],
+              description: ["Social Media Content Generator helps users create platform-specific posts effortlessly. It generates engaging content tailored to your topic, audience, and purpose, including suggested hashtags and step-by-step posting strategies. The tool streamlines social media planning, saving time and boosting engagement."],
               status: "available"
             },
             {
