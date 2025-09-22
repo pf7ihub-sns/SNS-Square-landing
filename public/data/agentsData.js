@@ -20,19 +20,13 @@ foundational:[
           solutions: [
             "Multi-label classification",
             "Confidence thresholds & fallback",
-            "Confidence thresholds & fallback",
-            "Routing to specialized pipelines",
-            "Routing to specialized pipelines",
-            "Routing to specialized pipelines",
           ],
           useCases: [
             "Legal vs. financial vs. medical sorting",
             "Mailbox triage",
             "Back-office intake automation",
-            "Back-office intake automation",
-            "Back-office intake automation",
-            "Back-office intake automation",
           ],
+          description:["DeepResearchAgent helps users perform detailed research on a topic by generating structured reports with clear content, sources, and references, allowing quick insights, in-depth analysis, or comprehensive investigation."],
           status: "available"
         },
         {
@@ -42,6 +36,7 @@ foundational:[
           image: "/placeholder.jpg",
           solutions: ["Layout analysis", "Table extraction", "Schema validation"],
           useCases: ["Invoices", "Contracts", "Receipts"],
+          description:["DocumentParser allows users to upload PDF or Excel files and extract structured information such as document ID, title, author, keywords, and summary. It displays a summarized view with the option to expand for full details, handles errors, and provides a loading indicator during processing. Supported formats include PDF, XLS, and XLSX."],
           status: "available"
         },
         {
@@ -51,6 +46,7 @@ foundational:[
           image: "/placeholder.jpg",
           solutions: ["Printed & handwritten OCR", "Layout blocks", "Language detection"],
           useCases: ["Scan ingestion", "Forms digitization", "Archival search"],
+          description:[""],
           status: "available"
         },
         {
