@@ -1199,6 +1199,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Regulation tracking", "Compliance assessment", "Audit preparation"],
               useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
+              description: ["AES Agent allows users to securely encrypt and decrypt text using AES encryption. Users can switch between encryption and decryption modes, providing necessary input, keys, and IVs as required. The UI displays real-time results with error handling, loading states, and a clean structured output for easy readability."],
               status: "available"
             },
             {
@@ -1208,6 +1209,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Policy validation", "Violation detection", "Corrective actions"],
               useCases: ["HR policies", "IT security policies", "Business procedures"],
+              description: ["Policy Suggestion provides users with expert guidance on government policies and regulations. Users can submit a query with optional context, and the system fetches structured advice along with credible sources. The UI handles loading states, errors, and displays results in a clean, readable format."],
               status: "available"
             },
             {
@@ -1217,6 +1219,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Risk assessment", "Threat modeling", "Vulnerability management"],
               useCases: ["Security audits", "Compliance checks", "Incident response"],
+              description: ["Security Risk Analyzer allows users to upload documents (PDF, DOCX, TXT) for automated security risk assessment. It evaluates content using local checks and AI scoring, highlighting potential risks and providing document excerpts. The interface handles file upload, loading states, errors, and displays results in a structured, readable format."],
               status: "available"
             },
             {
