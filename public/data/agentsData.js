@@ -1953,6 +1953,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content creation", "Post scheduling", "Engagement tracking"],
               useCases: ["Social media marketing", "Brand awareness", "Audience engagement"],
+              description:["Social Media Content Generator helps users create platform-specific posts effortlessly. It generates engaging content tailored to your topic, audience, and purpose, including suggested hashtags and step-by-step posting strategies. The tool streamlines social media planning, saving time and boosting engagement."],
               status: "available"
             },
             {
