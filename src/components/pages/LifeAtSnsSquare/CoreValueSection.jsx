@@ -46,16 +46,74 @@ const coreValues = [
 	},
 ];
 
+function MobileCoreValues() {
+    return (
+        <section
+            className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
+            style={{
+                backgroundImage: "url('/images/home/Background-home-RS.png')",
+            }}
+        >
+            <div className="p-8">
+                <div className="max-w-[1480px] mx-auto">
+                    <div className="mb-6">
+                        <h2 className="text-3xl font-bold text-gray-900 text-balance">Our Core Values</h2>
+                        <p className="text-gray-600 text-base leading-relaxed mt-3">
+                            Pre-built AI agents designed with advanced capabilities to serve
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {coreValues.map((value) => (
+                            <Card
+                                key={value.id}
+                                className="group relative w-full h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer"
+                            >
+                                <div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
+                                    <img src={value.icon} alt={value.title} className="w-7 h-6" />
+                                    <h4 className="text-lg font-medium text-gray-800">{value.title}</h4>
+                                </div>
+                                <div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
+                                    <SimpleRetroGrid angle={220} cellSize={40} lineColor="#C8E0E5" opacity={0.6} />
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <img src={value.icon} alt={value.title} className="w-7 h-6" />
+                                            <h4
+                                                className="text-lg font-medium"
+                                                style={{
+                                                    background: "linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
+                                                    WebkitBackgroundClip: "text",
+                                                    backgroundClip: "text",
+                                                    color: "transparent",
+                                                }}
+                                            >
+                                                {value.title}
+                                            </h4>
+                                        </div>
+                                        <p className="text-sm text-gray-600 leading-relaxed">{value.description}</p>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
 export default function CoreValueSection() {
 	return (
-		<section
-			className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
-			style={{
-				backgroundImage: "url('/images/home/Background-home-RS.png')",
-			}}
-		>
-			<div className="p-8">
-				<div className="max-w-[1480px] mx-auto">
+        <>
+            {/* Desktop and larger (>=1024px) - keep existing design */}
+            <section
+                className="hidden lg:block w-full bg-no-repeat bg-cover bg-center overflow-hidden"
+                style={{
+                    backgroundImage: "url('/images/home/Background-home-RS.png')",
+                }}
+            >
+                <div className="p-8">
+                    <div className="max-w-[1110px] mx-auto">
 					{/* First Row - Title on left, 1 card on right with spacing */}
 					<div className="grid grid-cols-12">
 						<div className="col-span-12 lg:col-span-3">
@@ -232,8 +290,14 @@ export default function CoreValueSection() {
 							))}
 						</div>
 					</div>
-				</div>
-			</div>
-		</section>
+                    </div>
+                </div>
+            </section>
+
+            {/* Mobile/Tablet (<1024px) - 2 cards per row, 1 card below 641px */}
+            <div className="block lg:hidden">
+                <MobileCoreValues />
+            </div>
+        </>
 	);
 }
