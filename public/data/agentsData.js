@@ -870,15 +870,17 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
               useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+              description: ["Emerging Tech Trends analyzes the latest technologies and sectors, providing insights and trend scores. Users can enter a technology or domain to get a summary, key insights, and actionable feedback. The tool helps stay ahead by identifying emerging trends for strategic decisions in 2025."],
               status: "available"
             },
             {
               id: "invoice-agent",
               name: "Invoice Agent",
-              summary: "Automate the creation and management of invoices.",
+              summary: "Automate the extraction and management of invoices.",
               image: "/placeholder.jpg",
               solutions: ["Invoice generation", "Payment tracking", "Expense management"],
               useCases: ["Billing", "Financial reporting", "Tax compliance"],
+              description: ["Invoice Agent extracts and analyzes key fields from invoices, whether entered as text or uploaded as PDFs. It provides structured details including vendor, dates, totals, line items, taxes, and a summary. This tool helps automate invoice processing and gives a clear overview of financial data."],
               status: "available"
             },
             {
@@ -888,6 +890,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Sentiment analysis", "Topic modeling", "Feedback categorization"],
               useCases: ["Product improvement", "Customer satisfaction", "Market research"],
+              description: ["Feedback Analysis allows users to upload survey files or input text feedback and generate structured insights. It categorizes responses, summarizes trends, and highlights actionable items. Users can download the processed feedback as a CSV for reporting or further analysis."],
               status: "available"
             },
             {
@@ -897,6 +900,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Pattern recognition", "Time series analysis", "Trend forecasting"],
               useCases: ["Product strategy", "Market entry decisions", "Investment planning"],
+              description: ["Idea Refinement Agent helps users transform raw, unstructured ideas into polished and actionable concepts. Users can input their idea, and the system provides a refined version with clean formatting and structured paragraphs. This UI offers a clear input-output workflow with visual feedback, making idea enhancement simple and intuitive."],
               status: "available"
             },
             {
@@ -915,6 +919,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content structuring", "Hierarchical organization", "Thematic categorization"],
               useCases: ["Content creation", "Educational material development", "Research paper organization"],
+              description: ["Outline Generator helps users create structured outlines from a given topic and optional context. Users can select the desired detail level, and the system produces a clear, hierarchical outline with headings, subpoints, and feedback. The interface provides real-time feedback, loading states, and error handling for smooth interaction."],
               status: "available"
             },
             {
@@ -1953,7 +1958,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Content creation", "Post scheduling", "Engagement tracking"],
               useCases: ["Social media marketing", "Brand awareness", "Audience engagement"],
-              description:["Social Media Content Generator helps users create platform-specific posts effortlessly. It generates engaging content tailored to your topic, audience, and purpose, including suggested hashtags and step-by-step posting strategies. The tool streamlines social media planning, saving time and boosting engagement."],
+              description: ["Social Media Content Generator helps users create platform-specific posts effortlessly. It generates engaging content tailored to your topic, audience, and purpose, including suggested hashtags and step-by-step posting strategies. The tool streamlines social media planning, saving time and boosting engagement."],
               status: "available"
             },
             {
