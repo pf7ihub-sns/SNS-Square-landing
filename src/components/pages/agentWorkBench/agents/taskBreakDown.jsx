@@ -5,21 +5,21 @@ import { ArrowLeft } from 'lucide-react';
 const API_BASE = "http://127.0.0.1:8000";
 
 const TaskBreakDown = () => {
-  const [task, setTask] = useState("");
+  const [file, setFile] = useState(null);
   const [breakdown, setBreakdown] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    setTask(e.target.value);
-    setError(null);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
     setBreakdown(null);
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!task.trim()) {
-      setError('Please provide a task description.');
+    if (!file) {
+      setError('Please upload a PDF file.');
       return;
     }
 
@@ -28,33 +28,15 @@ const TaskBreakDown = () => {
     setBreakdown(null);
 
     const formData = new FormData();
-    formData.append('user_input', task);
+    formData.append('file', file);
 
     try {
-      const response = await axios.post(`${API_BASE}/task_breakdown/run`, formData, {
+      const response = await axios.post(`${API_BASE}/task_breakdown/run-pdf`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const data = response.data.subtasks;
-      if (data && typeof data === 'string') {
-        // Parse the subtasks string
-        const taskMatch = data.match(/To (.*?),(?: the tasks are:)?/);
-        const taskDescription = taskMatch ? taskMatch[1].trim() : task;
-        const subtaskMatches = data.match(/'(.*?)' \((.*?) priority, (.*?) days\)/g);
-        const breakdownData = subtaskMatches ? subtaskMatches.map(match => {
-          const [, subtask, priority, time] = match.match(/'(.*?)' \((.*?) priority, (.*?) days\)/);
-          return { subtask, priority, time_estimate: `${time} days` };
-        }) : [];
-
-        setBreakdown({
-          task: taskDescription,
-          domain: "Technology", // Assuming Technology based on the example; adjust if dynamic
-          breakdown: breakdownData,
-        });
-      } else {
-        setBreakdown(null);
-      }
+      setBreakdown(response.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Error processing task. Please try again.');
+      setError(err.response?.data?.error || 'Error processing PDF. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -79,8 +61,7 @@ const TaskBreakDown = () => {
 
         {/* Instructions */}
         <div className="text-center mb-4 text-gray-700">
-          <p className="mb-2">Break down a task into subtasks with priorities and time estimates.</p>
-          <p className="text-sm">Enter a task description to generate a detailed breakdown.</p>
+          <p className="mb-2">Upload a PDF containing your task/project description to generate a structured breakdown.</p>
         </div>
 
         {/* Main Content */}
@@ -89,23 +70,22 @@ const TaskBreakDown = () => {
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="task" className="block text-sm font-medium text-gray-700 mb-1">
-                  Task Description
+                <label htmlFor="file" className="block text-sm font-medium text-gray-700 mb-1">
+                  Upload PDF
                 </label>
-                <textarea
-                  id="task"
-                  name="task"
-                  value={task}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-24 text-sm"
-                  placeholder="e.g., Develop a new website for a client..."
+                <input
+                  type="file"
+                  id="file"
+                  accept="application/pdf"
+                  onChange={handleFileChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 />
               </div>
               <button
                 type="submit"
-                disabled={loading || !task.trim()}
-                className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || !task.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
-                style={{ backgroundColor: loading || !task.trim() ? '#9CA3AF' : '#1E3A8A' }}
+                disabled={loading || !file}
+                className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || !file ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+                style={{ backgroundColor: loading || !file ? '#9CA3AF' : '#1E3A8A' }}
               >
                 {loading ? 'Processing...' : 'Generate Breakdown'}
               </button>
@@ -127,15 +107,21 @@ const TaskBreakDown = () => {
 
           {/* Output Section */}
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-            {breakdown && breakdown.breakdown ? (
+            {breakdown ? (
               <div className="w-full h-96 overflow-y-auto space-y-4">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
                   Task Breakdown
                 </h2>
-                {breakdown.task && (
+                {breakdown.title && (
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-md font-medium text-blue-800 mb-2">Task</h3>
-                    <p className="text-gray-700 text-sm">{breakdown.task}</p>
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Title</h3>
+                    <p className="text-gray-700 text-sm">{breakdown.title}</p>
+                  </div>
+                )}
+                {breakdown.summary && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Summary</h3>
+                    <p className="text-gray-700 text-sm">{breakdown.summary}</p>
                   </div>
                 )}
                 {breakdown.domain && (
@@ -144,15 +130,50 @@ const TaskBreakDown = () => {
                     <p className="text-gray-700 text-sm">{breakdown.domain}</p>
                   </div>
                 )}
-                {breakdown.breakdown.length > 0 && (
+                {breakdown.complexity && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Complexity</h3>
+                    <p className="text-gray-700 text-sm">{breakdown.complexity}</p>
+                  </div>
+                )}
+                {breakdown.estimated_total_time && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Estimated Time</h3>
+                    <p className="text-gray-700 text-sm">{breakdown.estimated_total_time}</p>
+                  </div>
+                )}
+                {breakdown.risks && breakdown.risks.length > 0 && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Risks</h3>
+                    <ul className="list-disc list-inside text-gray-700 text-sm">
+                      {breakdown.risks.map((risk, index) => (
+                        <li key={index}>{risk}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {breakdown.recommended_resources && breakdown.recommended_resources.length > 0 && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h3 className="text-md font-medium text-blue-800 mb-2">Recommended Resources</h3>
+                    <ul className="list-disc list-inside text-gray-700 text-sm">
+                      {breakdown.recommended_resources.map((res, index) => (
+                        <li key={index}>{res}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {breakdown.breakdown && breakdown.breakdown.length > 0 && (
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="text-md font-medium text-blue-800 mb-2">Subtasks</h3>
                     <ol className="list-decimal list-inside text-gray-700 text-sm space-y-2">
                       {breakdown.breakdown.map((item, index) => (
                         <li key={index} className="ml-4">
                           <strong>{item.subtask}</strong> (Priority: {item.priority}, Time Estimate: {item.time_estimate})
-                          <br />
-                          <span className="text-gray-600 text-xs">{index === 0 ? "Define all features, user stories, and technical specifications for the website and login system." : index === 1 ? "Create wireframes, mockups, and database schema." : index === 2 ? "Develop the front-end and back-end, including the login system." : index === 3 ? "Conduct unit, integration, and user acceptance testing." : "Launch the website on a server."}</span>
+                          {item.dependencies && item.dependencies.length > 0 && (
+                            <div className="text-gray-600 text-xs mt-1">
+                              Depends on: {item.dependencies.join(', ')}
+                            </div>
+                          )}
                         </li>
                       ))}
                     </ol>

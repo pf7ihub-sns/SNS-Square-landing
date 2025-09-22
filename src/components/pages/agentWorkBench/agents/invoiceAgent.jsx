@@ -51,13 +51,63 @@ const InvoiceAgent = () => {
                 setResult(response.data);
             }
         } catch (err) {
+            console.error('Error details:', err.response);
             setError(
-                err.response?.data?.detail || 'Error analyzing invoice. Please try again.'
+                err.response?.data?.detail || err.message || 'Error analyzing invoice. Please try again.'
             );
         } finally {
             setLoading(false);
         }
     };
+
+    // Format currency
+    const formatCurrency = (amount) => {
+        if (amount === null || amount === undefined || amount === 0) return 'N/A';
+        return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };
+
+    // Format date
+    const formatDate = (dateStr) => {
+        if (!dateStr) return 'N/A';
+        const date = new Date(dateStr);
+        return isNaN(date.getTime()) ? dateStr : date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    };
+
+    // Get the invoice data (handling both single and multiple invoice structures)
+    const getInvoiceData = () => {
+        if (!result) return null;
+        
+        let output = result.output || result;
+        
+        // Handle error case
+        if (output.error) {
+            return { error: output.error };
+        }
+        
+        // Handle the new structure with invoices array
+        if (output.invoices && Array.isArray(output.invoices)) {
+            return {
+                invoices: output.invoices,
+                summary: output.summary || ''
+            };
+        }
+        
+        // Fallback for old structure (single invoice)
+        if (output.invoice_number) {
+            return {
+                invoices: [output],
+                summary: output.summary || ''
+            };
+        }
+        
+        return { error: 'Invalid response structure' };
+    };
+
+    const invoiceData = getInvoiceData();
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
@@ -78,8 +128,8 @@ const InvoiceAgent = () => {
 
                 {/* Instructions */}
                 <div className="text-center mb-4 text-gray-700">
-                    <p className="mb-2">Analyze an invoice for completeness, clarity, and reliability.</p>
-                    <p className="text-sm">Enter text or upload a PDF to get detailed feedback.</p>
+                    <p className="mb-2">Extract key fields from an invoice and get a summary analysis.</p>
+                    <p className="text-sm">Enter text or upload a PDF to get detailed extraction.</p>
                 </div>
 
                 {/* Main Content */}
@@ -174,33 +224,122 @@ const InvoiceAgent = () => {
                                 <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
                                     Analysis Results
                                 </h2>
+                                
+                                {/* Show text preview for file uploads */}
                                 {result.extracted_text_preview && (
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <h3 className="text-md font-medium text-blue-800 mb-2">Extracted Text Preview</h3>
                                         <p className="text-gray-700 text-sm whitespace-pre-wrap">{result.extracted_text_preview}</p>
                                     </div>
                                 )}
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <h3 className="text-md font-medium text-blue-800 mb-2">Scores</h3>
-                                    <p className="text-gray-700 text-sm">Completeness: {result.output?.completeness || 0}%</p>
-                                    <p className="text-gray-700 text-sm">Clarity: {result.output?.clarity || 0}%</p>
-                                    <p className="text-gray-700 text-sm">Reliability: {result.output?.reliability || 0}%</p>
-                                </div>
-                                {result.output?.feedback && result.output.feedback.length > 0 && (
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <h3 className="text-md font-medium text-blue-800 mb-2">Feedback</h3>
-                                        <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
-                                            {result.output.feedback.map((item, index) => (
-                                                <li key={index}>{item}</li>
-                                            ))}
-                                        </ul>
+                                
+                                {/* Error display */}
+                                {invoiceData && invoiceData.error ? (
+                                    <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                                        <h3 className="text-md font-medium text-red-800 mb-2">Processing Error</h3>
+                                        <p className="text-red-700 text-sm">{invoiceData.error}</p>
+                                        {result.parsing_method && (
+                                            <p className="text-xs text-red-600 mt-1">Method: {result.parsing_method}</p>
+                                        )}
+                                    </div>
+                                ) : invoiceData && invoiceData.invoices && invoiceData.invoices.length > 0 ? (
+                                    <div className="space-y-4">
+                                        {/* Multiple invoices header */}
+                                        {invoiceData.invoices.length > 1 && (
+                                            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                                <h3 className="text-md font-medium text-yellow-800 mb-2">
+                                                    Found {invoiceData.invoices.length} Invoices
+                                                </h3>
+                                                <p className="text-yellow-700 text-sm">Multiple invoices detected in the document</p>
+                                            </div>
+                                        )}
+
+                                        {/* Render each invoice */}
+                                        {invoiceData.invoices.map((invoice, index) => (
+                                            <div key={index} className={`p-4 rounded-lg border ${index === 0 ? 'border-blue-200 bg-blue-50' : 'border-gray-200 bg-gray-50'}`}>
+                                                {index > 0 && (
+                                                    <div className="mb-3 p-2 bg-gray-100 rounded text-center text-sm font-medium">
+                                                        Invoice {index + 1} of {invoiceData.invoices.length}
+                                                    </div>
+                                                )}
+                                                
+                                                {/* Invoice Header */}
+                                                <div className="mb-4">
+                                                    <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                                                        {invoice.invoice_number || `Invoice ${index + 1}`}
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                                                        <p><strong>Vendor:</strong> {invoice.vendor_details || 'N/A'}</p>
+                                                        <p><strong>Date:</strong> {formatDate(invoice.date)}</p>
+                                                        <p><strong>Due Date:</strong> {formatDate(invoice.due_date)}</p>
+                                                        <p><strong>Total:</strong> <span className="font-semibold text-lg text-blue-600">{formatCurrency(invoice.total)}</span></p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Line Items */}
+                                                {invoice.line_items && invoice.line_items.length > 0 && (
+                                                    <div className="mb-4">
+                                                        <h5 className="text-md font-medium text-blue-800 mb-2">Line Items ({invoice.line_items.length})</h5>
+                                                        <div className="space-y-2 max-h-40 overflow-y-auto">
+                                                            {invoice.line_items.map((item, itemIndex) => (
+                                                                <div key={itemIndex} className="border border-gray-200 rounded-md p-3 bg-white">
+                                                                    <div className="flex justify-between items-start">
+                                                                        <div className="flex-1">
+                                                                            <p className="font-medium text-gray-900 text-sm" title={item.description}>
+                                                                                {item.description.length > 50 ? item.description.substring(0, 50) + '...' : item.description}
+                                                                            </p>
+                                                                            <p className="text-sm text-gray-600">Qty: {item.quantity || 'N/A'} × {formatCurrency(item.price)}</p>
+                                                                        </div>
+                                                                        <div className="text-right">
+                                                                            <p className="font-semibold text-gray-900">{formatCurrency(item.total)}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Tax */}
+                                                {invoice.tax !== null && invoice.tax !== undefined && invoice.tax !== 0 && (
+                                                    <div className="mb-2 p-2 bg-gray-100 rounded text-sm">
+                                                        <p><strong>Tax:</strong> {formatCurrency(invoice.tax)}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+
+                                        {/* Summary */}
+                                        {invoiceData.summary && (
+                                            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                                                <h3 className="text-md font-medium text-green-800 mb-2">Summary</h3>
+                                                <p className="text-gray-700 text-sm whitespace-pre-wrap">{invoiceData.summary}</p>
+                                                {result.parsing_method && (
+                                                    <p className="text-xs text-green-600 mt-2">Parsed with: {result.parsing_method}</p>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-8 text-gray-500">
+                                        <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <span className="text-2xl">📋</span>
+                                        </div>
+                                        <p className="text-lg font-medium mb-2">No invoices detected</p>
+                                        <p className="text-sm">The document might not contain recognizable invoice data</p>
                                     </div>
                                 )}
                             </div>
                         )}
                         {!loading && !error && !result && (
                             <div className="w-full h-96 flex items-center justify-center text-gray-500">
-                                Your analysis results will appear here
+                                <div className="text-center">
+                                    <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <span className="text-2xl">📄</span>
+                                    </div>
+                                    <h3 className="text-lg font-medium mb-2">Invoice Analysis Ready</h3>
+                                    <p>Your extracted invoice details will appear here</p>
+                                </div>
                             </div>
                         )}
                     </div>

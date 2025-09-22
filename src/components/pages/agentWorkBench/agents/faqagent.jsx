@@ -115,28 +115,6 @@ function InputSourceCard() {
           <span className="inline-block px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full mb-6">
             Active Agent
           </span>
-
-          {/* Text Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Text Input
-            </label>
-            <textarea
-              value={textInput}
-              onChange={handleTextChange}
-              placeholder="Paste your text here (support tickets, documentation, etc.)"
-              rows={5}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-            />
-          </div>
-
-          {/* OR Divider */}
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-4 text-gray-500 text-sm font-medium">OR</span>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-
           {/* File Upload */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
