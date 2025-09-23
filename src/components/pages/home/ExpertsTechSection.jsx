@@ -14,9 +14,9 @@ const ExpertsTechSection = () => {
   return (
     <section className="px-4 xs:px-5 sm:px-6 lg:px-8 py-10 md:py-14 lg:py-16">
       <div className="max-w-[1480px] mx-auto">
-        <h5 className="leading-tight text-black mb-6 text-center">
+        {/* <h5 className="leading-tight text-black mb-6 text-center text-xl sm:text-2xl">
           Experts in Cutting-Edge Technologies
-        </h5>
+        </h5> */}
         <LogoLoop
           logos={logos}
           speed={120}

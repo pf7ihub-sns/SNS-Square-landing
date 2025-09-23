@@ -141,10 +141,10 @@ const WhatWeExcelSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="px-8 xs:px-9 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20" /* onWheel={handleWheel} */>
+    <section ref={sectionRef} className="px-4 xs:px-5 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20" /* onWheel={handleWheel} */>
       <div className="max-w-[1480px] mx-auto">
         <div className="mb-6 md:mb-8">
-          <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">
+          <h3 className="font-manrope font-bold text-[24px] md:text-[30px] lg:text-[36px] leading-tight text-black">
             What We Excel At
           </h3>
           <p className="font-inter text-black/70 mt-3 max-w-4xl">
@@ -154,7 +154,7 @@ const WhatWeExcelSection = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-5 w-full mb-6 md:mb-8">
+        <div className="flex gap-2 md:gap-5 w-full mb-6 md:mb-8">
           {TABS.map((t) => (
             <Button
               key={t.key}
@@ -162,7 +162,7 @@ const WhatWeExcelSection = () => {
               variant={active === t.key ? "black" : "black-outline"}
               size="medium"
               fullWidth
-              className="flex-1 text-center"
+              className="flex-1 text-center text-sm"
             >
               {t.label}
             </Button>
@@ -178,7 +178,7 @@ const WhatWeExcelSection = () => {
           <div className="relative z-10 p-6 md:p-10 lg:p-12 max-w-[760px]">
             {active === "differentiators" ? (
               <div>
-                <h2 className=" leading-tight mb-6">
+                <h2 className=" leading-tight mb-6 text-xl sm:text-2xl">
                   {activeTab?.title}
                 </h2>
                 <div className="rounded-md p-2 md:p-4">
@@ -188,15 +188,15 @@ const WhatWeExcelSection = () => {
                       className="group cursor-pointer select-none border-b border-black/10 last:border-none py-4"
                     >
                       <div className="flex items-center justify-between gap-6">
-                        <p className="font-manrope text-black text-lg md:text-xl lg:text-2xl">
+                        <p className="font-manrope text-black text-base md:text-xl lg:text-2xl">
                           {p.subtitle}
                         </p>
-                        <span className="font-inter text-black/60 text-base md:text-lg">
+                        <span className="font-inter text-black/60 text-sm md:text-lg">
                           {String(idx + 1).padStart(2, "0")}
                         </span>
                       </div>
                       <div className="overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out max-h-0 opacity-0 translate-y-1 group-hover:max-h-40 group-hover:opacity-100 group-hover:translate-y-0 will-change-[max-height,opacity,transform]">
-                        <p className=" mt-3 pr-10">
+                        <p className=" mt-3 pr-10 text-sm">
                           {p.description}
                         </p>
                       </div>
@@ -206,10 +206,10 @@ const WhatWeExcelSection = () => {
               </div>
             ) : (
               <div className="my-auto">
-                <h2 className=" leading-tight">
+                <h2 className=" leading-tight text-xl sm:text-2xl">
                   {activeTab?.title}
                 </h2>
-                <p className="rounded-md mt-4 backdrop-blur">
+                <p className="rounded-md mt-4 backdrop-blur text-sm sm:text-base">
                   {activeTab?.description}
                 </p>
               </div>

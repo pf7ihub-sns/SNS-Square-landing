@@ -15,14 +15,14 @@ const FeatureCardsSection = () => {
 
   return (
     <div
-      className="relative z-30  xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 xl:py-24"
+      className="relative z-30 py-12 md:py-16 lg:py-20 xl:py-24"
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-[1480px] mx-auto">
+      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-4">
         <div className="flex justify-between items-start md:items-center">
           {/* Section Title - Desktop H3 */}
-          <h3 className="font-bold leading-tight">
-            A Next-Generation Agentic AI Suite, <br /> Built Around You
+          <h3 className="font-bold leading-tight text-2xl md:text-3xl lg:text-4xl">
+            A Next-Generation Agentic AI Suite, <br className="hidden md:block" /> Built Around You
           </h3>
           <button onClick={() => navigate('/agent-workbench')} className="border border-black rounded-[4px] px-8 py-3 text-black font-medium hidden md:block whitespace-nowrap">
             Explore

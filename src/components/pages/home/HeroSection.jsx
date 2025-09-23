@@ -115,12 +115,12 @@ const HeroSection = () => {
               {/* Text Content - Better Mobile Spacing */}
               <div className="flex flex-col gap-6 xs:gap-8 sm:gap-10 w-full px-4 xs:px-6 sm:px-8 relative z-10">
                 {/* Small Header */}
-                <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium text-global-1 text-center leading-tight px-2">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium text-global-1 text-center leading-tight px-2">
                   Agentic AI Breakthroughs
                 </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl font-manrope font-extrabold leading-tight text-global-1 min-h-[32px] sm:min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
+                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-manrope font-extrabold leading-tight text-global-1 min-h-[32px] sm:min-h-[32px] md:min-h-[36px] lg:min-h-[40px] text-center px-2">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={phrases[phraseIndex % phrases.length]}
@@ -137,12 +137,12 @@ const HeroSection = () => {
                 </h1>
 
                 {/* Subtitle */}
-                <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium leading-tight text-global-1 text-center px-2">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-manrope font-medium leading-tight text-global-1 text-center px-2">
                   Everything Unfolds Here
                 </h2>
 
                 {/* Description */}
-                <p className="text-lg sm:text-lg md:text-xl lg:text-2xl font-manrope font-light leading-relaxed text-global-1 text-center px-2 max-w-[320px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[600px] mx-auto">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-manrope font-light leading-relaxed text-global-1 text-center px-2 max-w-[320px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[600px] mx-auto">
                   Access 1500+ Foundation Models, Ready for you
                 </p>
 
@@ -151,7 +151,7 @@ const HeroSection = () => {
                   <BlackButton
                     size="medium"
                     variant="black"
-                    className="rounded-[4px] px-8 sm:px-8 md:px-10 py-4 sm:py-4 md:py-5 text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
+                    className="rounded-[4px] px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 text-base sm:text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
                     onClick={() => {
                       const footerSection = document.getElementById('footer');
                       if (footerSection) {
@@ -165,28 +165,17 @@ const HeroSection = () => {
               </div>
 
               {/* Spline Container - Mobile */}
-              <div className="flex justify-center w-full mt-4 relative z-10">
+              <div className="flex justify-center w-full mt-4 relative z-10 px-4">
                 <div className="relative w-full h-full z-10">
                 
-                   <div className="relative w-full max-w-[320px] xs:max-w-[380px] sm:max-w-[450px] bg-transparent overflow-hidden rounded-[32px] mx-auto">
-                     <div className="w-full" style={{ aspectRatio: '631/374' }}>
+                   <div className="relative w-full bg-transparent overflow-hidden mx-auto">
+                     <div className="w-full" style={{ aspectRatio: '1.2' }}>
                        <Spline 
                          scene="https://prod.spline.design/Ha8IoMVEpIiSJCbV/scene.splinecode"
                          className="w-full h-full"
                        />
                      </div>
                    </div>
-                  
-                  <div className="flex gap-1.5 xs:gap-2 mt-3 justify-center">
-                    {[0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className={`h-1.5 xs:h-2 rounded-full transition-all duration-500 ${
-                          i === (phraseIndex % 3) ? "bg-[#064EE3] w-6 xs:w-7 sm:w-8" : "bg-[#d3ddf5] w-6 xs:w-7 sm:w-8 opacity-60"
-                        }`}
-                      />
-                    ))}
-                  </div>
                 </div>
               </div>
 
