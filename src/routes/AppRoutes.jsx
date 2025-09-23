@@ -22,6 +22,8 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import { BlogGrid, BlogDetail } from "../pages/blog";
+import JobDescription from "../pages/careers/JobDescription";
+import JobApplicationPage from "../pages/careers/JobApplicationPage";
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
 
@@ -109,8 +111,12 @@ export default function AppRoutes() {
       <Route path="/agent-playground" element={<AgentPlayGround />} />
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
-      
-      
+
+      {/* Careers page routes */}
+      <Route path="/careers" element={<Careers />} />
+      <Route path="/careers/:id" element={<JobDescription />} />
+      <Route path="/careers/JobApplicationPage" element={<JobApplicationPage />} />
+
       {/* Existing Agent Detail Routes */}
       
       {/* Legacy Agent Details Routes - Protected */}

@@ -60,7 +60,7 @@ const JobOpportunitiesSection = () => {
 
               {/* Apply Link */}
               <a
-                href="#"
+                href={`../careers/JobDescription?id=${job.id}`}
                 className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
               >
                 Apply Now

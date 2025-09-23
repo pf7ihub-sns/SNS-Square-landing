@@ -22,11 +22,6 @@ const CareersHeroSection = () => {
         <p className="mt-6 text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed ">
           Lorem ipsum dolor sit amet consectetur. Dictum consequat faucibus odio auctor id mi mauris hendrerit elit. Non in morbi sem eros.
         </p>
-
-        {/* CTA Button */}
-        <BlackButton>
-          View Openings
-        </BlackButton>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 max-w-[1480px] mx-auto border-b border-gray-300" />
