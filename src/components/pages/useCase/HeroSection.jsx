@@ -12,7 +12,7 @@ const HeroSection = () => {
 
       <div className="relative max-w-6xl mx-auto text-center">
         {/* Main Heading */}
-        <h1 className="font-bold text-gray-900 mb-8 leading-tight">
+        <h1 className=" text-gray-900 mb-8 leading-tight">
           Partnered Progress: <span className="text-blue-600">Agentic AI</span>
           <br />
           Solutions for Every Sector

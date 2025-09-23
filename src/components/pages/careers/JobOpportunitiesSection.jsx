@@ -49,7 +49,7 @@ const JobOpportunitiesSection = () => {
               </div>
 
               {/* Job Title */}
-              <h6 className="text-xl font-bold text-gray-900 mb-3">
+              <h6 className="text-xl  text-gray-900 mb-3">
                 {job.title}
               </h6>
 

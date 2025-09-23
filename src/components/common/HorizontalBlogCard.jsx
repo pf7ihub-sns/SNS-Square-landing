@@ -25,7 +25,7 @@ const HorizontalBlogCard = ({
       )}
       
       {/* Left side: Small image */}
-      <div className="flex-shrink-0 w-55 h-55 bg-[#e6edfc] rounded-lg overflow-hidden">
+      <div className="flex-shrink-0 w-60 h-60 bg-[#e6edfc] rounded-lg overflow-hidden">
         {image ? (
           <img
             src={image}
@@ -44,10 +44,12 @@ const HorizontalBlogCard = ({
       {/* Right side: Text content */}
       <div className="flex-1 p-4 bg-white flex flex-col justify-between min-w-0 py-8">
         <div className="flex-1">
-          <h5 className="text-gray-900 mb-1 leading-tight text-sm font-semibold line-clamp-2 ">
+          <div className="pb-4">
+          <h5 className="text-gray-900 mb-1 leading-tight line-clamp-2 ">
             {title}
           </h5>
-          <p className="text-gray-600 leading-relaxed text-xs mt-1 line-clamp-2 text-small">
+          </div>
+          <p className="text-gray-600 leading-relaxed  mt-1 line-clamp-2">
             {description}
           </p>
         </div>

@@ -137,7 +137,7 @@ export const UseCase = () => {
 
       {/* Main Content */}
       <div className="relative overflow-hidden">
-        <div className="flex flex-col items-center gap-8 sm:gap-4 md:gap-6 lg:gap-8 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12">
+        <div className="flex flex-col items-center gap-8 sm:gap-4 md:gap-6 lg:gap-8 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pb-6 sm:pb-8 md:pb-10 lg:pb-12 pt-4">
           {/* Top Category Tabs */}
           <TopCategoryTabs
             categoryFilters={categoryFilters}

@@ -292,7 +292,7 @@ const BlogGrid = () => {
           {/* All Articles Section */}
           <div className="mb-8">
             <h2 className="font-manrope font-bold text-[28px] md:text-[32px] lg:text-[36px] leading-tight text-black ">
-              {selectedCategory === 'All' || !selectedCategory ? 'All Articles' : `${selectedCategory} Articles`}
+              {selectedCategory === 'All' || !selectedCategory ? 'All Blogs' : `${selectedCategory} Articles`}
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-6">
@@ -314,12 +314,12 @@ const BlogGrid = () => {
           {/* Show More Button */}
           {filteredBlogs.length > 6 && (
             <div className="text-center">
-              <button
+              <BlackButton
                 onClick={() => setShowMore(!showMore)}
-                className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
+                variant="black-outline"
               >
                 {showMore ? 'Show Less' : 'Show More'}
-              </button>
+              </BlackButton>
             </div>
           )}
           </div>

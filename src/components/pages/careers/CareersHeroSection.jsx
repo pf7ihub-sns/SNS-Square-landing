@@ -19,7 +19,7 @@ const CareersHeroSection = () => {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-6 text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed text-lg md:text-xl">
+        <p className="mt-6 text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed ">
           Lorem ipsum dolor sit amet consectetur. Dictum consequat faucibus odio auctor id mi mauris hendrerit elit. Non in morbi sem eros.
         </p>
 

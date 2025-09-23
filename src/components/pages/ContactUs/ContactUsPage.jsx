@@ -34,100 +34,182 @@ const ContactUsPage = () => {
       {/* Header */}
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-6 mt-24">
+      <main className="max-w-7xl mx-auto  py-6 mt-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
           {/* Left Content */}
           <div className="space-y-6">
-            <h1 className="text-black leading-tight">
+            <h3 className="text-black leading-tight">
               Connect with our experts to explore your use case in detail
-            </h1>
+            </h3>
             <p className="text-gray-600 leading-relaxed mt-4">
               Schedule a consultation to explore how our Agent Platform will drives the value and innovation you need.
             </p>
           </div>
 
           {/* Right Content - Contact Form */}
-          <div className="bg-white rounded-lg shadow-lg  ">
-            <div className='flex flex-col w-full item-center bg-[#E4ECFF] p-6 rounded-t-lg'>
-              <h4 className=" flex text-black mb-6 item-center ">Tell Us About Your Project!</h4>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-6 mt-4 px-8 pb-8">
-              {/* Name Field */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
-                  required
-                />
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 space-y-8">
+              {/* First Row - Name Fields */}
+              <div className="grid grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="block text-gray-500 text-base font-normal">
+                    First Name*
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600 text-base"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-gray-500 text-base font-normal">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
+                  />
+                </div>
               </div>
 
-              {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email address
+              {/* Company Email */}
+              <div className="space-y-2">
+                <label className="block text-gray-500 text-base font-normal">
+                  Company Email*
                 </label>
                 <input
                   type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
+                  name="companyEmail"
+                  value={formData.companyEmail}
                   onChange={handleInputChange}
-                  placeholder="Your email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
                   required
                 />
               </div>
 
-              {/* Phone Field */}
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone
+              {/* Company Name */}
+              <div className="space-y-2">
+                <label className="block text-gray-500 text-base font-normal">
+                  Company Name*
                 </label>
                 <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
                   onChange={handleInputChange}
-                  placeholder="Your Phone"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors"
+                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
                   required
                 />
+              </div>
+
+              {/* Country and Industry Row */}
+              <div className="grid grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="block text-gray-500 text-base font-normal">
+                    Country*
+                  </label>
+                  <div className="relative">
+                    <select
+                      name="country"
+                      value={formData.country}
+                      onChange={handleInputChange}
+                      className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 focus:outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
+                      required
+                    >
+                      <option value="">Select Country</option>
+                      <option value="us">United States</option>
+                      <option value="uk">United Kingdom</option>
+                      <option value="ca">Canada</option>
+                      <option value="au">Australia</option>
+                      <option value="de">Germany</option>
+                      <option value="fr">France</option>
+                      <option value="in">India</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-gray-500 text-base font-normal">
+                    Industry*
+                  </label>
+                  <div className="relative">
+                    <select
+                      name="industry"
+                      value={formData.industry}
+                      onChange={handleInputChange}
+                      className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 focus:outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
+                      required
+                    >
+                      <option value="">Select Industry</option>
+                      <option value="technology">Technology</option>
+                      <option value="healthcare">Healthcare</option>
+                      <option value="finance">Finance</option>
+                      <option value="education">Education</option>
+                      <option value="retail">Retail</option>
+                      <option value="manufacturing">Manufacturing</option>
+                      <option value="consulting">Consulting</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Message Field */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+              <div className="space-y-2 pt-4">
+                <label className="block text-gray-500 text-base font-normal">
+                  Leave us a message
                 </label>
                 <textarea
-                  id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Type Your Message.."
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors resize-none"
-                  required
+                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base resize-none"
+                  placeholder=""
                 />
               </div>
 
+              {/* Consent Checkbox */}
+              <div className="flex items-start space-x-3 pt-2">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  checked={formData.consent}
+                  onChange={handleInputChange}
+                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <p htmlFor="consent" className="text-sm text-gray-700 leading-relaxed">
+                  By submitting, I consent to receive relevant email communication from SNS Square in accordance with the Privacy Policy and understand I can opt out at any time.*
+                </p>
+              </div>
+
               {/* Submit Button */}
-              <BlackButton
-                type="submit"
-                className="w-full bg-gray-800 text-white py-4 rounded-md hover:bg-gray-700 transition-colors font-medium text-lg"
-              >
-                CONTACT US
-              </BlackButton>
-            </form>
+              <div className="">
+                <button
+                  type="submit"
+                  className="bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </main>

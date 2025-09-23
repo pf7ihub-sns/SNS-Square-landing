@@ -42,12 +42,12 @@ const UseCaseCardNew = ({
       
       {/* Lower section with white background and text */}
       <div className="p-4 sm:p-5 md:p-6 bg-white flex flex-col flex-1">
-        <h4 className="text-gray-900 mb-2 sm:mb-3 leading-tight text-base sm:text-lg md:text-xl">
+        <h5 className="text-gray-900 mb-2  leading-tight">
           {title}
-        </h4>
-        <p className="text-gray-600 leading-relaxed text-sm md:text-base mt-2 sm:mt-3 line-clamp-3 md:line-clamp-none">
-          {description}
-        </p>
+        </h5>
+        <p className="text-gray-600 leading-relaxed mt-4 w-full">
+  {description.length > 50 ? description.slice(0, 50) + "..." : description}
+</p>
       </div>
     </div>
   );

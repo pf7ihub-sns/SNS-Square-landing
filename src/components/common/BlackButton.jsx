@@ -12,7 +12,7 @@ const BlackButton = ({
   className = '',
   ...props   
 }) => {
-  const baseClasses = 'font-semibold rounded transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer';
+  const baseClasses = ' rounded transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer';
   
   const variants = {
     black: 'bg-black text-white hover:bg-gray-800 focus:ring-gray-500',

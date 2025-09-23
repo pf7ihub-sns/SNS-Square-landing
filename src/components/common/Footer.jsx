@@ -13,22 +13,22 @@ export default function Footer() {
         {isCareersPage ? (
           // Careers Page CTA
           <>
-            <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
+            <h3 className=" mb-4 text-gray-900">
               Can't find what you're looking for?
-            </h2>
-            <p className="text-gray-600 mb-6 max-w-3xl mx-auto mt-12">
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-3xl mx-auto mt-10">
               Register on our Candidate Portal and get notified when new roles that match your skills open up.
             </p>
-            <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">
+            <BlackButton >
               Register Here
             </BlackButton>
           </>
         ) : (
           // Default CTA
           <>
-            <h2 className="font-manrope font-extrabold mb-4 text-gray-900">
+            <h3 className=" mb-4 text-gray-900">
               Let's Build Your Agentic Future
-            </h2>
+            </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto mt-12">
               Ready to transform your business with Agentic AI, autonomous solutions? Partner with us
               and take the first step into the Agentic era.
