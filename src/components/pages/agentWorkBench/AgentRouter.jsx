@@ -62,6 +62,8 @@ import AppointmentManagement from "./agents/appointmentManagement"
 import InvoiceProcessing from "./agents/invoiceProcessing";
 import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
+import LeadGeneration from "./agents/leadGeneration"; // New import
+import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -128,7 +130,9 @@ const AgentRouter = () => {
     "Appointment-management":<AppointmentManagement/>,
     "invoice-processing": <InvoiceProcessing />,
     "contract-management": <ContractManagement />,
-    "email-triage": <EmailTriage />
+    "email-triage": <EmailTriage />,
+    "Lead-Genearation": <LeadGeneration />,
+    "Lab-results-extractor": <LabResultsExtractor /> // New mapping
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

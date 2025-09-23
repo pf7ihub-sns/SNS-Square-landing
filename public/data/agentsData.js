@@ -1788,7 +1788,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["File conversion", "Data transformation", "Spreadsheet automation"],
               useCases: ["Data analysis", "Report generation", "Data migration"],
-              description:["CSV ↔ Excel Converter lets you quickly convert files between CSV and Excel formats. It supports .csv, .xlsx, and .xls, handling uploads, conversion, and downloads seamlessly. Perfect for professionals who need fast, reliable, and user-friendly data format conversions."],
+              description: ["CSV ↔ Excel Converter lets you quickly convert files between CSV and Excel formats. It supports .csv, .xlsx, and .xls, handling uploads, conversion, and downloads seamlessly. Perfect for professionals who need fast, reliable, and user-friendly data format conversions."],
               status: "available"
             },
             {
@@ -1798,7 +1798,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
               useCases: ["Team meetings", "Project updates", "Client calls"],
-              description:["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
               status: "available"
             },
             {
@@ -1808,7 +1808,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Report generation", "Data visualization", "Automated insights"],
               useCases: ["Business reporting", "Data analysis", "Performance tracking"],
-              description:["Report Generator transforms your PDF or Excel files into a structured, professional report. It extracts key information and presents it in a clear, readable format. Perfect for professionals and teams to summarize data efficiently and save time."],
+              description: ["Report Generator transforms your PDF or Excel files into a structured, professional report. It extracts key information and presents it in a clear, readable format. Perfect for professionals and teams to summarize data efficiently and save time."],
               status: "available"
             },
             {
@@ -1990,7 +1990,7 @@ export default {
               solutions: ["Quiz creation", "Question generation", "Assessment design"],
               useCases: ["Educational content", "Training materials", "Skill assessments"],
               status: "available",
-              description:["Quiz Generator makes quiz creation effortless by turning any topic into ready-to-use multiple-choice questions. Customize the number of questions and get instant quizzes with correct answers includedPerfect for educators, trainers, and learners to save time and boost engagement."],
+              description: ["Quiz Generator makes quiz creation effortless by turning any topic into ready-to-use multiple-choice questions. Customize the number of questions and get instant quizzes with correct answers includedPerfect for educators, trainers, and learners to save time and boost engagement."],
             },
             {
               id: "social-media",
@@ -2000,7 +2000,7 @@ export default {
               solutions: ["Content ideation", "Narrative development", "Audience engagement"],
               useCases: ["Social media campaigns", "Brand storytelling", "Content marketing"],
               status: "available",
-              description:["Storyline Generator turns your ideas into engaging story plots with AI-crafted narratives.Simply enter a theme and get structured, ready-to-use storylines instantly.Perfect for writers, filmmakers, and creatives to save time and spark imagination."]
+              description: ["Storyline Generator turns your ideas into engaging story plots with AI-crafted narratives.Simply enter a theme and get structured, ready-to-use storylines instantly.Perfect for writers, filmmakers, and creatives to save time and spark imagination."]
             },
             {
               id: "audience-analyzer",
@@ -2044,7 +2044,7 @@ export default {
               image: "/placeholder.jpg",
               solutions: ["Headline optimization", "Audience targeting", "Engagement analysis"],
               useCases: ["Social media marketing", "Content promotion", "Brand awareness"],
-              description:["Headline Generator instantly transforms your text into catchy, engaging headlines powered by AI.Just input your content and get multiple compelling headline options in seconds.Perfect for marketers, bloggers, and media creators to boost attention and clicks."],
+              description: ["Headline Generator instantly transforms your text into catchy, engaging headlines powered by AI.Just input your content and get multiple compelling headline options in seconds.Perfect for marketers, bloggers, and media creators to boost attention and clicks."],
               status: "available"
             },
 
@@ -3305,6 +3305,15 @@ export default {
           image: "/placeholder.jpg",
           agents: [
             {
+              id: "contract-management",
+              name: "Contract Management",
+              summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+              image: "/placeholder.jpg",
+              solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+              useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+              status: "available"
+            },
+            {
               id: "paralegal-document-management",
               name: "Document Management Workflow",
               summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
@@ -3472,6 +3481,7 @@ export default {
               name: "Lab Results Extractor",
               summary: "Manage sample collection, processing, analysis, quality control, and reporting.",
               image: "/placeholder.jpg",
+              status: "available",
               solutions: ["Sample collection", "Processing", "Test preparation", "Analysis execution", "Quality control", "Result validation", "Data recording", "Report generation", "Result communication"],
               useCases: ["Lab diagnostics", "Quality assurance", "Clinical testing workflow"],
             },
@@ -4420,6 +4430,24 @@ export default {
       image: "/industry/Fintech.png",
       agents: [
         {
+          "id": "Lead-Genearation",
+          "name": "Lead Generation",
+          "summary": "Sales Lead Generation - Find and qualify high-potential prospects automatically.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Prospect identification", "Lead scoring", "Outreach automation", "Engagement tracking"],
+          "useCases": ["B2B lead generation", "Account-based marketing", "Sales pipeline growth"],
+          status: "available"
+        },
+        {
+          "id": "invoice-processing",
+          "name": "Invoice Processing",
+          "summary": "Convert invoices into instant cash flow with automated verification.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Invoice validation", "Credit checking", "Advance calculation"],
+          "useCases": ["Invoice funding", "Working capital optimization", "Collections management"],
+          status: "available"
+        },
+        {
           "id": "digital-payments",
           "name": "Digital Payments",
           "summary": "Enable instant, secure payments across multiple channels with fraud prevention.",
@@ -4539,6 +4567,24 @@ export default {
           "solutions": ["Cold storage", "Multi-sig authorization", "Transaction monitoring"],
           "useCases": ["Crypto custody", "Asset security", "Regulated audits"]
         }
+      ],
+    },
+    {
+      id: "general",
+      name: "General",
+      description: "",
+      image: "/industry/Fintech.png",
+      agents: [
+        {
+          "id": "email-triage",
+          "name": "Email Triage",
+          "summary": "Automate email sorting, prioritization, and response generation.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Email classification", "Priority tagging", "Response drafting"],
+          "useCases": ["Inbox management", "Customer support", "Internal communications"],
+          status: "available"
+        },
+
       ],
     },
   ]

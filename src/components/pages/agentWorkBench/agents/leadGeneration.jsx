@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const InvoiceProcessingCard = () => {
+const LeadGenerationCard = () => {
     const handleClick = () => {
         // Check for userId before redirecting
         const userId = localStorage.getItem('userId');
@@ -14,7 +14,7 @@ const InvoiceProcessingCard = () => {
         }
 
         try {
-            window.location.href = 'http://industry-specific-workflow.s3-website-ap-southeast-2.amazonaws.com/fintech/agent-1/run';
+            window.location.href = 'http://industry-specific-workflow.s3-website-ap-southeast-2.amazonaws.com/sales/agent-1';
         } catch (error) {
             console.error('Failed to redirect:', error);
             alert('Unable to redirect. Please try again later.');
@@ -26,11 +26,11 @@ const InvoiceProcessingCard = () => {
             <div className="max-w-xl w-full p-6">
                 {/* Card Header with Back Button */}
                 <div className="relative mb-6">
-                    <h1 className="text-2xl font-semibold text-white text-center p-4 rounded-lg" style={{
-                        backgroundColor: 'blue', // blue color for fintech theme
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                    <h1 className="text-2xl font-semibold text-white text-center p-4 rounded-lg" style={{ 
+                        backgroundColor: 'blue', // blue/blue color for sales/lead generation theme
+                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' 
                     }}>
-                        Invoice Processing
+                        Lead Generation
                     </h1>
                     <button
                         onClick={() => window.location.href = '/media-entertainment'} // Adjust to your desired back route
@@ -53,43 +53,23 @@ const InvoiceProcessingCard = () => {
                         }
                     }}
                 >
-                    {/* Invoice Icon/Image */}
+                    {/* Lead Generation Icon/Image */}
                     <div className="mb-4">
                         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4">
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
                             </svg>
                         </div>
-                        {/* Alternative: Use image if you have one */}
-                        {/* <img
-                            src={imgInvoice}
-                            alt="Invoice Processing"
-                            className="w-full h-45 object-cover rounded-md"
-                        /> */}
                     </div>
 
-                    <h3 className="text-xl font-medium text-gray-800 mb-2">Invoice Processing</h3>
-                    <p className="text-gray-600 text-sm mb-4">Convert invoices into instant cash flow with automated verification.</p>
-
-                    {/* Key Features */}
-                    <div className="w-full mb-6">
-                        <div className="space-y-2">
-                            <div className="flex items-center space-x-3 text-left">
-                                <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <span className="text-sm text-gray-700">Invoice validation</span>
-                            </div>
-
-                        </div>
-                    </div>
+                    <h3 className="text-xl font-medium text-gray-800 mb-2">Lead Generation</h3>
+                    <p className="text-gray-600 text-sm mb-4">Sales Lead Generation - Find and qualify high-potential prospects automatically.</p>
+                    
 
                     {/* Call to Action */}
                     <div className="w-full border-t border-gray-200 pt-4">
                         <button className="w-full bg-gradient-to-r from-blue-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
-                            <span>Process Invoice Now</span>
+                            <span>Generate Leads Now</span>
                             <svg className="w-4 h-4 ml-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
@@ -100,15 +80,16 @@ const InvoiceProcessingCard = () => {
                     <div className="mt-4 w-full text-left text-xs text-gray-500">
                         <p className="mb-1">Use Cases:</p>
                         <div className="flex flex-wrap gap-2 text-xs">
-                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">Invoice funding</span>
-                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">Working capital optimization</span>
-                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">Collections management</span>
+                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">B2B lead generation</span>
+                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">Account-based marketing</span>
+                            <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded">Sales pipeline growth</span>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     );
 };
 
-export default InvoiceProcessingCard;
+export default LeadGenerationCard;
