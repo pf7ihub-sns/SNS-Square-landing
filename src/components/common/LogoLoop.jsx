@@ -200,7 +200,7 @@ export const LogoLoop = memo(
           '[--logoloop-gap:32px]',
           '[--logoloop-logoHeight:28px]',
           '[--logoloop-fadeColorAuto:#ffffff]',
-          'dark:[--logoloop-fadeColorAuto:#0b0b0b]',
+          /* Removing dark mode override to keep white fade always */
           scaleOnHover && 'py-[calc(var(--logoloop-logoHeight)*0.1)]',
           className
         ),
@@ -284,7 +284,7 @@ export const LogoLoop = memo(
               aria-hidden
               className={cx(
                 'pointer-events-none absolute inset-y-0 left-0 z-[1]',
-                'w-[clamp(72px,80%,480px)]',
+                'w-[clamp(40px,30%,480px)] md:w-[clamp(72px,80%,480px)]',
                 'bg-[linear-gradient(to_right,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
             />
@@ -292,7 +292,7 @@ export const LogoLoop = memo(
               aria-hidden
               className={cx(
                 'pointer-events-none absolute inset-y-0 right-0 z-[1]',
-                'w-[clamp(72px,80%,480px)]',
+                'w-[clamp(40px,30%,480px)] md:w-[clamp(72px,80%,480px)]',
                 'bg-[linear-gradient(to_left,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
             />

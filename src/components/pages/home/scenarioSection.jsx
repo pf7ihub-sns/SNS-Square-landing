@@ -185,21 +185,42 @@ const RealScenariosSection = () => {
               <p className="font-inter text-[#606060] mb-6 lg:mb-8 text-[16px] md:text-[18px] leading-relaxed">
                 Discover practical scenarios where Agentic AI reshapes industries, accelerates decisions, and delivers results that once seemed impossible.
               </p>
-              <BlackButton
-                size="medium"
-                variant="black"
-                className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300"
-                onClick={() => navigate("/usecase")}
-              >
-                View More
-              </BlackButton>
+              <div className="flex flex-col lg:flex-row items-start gap-4 mb-14 lg:mb-0">
+                <BlackButton
+                  size="medium"
+                  variant="black"
+                  className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300 order-2 lg:order-1"
+                  onClick={() => navigate("/usecase")}
+                >
+                  View More
+                </BlackButton>
+                {/* Mobile Tabs Slider */}
+                <div className="w-full lg:hidden order-1 overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'min-content' }}>
+                    {categories.map((c) => (
+                      <button
+                        key={c.key}
+                        onClick={() => setActive(c.key)}
+                        className={
+                          (active === c.key
+                            ? "bg-black text-white"
+                            : "bg-white text-black border border-black/10 hover:bg-black/5") +
+                          " rounded-[6px] px-4 py-2.5 whitespace-nowrap text-sm font-inter scenario-tab-button transition-all duration-300"
+                        }
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Right column */}
           <div className="flex flex-col gap-4 lg:gap-6">
-            {/* Row 1: tabs */}
-            <div className="flex flex-wrap gap-2 lg:gap-4 scenario-tabs mb-4 lg:mb-6">
+            {/* Desktop Tabs */}
+            <div className="hidden lg:flex flex-wrap gap-4 scenario-tabs mb-4 lg:mb-6">
               {categories.map((c) => (
                 <button
                   key={c.key}
