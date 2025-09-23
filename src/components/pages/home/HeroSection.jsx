@@ -203,7 +203,7 @@ const HeroSection = () => {
                 </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h1 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[28px] md:h-[32px] lg:h-[36px] xl:h-[46px] 2xl:h-[52px] overflow-hidden whitespace-nowrap">
+                <h2 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[28px] md:h-[32px] lg:h-[36px] xl:h-[46px] 2xl:h-[52px] overflow-hidden whitespace-nowrap">
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={phrases[phraseIndex % phrases.length]}
@@ -217,7 +217,7 @@ const HeroSection = () => {
                       {phrases[phraseIndex % phrases.length]}
                     </motion.span>
                   </AnimatePresence>
-                </h1>
+                </h2>
 
                 {/* Subtitle */}
                 <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[36px] 2xl:leading-[40px] text-global-1 whitespace-nowrap">

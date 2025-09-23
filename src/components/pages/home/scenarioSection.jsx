@@ -142,20 +142,20 @@ const RealScenariosSection = () => {
       className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
       style={{ backgroundImage: "url('/images/home/Background-home-RS.png')" }}
     >
-      <div className="max-w-[1480px] mx-auto py-12 md:py-16 lg:py-20">
+      <div className="max-w-[1480px] mx-auto xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[30%_70%] gap-10 lg:gap-14 items-stretch">
           {/* Left column - two rows stretched to top and bottom */}
           <div className="flex flex-col justify-between min-h-[420px] lg:min-h-[520px]">
             {/* Row 1: Heading (Desktop H3) */}
             <div>
-              <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black">
+              <h3 className="font-manrope font-bold text-[28px] md:text-[30px] lg:text-[36px] leading-tight text-black scenario-section">
                 Beyond Hype: <br/>Agentic AI in Action
               </h3>
             </div>
             {/* Row 2: Paragraph + Button */}
             <div className="mt-6 lg:mt-10">
               <p className="font-inter text-[#606060] mb-4 lg:mb-6">
-                Discover practical scenarios where Agentic AI <br/>reshapes industries, accelerates decisions, and <br/>delivers results that once seemed impossible.
+                Discover practical scenarios where Agentic AI reshapes industries, accelerates decisions, and delivers results that once seemed impossible.
               </p>
               <BlackButton
                 size="medium"
@@ -170,7 +170,7 @@ const RealScenariosSection = () => {
           {/* Right column */}
           <div className="flex flex-col gap-4 lg:gap-6">
             {/* Row 1: tabs */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-2 lg:gap-4 scenario-tabs">
               {categories.map((c) => (
                 <button
                   key={c.key}
@@ -179,7 +179,7 @@ const RealScenariosSection = () => {
                     (active === c.key
                       ? "bg-black text-white"
                       : "bg-white text-black border border-black/10") +
-                    " rounded-[6px] px-4 py-2 text-small font-inter"
+                    " rounded-[6px] px-3 py-2 lg:px-4 text-sm lg:text-base font-inter scenario-tab-button"
                   }
                 >
                   {c.label}

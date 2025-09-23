@@ -5,21 +5,21 @@ const TABS = [
     key: 'marketplace', 
     label: 'Agentic AI Marketplace', 
     desc: 'We offer 1,500+ pre-built foundation agents forming 250+ industry and 12+ customer solutions designed to solve real-world problems with speed and scale.', 
-    icon: '/images/home/OCS-icon.png',
+    icon: '/images/home/iconsCore/6.png',
     image: '/images/home/coreservice/agentic_marketplace.png', // Add your specific image for marketplace
   },
   { 
     key: 'digital', 
     label: 'Digital Transformation', 
     desc: 'We help businesses leverage digital technologies to innovate, streamline workflows, and unlock new opportunities for growth.', 
-    icon: '/images/home/OCS-icon.png',
+    icon: '/images/home/iconsCore/7.png',
     image: '/images/home/coreservice/transformation.png', // Add your specific image for digital transformation
   },
   { 
     key: 'data', 
     label: 'AI & Data Solutions', 
     desc: 'Our team provides advanced AI and data-driven strategies along with practical implementations that accelerate decision-making and create measurable impact.', 
-    icon: '/images/home/OCS-icon.png',
+    icon: '/images/home/iconsCore/5.png',
     image: '/images/home/coreservice/data_transformation.png', // Add your specific image for AI & data
 
   },
@@ -27,14 +27,14 @@ const TABS = [
     key: 'platform', 
     label: 'Enterprise Platform Services', 
     desc: 'We deliver scalable platform solutions customized for enterprise needs, ensuring flexibility, reliability, and long-term sustainability.', 
-    icon: '/images/home/OCS-icon.png',
+    icon: '/images/home/iconsCore/8.png',
     image: '/images/home/coreservice/platformsrvc.png', // Add your specific image for platform services
   },
   { 
     key: 'custom', 
     label: 'Custom Development', 
     desc: 'Our experts design and build tailored software and solutions that meet specific client requirements, ensuring business goals are achieved with precision.', 
-    icon: '/images/home/OCS-icon.png',
+    icon: '/images/home/iconsCore/9.png',
     image: '/images/home/coreservice/custom_dev.png', // Add your specific image for custom development
   },
 ];
@@ -70,7 +70,7 @@ const CoreServiceSection = () => {
                   ' w-full text-left rounded-[4px] px-4 py-6 transition-colors flex items-center gap-4'
                 }
               >
-                <img src={t.icon} alt={t.label} className="w-7 h-6" />
+                <img src={t.icon} alt={t.label} className="w-6 h-6" />
                 <h6 className="font-manrope font-medium text-[16px] md:text-[17px] lg:text-[18px]">
                   {t.label}
                 </h6>

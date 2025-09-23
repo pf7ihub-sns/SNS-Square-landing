@@ -87,6 +87,37 @@ const Home = () => {
             padding: 24px !important;
           }
         }
+
+        /* Styles for larger screens */
+        @media (min-width: 1946px) and (max-width: 2560px) {
+          .responsive-container {
+            max-width: 1400px !important;
+            padding-left: 48px !important;
+            padding-right: 48px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 32px !important;
+          }
+          .responsive-card {
+            padding: 28px !important;
+          }
+        }
+
+        @media (min-width: 2561px) {
+          .responsive-container {
+            max-width: 1800px !important;
+            padding-left: 56px !important;
+            padding-right: 56px !important;
+          }
+          .responsive-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 36px !important;
+          }
+          .responsive-card {
+            padding: 32px !important;
+          }
+        }
         
         /* Solutions section mobile alignment fixes - iPhone 6/7/8 style */
         @media (max-width: 414px) {
@@ -132,6 +163,32 @@ const Home = () => {
             max-width: 280px !important;
             border-bottom-right-radius: 11px !important;
             border-top-right-radius: 0 !important;
+          }
+        }
+
+        /* Responsive alignment fixes for 1024px and up */
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          .scenario-tabs {
+            gap: 8px !important; /* Reduce gap between tabs */
+          }
+          .scenario-tab-button {
+            padding: 8px 10px !important; /* Adjust tab padding */
+            font-size: 13px !important;
+          }
+          .what-we-excel-section h3,
+          .core-service-section h3,
+          .idea-suite-section h3,
+          .scenario-section h3 {
+            font-size: 32px !important; /* Consistent heading size */
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .what-we-excel-section h3,
+          .core-service-section h3,
+          .idea-suite-section h3,
+          .scenario-section h3 {
+            font-size: 36px !important; /* Restore larger heading size */
           }
         }
       `}} />
