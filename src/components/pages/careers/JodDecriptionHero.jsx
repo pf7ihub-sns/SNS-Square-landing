@@ -49,7 +49,7 @@ const JobDescriptionHero = ({ currentPage = "description", jobTitle = "UI/UX Des
 
           {/* Right Side - Share Section */}            
           <div className="flex flex-col items-start sm:items-start">
-            <span className="text-black font-medium mb-2 sm:mb-3 text-sm sm:text-base font-['Manrope'] text-left">Share</span>
+            <span className="text-black font-medium mb-2 sm:mb-3 text-sm sm:text-base text-left">Share</span>
             <div className="flex space-x-1 sm:space-x-1.5">
 
               {/* Copy Link Icon */}

@@ -12,6 +12,13 @@ const PolicyPage = () => {
     'Cookie Policy'
   ];
 
+  // Custom styles for mobile scrollbar hiding
+  const scrollbarHideStyle = {
+    scrollbarWidth: 'none', /* Firefox */
+    msOverflowStyle: 'none',  /* Internet Explorer 10+ */
+    WebkitScrollbar: 'none' /* WebKit */
+  };
+
 
   const renderContent = () => {
     switch(activeSection) {
@@ -189,15 +196,24 @@ const PolicyPage = () => {
         <div className="flex flex-col lg:flex-row pt-[80px] sm:pt-[100px] lg:pt-[125px] px-4 lg:px-0">
           
           {/* Left Sidebar - Navigation Menu */}
-          <div className="flex-shrink-0 relative mb-8 lg:mb-0">
+          <div className="flex-shrink-0 relative mb-6 lg:mb-0">
             {/* Navigation Menu Container */}
             <div className="w-full lg:w-80 lg:pr-8">
-              <div className="flex flex-col">
+              <div 
+                className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0"
+                style={scrollbarHideStyle}
+              >
                 {menuItems.map((item, index) => (
-                  <div key={item} className="relative">
+                  <div key={item} className="relative flex-shrink-0 lg:flex-shrink">
                     <button
                       onClick={() => setActiveSection(item)}
-                      className="w-full p-3 sm:p-4 text-left inline-flex justify-start items-center gap-2.5 transition-colors"
+                      className={`
+                        w-auto lg:w-full px-4 py-3 lg:p-4 text-left inline-flex justify-start items-center gap-2.5 transition-all duration-300 whitespace-nowrap lg:whitespace-normal mr-2 lg:mr-0 rounded-lg lg:rounded-none
+                        ${activeSection === item 
+                          ? 'bg-blue-50 lg:bg-transparent shadow-sm lg:shadow-none' 
+                          : 'hover:bg-gray-50 lg:hover:bg-transparent'
+                        }
+                      `}
                     >
                       <div className="text-black text-sm sm:text-base md:text-lg lg:text-lg font-medium font-manrope">
                         {item}
@@ -206,7 +222,7 @@ const PolicyPage = () => {
                     
                     {/* Active indicator - blue gradient line */}
                     {activeSection === item && (
-                      <div className="w-full sm:w-64 h-[3px] bg-gradient-to-r from-blue-700 to-blue-500 ml-3 sm:ml-4" />
+                      <div className="absolute bottom-0 lg:static w-full lg:w-64 h-[3px] bg-gradient-to-r from-blue-700 to-blue-500 lg:ml-4 rounded-full lg:rounded-none" />
                     )}
                   </div>
                 ))}
