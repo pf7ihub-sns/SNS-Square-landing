@@ -24,6 +24,8 @@ import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPag
 import { BlogGrid, BlogDetail } from "../pages/blog";
 import JobDescription from "../pages/careers/JobDescription";
 import JobApplicationPage from "../pages/careers/JobApplicationPage";
+import Login from "../pages/Auth/login";
+import Signup from "../pages/Auth/signup";
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
 
@@ -52,21 +54,21 @@ export default function AppRoutes() {
       <Route path="/resources" element={<BlogGrid />} />
       <Route path="/resources/blog" element={<BlogGrid />} />
       <Route path="/resources/blog/:id" element={<BlogDetail />} />
-      
+
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
         <ProtectedRoute>
           <MediaEntertainment />
         </ProtectedRoute>
       } />
-      
+
       {/* Agent Workbench Protected Routes */}
       <Route path="/agent-workbench/try/:categoryId/:agentId" element={
         <ProtectedRoute>
           <AgentTryPage />
         </ProtectedRoute>
       } />
-      
+
       <Route path="/agent-workbench/details/:categoryId/:agentId" element={
         <ProtectedRoute>
           <AgentDetailsPage />
@@ -74,9 +76,9 @@ export default function AppRoutes() {
       } />
       {/* Legacy Agent Workbench Routes - All Protected */}
       <Route path="/agent-workbench" element={
-   
-          <OrbitCircle />
-  
+
+        <OrbitCircle />
+
       }>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
@@ -104,9 +106,9 @@ export default function AppRoutes() {
         {/* Agent Details */}
         {/* <Route path=":category/:categoryId/:subcategoryId/:agentId" element={<AgentsDetails />} /> */}
         {/* <Route path=":category/:categoryId/:agentId" element={<AgentsDetails />} /> */}
-        
+
       </Route>
-      
+
       {/* New Agent Playground Routes */}
       <Route path="/agent-playground" element={<AgentPlayGround />} />
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
@@ -118,7 +120,7 @@ export default function AppRoutes() {
       <Route path="/careers/JobApplicationPage" element={<JobApplicationPage />} />
 
       {/* Existing Agent Detail Routes */}
-      
+
       {/* Legacy Agent Details Routes - Protected */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={
         <ProtectedRoute>
@@ -130,6 +132,9 @@ export default function AppRoutes() {
           <AgentsDetails />
         </ProtectedRoute>
       } />
+
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/signup" element={<Signup/>}/>
     </Routes>
   );
 }
