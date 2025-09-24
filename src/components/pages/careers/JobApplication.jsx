@@ -113,23 +113,38 @@ const JobApplication = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-
-
   return (
     <div className="min-h-screen bg-white">
       {/* JobDescription Hero Section */}
       <JodDecriptionHero />
-      
+
+      <div className="w-[1480px] mx-auto pt-12">
+        <div className="w-[1480px] h-px bg-black opacity-10 mb-12 mx-auto"/>
+      </div>
+
       {/* Application Form */}
-      <div className="max-w-[1480px] mx-auto px-4 sm:px-8 lg:px-24 py-16">
+      <div className="w-[1480px] mx-auto px-4 sm:px-8 lg:px-24 py-4 pb-20">
+        
         {/* Personal Details Section */}
         <div className="mb-16">
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>Personal Details</h2>
+          {/* Section Headers - Aligned horizontally */}
+          <div className="flex justify-between items-start mb-8">
+            <div className="flex items-center gap-4">
+              <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                Personal Details
+              </h2>
+           
+            </div>
+            
+            <h3 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Resume*
+            </h3>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-12 justify-start">
-            <div className="lg:col-span-2">
+          {/* Content Layout - Two columns */}
+          <div className="grid grid-cols-3 gap-12">
+            {/* Personal Details Form Fields - Takes 2/3 width */}
+            <div className="col-span-2">
               <div className="space-y-8">
                 <div className="grid sm:grid-cols-2 gap-8">
                   <FormField
@@ -196,26 +211,21 @@ const JobApplication = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-1 flex flex-col">
-              <div className="mb-8">
-                <h3 className="text-base font-medium text-gray-900 mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>Resume*</h3>
-                <div className="w-full h-20 border-2 border-dashed border-blue-200 bg-blue-50 rounded flex flex-col items-center justify-center text-center px-4">
-                  <div className="flex flex-wrap items-center justify-center gap-1 mb-1">
-                    <span className="text-sm text-red-500 cursor-pointer" style={{ fontFamily: 'Montserrat, sans-serif' }}>Upload your resume</span>
-                    <span className="text-sm text-gray-700" style={{ fontFamily: 'Inter, sans-serif' }}>or drag and drop it here</span>
-                  </div>
-                  <div className="text-xs text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    <div>Only .doc, .docx, .pdf, .odt, .rtf</div>
-                    <div>(Optional)</div>
-                  </div>
+            {/* Resume Upload Section - Takes 1/3 width */}
+            <div className="col-span-1">
+              <div className="w-full h-20 border-2 border-dashed border-blue-200 bg-blue-50 rounded flex flex-col items-center justify-center text-center px-4">
+                <div className="flex flex-wrap items-center justify-center gap-1 mb-1">
+                  <span className="text-sm text-red-500 cursor-pointer" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                    Upload your resume
+                  </span>
+                  <span className="text-sm text-gray-700" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    or drag and drop it here
+                  </span>
                 </div>
-              </div>
-
-              {/* Apply Button in Right Column */}
-              <div className="mt-auto">
-                <button className="w-full bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                  Apply
-                </button>
+                <div className="text-xs text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  <div>Only .doc, .docx, .pdf, .odt, .rtf</div>
+                  <div>(Optional)</div>
+                </div>
               </div>
             </div>
           </div>
@@ -224,7 +234,10 @@ const JobApplication = () => {
         {/* Education & Experience Section */}
         <div className="mb-16">
           <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>Education & Experience</h2>
+            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Education & Experience
+            </h2>
+            
           </div>
 
           <div className="lg:w-2/3 text-left">
@@ -280,7 +293,10 @@ const JobApplication = () => {
         {/* Skills & Expertise Section */}
         <div className="mb-16">
           <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>Skills & Expertise</h2>
+            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Skills & Expertise
+            </h2>
+            
           </div>
 
           <div className="lg:w-2/3 text-left">
@@ -294,7 +310,12 @@ const JobApplication = () => {
           </div>
         </div>
 
-
+        {/* Apply Button - Centered */}
+        <div className="flex justify-center">
+          <button className="bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            Apply
+          </button>
+        </div>
       </div>
     </div>
   );
