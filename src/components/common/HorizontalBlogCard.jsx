@@ -24,8 +24,8 @@ const HorizontalBlogCard = ({
         </div>
       )}
       
-      {/* Left side: Small image */}
-      <div className="flex-shrink-0 w-60 h-60 bg-[#e6edfc] rounded-lg overflow-hidden">
+      {/* Left side: Responsive image */}
+      <div className="flex-shrink-0 w-40 h-42 sm:w-60 sm:h-60 bg-[#e6edfc] rounded-lg overflow-hidden">
         {image ? (
           <img
             src={image}
@@ -35,21 +35,21 @@ const HorizontalBlogCard = ({
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-[#e6edfc] to-[#c7d2fe] flex items-center justify-center">
-            {/* Small decorative elements */}
-            <div className="w-6 h-6 bg-[#c7d2fe] rounded-full opacity-60"></div>
+            {/* Small decorative elements - responsive size */}
+            <div className="w-4 h-4 sm:w-6 sm:h-6 bg-[#c7d2fe] rounded-full opacity-60"></div>
           </div>
         )}
       </div>
       
       {/* Right side: Text content */}
-      <div className="flex-1 p-4 bg-white flex flex-col justify-between min-w-0 py-8">
+      <div className="flex-1 p-3 sm:p-4 bg-white flex flex-col justify-between min-w-0 pt-8 sm:py-8">
         <div className="flex-1">
-          <div className="pb-4">
-          <h5 className="text-gray-900 mb-1 leading-tight line-clamp-2 ">
+          <div className="pb-2 sm:pb-4">
+          <h5 className="text-sm sm:text-base text-gray-900 mb-1 leading-tight line-clamp-2 font-medium">
             {title}
           </h5>
           </div>
-          <p className="text-gray-600 leading-relaxed  mt-1 line-clamp-2">
+          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mt-1 line-clamp-2">
             {description}
           </p>
         </div>

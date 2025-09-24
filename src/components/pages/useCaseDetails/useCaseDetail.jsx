@@ -255,11 +255,11 @@ export default function ResponsiveUseCaseDetailPage() {
                       className="py-3 hover:bg-gray-50 cursor-pointer transition-colors rounded-lg px-3"
                       onClick={() => scrollToSection(section.id)}
                     >
-                      <span className={`text-base font-medium transition-colors ${
+                      <h6 className={`transition-colors ${
                         activeSection === section.id ? 'text-blue-600' : 'text-gray-900'
                       }`}>
                         {section.title}
-                      </span>
+                      </h6>
                       {scrollProgress[section.id] > 0 && scrollProgress[section.id] < 100 && (
                         <div className="mt-3 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
                           <div 
@@ -425,10 +425,10 @@ export default function ResponsiveUseCaseDetailPage() {
 
             {/* Article header - Responsive */}
             <div className="mb-8 sm:mb-10 lg:mb-12 pr-0 xl:pr-16">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-gray-900 leading-tight mb-4 sm:mb-6">
+              <h2 className="  text-gray-900 leading-tight mb-4 sm:mb-6">
                 {useCase.heroTitle || useCase.title}
-              </h1>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-full lg:max-w-3xl pt-2">
+              </h2>
+              <p className=" text-gray-600 leading-relaxed max-w-full  pt-2">
                 {useCase.description}
               </p>
             </div>
@@ -448,10 +448,10 @@ export default function ResponsiveUseCaseDetailPage() {
             <div className="space-y-8 sm:space-y-10 lg:space-y-12 pb-32 sm:pb-48 lg:pb-64">
               {sections.map((section) => (
                 <section key={section.id} id={section.id} className="space-y-4 sm:space-y-6 progress-section scroll-mt-20 sm:scroll-mt-24 lg:scroll-mt-40">
-                  <h2 className="text-lg sm:text-xl font-medium text-gray-900 leading-tight">
+                  <h4 className=" font-medium text-gray-900 leading-tight">
                     {section.title}
-                  </h2>
-                  <div className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed space-y-3 sm:space-y-4 pt-2 sm:pt-4">
+                  </h4>
+                  <div className=" text-gray-600 leading-relaxed space-y-3 sm:space-y-4 pt-2 sm:pt-4">
                     {section.content && (
                       <p>{section.content}</p>
                     )}

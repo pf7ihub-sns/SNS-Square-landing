@@ -1,41 +1,39 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import countryList from 'react-select-country-list';
 import BlackButton from '../../common/BlackButton';
-import Button from '../../common/Button';
 import Footer from './Footer';
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    firstName: '',
+    lastName: '',
+    companyEmail: '',
+    companyName: '',
+    country: '',
+    industry: '',
+    message: '',
+    consent: false
   });
 
+  // Get all countries from the library
+  const countries = useMemo(() => countryList().getData(), []);
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
   };
 
   return (
     <div
-      className=" bg-fill "
+      className="bg-fill p-6"
       style={{ backgroundImage: "url('/images/Frame 97499.png')" }}
     >
-      {/* Header */}
-
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto  py-6 mt-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
+      <main className="max-w-7xl mx-auto pb-4 mt-24 p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Content */}
           <div className="space-y-6">
             <h3 className="text-black leading-tight">
@@ -123,14 +121,11 @@ const ContactUsPage = () => {
                       required
                     >
                       <option value="">Select Country</option>
-                      <option value="us">United States</option>
-                      <option value="uk">United Kingdom</option>
-                      <option value="ca">Canada</option>
-                      <option value="au">Australia</option>
-                      <option value="de">Germany</option>
-                      <option value="fr">France</option>
-                      <option value="in">India</option>
-                      <option value="other">Other</option>
+                      {countries.map((country) => (
+                        <option key={country.value} value={country.value}>
+                          {country.label}
+                        </option>
+                      ))}
                     </select>
                     <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
                       <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -195,19 +190,16 @@ const ContactUsPage = () => {
                   onChange={handleInputChange}
                   className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <p htmlFor="consent" className="text-sm text-gray-700 leading-relaxed">
+                <label htmlFor="consent" className="text-sm text-gray-700 leading-relaxed">
                   By submitting, I consent to receive relevant email communication from SNS Square in accordance with the Privacy Policy and understand I can opt out at any time.*
-                </p>
+                </label>
               </div>
 
               {/* Submit Button */}
               <div className="">
-                <button
-                  type="submit"
-                  className="bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors"
-                >
+                <BlackButton type="submit">
                   Submit
-                </button>
+                </BlackButton>
               </div>
             </div>
           </div>
