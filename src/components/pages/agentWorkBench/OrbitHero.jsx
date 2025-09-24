@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { OrbitingCircles } from '../../common/Orbiting-circles'
 import LoginModal from '../../common/LoginDialog';
+import { LockKeyholeOpen, LockKeyhole } from 'lucide-react';
 
 const OrbitHero = () => {
     const location = useLocation();
@@ -515,7 +516,17 @@ const OrbitHero = () => {
                                                     }
                                                 }}
                                             >
-                                                {localStorage.getItem('userId') ? '� Launch Agent' : '�🔒 Unlock Your Agents'}
+                                                {localStorage.getItem('userId') ? (
+                                                    <>
+                                                        <LockKeyholeOpen size={16} />
+                                                        Launch Agent
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <LockKeyhole size={16} />
+                                                        Unlock Your Agents
+                                                    </>
+                                                )}
                                             </button>
                                             <p className="text-gray-600 text-sm mt-3 text-center font-medium">
                                                 {localStorage.getItem('userId') ? 'Start Working' : 'Know More'}
