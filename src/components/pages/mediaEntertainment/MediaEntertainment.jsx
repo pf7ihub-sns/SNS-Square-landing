@@ -6,6 +6,7 @@ import { useAuthStore } from '../../../store/store';
 import agentsData from '../../../../public/data/agentsData.js';
 import AgentDetailsModal from './AgentDetailsModal';
 import Pagination from '../../common/Pagination.jsx';
+import SelectCatagoryImg from "../../../../public/images/objects.png";
 
 const MediaEntertainment = () => {
   const [activeTab, setActiveTab] = useState('foundational');
@@ -178,7 +179,7 @@ const MediaEntertainment = () => {
   // Hero Section
   const heroSection = (
     <div
-      className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[440px] bg-cover bg-center bg-no-repeat"
+      className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[610px] bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('/images/AgentFrame.png')",
       }}
@@ -189,7 +190,7 @@ const MediaEntertainment = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center drop-shadow-lg"
+          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-center drop-shadow-lg mt-15  py-5"
         >
           Agentic Workbench
         </motion.h1>
@@ -197,11 +198,32 @@ const MediaEntertainment = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-sm sm:text-base md:text-lg lg:text-xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-4xl"
+          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl "
         >
           Welcome back, {userName}! Explore our comprehensive suite of AI agents and choose the perfect one for your needs
         </motion.p>
+        <div className="flex  justify-center mt-25 sm:mb-8">
+          <div className=" p-1 w-full sm:w-auto">
+            <div className="flex space-x-5">
+              {['foundational', 'industry'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-lg font-medium transition-colors ${activeTab === tab
+                    ? 'bg-white text-blue-600'
+                    : 'text-white   border-1  border-amber-50 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
+
+
     </div>
   );
 
@@ -442,24 +464,6 @@ const MediaEntertainment = () => {
       {/* Main Content Container */}
       <div className="container mx-auto px-4 py-6 sm:py-8">
         {/* Tabs */}
-        <div className="flex justify-center mb-6 sm:mb-8">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1 w-full sm:w-auto">
-            <div className="flex space-x-1">
-              {['foundational', 'industry'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4 sm:mb-6">
@@ -651,18 +655,22 @@ const MediaEntertainment = () => {
                   </motion.div>
                 ))
               ) : (
-                <div className="col-span-full text-center py-8 sm:py-12">
-                  <div className="text-gray-400 text-3xl sm:text-4xl mb-4">🔍</div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-600 mb-2">
+                <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12">
+                  <img
+                    src={SelectCatagoryImg}
+                    alt="Objects"
+                    className="w-50 sm:w-62 mb-6"
+                  />
+                  <h3 className="text-base sm:text-lg  text-gray-800 mb-2">
                     {selectedCategory ? 'No agents found' : 'Select a category to view agents'}
                   </h3>
-                  <p className="text-gray-500 text-sm sm:text-base px-4">
+                  <p className="text-gray-600 text-sm sm:text-base px-4 max-w-md">
                     {selectedCategory
                       ? 'Try adjusting your search terms or browse different categories.'
-                      : 'Choose a category from the sidebar to explore available agents.'
-                    }
+                      : 'Choose a category from the sidebar to explore available agents.'}
                   </p>
                 </div>
+
               )}
             </div>
 
