@@ -502,7 +502,7 @@ const OrbitHero = () => {
                                border-r-[12px] border-r-transparent 
                                border-t-[12px] border-t-white"></div>
 
-                                            <button
+                                            {/* <button
                                                 className="w-full bg-[#2563eb] text-white font-semibold py-3 px-6 rounded-full 
                                flex items-center justify-center gap-2 hover:bg-[#1d4ed8]
                                transition-colors duration-200 text-sm"
@@ -511,6 +511,192 @@ const OrbitHero = () => {
                                                     const userId = localStorage.getItem('userId');
                                                     if (userId && userId.trim() !== '') {
                                                         navigate('/media-entertainment');
+                                                    } else {
+                                                        setIsLoginOpen(true);
+                                                    }
+                                                }}
+                                            >
+                                                {localStorage.getItem('userId') ? (
+                                                    <>
+                                                        <LockKeyholeOpen size={16} />
+                                                        Launch Agent
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <LockKeyhole size={16} />
+                                                        Unlock Your Agents
+                                                    </>
+                                                )}
+                                            </button> */}
+                                            <button
+                                                className="w-full bg-[#2563eb] text-white font-semibold py-3 px-6 rounded-full 
+       flex items-center justify-center gap-2 hover:bg-[#1d4ed8]
+       transition-colors duration-200 text-sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    const userId = localStorage.getItem('userId');
+                                                    if (userId && userId.trim() !== '') {
+                                                        // Use the same logic as handleAgentClick for proper navigation
+                                                        const agentCategoryMap = {
+                                                            // Foundation Agents - using ACTUAL category IDs from your data
+                                                            'Data\nManagement': {
+                                                                tab: 'foundational',
+                                                                category: 'data-management',
+                                                                subcategory: null
+                                                            },
+                                                            'Compliance &\nSecurity': {
+                                                                tab: 'foundational',
+                                                                category: 'compliance-security',
+                                                                subcategory: null
+                                                            },
+                                                            'Business\nIntelligence & Analysis': {
+                                                                tab: 'foundational',
+                                                                category: 'business-intelligence',
+                                                                subcategory: null
+                                                            },
+                                                            'Communication\n& Assistance': {
+                                                                tab: 'foundational',
+                                                                category: 'communication-assistance',
+                                                                subcategory: null
+                                                            },
+                                                            'Summarisation &\nContent Handling': {
+                                                                tab: 'foundational',
+                                                                category: 'summarization',
+                                                                subcategory: null
+                                                            },
+                                                            'Document &\nKnowledge Management': {
+                                                                tab: 'foundational',
+                                                                category: 'doc-knowledge',
+                                                                subcategory: null
+                                                            },
+                                                            'Social & Media': {
+                                                                tab: 'foundational',
+                                                                category: 'social-media',
+                                                                subcategory: null
+                                                            },
+                                                            'Work Management': {
+                                                                tab: 'foundational',
+                                                                category: 'work-management',
+                                                                subcategory: null
+                                                            },
+                                                            'Developer Support': {
+                                                                tab: 'foundational',
+                                                                category: 'developer-support',
+                                                                subcategory: null
+                                                            },
+
+                                                            // Industry Solutions - using ACTUAL category IDs from your data
+                                                            'Manufacturing': {
+                                                                tab: 'industry',
+                                                                category: 'manufacturing',
+                                                                subcategory: null
+                                                            },
+                                                            'Agriculture': {
+                                                                tab: 'industry',
+                                                                category: 'agriculture',
+                                                                subcategory: null
+                                                            },
+                                                            'Healthcare': {
+                                                                tab: 'industry',
+                                                                category: 'healthcare',
+                                                                subcategory: null
+                                                            },
+                                                            'Legal': {
+                                                                tab: 'industry',
+                                                                category: 'legal',
+                                                                subcategory: null
+                                                            },
+                                                            'Media & Entertainment': {
+                                                                tab: 'industry',
+                                                                category: 'media-entertainment',
+                                                                subcategory: null
+                                                            },
+                                                            'Retail': {
+                                                                tab: 'industry',
+                                                                category: 'retail',
+                                                                subcategory: null
+                                                            },
+                                                            'Real Estate': {
+                                                                tab: 'industry',
+                                                                category: 'real-estate',
+                                                                subcategory: null
+                                                            },
+                                                            'Human Resources': {
+                                                                tab: 'industry',
+                                                                category: 'hr',
+                                                                subcategory: null
+                                                            },
+                                                            'Fintech': {
+                                                                tab: 'industry',
+                                                                category: 'fintech',
+                                                                subcategory: null
+                                                            },
+                                                            'Banking': {
+                                                                tab: 'industry',
+                                                                category: 'banking',
+                                                                subcategory: null
+                                                            },
+
+                                                            // Customer Solutions
+                                                            'Personal\nAssistant': {
+                                                                tab: 'customer',
+                                                                category: 'personal-assistant',
+                                                                subcategory: null
+                                                            },
+                                                            'Smart Home\nControl': {
+                                                                tab: 'customer',
+                                                                category: 'smart-home',
+                                                                subcategory: null
+                                                            },
+                                                            'Learning\nCompanion': {
+                                                                tab: 'customer',
+                                                                category: 'learning-companion',
+                                                                subcategory: null
+                                                            },
+                                                            'Health\nTracker': {
+                                                                tab: 'customer',
+                                                                category: 'health-tracker',
+                                                                subcategory: null
+                                                            },
+                                                            'Entertainment\nCurator': {
+                                                                tab: 'customer',
+                                                                category: 'entertainment-curator',
+                                                                subcategory: null
+                                                            },
+                                                            'Shopping\nAdvisor': {
+                                                                tab: 'customer',
+                                                                category: 'shopping-advisor',
+                                                                subcategory: null
+                                                            },
+                                                            'Travel\nPlanner': {
+                                                                tab: 'customer',
+                                                                category: 'travel-planner',
+                                                                subcategory: null
+                                                            },
+                                                            'Finance\nManager': {
+                                                                tab: 'customer',
+                                                                category: 'finance-manager',
+                                                                subcategory: null
+                                                            }
+                                                        };
+
+                                                        const agentMapping = agentCategoryMap[item.title];
+
+                                                        if (agentMapping) {
+                                                            const queryParams = new URLSearchParams({
+                                                                tab: agentMapping.tab,
+                                                                category: agentMapping.category
+                                                            });
+
+                                                            if (agentMapping.subcategory) {
+                                                                queryParams.append('subcategory', agentMapping.subcategory);
+                                                            }
+
+                                                            const finalUrl = `/media-entertainment?${queryParams.toString()}`;
+                                                            navigate(finalUrl);
+                                                        } else {
+                                                            navigate('/media-entertainment');
+                                                        }
                                                     } else {
                                                         setIsLoginOpen(true);
                                                     }
