@@ -33,23 +33,6 @@ const phraseNavigation = [
   }
 ];
 
-const images = [
-  "/images/Img one 2.webp",
-  "/images/Foundational Agents.webp",
-  "/images/Supplychain (1).webp",
-  "/images/Img three.webp",
-  "/images/Foundational Agents.webp",
-  "/images/IT solution (1).webp",
-  "/images/Img two_2 2.webp",
-  "/images/Foundational Agents.webp",
-  "/images/Supplychain (1).webp",
-  "/images/Img three.webp",
-  "/images/Foundational Agents.webp",
-  "/images/IT solution (1).webp",
-  "/images/Img one 2.webp",
-  "/images/Foundational Agents.webp"
-];
-
 const HeroSection = () => {
   const navigate = Navigate();
   const [index, setIndex] = useState(0);
