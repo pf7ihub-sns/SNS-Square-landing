@@ -182,7 +182,7 @@ const OrbitHero = () => {
             'Social & Media': 'social-media',
             'Work Management': 'work-management',
             'Developer Support': 'developer-support',
-            
+
             // Industry Solutions
             'Manufacturing': 'manufacturing',
             'Agriculture': 'agriculture',
@@ -194,7 +194,7 @@ const OrbitHero = () => {
             'Human Resources': 'human-resources',
             'Fintech': 'fintech',
             'Banking': 'banking',
-            
+
             // Customer Solutions
             'Personal\nAssistant': 'personal-assistant',
             'Smart Home\nControl': 'smart-home',
@@ -205,22 +205,144 @@ const OrbitHero = () => {
             'Travel\nPlanner': 'travel-planner',
             'Finance\nManager': 'finance-manager'
         };
-        
+
         return agentIdMap[title] || 'unknown-agent';
     };
 
     // Handle agent icon click with conditional navigation
     const handleAgentClick = (agentTitle) => {
-        const userId = localStorage.getItem('userId'); // Check for userId in localStorage
-        console.log('Checking userId in localStorage:', userId); // Debug log
-        
+        const userId = localStorage.getItem('userId');
+        console.log('=== ORBIT HERO DEBUG ===');
+        console.log('Clicked agent title:', agentTitle);
+        console.log('UserId:', userId);
+
         if (userId && userId.trim() !== '') {
-            // User is logged in, navigate to media entertainment page
-            console.log('Navigating to media entertainment page'); // Debug log
-            navigate('/media-entertainment');
+            // Map agent titles to their corresponding categories based on your actual agentsData.js
+            const agentCategoryMap = {
+                // Foundation Agents - using ACTUAL category IDs from your data
+                'Data\nManagement': {
+                    tab: 'foundational',
+                    category: 'data-management', // matches your data
+                    subcategory: null
+                },
+                'Compliance &\nSecurity': {
+                    tab: 'foundational',
+                    category: 'compliance-security', // matches your data
+                    subcategory: null
+                },
+                'Business\nIntelligence & Analysis': {
+                    tab: 'foundational',
+                    category: 'business-intelligence', // matches your data
+                    subcategory: null
+                },
+                'Communication\n& Assistance': {
+                    tab: 'foundational',
+                    category: 'communication-assistance', // matches your data
+                    subcategory: null
+                },
+                'Summarisation &\nContent Handling': {
+                    tab: 'foundational',
+                    category: 'summarization', // matches your data (summarization, not summarization-content)
+                    subcategory: null
+                },
+                'Document &\nKnowledge Management': {
+                    tab: 'foundational',
+                    category: 'doc-knowledge', // matches your data (doc-knowledge, not document-knowledge)
+                    subcategory: null
+                },
+                'Social & Media': {
+                    tab: 'foundational',
+                    category: 'social-media', // matches your data
+                    subcategory: null
+                },
+                'Work Management': {
+                    tab: 'foundational',
+                    category: 'work-management', // matches your data
+                    subcategory: null
+                },
+                'Developer Support': {
+                    tab: 'foundational',
+                    category: 'developer-support', // matches your data
+                    subcategory: null
+                },
+
+                // Industry Solutions - using ACTUAL category IDs from your data
+                'Manufacturing': {
+                    tab: 'industry',
+                    category: 'manufacturing', // matches your data
+                    subcategory: null
+                },
+                'Agriculture': {
+                    tab: 'industry',
+                    category: 'agriculture', // matches your data
+                    subcategory: null
+                },
+                'Healthcare': {
+                    tab: 'industry',
+                    category: 'healthcare', // matches your data
+                    subcategory: null
+                },
+                'Legal': {
+                    tab: 'industry',
+                    category: 'legal', // matches your data
+                    subcategory: null
+                },
+                'Media & Entertainment': {
+                    tab: 'industry',
+                    category: 'media-entertainment', // matches your data
+                    subcategory: null
+                },
+                'Retail': {
+                    tab: 'industry',
+                    category: 'retail', // matches your data
+                    subcategory: null
+                },
+                'Real Estate': {
+                    tab: 'industry',
+                    category: 'real-estate', // matches your data
+                    subcategory: null
+                },
+                'Human Resources': {
+                    tab: 'industry',
+                    category: 'hr', // matches your data (hr, not human-resources)
+                    subcategory: null
+                },
+                'Fintech': {
+                    tab: 'industry',
+                    category: 'fintech', // matches your data
+                    subcategory: null
+                },
+                'Banking': {
+                    tab: 'industry',
+                    category: 'banking', // matches your data
+                    subcategory: null
+                }
+            };
+
+            console.log('Available mappings:', Object.keys(agentCategoryMap));
+
+            const agentMapping = agentCategoryMap[agentTitle];
+            console.log('Found mapping for agent:', agentMapping);
+
+            if (agentMapping) {
+                const queryParams = new URLSearchParams({
+                    tab: agentMapping.tab,
+                    category: agentMapping.category
+                });
+
+                if (agentMapping.subcategory) {
+                    queryParams.append('subcategory', agentMapping.subcategory);
+                }
+
+                const finalUrl = `/media-entertainment?${queryParams.toString()}`;
+                console.log('Navigating to:', finalUrl);
+                navigate(finalUrl);
+            } else {
+                console.log('No mapping found, using fallback navigation');
+                navigate('/media-entertainment');
+            }
         } else {
-            // User is not logged in, show login modal
-            console.log('No userId found, showing login'); // Debug log
+            console.log('No userId found, showing login');
             setIsLoginOpen(true);
         }
     };
