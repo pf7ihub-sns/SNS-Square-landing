@@ -7,6 +7,38 @@ import agentsData from '../../../../public/data/agentsData.js';
 import AgentDetailsModal from './AgentDetailsModal';
 import Pagination from '../../common/Pagination.jsx';
 import SelectCatagoryImg from "../../../../public/images/objects.png";
+import Docimg from "../../../../public/images/doc.png";
+import Sumimg from "../../../../public/images/sum.png";
+import Com from "../../../../public/images/Com.png"
+import BusinessImg from "../../../../public/images/Business.png"
+import Compliance from "../../../../public/images/compliance.png"
+import Dataimg from "../../../../public/images/data.png";
+import Dev from "../../../../public/images/dev.png";
+import Work from "../../../../public/images/work.png";
+import Social from "../../../../public/images/social.png";
+
+const categoryIcons = {
+  'doc-knowledge': Docimg,
+  'data-management': Dataimg,
+  'communication-assistance': Com,
+  'business-intelligence': BusinessImg,
+  'compliance-security': Compliance,
+  'summarization': Sumimg,
+  'social-media': Social,
+  'work-management': Work,
+  'developer-support': Dev,
+  'manufacturing': '/images/icons/manufacturing.png',
+  'agriculture': '/images/icons/agriculture.png',
+  'healthcare': '/images/icons/healthcare.png',
+  'legal': '/images/icons/legal.png',
+  'media-entertainment': '/images/icons/media.png',
+  'retail': '/images/icons/retail.png',
+  'real-estate': '/images/icons/realestate.png',
+  'hr': '/images/icons/hr.png',
+  'fintech': '/images/icons/fintech.png',
+  'banking': '/images/icons/banking.png',
+  'general': '/images/icons/general.png'
+};
 
 const MediaEntertainment = () => {
   const [activeTab, setActiveTab] = useState('foundational');
@@ -129,6 +161,7 @@ const MediaEntertainment = () => {
     if (activeTab === 'industry') return agentsData.industry || [];
     return [];
   };
+
 
   // Get current category data
   const getCurrentCategoryData = () => {
@@ -409,6 +442,7 @@ const MediaEntertainment = () => {
     );
   }
 
+
   return (
     <div className="min-h-screen bg-gray-50 ">
       {heroSection}
@@ -481,72 +515,62 @@ const MediaEntertainment = () => {
         {/* Content Layout */}
         <div className="flex gap-6 lg:-mt-20 ">
           {/* Desktop Sidebar */}
-          <div className="hidden lg:block w-80 flex-shrink-0 ">
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5 ">
-              <h3 className="text-xl font-bold text-gray-900 mb-5 pb-2 border-b border-gray-100">Categories</h3>
-              <div className="space-y-2">
-                {categories.map((category) => (
-                  <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
-                    <button
-                      onClick={() => handleCategoryClick(category.id)}
-                      className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
-                        : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
-                        }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="font-semibold text-base">{category.name}</div>
-                          <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
-                            }`}>
-                            {category.subCategories
-                              ? `${category.subCategories.length} subcategories`
-                              : `${getFilteredAgentCount(category.agents)} agents`}
+          {/* Desktop Sidebar */}
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
+              </div>
 
+              <div className="py-2">
+                <div className="space-y-1">
+                  {categories.map((category) => (
+                    <div key={category.id}>
+                      <button
+                        onClick={() => handleCategoryClick(category.id)}
+                        className="w-full px-5 py-3 text-left hover:bg-gray-50 transition-colors duration-150"
+                      >
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 mr-3 flex-shrink-0">
+                            {categoryIcons[category.id] ? (
+                              <img
+                                src={categoryIcons[category.id]}
+                                alt={category.name}
+                                className="w-full h-full rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
+                                <span className="text-white text-xs font-bold">
+                                  {category.name.charAt(0)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm text-gray-900">{category.name}</div>
                           </div>
                         </div>
-                        {category.subCategories && (
-                          <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
-                            }`}>
-                            <svg
-                              className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
-                                }`}
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    </button>
+                      </button>
 
-                    {selectedCategory === category.id && category.subCategories && (
-                      <div className="bg-gray-50/50 border-t border-gray-100">
-                        <div className="p-3 space-y-2">
+                      {selectedCategory === category.id && category.subCategories && (
+                        <div className="px-5 py-2 space-y-1">
                           {category.subCategories.map((subCategory) => (
                             <button
                               key={subCategory.id}
                               onClick={() => handleSubCategoryClick(subCategory.id)}
-                              className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
-                                ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
-                                : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
+                              className={`w-full px-4 py-2 text-left transition-all duration-200 rounded-md border ${selectedSubCategory === subCategory.id
+                                ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                : 'text-gray-700 hover:bg-gray-50 border-gray-200'
                                 }`}
                             >
-                              <div className="font-medium text-sm">{subCategory.name}</div>
-                              <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
-                                }`}>
-                                {getFilteredAgentCount(subCategory.agents)} agents
-
-                              </div>
+                              <div className="text-sm font-medium">{subCategory.name}</div>
                             </button>
                           ))}
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
