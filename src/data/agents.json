@@ -28,13 +28,22 @@
       "path": "/agent-playground/agent/{agentId}"
     },
     {
+      "id": "trip-planning-agent",
+      "title": "Communication & Assistance",
+      "description": "Intelligent communication and virtual assistance",
+      "icon": "/images/agents/robot 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/trip-planning-agent"
+    },
+{
       "id": "logic-validation-agent",
       "title": "Logic Validation Agent",
       "description": "Advanced research and analysis with comprehensive data gathering",
       "icon": "/images/agents/writing 1.png",
       "category": "Foundation Agents",
-      "featured": false,
-      "path": "/agent-playground/agent/{agentId}"
+      "featured": true,
+      "path": "/agent-playground/agents/{agentId}"
     },
     {
       "id": "idea-refinement-agent",

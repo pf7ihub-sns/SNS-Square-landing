@@ -1,5 +1,7 @@
+
 import { useState } from "react";
 import axios from "axios";
+import { ArrowLeft } from 'lucide-react';
 
 function InputSourceCard() {
   const [textInput, setTextInput] = useState("");
@@ -58,10 +60,10 @@ function InputSourceCard() {
 
     try {
       const formData = new FormData();
-      formData.append("action", "generate");
-      formData.append("min_cluster_size", minClusterSize.toString());
-      formData.append("confidence_threshold", confidenceThreshold.toString());
-      formData.append("enable_refinement", enableRefinement.toString());
+      formData.append('action', 'generate');
+      formData.append('min_cluster_size', minClusterSize.toString());
+      formData.append('confidence_threshold', confidenceThreshold.toString());
+      formData.append('enable_refinement', enableRefinement.toString());
 
       if (textInput.trim()) {
         formData.append("content", textInput);
@@ -92,173 +94,183 @@ function InputSourceCard() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Header */}
-      <header className="w-full bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-blue-700">SNS Square</h1>
-          <nav className="flex space-x-6">
-            <a href="/" className="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="/agent-workbench" className="text-blue-600 font-semibold">Agent Workbench</a>
-            <a href="/usecase" className="text-gray-700 hover:text-blue-600">Use Case</a>
-            <a href="/life" className="text-gray-700 hover:text-blue-600">Life at SNS Square</a>
-            <a href="/about" className="text-gray-700 hover:text-blue-600">About Us</a>
-          </nav>
-          <button className="bg-black text-white px-4 py-2 rounded-full">Contact Us</button>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+      <div className="w-full max-w-5xl mt-22">
+        {/* Header */}
+        <div className="relative">
+          <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            FAQ Generator
+          </h1>
+          <button
+            onClick={() => window.location.href = '/media-entertainment'}
+            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
+          </button>
         </div>
-      </header>
 
-      {/* Main */}
-      <main className="flex justify-center px-4 py-16">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-2xl bg-gradient-to-br from-[#EAF3FF] to-[#F8FBFF] p-8 rounded-2xl shadow-lg border border-blue-100"
-        >
-          {/* Title + Badge */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-blue-700 flex items-center">
-              📑 FAQ Generator
-            </h2>
-            <span className="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
-              Active Agent
-            </span>
-          </div>
+        {/* Instructions */}
+        <div className="text-center mb-6 text-gray-700">
+          <p className="mb-2">Generate FAQs from text or uploaded files (TXT, PDF, DOCX, CSV, JSON – max 10MB).</p>
+        </div>
 
-          {/* Textarea */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Text Input</label>
-            <textarea
-              value={textInput}
-              onChange={handleTextChange}
-              placeholder="Paste your text here (support tickets, documentation, etc.)"
-              rows={5}
-              className="w-full px-4 py-3 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center my-6">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-4 text-gray-500 text-sm font-medium">OR</span>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-
+        {/* Main Content */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+          {/* Active Agent Badge */}
+          <span className="inline-block px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full mb-6">
+            Active Agent
+          </span>
           {/* File Upload */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">File Upload</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              File Upload
+            </label>
             <label
               htmlFor="file-upload"
-              className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition"
+              className="flex flex-col items-center justify-center w-full h-25 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition"
             >
-              <svg className="w-10 h-10 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/>
+              <svg
+                className="w-8 h-8 text-gray-400 mb-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
               <span className="text-blue-600 font-medium">Choose a file</span>
-              <span className="text-sm text-gray-500">TXT, PDF, DOCX, CSV, JSON – max 10MB</span>
-              <input id="file-upload" type="file" className="hidden" onChange={handleFileChange} accept=".txt,.pdf,.docx,.csv,.json" />
+              <span className="text-sm text-gray-500">
+                or drag and drop (TXT, PDF, DOCX, CSV, JSON – max 10MB)
+              </span>
+              <input
+                id="file-upload"
+                type="file"
+                className="hidden"
+                onChange={handleFileChange}
+                accept=".txt,.pdf,.docx,.csv,.json"
+              />
             </label>
             {file && (
               <p className="mt-2 text-sm text-gray-600">
-                Selected: <span className="font-semibold">{file.name}</span> ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                Selected file: <span className="font-semibold">{file.name}</span> ({(file.size / 1024 / 1024).toFixed(2)} MB)
               </p>
             )}
           </div>
 
-          {/* Advanced Settings */}
-          <div className="mb-6 p-4 bg-white rounded-lg border border-gray-200">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">Advanced Settings</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Min Cluster Size</label>
-                <input type="number" min="1" max="10" value={minClusterSize} onChange={(e) => setMinClusterSize(parseInt(e.target.value) || 3)} className="w-full px-3 py-2 border rounded text-sm"/>
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Confidence Threshold</label>
-                <input type="number" min="0" max="1" step="0.1" value={confidenceThreshold} onChange={(e) => setConfidenceThreshold(parseFloat(e.target.value) || 0.6)} className="w-full px-3 py-2 border rounded text-sm"/>
-              </div>
-              <div className="flex items-center">
-                <label className="flex items-center space-x-2">
-                  <input type="checkbox" checked={enableRefinement} onChange={(e) => setEnableRefinement(e.target.checked)} className="text-blue-600"/>
-                  <span className="text-xs font-medium text-gray-600">Enable Answer Refinement</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Buttons */}
+          {/* Submit */}
           <div className="flex gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed"
+              className={`flex-1 py-2 px-4 rounded-md text-white font-medium transition-colors ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+              style={{ backgroundColor: loading ? '#9CA3AF' : '#1E3A8A' }}
             >
-              {loading ? "Generating FAQs..." : "Generate FAQs"}
+              {loading ? 'Generating FAQs...' : 'Generate FAQs'}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:bg-gray-50 transition"
+              className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition"
             >
               Reset
             </button>
           </div>
         </form>
-      </main>
 
-      {/* Result Section */}
-      {loading && (
-        <div className="mt-6 text-center">
-          <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-            <span className="text-blue-700">Generating FAQs...</span>
+        {/* Result Section */}
+        {loading && <p className="text-center mt-4">Generating FAQs...</p>}
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-700">{error}</p>
           </div>
-        </div>
-      )}
-
-      {error && (
-        <div className="mt-6 max-w-2xl mx-auto p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700">{error}</p>
-        </div>
-      )}
-
-      {result && (
-        <div className="mt-8 max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-          <h3 className="text-xl font-bold mb-4">Generated FAQs</h3>
-
-          {result.summary && (
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h4 className="font-semibold text-blue-800 mb-2">Processing Summary</h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div><span className="font-medium">Documents:</span> {result.summary.total_documents}</div>
-                <div><span className="font-medium">Segments:</span> {result.summary.total_segments}</div>
-                <div><span className="font-medium">Clusters:</span> {result.summary.clusters_formed}</div>
-                <div><span className="font-medium">FAQs:</span> {result.summary.faqs_generated}</div>
-                <div className="col-span-2 md:col-span-4"><span className="font-medium">Time:</span> {result.summary.processing_time_seconds?.toFixed(2)}s</div>
-              </div>
+        )}
+        {result && (
+          <div className="mt-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200">
+              <h3 className="text-xl font-bold text-gray-900">Generated FAQs</h3>
             </div>
-          )}
+            <div className="px-6 py-4 h-96 overflow-y-auto">
+              {result.status === 'error' && result.message && (
+                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-red-700">Error: {result.message}</p>
+                </div>
+              )}
 
-          {result.faqs && result.faqs.length > 0 ? (
-            <div className="space-y-4">
-              {result.faqs.map((faq, index) => (
-                <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
-                  <h4 className="font-semibold text-blue-700 mb-2">Q: {faq.question}</h4>
-                  <p className="text-gray-700 mb-2">A: {faq.answer}</p>
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-500">
-                    <span>Confidence: {(faq.confidence * 100)?.toFixed(1)}%</span>
-                    {faq.cluster_id && <span>Cluster: {faq.cluster_id}</span>}
+              {result.summary && (
+                <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <h4 className="font-semibold text-blue-800 mb-2">Processing Summary</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <span className="font-medium">Documents:</span> {result.summary.total_documents}
+                    </div>
+                    <div>
+                      <span className="font-medium">Segments:</span> {result.summary.total_segments}
+                    </div>
+                    <div>
+                      <span className="font-medium">Clusters:</span> {result.summary.clusters_formed}
+                    </div>
+                    <div>
+                      <span className="font-medium">FAQs:</span> {result.summary.faqs_generated}
+                    </div>
+                    <div className="col-span-2 md:col-span-4">
+                      <span className="font-medium">Processing Time:</span> {result.summary.processing_time_seconds?.toFixed(2)}s
+                    </div>
+                    {result.summary.warnings && result.summary.warnings.length > 0 && (
+                      <div className="col-span-2 md:col-span-4">
+                        <span className="font-medium text-yellow-700">Warnings:</span>
+                        <ul className="list-disc list-inside text-yellow-700 mt-1">
+                          {result.summary.warnings.map((warning, index) => (
+                            <li key={index}>{warning}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
-              ))}
+              )}
+
+              {result.faqs && result.faqs.length > 0 ? (
+                <div className="space-y-4">
+                  {result.faqs.map((faq, index) => (
+                    <div key={faq.id || index} className="border-b border-gray-200 pb-4 last:border-b-0">
+                      <h4 className="font-semibold text-blue-700 mb-2">Q: {faq.question}</h4>
+                      <p className="text-gray-700 mb-2">A: {faq.answer}</p>
+                      <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                        <span>Confidence: {(faq.confidence * 100)?.toFixed(1)}%</span>
+                        {faq.cluster_id && <span>Cluster: {faq.cluster_id}</span>}
+                        {faq.source_references && faq.source_references.length > 0 && (
+                          <span>Sources: {faq.source_references.join(', ')}</span>
+                        )}
+                      </div>
+                      {faq.metadata && Object.keys(faq.metadata).length > 0 && (
+                        <div className="mt-2 text-xs text-gray-400">
+                          Metadata: {JSON.stringify(faq.metadata, null, 2)}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : result.status === 'success' && (
+                <div className="text-center py-8 text-gray-500">
+                  <p>No FAQs were generated from the provided content.</p>
+                  <p className="text-sm mt-2">Try providing more detailed content or check the processing summary above.</p>
+                </div>
+              )}
+
+              {result.message && result.status === 'success' && (
+                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-green-700 text-sm">{result.message}</p>
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              <p>No FAQs generated from the provided content.</p>
-              <p className="text-sm mt-2">Try providing more detailed input.</p>
-            </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

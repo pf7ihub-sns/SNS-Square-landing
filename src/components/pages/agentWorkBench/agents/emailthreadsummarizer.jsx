@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { ArrowLeft } from 'lucide-react';
 
 function EmailThreadSummariser() {
   const [thread, setThread] = useState("");
@@ -27,38 +28,33 @@ function EmailThreadSummariser() {
   };
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Header */}
-      <header className="w-full bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-blue-700">SNS Square</h1>
-          <nav className="flex space-x-6">
-            <a href="/" className="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="/agent-workbench" className="text-blue-600 font-semibold">Agent Workbench</a>
-            <a href="/usecase" className="text-gray-700 hover:text-blue-600">Use Case</a>
-            <a href="/life" className="text-gray-700 hover:text-blue-600">Life at SNS Square</a>
-            <a href="/about" className="text-gray-700 hover:text-blue-600">About Us</a>
-          </nav>
-          <button className="bg-black text-white px-4 py-2 rounded-full">
-            Contact Us
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+      <div className="w-full max-w-5xl mt-11">
+        {/* Header */}
+        <div className="relative">
+          <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            Email Thread Summariser
+          </h1>
+          <button
+            onClick={() => window.location.href = '/media-entertainment'}
+            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
           </button>
         </div>
-      </header>
 
-      {/* Main Card */}
-      <main className="flex justify-center px-4 py-16">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-2xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg border border-blue-200"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-blue-700">
-              Email Thread Summariser
-            </h2>
-            <span className="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
-              Active Agent
-            </span>
-          </div>
+        {/* Instructions */}
+        <div className="text-center mb-6 text-gray-700">
+          <p className="mb-2">Summarise email threads with customizable length options.</p>
+        </div>
+
+        {/* Main Content */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
+          {/* Active Agent Badge */}
+          <span className="inline-block px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full mb-6">
+            Active Agent
+          </span>
 
           {/* Thread Input */}
           <div className="mb-6">
@@ -70,7 +66,7 @@ function EmailThreadSummariser() {
               onChange={(e) => setThread(e.target.value)}
               placeholder="Paste the entire email thread here..."
               rows={6}
-              className="w-full px-4 py-3 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               required
             />
           </div>
@@ -109,88 +105,97 @@ function EmailThreadSummariser() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition"
+            disabled={loading}
+            className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+            style={{ backgroundColor: loading ? '#9CA3AF' : '#1E3A8A' }}
           >
-            Summarise Thread
+            {loading ? 'Summarizing thread...' : 'Summarise Thread'}
           </button>
         </form>
-      </main>
 
-      {/* Result Section */}
-      {loading && <p className="text-center mt-4">Summarizing thread...</p>}
-      {error && <p className="text-center mt-4 text-red-500">{error}</p>}
-      {result && (
-        <div className="mt-8 max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-          <h3 className="text-xl font-bold mb-4">Email Thread Summary</h3>
-          
-          {result.subject && (
-            <div className="mb-4">
-              <h4 className="font-semibold">Subject:</h4>
-              <p>{result.subject}</p>
+        {/* Result Section */}
+        {loading && <p className="text-center mt-4">Summarizing thread...</p>}
+        {error && (
+          <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <p className="text-red-700">{error}</p>
+          </div>
+        )}
+        {result && (
+          <div className="mt-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200">
+              <h3 className="text-xl font-bold text-gray-900">Email Thread Summary</h3>
             </div>
-          )}
-          
-          {result.participants && (
-            <div className="mb-4">
-              <h4 className="font-semibold">Participants:</h4>
-              {Array.isArray(result.participants) ? (
-                <ul className="list-disc list-inside">
-                  {result.participants.map((participant, index) => (
-                    <li key={index}>{participant}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>{result.participants}</p>
+            <div className="px-6 py-4 h-96 overflow-y-auto">
+              {result.subject && (
+                <div className="mb-4">
+                  <h4 className="font-semibold">Subject:</h4>
+                  <p>{result.subject}</p>
+                </div>
+              )}
+
+              {result.participants && (
+                <div className="mb-4">
+                  <h4 className="font-semibold">Participants:</h4>
+                  {Array.isArray(result.participants) ? (
+                    <ul className="list-disc list-inside">
+                      {result.participants.map((participant, index) => (
+                        <li key={index}>{participant}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{result.participants}</p>
+                  )}
+                </div>
+              )}
+
+              {result.timeline && (
+                <div className="mb-4">
+                  <h4 className="font-semibold">Timeline:</h4>
+                  {Array.isArray(result.timeline) ? (
+                    <ul className="list-disc list-inside">
+                      {result.timeline.map((event, index) => (
+                        <li key={index}>{event}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{result.timeline}</p>
+                  )}
+                </div>
+              )}
+
+              {result.keyPoints && (
+                <div className="mb-4">
+                  <h4 className="font-semibold">Key Points:</h4>
+                  {Array.isArray(result.keyPoints) ? (
+                    <ul className="list-disc list-inside">
+                      {result.keyPoints.map((point, index) => (
+                        <li key={index}>{point}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{result.keyPoints}</p>
+                  )}
+                </div>
+              )}
+
+              {result.actionItems && (
+                <div className="mb-4">
+                  <h4 className="font-semibold">Action Items:</h4>
+                  {Array.isArray(result.actionItems) ? (
+                    <ul className="list-disc list-inside">
+                      {result.actionItems.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{result.actionItems}</p>
+                  )}
+                </div>
               )}
             </div>
-          )}
-          
-          {result.timeline && (
-            <div className="mb-4">
-              <h4 className="font-semibold">Timeline:</h4>
-              {Array.isArray(result.timeline) ? (
-                <ul className="list-disc list-inside">
-                  {result.timeline.map((event, index) => (
-                    <li key={index}>{event}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>{result.timeline}</p>
-              )}
-            </div>
-          )}
-          
-          {result.keyPoints && (
-            <div className="mb-4">
-              <h4 className="font-semibold">Key Points:</h4>
-              {Array.isArray(result.keyPoints) ? (
-                <ul className="list-disc list-inside">
-                  {result.keyPoints.map((point, index) => (
-                    <li key={index}>{point}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>{result.keyPoints}</p>
-              )}
-            </div>
-          )}
-          
-          {result.actionItems && (
-            <div className="mb-4">
-              <h4 className="font-semibold">Action Items:</h4>
-              {Array.isArray(result.actionItems) ? (
-                <ul className="list-disc list-inside">
-                  {result.actionItems.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>{result.actionItems}</p>
-              )}
-            </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
