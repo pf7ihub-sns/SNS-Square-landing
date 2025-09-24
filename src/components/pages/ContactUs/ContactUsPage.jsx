@@ -28,11 +28,11 @@ const ContactUsPage = () => {
 
   return (
     <div
-      className="bg-fill"
+      className="bg-fill p-6"
       style={{ backgroundImage: "url('/images/Frame 97499.png')" }}
     >
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 mt-24 p-4">
+      <main className="max-w-7xl mx-auto pb-4 mt-24 p-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Content */}
           <div className="space-y-6">

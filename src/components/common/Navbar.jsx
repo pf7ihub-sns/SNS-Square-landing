@@ -23,8 +23,8 @@ const HamburgerIcon = ({ isOpen, className, ...props }) => (
     <path
       d="M4 12L20 12"
       className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${isOpen
-          ? 'translate-x-0 translate-y-0 rotate-[315deg]'
-          : '-translate-y-[7px]'
+        ? 'translate-x-0 translate-y-0 rotate-[315deg]'
+        : '-translate-y-[7px]'
         }`}
     />
     <path
@@ -35,8 +35,8 @@ const HamburgerIcon = ({ isOpen, className, ...props }) => (
     <path
       d="M4 12H20"
       className={`origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] ${isOpen
-          ? 'translate-y-0 rotate-[135deg]'
-          : 'translate-y-[7px]'
+        ? 'translate-y-0 rotate-[135deg]'
+        : 'translate-y-[7px]'
         }`}
     />
   </svg>
@@ -47,16 +47,16 @@ const AnimatedArrow = ({ isHovered, className, ...props }) => (
   <div className={`relative inline-flex items-center transition-all duration-300 ease-in-out ${className}`}>
     <MdOutlineKeyboardArrowRight
       className={`absolute transition-all duration-300 ease-in-out ${isHovered
-          ? 'opacity-0 rotate-90 scale-0'
-          : 'opacity-100 rotate-0 scale-100'
+        ? 'opacity-0 rotate-90 scale-0'
+        : 'opacity-100 rotate-0 scale-100'
         }`}
       size={16}
       {...props}
     />
     <MdOutlineKeyboardArrowDown
       className={`absolute transition-all duration-300 ease-in-out ${isHovered
-          ? 'opacity-100 rotate-0 scale-100'
-          : 'opacity-0 -rotate-90 scale-0'
+        ? 'opacity-100 rotate-0 scale-100'
+        : 'opacity-0 -rotate-90 scale-0'
         }`}
       size={16}
       {...props}
@@ -178,7 +178,7 @@ const Header = () => {
     if (!isVisible || !items) return null;
 
     return (
-      <div 
+      <div
         className="absolute top-full left-0 mt-0 w-92 bg-white rounded-xl shadow-lg border border-gray-100 py-3 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200"
         onMouseEnter={() => handleDropdownHover(dropdownKey)}
         onMouseLeave={handleDropdownLeave}
@@ -407,10 +407,7 @@ const Header = () => {
                 variant="secondary"
                 size="small"
                 className="rounded px-6 py-2 text-sm font-bold font-manrope bg-black text-white hover:bg-gray-800 transition-colors"
-                onClick={() => {
-                  const event = new CustomEvent('openSignupModal');
-                  window.dispatchEvent(event);
-                }}
+                onClick={() => navigate("/signup")}
               >
                 Sign In
               </Button>
