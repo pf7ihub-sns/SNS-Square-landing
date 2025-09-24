@@ -410,7 +410,7 @@ const MediaEntertainment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       {heroSection}
 
       {/* Search and Filter Section */}
@@ -418,16 +418,16 @@ const MediaEntertainment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0"
+        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0 "
       >
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2">
-          <div className="relative flex-1">
+        <div className="flex flex-col sm:flex-row gap-5 sm:gap-5">
+          <div className="relative flex-1 lg:-ml-40">
             <input
               type="text"
               placeholder="Search Agents"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              className="w-5xl px-4 py-2 pl-10 border border-[#6E757E] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -435,21 +435,21 @@ const MediaEntertainment = () => {
               </svg>
             </div>
           </div>
-          <div className="relative sm:w-auto">
+          <div className="relative ">
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
-              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
+              className="w-30 px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
             >
-              <option value="all">All Status</option>
-              <option value="available">Available</option>
-              <option value="not available">Not Available</option>
+              <option className='text-black' value="all">All Status</option>
+              <option className='text-black' value="available">Available</option>
+              <option className='text-black' value="not available">Not Available</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg
-                className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -462,7 +462,7 @@ const MediaEntertainment = () => {
       </motion.div>
 
       {/* Main Content Container */}
-      <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 ">
         {/* Tabs */}
 
         {/* Mobile Filter Button */}
@@ -479,10 +479,10 @@ const MediaEntertainment = () => {
         </div>
 
         {/* Content Layout */}
-        <div className="flex gap-6">
+        <div className="flex gap-6 lg:-mt-20 ">
           {/* Desktop Sidebar */}
-          <div className="hidden lg:block w-80 flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5">
+          <div className="hidden lg:block w-80 flex-shrink-0 ">
+            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5 ">
               <h3 className="text-xl font-bold text-gray-900 mb-5 pb-2 border-b border-gray-100">Categories</h3>
               <div className="space-y-2">
                 {categories.map((category) => (
@@ -552,12 +552,12 @@ const MediaEntertainment = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1  ">
             {/* Header */}
-            <div className="mb-4 sm:mb-6">
+            <div className="mb-4 sm:mb-6 ml-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mt-15">
                     {selectedSubCategory ? getCurrentSubCategoryData()?.name :
                       selectedCategory ? getCurrentCategoryData()?.name :
                         `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
