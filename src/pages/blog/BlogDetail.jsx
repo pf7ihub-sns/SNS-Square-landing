@@ -215,7 +215,7 @@ const BlogDetail = () => {
           const element = document.getElementById(sectionId);
           if (element) {
             const rect = element.getBoundingClientRect();
-            const heading = element.querySelector('h3');
+            const heading = element.querySelector('h4');
             const headingRect = heading ? heading.getBoundingClientRect() : rect;
             
             if (headingRect.top <= navbarHeight) {
@@ -301,7 +301,7 @@ const BlogDetail = () => {
     if (content.introduction) {
       sections.push(
         <div key="introduction" className="mb-8">
-          <p className="text-gray-700 leading-relaxed text-lg">
+          <p className="text-gray-700 leading-relaxed ">
             {content.introduction.context || content.introduction.overview}
           </p>
           {content.introduction.impact && (
@@ -322,8 +322,8 @@ const BlogDetail = () => {
     if (content.challenge) {
       sections.push(
         <section key="challenge" id="challenge" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">The Challenge</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">The Challenge</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             <p>{content.challenge.description}</p>
             {content.challenge.risks && (
               <ul className="list-disc list-inside space-y-2 ml-4">
@@ -333,7 +333,7 @@ const BlogDetail = () => {
               </ul>
             )}
             {content.challenge.problem && (
-              <p className="font-medium">{content.challenge.problem}</p>
+              <p className="">{content.challenge.problem}</p>
             )}
           </div>
         </section>
@@ -344,8 +344,8 @@ const BlogDetail = () => {
     if (content.smart_supply_chain) {
       sections.push(
         <section key="solution" id="solution" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">Smart Supply Chain Solution</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className=" text-gray-900 leading-tight">Smart Supply Chain Solution</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             <p>{content.smart_supply_chain.definition}</p>
             {content.smart_supply_chain.capabilities && (
               <div className="space-y-4">
@@ -369,8 +369,8 @@ const BlogDetail = () => {
     if (content.what_is_agentic_ai) {
       sections.push(
         <section key="solution" id="solution" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">What is Agentic AI?</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">What is Agentic AI?</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             <p>{content.what_is_agentic_ai.definition}</p>
             <p>{content.what_is_agentic_ai.differences_from_traditional_ai}</p>
             {content.what_is_agentic_ai.capabilities && (
@@ -389,8 +389,8 @@ const BlogDetail = () => {
     if (content.how_ai_transforms_risk_assessment) {
       sections.push(
         <section key="solution" id="solution" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">How AI Transforms Risk Assessment</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">How AI Transforms Risk Assessment</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             <div className="space-y-4">
               {content.how_ai_transforms_risk_assessment.map((section, index) => (
                 <div key={index} className="bg-gray-50 p-4 rounded-lg">
@@ -413,8 +413,8 @@ const BlogDetail = () => {
       const benefits = content.benefits || content.benefits_for_organizations;
       sections.push(
         <section key="benefits" id="benefits" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">Benefits</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">Benefits</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             <ul className="list-disc list-inside space-y-2">
               {benefits.map((benefit, index) => (
                 <li key={index}>{benefit}</li>
@@ -429,17 +429,17 @@ const BlogDetail = () => {
     if (content.industry_examples || content.key_applications) {
       sections.push(
         <section key="examples" id="examples" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">
             {content.industry_examples ? 'Industry Examples' : 'Key Applications'}
-          </h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          </h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             {content.industry_examples && (
               <div className="space-y-4">
                 {Object.entries(content.industry_examples).map(([key, value]) => (
                   <div key={key} className="bg-gray-50 p-4 rounded-lg">
-                    <h5 className="text-gray-900 mb-3 capitalize">
+                    <h6 className="text-gray-900 mb-3 capitalize">
                       {key.replace(/_/g, ' ')}
-                    </h5>
+                    </h6>
                     <p>{value}</p>
                   </div>
                 ))}
@@ -478,8 +478,8 @@ const BlogDetail = () => {
       const roadAhead = content.road_ahead || content.the_road_ahead;
       sections.push(
         <section key="future" id="future" className="space-y-6 progress-section scroll-mt-40">
-          <h3 className="text-xl font-medium text-gray-900 leading-tight">The Road Ahead</h3>
-          <div className="text-base sm:text-lg text-gray-600 leading-relaxed space-y-4 pt-4">
+          <h4 className="text-xl font-medium text-gray-900 leading-tight">The Road Ahead</h4>
+          <div className=" text-gray-600 leading-relaxed space-y-4 pt-4">
             {roadAhead.vision && (
               <p>
                 <strong>Vision:</strong> {roadAhead.vision}
@@ -575,11 +575,11 @@ const BlogDetail = () => {
                         className="py-3 hover:bg-gray-50 cursor-pointer transition-colors rounded-lg px-3"
                         onClick={() => scrollToSection(anchor.id)}
                       >
-                        <span className={`text-base font-medium transition-colors ${
+                        <h6 className={` transition-colors ${
                           activeSection === anchor.id ? 'text-blue-600' : 'text-gray-900'
                         }`}>
                           {anchor.title}
-                        </span>
+                        </h6>
                         {/* Show progress bar only when section is being read (0% < progress < 100%) */}
                         {scrollProgress[anchor.id] > 0 && scrollProgress[anchor.id] < 100 && (
                           <div className="mt-3 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
@@ -620,9 +620,9 @@ const BlogDetail = () => {
 
             {/* Article header */}
             <div className="mb-12 pr-16">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-gray-900 leading-tight mb-6">
+              <h2 className=" text-gray-900 leading-tight mb-6">
                 {title}
-              </h1>
+              </h2>
             </div>
 
             {/* Blog Image */}

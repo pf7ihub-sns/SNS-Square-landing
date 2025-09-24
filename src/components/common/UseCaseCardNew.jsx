@@ -14,7 +14,7 @@ const UseCaseCardNew = ({
     >
       {/* Upper section: show image if provided, otherwise fallback to decorative design */}
       {image ? (
-        <div className="relative w-full bg-[#e6edfc] overflow-hidden aspect-[4/3] sm:aspect-[16/9] p-2 sm:p-0">
+        <div className="relative w-full bg-[#e6edfc] overflow-hidden aspect-[16/9] sm:aspect-[16/9]  sm:p-0">
           <img
             src={image}
             alt={title}
@@ -24,7 +24,7 @@ const UseCaseCardNew = ({
           />
         </div>
       ) : (
-        <div className="relative w-full bg-[#e6edfc] overflow-hidden aspect-[4/3] sm:aspect-[16/9]">
+        <div className="relative w-full bg-[#e6edfc] overflow-hidden aspect-[16/9] sm:aspect-[16/9]">
           {/* Circular elements positioned in top-left quadrant */}
           <div className="absolute -left-8 -top-8 w-32 h-32 border-4 border-[#c7d2fe] rounded-full opacity-60"></div>
           <div className="absolute -left-4 -top-4 w-16 h-16 bg-[#c7d2fe] rounded-full opacity-80"></div>
