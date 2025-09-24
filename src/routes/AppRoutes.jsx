@@ -25,6 +25,9 @@ import { BlogGrid, BlogDetail } from "../pages/blog";
 import JobDescription from "../pages/careers/JobDescription";
 import JobApplicationPage from "../pages/careers/JobApplicationPage";
 import PolicyPage from "../pages/policy/PolicyPage";
+import Login from "../pages/Auth/login";
+import Signup from "../pages/Auth/signup";
+
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
 
@@ -136,6 +139,8 @@ export default function AppRoutes() {
           <AgentsDetails />
         </ProtectedRoute>
       } />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 }
