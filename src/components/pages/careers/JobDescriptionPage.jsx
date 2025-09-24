@@ -6,12 +6,12 @@ const JobDescriptionPage = () => {
     <div className="w-full bg-white">
       <JodDecriptionHero />
 
-      <div className="w-[1480px] mx-auto pt-12">
-        <div className="w-[1480px] h-px bg-black opacity-10 mb-12 mx-auto"/>
+      <div className="w-full max-w-[1440px] mx-auto pt-8 px-2 sm:px-4 lg:px-8">
+        <div className="w-full h-px bg-black opacity-10 mb-12"/>
       </div>
       
       {/* Job Details Content */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 py-6">
+      <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-8 py-6 pb-40">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
           {/* Job Description Section - Left Column (8/12 width) */}
@@ -19,6 +19,9 @@ const JobDescriptionPage = () => {
             <h2 className="text-black mb-6">
               Job Description
             </h2>
+            
+            {/* Line spacing below title */}
+            <div className="mb-6"></div>
             
             <ul className="space-y-3 text-black" style={{ fontFamily: 'Inter, sans-serif' }}>
               <li className="flex items-start leading-relaxed">
@@ -69,6 +72,9 @@ const JobDescriptionPage = () => {
             <h2 className="text-black mb-6">
               Job Information
             </h2>
+
+            {/* Line spacing below title */}
+            <div className="mb-6"></div>
 
             <div className="space-y-4">
               {/* Experience */}

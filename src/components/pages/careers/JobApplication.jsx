@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import JodDecriptionHero from './JodDecriptionHero';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import { AiOutlineCloudUpload, AiOutlineFilePdf, AiOutlineFileWord, AiOutlineFile } from 'react-icons/ai';
+import { MdClose, MdCheck } from 'react-icons/md';
 
 // Material-UI FormField component
 const FormField = ({
@@ -92,6 +94,195 @@ const FormField = ({
   );
 };
 
+// Modern Resume Upload Component
+const ResumeUpload = ({ uploadedFiles, setUploadedFiles }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Format file size
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 KB';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  };
+
+  // Get file icon based on extension
+  const getFileIcon = (fileName) => {
+    const extension = fileName.split('.').pop().toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return <AiOutlineFilePdf className="w-5 h-5 text-red-600" />;
+      case 'doc':
+      case 'docx':
+        return <AiOutlineFileWord className="w-5 h-5 text-blue-600" />;
+      default:
+        return <AiOutlineFile className="w-5 h-5 text-gray-600" />;
+    }
+  };
+
+  // Handle drag events
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  };
+
+  const handleFileSelect = (e) => {
+    const files = Array.from(e.target.files);
+    handleFiles(files);
+  };
+
+  const handleFiles = (files) => {
+    const validFiles = files.filter(file => {
+      const validTypes = ['.doc', '.docx', '.pdf', '.odt', '.rtf'];
+      const extension = '.' + file.name.split('.').pop().toLowerCase();
+      return validTypes.includes(extension) && file.size <= 10 * 1024 * 1024; // 10MB limit
+    });
+
+    if (validFiles.length > 0) {
+      const fileObjects = validFiles.map((file, index) => ({
+        id: Date.now() + index,
+        name: file.name,
+        size: file.size,
+        file: file,
+        uploaded: false
+      }));
+      
+      setUploadedFiles(prev => [...prev, ...fileObjects]);
+      
+      // Simulate upload
+      fileObjects.forEach(fileObj => {
+        setTimeout(() => {
+          setUploadedFiles(prev => 
+            prev.map(f => f.id === fileObj.id ? { ...f, uploaded: true } : f)
+          );
+        }, 1000);
+      });
+    }
+
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const removeFile = (fileId) => {
+    setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
+  };
+
+  return (
+    <div className="w-full">
+      {/* Upload Area */}
+      <div
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        className={`
+          relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-300 ease-in-out cursor-pointer
+          ${isDragging 
+            ? 'border-blue-400 bg-blue-50' 
+            : 'border-gray-300 bg-gray-50 hover:border-gray-400 hover:bg-gray-100'
+          }
+        `}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept=".doc,.docx,.pdf,.odt,.rtf"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
+        
+        <div className="flex flex-col items-center space-y-3">
+          <div className={`
+            w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300
+            ${isDragging ? 'bg-blue-100' : 'bg-gray-100'}
+          `}>
+            <AiOutlineCloudUpload className={`w-6 h-6 ${isDragging ? 'text-blue-600' : 'text-gray-600'}`} />
+          </div>
+          
+          <div>
+            <p className="text-sm font-medium text-gray-900 mb-1">
+              Click to upload or drag and drop
+            </p>
+            <p className="text-xs text-gray-500">
+              DOC, DOCX, PDF, ODT, RTF (max 10MB)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Uploaded Files Display */}
+      {uploadedFiles.length > 0 && (
+        <div className="mt-4 space-y-2">
+          {uploadedFiles.map((file) => (
+            <div 
+              key={file.id} 
+              className="flex items-center justify-between p-3 bg-white border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
+            >
+              <div className="flex items-center space-x-3 flex-1 min-w-0">
+                {getFileIcon(file.name)}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {file.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {formatFileSize(file.size)}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                {file.uploaded && (
+                  <div className="flex items-center space-x-1 text-green-600">
+                    <MdCheck className="w-4 h-4" />
+                    <span className="text-xs">Uploaded</span>
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => removeFile(file.id)}
+                  className="p-1 hover:bg-gray-100 rounded transition-colors"
+                  title="Remove file"
+                >
+                  <MdClose className="w-4 h-4 text-gray-500 hover:text-red-500" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const JobApplication = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -109,6 +300,8 @@ const JobApplication = () => {
     skillSet: "",
   });
 
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -118,33 +311,33 @@ const JobApplication = () => {
       {/* JobDescription Hero Section */}
       <JodDecriptionHero />
 
-      <div className="w-[1480px] mx-auto pt-12">
-        <div className="w-[1480px] h-px bg-black opacity-10 mb-12 mx-auto"/>
+      <div className="w-full max-w-[1440px] mx-auto pt-8 px-2 sm:px-4 lg:px-8">
+        <div className="w-full h-px bg-black opacity-10 mb-12"/>
       </div>
 
-      {/* Application Form */}
-      <div className="w-[1480px] mx-auto px-4 sm:px-8 lg:px-24 py-4 pb-20">
+      {/* Application Form with Scrollable Layout */}
+      <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-8 py-4 pb-20">
         
-        {/* Personal Details Section */}
-        <div className="mb-16">
-          {/* Section Headers - Aligned horizontally */}
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex items-center gap-4">
-              <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                Personal Details
-              </h2>
-           
-            </div>
+        {/* Two Column Layout: Scrollable Left + Sticky Right */}
+        <div className="grid grid-cols-3 gap-12 relative">
+          
+          {/* Left Column - Scrollable Content (2/3 width) */}
+          <div className="col-span-2">
             
-            <h3 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Resume*
-            </h3>
-          </div>
+            {/* Personal Details Section */}
+            <div className="mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Personal Details
+                </h2>
+                <button 
+                  className="text-base font-medium text-gray-900 hover:text-gray-700 transition-colors" 
+                  style={{ fontFamily: 'Manrope, sans-serif' }}
+                >
+                  Clear
+                </button>
+              </div>
 
-          {/* Content Layout - Two columns */}
-          <div className="grid grid-cols-3 gap-12">
-            {/* Personal Details Form Fields - Takes 2/3 width */}
-            <div className="col-span-2">
               <div className="space-y-8">
                 <div className="grid sm:grid-cols-2 gap-8">
                   <FormField
@@ -211,110 +404,120 @@ const JobApplication = () => {
               </div>
             </div>
 
-            {/* Resume Upload Section - Takes 1/3 width */}
-            <div className="col-span-1">
-              <div className="w-full h-20 border-2 border-dashed border-blue-200 bg-blue-50 rounded flex flex-col items-center justify-center text-center px-4">
-                <div className="flex flex-wrap items-center justify-center gap-1 mb-1">
-                  <span className="text-sm text-red-500 cursor-pointer" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    Upload your resume
-                  </span>
-                  <span className="text-sm text-gray-700" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    or drag and drop it here
-                  </span>
+            {/* Education & Experience Section */}
+            <div className="mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Education & Experience
+                </h2>
+                <button 
+                  className="text-base font-medium text-gray-900 hover:text-gray-700 transition-colors" 
+                  style={{ fontFamily: 'Manrope, sans-serif' }}
+                >
+                  Clear
+                </button>
+              </div>
+
+              <div className="space-y-8">
+                <FormField
+                  label="Year of Graduation"
+                  value={formData.yearOfGraduation}
+                  onChange={(value) => handleInputChange("yearOfGraduation", value)}
+                  placeholder="YYYY (e.g., 2020)"
+                  maxLength={4}
+                  required={true}
+                />
+
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <FormField
+                    label="Experience in Years"
+                    value={formData.experienceYears}
+                    onChange={(value) => handleInputChange("experienceYears", value)}
+                    isDropdown={true}
+                    placeholder="Select Experience"
+                    required={true}
+                  />
+                  <FormField
+                    label="Notice Period"
+                    value={formData.noticePeriod}
+                    onChange={(value) => handleInputChange("noticePeriod", value)}
+                    isDropdown={true}
+                    placeholder="Select Notice Period"
+                    required={true}
+                  />
                 </div>
-                <div className="text-xs text-gray-500" style={{ fontFamily: 'Inter, sans-serif' }}>
-                  <div>Only .doc, .docx, .pdf, .odt, .rtf</div>
-                  <div>(Optional)</div>
+
+                <div className="grid sm:grid-cols-2 gap-8">
+                  <FormField
+                    label="Current CTC (In Lakhs Annum)"
+                    value={formData.currentCTC}
+                    onChange={(value) => handleInputChange("currentCTC", value)}
+                    isDropdown={true}
+                    placeholder="Select Current CTC"
+                  />
+                  <FormField
+                    label="Expected CTC (In Lakhs Annum)"
+                    value={formData.expectedCTC}
+                    onChange={(value) => handleInputChange("expectedCTC", value)}
+                    isDropdown={true}
+                    placeholder="Select Expected CTC"
+                  />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Education & Experience Section */}
-        <div className="mb-16">
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Education & Experience
-            </h2>
-            
-          </div>
+            {/* Skills & Expertise Section */}
+            <div className="mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Skills & Expertise
+                </h2>
+                <button 
+                  className="text-base font-medium text-gray-900 hover:text-gray-700 transition-colors" 
+                  style={{ fontFamily: 'Manrope, sans-serif' }}
+                >
+                  Clear
+                </button>
+              </div>
 
-          <div className="lg:w-2/3 text-left">
-            <div className="space-y-8">
               <FormField
-                label="Year of Graduation"
-                value={formData.yearOfGraduation}
-                onChange={(value) => handleInputChange("yearOfGraduation", value)}
-                placeholder="YYYY (e.g., 2020)"
-                maxLength={4}
+                label="Skill Set"
+                value={formData.skillSet}
+                onChange={(value) => handleInputChange("skillSet", value)}
+                placeholder="Enter your skills (e.g., React, JavaScript, Python)"
                 required={true}
               />
+            </div>
+          </div>
 
-              <div className="grid sm:grid-cols-2 gap-8">
-                <FormField
-                  label="Experience in Years"
-                  value={formData.experienceYears}
-                  onChange={(value) => handleInputChange("experienceYears", value)}
-                  isDropdown={true}
-                  placeholder="Select Experience"
-                  required={true}
-                />
-                <FormField
-                  label="Notice Period"
-                  value={formData.noticePeriod}
-                  onChange={(value) => handleInputChange("noticePeriod", value)}
-                  isDropdown={true}
-                  placeholder="Select Notice Period"
-                  required={true}
+          {/* Vertical Divider Line */}
+          <div className="absolute left-[66.666%] top-0 bottom-0 w-px bg-gray-300 opacity-30"></div>
+
+          {/* Right Column - Sticky Resume Upload & Apply Button (1/3 width) */}
+          <div className="col-span-1 sticky top-28 h-fit max-h-[calc(100vh-7rem)] overflow-y-auto">
+            <div className="pl-8 space-y-8">
+              
+              {/* Resume Section Header */}
+              <div>
+                <h3 className="text-base font-medium text-gray-900 mb-6" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Resume*
+                </h3>
+                
+                {/* Resume Upload Component */}
+                <ResumeUpload 
+                  uploadedFiles={uploadedFiles}
+                  setUploadedFiles={setUploadedFiles}
                 />
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-8">
-                <FormField
-                  label="Current CTC (In Lakhs Annum)"
-                  value={formData.currentCTC}
-                  onChange={(value) => handleInputChange("currentCTC", value)}
-                  isDropdown={true}
-                  placeholder="Select Current CTC"
-                />
-                <FormField
-                  label="Expected CTC (In Lakhs Annum)"
-                  value={formData.expectedCTC}
-                  onChange={(value) => handleInputChange("expectedCTC", value)}
-                  isDropdown={true}
-                  placeholder="Select Expected CTC"
-                />
+              {/* Apply Button */}
+              <div className="pt-8 sticky bottom-0 bg-white pb-4">
+                <button className="w-full bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  Apply
+                </button>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Skills & Expertise Section */}
-        <div className="mb-16">
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-              Skills & Expertise
-            </h2>
-            
-          </div>
-
-          <div className="lg:w-2/3 text-left">
-            <FormField
-              label="Skill Set"
-              value={formData.skillSet}
-              onChange={(value) => handleInputChange("skillSet", value)}
-              placeholder="Enter your skills (e.g., React, JavaScript, Python)"
-              required={true}
-            />
-          </div>
-        </div>
-
-        {/* Apply Button - Centered */}
-        <div className="flex justify-center">
-          <button className="bg-gray-900 text-white px-8 py-3 rounded text-base font-medium hover:bg-gray-800 transition-colors" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Apply
-          </button>
         </div>
       </div>
     </div>
