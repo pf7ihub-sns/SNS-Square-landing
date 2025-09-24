@@ -2,11 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import BlackButton from '../../common/BlackButton';
-// import { SimpleRetroGrid } from '@/components/ui/simple-retro-grid';
-import { HeroCarousel } from '../../common/HeroCarousel';
 import { useNavigate as Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import Spline from '@splinetool/react-spline';
+import { FlipWords } from '../../ui/FlipWords.jsx';
 
 const phrases = [
   "To The Vibrant Life At SNS",
@@ -31,23 +30,6 @@ const phraseNavigation = [
     route: "/usecase",
     buttonText: "Explore Use Cases"
   }
-];
-
-const images = [
-  "/images/Img one 2.webp",
-  "/images/Foundational Agents.webp",
-  "/images/Supplychain (1).webp",
-  "/images/Img three.webp",
-  "/images/Foundational Agents.webp",
-  "/images/IT solution (1).webp",
-  "/images/Img two_2 2.webp",
-  "/images/Foundational Agents.webp",
-  "/images/Supplychain (1).webp",
-  "/images/Img three.webp",
-  "/images/Foundational Agents.webp",
-  "/images/IT solution (1).webp",
-  "/images/Img one 2.webp",
-  "/images/Foundational Agents.webp"
 ];
 
 const HeroSection = () => {
@@ -82,14 +64,6 @@ const HeroSection = () => {
 
   return (
     <div className="relative w-full h-auto min-h-[750px] xs:min-h-[800px] sm:min-h-[850px] md:min-h-[650px] lg:min-h-[700px] xl:min-h-[750px] 2xl:min-h-[800px] overflow-hidden pt-20 xs:pt-22 sm:pt-24 md:pt-8 lg:pt-2 xl:pt-3 2xl:pt-4">
-      {/* Retro Grid Background */}
-      {/* <SimpleRetroGrid 
-        angle={65}
-        cellSize={180}
-        opacity={1}
-        lineColor="#064EE3"
-      /> */}
-
       {/* Hero Content */}
       <section className="w-full bg-[linear-gradient(359deg,rgba(255,255,255,0.7)_0%,_rgba(227,235,255,0.7)_100%)] relative z-10">
         <div
@@ -98,17 +72,9 @@ const HeroSection = () => {
             backgroundImage: 'url(/images/home/Bg.png)'
           }}
         >
-           {/* <SimpleRetroGrid
-             angle={70}
-             cellSize={100}
-             opacity={0.8}
-             lineColor="#064EE3"
-           /> */}
-          
-          
           {/* Gradient Overlay - matches the image gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#a8c5ff]/20 via-[#c8d9ff]/10 to-transparent pointer-events-none z-[2]" />
-          <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[500px] md:max-w-[768px] lg:max-w-[900px] xl:max-w-[1330px] 2xl:max-w-[1450px] mx-auto  h-full relative z-10">
+          <div className="w-full max-w-[500px] xs:max-w-[350px] sm:max-w-[500px] md:max-w-[768px] lg:max-w-[900px] xl:max-w-[1330px] 2xl:max-w-[1450px] mx-auto px-4 md:px-6 lg:px-8 xl:px-8 2xl:px-0 h-full relative z-10">
 
             {/* Mobile Layout (< 768px) - Stacked Vertically with Spline Background */}
             <div className="md:hidden flex flex-col justify-center h-full gap-8 xs:gap-10 sm:gap-10 text-center py-6 relative z-10">
@@ -182,39 +148,27 @@ const HeroSection = () => {
             </div>
 
             {/* Desktop and Large Tablet Layout (>= 768px) - Side by Side */}
-            <div className="hidden md:grid md:grid-cols-10 items-center h-full gap-8 relative z-10">
+            <div className="hidden md:grid md:grid-cols-10 items-center h-full gap-6 lg:gap-7 xl:gap-8 relative z-10">
 
               {/* Left Content Container - 60% */}
-              <div className="md:col-span-5 flex flex-col gap-[16px] lg:gap-[20px] justify-center text-center lg:text-left relative z-10">
+              <div className="md:col-span-5 flex flex-col gap-[16px] lg:gap-[16px] justify-center text-center lg:text-left relative z-10">
                 {/* Small Header */}
-                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium text-global-1 whitespace-nowrap">
+                <h2 className="text-[24px] md:text-[26px] lg:text-[28px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium text-global-1 md:whitespace-nowrap lg:whitespace-nowrap xl:whitespace-nowrap">
                   Agentic AI Breakthroughs
                 </h2>
 
                 {/* Main Heading with Slide Animation */}
-                <h2 className="text-[20px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[40px] 2xl:leading-[48px] text-global-1 h-[28px] md:h-[32px] lg:h-[36px] xl:h-[46px] 2xl:h-[52px] overflow-hidden whitespace-nowrap">
-                  <AnimatePresence mode="wait">
-                    <motion.span
-                      key={phrases[phraseIndex % phrases.length]}
-                      initial={{ y: "100%", opacity: 0 }}
-                      animate={{ y: "0%", opacity: 1 }}
-                      exit={{ y: "-100%", opacity: 0 }}
-                      transition={{ duration: 0.6, ease: "easeInOut" }}
-                      className="block text-[#064EE3] cursor-pointer hover:opacity-80 transition-opacity"
-                      onClick={handlePhraseClick}
-                    >
-                      {phrases[phraseIndex % phrases.length]}
-                    </motion.span>
-                  </AnimatePresence>
+                <h2 className="text-[20px] md:text-[24px] lg:text-[26px] xl:text-[36px] 2xl:text-[48px] font-manrope font-extrabold leading-[26px] md:leading-[30px] lg:leading-[34px] xl:leading-[34px] 2xl:leading-[44px] text-global-1 md:whitespace-normal lg:whitespace-normal xl:whitespace-nowrap lg:text-center xl:text-left">
+                  <FlipWords words={phrases} duration={4000} className="text-[#064EE3]" onClick={handlePhraseClick} />
                 </h2>
 
                 {/* Subtitle */}
-                <h2 className="text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium leading-[24px] md:leading-[28px] lg:leading-[32px] xl:leading-[36px] 2xl:leading-[40px] text-global-1 whitespace-nowrap">
+                <h2 className="text-[24px] md:text-[24px] lg:text-[26px] xl:text-[36px] 2xl:text-[40px] font-manrope font-medium leading-[24px] md:leading-[28px] lg:leading-[30px] xl:leading-[36px] 2xl:leading-[40px] text-global-1 md:whitespace-nowrap lg:whitespace-nowrap xl:whitespace-nowrap">
                   Everything Unfolds Here
                 </h2>
 
                 {/* Description */}
-                <p className="text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] font-manrope font-light leading-[16px] md:leading-[17px] lg:leading-[18px] xl:leading-[20px] text-global-1 mt-[12px] lg:mt-[16px] whitespace-nowrap">
+                <p className="text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] font-manrope font-light leading-[16px] md:leading-[17px] lg:leading-[18px] xl:leading-[20px] text-global-1 mt-[12px] lg:mt-[16px] md:whitespace-normal lg:whitespace-normal xl:whitespace-nowrap">
                   Access 1500+ Foundation Models, Ready for you
                 </p>
 
@@ -238,12 +192,14 @@ const HeroSection = () => {
               <div className="md:col-span-5 flex justify-center lg:justify-end relative z-10">
                 <div className="relative w-full h-full z-10">
                   
-                   <div className="relative w-full max-w-[450px] md:max-w-[500px] lg:max-w-[550px] xl:max-w-[600px] 2xl:max-w-[650px] bg-transparent rounded-[32px] mx-auto">
+                   <div className="relative w-full max-w-[450px] md:max-w-[500px] lg:max-w-[500px] xl:max-w-[600px] 2xl:max-w-[650px] bg-transparent rounded-[32px] mx-auto">
                      <div className="w-full" style={{ aspectRatio: '631/374' }}>
-                       <Spline 
-                         scene="https://prod.spline.design/Ha8IoMVEpIiSJCbV/scene.splinecode"
-                         className="w-full h-full"
-                       />
+                       <div className="transform origin-center md:scale-100 lg:scale-[0.88] xl:scale-100 2xl:scale-100">
+                         <Spline 
+                           scene="https://prod.spline.design/Ha8IoMVEpIiSJCbV/scene.splinecode"
+                           className="w-full h-full"
+                         />
+                       </div>
                      </div>
                    </div>
                 </div>
