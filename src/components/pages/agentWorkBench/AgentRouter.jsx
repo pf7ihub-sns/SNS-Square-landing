@@ -1,6 +1,5 @@
 import React from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import AgentWorkingPage from "./agents/deepResearch";
+import { useParams } from "react-router-dom";
 import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
@@ -68,20 +67,10 @@ import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 
 const AgentRouter = () => {
   const { agentId } = useParams();
-  const [searchParams] = useSearchParams();
 
-  // If there's a category query parameter but no agentId, show the AgentDisplay
-  if (searchParams.get('category') && !agentId) {
-    return <AgentDisplay />;
-  }
-
-  // Map known agent ids to components - ALL FOUNDATION AGENTS from agents.json
+  // Map known agent ids to components
   const agentIdToComponent = {
-    // Foundation Agents (from agents.json foundationAgents array)
-    "deep-research-agent": <AgentWorkingPage />,
     "multilanguage-chatbot": <MultiLanguageChat />,
-    "email-thread-summarizer-agent": <EmailThreadSummariser />,
-    "logic-validation-agent": <LogicValidationAgent />,
     "idea-refinement-agent": <IdeaRefinementUI />,
     "deep-research-agent": <AgentWorkingPage />,
     "logic-validation-agent": <LogicValidationAgent />,
@@ -91,7 +80,7 @@ const AgentRouter = () => {
     "automated-linter-agent": <AutomatedLinter />,
     "testcase-generation-agent": <TestCaseGenerationAgent/>,
     "healthcare-appoinment-classifier": <HealthcareAppointmentClassifier />,
-    "csv-to-excel-agent": <CsvExcelConverter />,
+    "document-summarizer-agent": <DocumentSummarizerAgent/>,
     "trip-planning-agent": <TripPlanningSystem />,
     "csv-to-excel-agent": <CsvExcelConverter />,
     "data-query-agent": <DataQuery/>,
@@ -150,3 +139,4 @@ const AgentRouter = () => {
 };
 
 export default AgentRouter;
+

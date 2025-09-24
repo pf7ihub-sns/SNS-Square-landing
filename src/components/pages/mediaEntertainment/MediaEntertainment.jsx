@@ -165,6 +165,16 @@ const MediaEntertainment = () => {
   const agents = getAgentsToDisplay();
   const categories = getCategories();
 
+  const getFilteredAgentCount = (agentsList) => {
+    if (!agentsList) return 0;
+    if (statusFilter === 'all') return agentsList.length;
+    return agentsList.filter(agent =>
+      statusFilter === 'available' ? agent.status === 'available'
+        : agent.status === 'not available' ? agent.status === 'not available'
+          : true
+    ).length;
+  };
+
   // Hero Section
   const heroSection = (
     <div
@@ -312,7 +322,10 @@ const MediaEntertainment = () => {
                       <div className="font-semibold text-base">{category.name}</div>
                       <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
                         }`}>
-                        {category.subCategories?.length || category.agents?.length || 0} {category.subCategories ? 'subcategories' : 'agents'}
+                        {category.subCategories
+                          ? `${category.subCategories.length} subcategories`
+                          : `${getFilteredAgentCount(category.agents)} agents`}
+
                       </div>
                     </div>
                     {category.subCategories && (
@@ -347,7 +360,8 @@ const MediaEntertainment = () => {
                           <div className="font-medium text-sm">{subCategory.name}</div>
                           <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
                             }`}>
-                            {subCategory.agents?.length || 0} agents
+                            {getFilteredAgentCount(subCategory.agents)} agents
+
                           </div>
                         </button>
                       ))}
@@ -481,7 +495,10 @@ const MediaEntertainment = () => {
                           <div className="font-semibold text-base">{category.name}</div>
                           <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
                             }`}>
-                            {category.subCategories?.length || category.agents?.length || 0} {category.subCategories ? 'subcategories' : 'agents'}
+                            {category.subCategories
+                              ? `${category.subCategories.length} subcategories`
+                              : `${getFilteredAgentCount(category.agents)} agents`}
+
                           </div>
                         </div>
                         {category.subCategories && (
@@ -516,7 +533,8 @@ const MediaEntertainment = () => {
                               <div className="font-medium text-sm">{subCategory.name}</div>
                               <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
                                 }`}>
-                                {subCategory.agents?.length || 0} agents
+                                {getFilteredAgentCount(subCategory.agents)} agents
+
                               </div>
                             </button>
                           ))}
