@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Youtube } from 'lucide-react';
 import { FaYoutube, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
