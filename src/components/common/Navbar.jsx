@@ -266,8 +266,8 @@ const Header = () => {
           />
         </div>
 
-        {/* Nav - center */}
-        <nav className="hidden lg:flex flex-row items-center gap-6 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+        {/* Nav - center (show from lg and up; compact spacing at lg to avoid overlap) */}
+        <nav className="hidden lg:flex flex-row items-center gap-3 lg:gap-4 xl:gap-6 absolute left-1/2 transform -translate-x-1/2 whitespace-nowrap">
           <div
             className="relative group"
             onMouseEnter={() => handleDropdownHover('agentic-workbench')}
@@ -367,8 +367,8 @@ const Header = () => {
           </div>
         </nav>
 
-        {/* Authentication/User Menu - right corner */}
-        <div className="hidden lg:flex items-center space-x-3">
+        {/* Authentication/User Menu - right corner (visible from lg; compact at lg) */}
+        <div className="hidden lg:flex items-center space-x-2 xl:space-x-3">
           {isAuthenticated ? (
             <div className="relative">
               <button
@@ -414,7 +414,7 @@ const Header = () => {
               <Button
                 variant="secondary"
                 size="small"
-                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black transition-colors"
+                className="rounded px-6 py-2 text-sm font-bold font-manrope bg-white text-black border border-black transition-colors lg:px-4 lg:py-2 lg:text-xs xl:px-6 xl:text-sm"
                 onClick={handleContactClick}
               >
                 Contact Us
@@ -423,7 +423,7 @@ const Header = () => {
           )}
         </div>
 
-        {/* Hamburger Menu Icon (Mobile only) */}
+        {/* Hamburger Menu Icon (visible below lg; hidden from 1024px and up) */}
         <button
           className="block lg:hidden p-2 ml-auto hover:bg-gray-100 rounded-lg transition-colors duration-200"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
