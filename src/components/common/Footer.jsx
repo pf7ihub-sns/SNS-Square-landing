@@ -118,7 +118,7 @@ export default function Footer() {
               {[
                 { path: "/about-us", label: "About Us" },
                 { path: "/life-at-sns", label: "Life at SNS Square" },
-                { path: "/resources", label: "Resources" },
+                { path: "/resources", label: "Blog" },
                 { path: "/contact-us", label: "Contact Us" },
                 { path: "/privacy-policy", label: "Privacy policy" },
                 { path: "/terms-of-service", label: "Terms of Service" }

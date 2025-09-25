@@ -26,20 +26,20 @@ const PolicyPage = () => {
         return (
           <div className="flex flex-col gap-6 sm:gap-8">
             <div className="flex flex-col gap-4 sm:gap-5">
-              <h2 className="text-neutral-800 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium font-manrope leading-tight">
+              <h2 className="text-neutral-800  leading-tight">
                 Privacy Policy
               </h2>
-              <p className="text-zinc-600 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              <p className="text-zinc-600  leading-relaxed">
                 Unlock the full potential of your logistics operations by integrating Square's advanced generative AI capabilities. From optimizing supply chain management to enhancing risk assessment and improving customer interactions, Square transforms the internal operations of logistics businesses.
               </p>
             </div>
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Information Collection
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 As part of our Services, Account holders may communicate with other Account holders with whom they are connected through the Services through the use of our direct messaging functionality. In addition to sending and receiving text messages, Account holders will be able to send and receive User Content (defined below), including content and multimedia files such as documents, photos and videos, as well as URLs, via our Services' functionality. Account holders have the right(s) to control the messages they send through the Services.
               </p>
               <div className="w-full h-px bg-zinc-300"></div>
@@ -47,10 +47,10 @@ const PolicyPage = () => {
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Data Usage and Protection
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 We implement industry-standard security measures to protect your personal information. Your data is encrypted both in transit and at rest, and we regularly audit our security protocols to ensure the highest level of protection for your sensitive information.
               </p>
             </div>
@@ -62,20 +62,20 @@ const PolicyPage = () => {
         return (
           <div className="flex flex-col gap-6 sm:gap-8">
             <div className="flex flex-col gap-4 sm:gap-5">
-              <h2 className="text-neutral-800 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium font-manrope leading-tight">
+              <h2 className="text-neutral-800  leading-tight">
                 Terms of Service
               </h2>
-              <p className="text-zinc-600 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              <p className="text-zinc-600  leading-relaxed">
                 Unlock the full potential of your logistics operations by integrating Square's advanced generative AI capabilities. From optimizing supply chain management to enhancing risk assessment and improving customer interactions, Square transforms the internal operations of logistics businesses.
               </p>
             </div>
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Agreement to Terms
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 As part of our Services, Account holders may communicate with other Account holders with whom they are connected through the Services through the use of our direct messaging functionality. In addition to sending and receiving text messages, Account holders will be able to send and receive User Content (defined below), including content and multimedia files such as documents, photos and videos, as well as URLs, via our Services' functionality. Account holders have the right(s) to control the messages they send through the Services. For example, Account holders can: (i) delay delivery of messages under certain circumstances for a specified time period, (ii) control who can see certain messages, (iii) impose forwarding, copying, saving, and screenshot restrictions (and trigger alerts when such events occur), (iv) control how long messages persist on the Services, and (v) recall messages so that the messages are no longer accessible through the Services. Additionally, Account holders can configure the Services in order to receive alerts or other notifications through the Services when certain events occur, and trigger certain actions in other systems in response. Kore.ai offers three distinct versions of the Services depending on whether you plan to use the Services for Individual Use, Team Use, or Enterprise Use, and each version is available on both a free and a paid basis. For the Individual Consumer Use and Team Use versions of the Services, you can create your Account using either your personal email account or an email account associated with your employer. Additionally, as part of our Services, Account holders may have the ability to access and utilize certain bots to the extent made available to such Account holders in Kore.ai's sole discretion. Bots are pieces of software that connect directly to enterprise and consumer apps, systems, websites, and more through APIs.
               </p>
               <div className="w-full h-px bg-zinc-300"></div>
@@ -83,20 +83,20 @@ const PolicyPage = () => {
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Changes to Terms or Services
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 As part of our Services, Account holders may communicate with other Account holders with whom they are connected through the Services through the use of our direct messaging functionality. In addition to sending and receiving text messages, Account holders will be able to send and receive User Content (defined below), including content and multimedia files such as documents, photos and videos, as well as URLs, via our Services' functionality. Account holders have the right(s) to control the messages they send through the Services. For example, Account holders can: (i) delay delivery of messages under certain circumstances for a specified time period, (ii) control who can see certain messages, (iii) impose forwarding, copying, saving, and screenshot restrictions (and trigger alerts when such events occur), (iv) control how long messages persist on the Services, and (v) recall messages so that the messages are no longer accessible through the Services. Additionally, Account holders can configure the Services in order to receive alerts or other notifications through the Services when certain events occur, and trigger certain actions in other systems in response. Kore.ai offers three distinct versions of the Services depending on whether you plan to use the Services for Individual Use, Team Use, or Enterprise Use, and each version is available on both a free and a paid basis. For the Individual Consumer Use and Team Use versions of the Services, you can create your Account using either your personal email account or an email account associated with your employer. Additionally, as part of our Services, Account holders may have the ability to access and utilize certain bots to the extent made available to such Account holders in Kore.ai's sole discretion. Bots are pieces of software that connect directly to enterprise and consumer apps, systems, websites, and more through APIs.
               </p>
             </div>
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Who may use the Services
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed pb-30">
+              </h5>
+              <p className="text-black/60  leading-relaxed pb-30">
                 As part of our Services, Account holders may communicate with other Account holders with whom they are connected through the Services through the use of our direct messaging functionality. In addition to sending and receiving text messages, Account holders will be able to send and receive User Content (defined below), including content and multimedia files such as documents, photos and videos, as well as URLs, via our Services' functionality. Account holders have the right(s) to control the messages they send through the Services. For example, Account holders can: (i) delay delivery of messages under certain circumstances for a specified time period, (ii) control who can see certain messages, (iii) impose forwarding, copying, saving, and screenshot restrictions (and trigger alerts when such events occur), (iv) control how long messages persist on the Services, and (v) recall messages so that the messages are no longer accessible through the Services. Additionally, Account holders can configure the Services in order to receive alerts or other notifications through the Services when certain events occur, and trigger certain actions in other systems in response. Kore.ai offers three distinct versions of the Services depending on whether you plan to use the Services for Individual Use, Team Use, or Enterprise Use, and each version is available on both a free and a paid basis. For the Individual Consumer Use and Team Use versions of the Services, you can create your Account using either your personal email account or an email account associated with your employer. Additionally, as part of our Services, Account holders may have the ability to access and utilize certain bots to the extent made available to such Account holders in Kore.ai's sole discretion. Bots are pieces of software that connect directly to enterprise and consumer apps, systems, websites, and more through APIs.
               </p>
             </div>
@@ -108,20 +108,20 @@ const PolicyPage = () => {
         return (
           <div className="flex flex-col gap-6 sm:gap-8">
             <div className="flex flex-col gap-4 sm:gap-5">
-              <h2 className="text-neutral-800 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium font-manrope leading-tight">
+              <h2 className="text-neutral-800  leading-tight">
                 Acceptable Use Policy
               </h2>
-              <p className="text-zinc-600 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              <p className="text-zinc-600  leading-relaxed">
                 This Acceptable Use Policy outlines the proper use of our services and the activities that are prohibited when using our platform.
               </p>
             </div>
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Permitted Uses
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 You may use our services for lawful business purposes, personal communication, and activities that comply with all applicable laws and regulations. Our platform is designed to facilitate legitimate business operations and personal productivity.
               </p>
               <div className="w-full h-px bg-zinc-300"></div>
@@ -129,10 +129,10 @@ const PolicyPage = () => {
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Prohibited Activities
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 Users are prohibited from engaging in activities that violate laws, infringe on intellectual property rights, distribute malicious software, or interfere with the security and integrity of our services.
               </p>
             </div>
@@ -144,20 +144,20 @@ const PolicyPage = () => {
         return (
           <div className="flex flex-col gap-6 sm:gap-8">
             <div className="flex flex-col gap-4 sm:gap-5">
-              <h2 className="text-neutral-800 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium font-manrope leading-tight">
+              <h2 className="text-neutral-800  leading-tight">
                 Cookie Policy
               </h2>
-              <p className="text-zinc-600 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              <p className="text-zinc-600  leading-relaxed">
                 This Cookie Policy explains how we use cookies and similar tracking technologies on our website and services.
               </p>
             </div>
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 What are Cookies
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 Cookies are small text files that are stored on your device when you visit our website. They help us provide you with a better user experience by remembering your preferences and improving our services.
               </p>
               <div className="w-full h-px bg-zinc-300"></div>
@@ -165,10 +165,10 @@ const PolicyPage = () => {
 
 
             <div className="flex flex-col gap-3">
-              <h4 className="text-black text-base sm:text-lg md:text-xl lg:text-2xl font-semibold font-manrope leading-tight">
+              <h5 className="text-black  leading-tight">
                 Types of Cookies We Use
-              </h4>
-              <p className="text-black/60 text-sm md:text-base lg:text-base font-normal font-inter leading-relaxed">
+              </h5>
+              <p className="text-black/60  leading-relaxed">
                 We use essential cookies for website functionality, performance cookies to analyze usage, and targeting cookies to provide personalized content and advertisements based on your interests.
               </p>
             </div>
