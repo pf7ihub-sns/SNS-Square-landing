@@ -3,6 +3,7 @@ import Hero from "./hero";
 import { Card, CardContent } from "../../common/card";
 import CoreValueSection from "./CoreValueSection";
 import InTheirOwnWords from "./InTheirOwn";
+import ScenarioSection from "./scenarioSection";
 const contentSections = [
     {
         id: 1,
@@ -118,6 +119,7 @@ export default function Page() {
                 </div>
             </div>
             <CoreValueSection />
+            <ScenarioSection />
             <InTheirOwnWords />
         </main>
     );

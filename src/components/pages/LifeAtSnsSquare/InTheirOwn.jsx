@@ -1,109 +1,58 @@
 import React from 'react';
 
+const testimonials = [
+  {
+    quote: "There's this strong culture of collaboration and transparency that I've never seen before.",
+    author: "- Aish, Software Associate",
+    image: "/images/leadership/About-us-gowtham.png"
+  },
+  {
+    quote: "The innovation here is fearless, limitless, and unbounded. Every idea explodes into new possibilities.",
+    author: "- Raj, Tech Lead",
+    image: "/images/leadership/about-us-raj.png"
+  },
+  {
+    quote: "This ecosystem gives us connection, community, and unbounded creativity that brings out our best.",
+    author: "- Jothi, Product Manager",
+    image: "/images/leadership/About-us-jothi.png"
+  }
+];
+
 const TestimonialCards = () => {
   return (
-    <div className="bg-gray-50  p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-gray-50 py-16">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">In Their Own Words</h1>
-          <p className="text-xl text-gray-600">In Their Own Words</p>
+        <div className="mb-16 text-left">
+          <h2 className="text-4xl font-bold text-gray-900 mb-2">In Their Own Words</h2>
+          <p className="text-gray-600 text-lg">In Their Own Words</p>
         </div>
 
         {/* Testimonial Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="relative h-80">
-              {/* Background Image Area */}
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-orange-100 to-yellow-200"></div>
-              
-              {/* Person Image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center">
-                  <div className="w-28 h-28 bg-gray-400 rounded-full"></div>
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-64">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.author}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <div className="text-white">
+                    <div className="text-4xl font-bold mb-2 text-gray-200">“</div>
+                    <p className="text-base md:text-lg leading-relaxed drop-shadow-sm">
+                      {testimonial.quote}
+                    </p>
+                    <div className="mt-4 text-sm text-gray-300">
+                      <p>{testimonial.author}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Equipment/Props */}
-              <div className="absolute top-4 left-4 w-16 h-10 bg-gray-800 rounded"></div>
-              <div className="absolute top-6 right-6 w-8 h-12 bg-yellow-400 rounded"></div>
-              <div className="absolute bottom-8 right-8 w-6 h-16 bg-gray-600 rounded"></div>
             </div>
-
-            {/* Quote Section */}
-            <div className="p-6 bg-gray-900 text-white relative">
-              <div className="text-4xl font-bold mb-4">"</div>
-              <p className="text-lg mb-6 leading-relaxed">
-                There's this strong culture of collaboration and transparency that I've never seen before.
-              </p>
-              <div className="text-gray-400">
-                <p>-Nitish Software Associate</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="relative h-80">
-              {/* Background Image Area */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-gray-100 to-blue-200"></div>
-              
-              {/* Person Image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center">
-                  <div className="w-28 h-28 bg-gray-400 rounded-full"></div>
-                </div>
-              </div>
-
-              {/* Equipment/Props */}
-              <div className="absolute top-4 left-4 w-16 h-10 bg-gray-800 rounded"></div>
-              <div className="absolute top-6 right-6 w-8 h-12 bg-yellow-400 rounded"></div>
-              <div className="absolute bottom-8 right-8 w-6 h-16 bg-gray-600 rounded"></div>
-            </div>
-
-            {/* Quote Section */}
-            <div className="p-6 bg-gray-900 text-white relative">
-              <div className="text-4xl font-bold mb-4">"</div>
-              <p className="text-lg mb-6 leading-relaxed">
-                There's this strong culture of collaboration and transparency that I've never seen before.
-              </p>
-              <div className="text-gray-400">
-                <p>-Nitish Software Associate</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="relative h-80">
-              {/* Background Image Area */}
-              <div className="absolute inset-0 bg-gradient-to-br from-green-100 via-gray-100 to-green-200"></div>
-              
-              {/* Person Image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center">
-                  <div className="w-28 h-28 bg-gray-400 rounded-full"></div>
-                </div>
-              </div>
-
-              {/* Equipment/Props */}
-              <div className="absolute top-4 left-4 w-16 h-10 bg-gray-800 rounded"></div>
-              <div className="absolute top-6 right-6 w-8 h-12 bg-yellow-400 rounded"></div>
-              <div className="absolute bottom-8 right-8 w-6 h-16 bg-gray-600 rounded"></div>
-            </div>
-
-            {/* Quote Section */}
-            <div className="p-6 bg-gray-900 text-white relative">
-              <div className="text-4xl font-bold mb-4">"</div>
-              <p className="text-lg mb-6 leading-relaxed">
-                There's this strong culture of collaboration and transparency that I've never seen before.
-              </p>
-              <div className="text-gray-400">
-                <p>-Nitish Software Associate</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
