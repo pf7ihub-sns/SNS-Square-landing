@@ -1,303 +1,103 @@
-import { Card } from "../../common/card";
-import { SimpleRetroGrid } from "../../ui/simple-retro-grid";
+import React from 'react';
 
-const coreValues = [
-	{
-		id: 1,
-		title: "Innovation",
-		description:
-			"We embrace cutting-edge technology and foster creative solutions that drive meaningful digital transformation.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 2,
-		title: "Collaboration",
-		description:
-			"We work together, sharing knowledge and expertise to achieve collective success and deliver greater value.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 3,
-		title: "Customer-Centricity",
-		description:
-			"Our clients are at the heart of everything we do. We strive to understand their needs and exceed their expectations.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 4,
-		title: "Impact",
-		description:
-			"We are focused on delivering measurable results that make a real difference for our clients and their businesses.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 5,
-		title: "Integrity and Trust",
-		description:
-			"We operate with transparency and honesty, building lasting relationships based on mutual trust and respect.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 6,
-		title: "Adaptability",
-		description:
-			"In a fast-changing world, we pride ourselves on our ability to adapt, learn, and evolve to stay ahead of the curve.",
-		icon: "/images/home/OCS-icon.png",
-	},
-];
-
-function MobileCoreValues() {
-    return (
-        <section
-            className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
-            style={{
-                backgroundImage: "url('/images/home/Background-home-RS.png')",
-            }}
-        >
-            <div className="p-8">
-                <div className="max-w-[1480px] mx-auto">
-                    <div className="mb-6">
-                        <h2 className="text-3xl font-bold text-gray-900 text-balance">Our Core Values</h2>
-                        <p className="text-gray-600 text-base leading-relaxed mt-3">
-                            Pre-built AI agents designed with advanced capabilities to serve
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {coreValues.map((value) => (
-                            <Card
-                                key={value.id}
-                                className="group relative w-full h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer"
-                            >
-                                <div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-                                    <img src={value.icon} alt={value.title} className="w-7 h-6" />
-                                    <h4 className="text-lg font-medium text-gray-800">{value.title}</h4>
-                                </div>
-                                <div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-                                    <SimpleRetroGrid angle={220} cellSize={40} lineColor="#C8E0E5" opacity={0.6} />
-                                    <div className="relative z-10 flex flex-col h-full">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <img src={value.icon} alt={value.title} className="w-7 h-6" />
-                                            <h4
-                                                className="text-lg font-medium"
-                                                style={{
-                                                    background: "linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-                                                    WebkitBackgroundClip: "text",
-                                                    backgroundClip: "text",
-                                                    color: "transparent",
-                                                }}
-                                            >
-                                                {value.title}
-                                            </h4>
-                                        </div>
-                                        <p className="text-sm text-gray-600 leading-relaxed">{value.description}</p>
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-}
-
-export default function CoreValueSection() {
-	return (
-        <>
-            {/* Desktop and larger (>=1024px) - keep existing design */}
-            <section
-                className="hidden lg:block w-full bg-no-repeat bg-cover bg-center overflow-hidden"
-                style={{
-                    backgroundImage: "url('/images/home/Background-home-RS.png')",
-                }}
+const CoreValuesSection = () => {
+  return (
+    <div className="max-w-7xl mx-auto my-8 bg-white">
+      {/* Header Section */}
+      <div className="px-8 py-16">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Our core values define who we are
+        </h1>
+        <p className="text-lg text-gray-600 mb-16">
+          Our core values define who we are
+        </p>
+        
+        {/* Values Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl">
+          {[1, 2, 3, 4].map((index) => (
+            <div 
+              key={index}
+              className="bg-blue-50 rounded-2xl p-8 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
             >
-                <div className="p-8">
-                    <div className="max-w-[1110px] mx-auto">
-					{/* First Row - Title on left, 1 card on right with spacing */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3">
-							<h2 className="text-4xl font-bold text-gray-900 text-balance">
-								Our Core Values
-							</h2>
-							<p className="text-gray-600 text-lg leading-relaxed mt-4">
-								Pre-built AI agents designed with advanced capabilities to
-								serve
-							</p>
-						</div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end">
-							<Card className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer">
-								{/* Default State */}
-								<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-									<img
-										src={coreValues[0].icon}
-										alt={coreValues[0].title}
-										className="w-7 h-6"
-									/>
-									<h4 className="text-lg font-medium text-gray-800">
-										{coreValues[0].title}
-									</h4>
-								</div>
-								{/* Hover State */}
-								<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-									<SimpleRetroGrid
-										angle={220}
-										cellSize={40}
-										lineColor="#C8E0E5"
-										opacity={0.6}
-									/>
-									<div className="relative z-10 flex flex-col h-full">
-										<div className="flex items-center gap-3 mb-2">
-											<img
-												src={coreValues[0].icon}
-												alt={coreValues[0].title}
-												className="w-7 h-6"
-											/>
-											<h4
-												className="text-lg font-medium"
-												style={{
-													background:
-														"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-													WebkitBackgroundClip: "text",
-													backgroundClip: "text",
-													color: "transparent",
-												}}
-											>
-												{coreValues[0].title}
-											</h4>
-										</div>
-										<p className="text-sm text-gray-600 leading-relaxed">
-											{coreValues[0].description}
-										</p>
-									</div>
-								</div>
-							</Card>
-						</div>
-					</div>
-
-					{/* Second Row - 2 cards on right */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3"></div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end ">
-							{[coreValues[1], coreValues[2]].map((value) => (
-								<Card
-									key={value.id}
-									className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer"
-								>
-									{/* Default State */}
-									<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-										<img
-											src={value.icon}
-											alt={value.title}
-											className="w-7 h-6"
-										/>
-										<h4 className="text-lg font-medium text-gray-800">
-											{value.title}
-										</h4>
-									</div>
-									{/* Hover State */}
-									<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-										<SimpleRetroGrid
-											angle={220}
-											cellSize={40}
-											lineColor="#C8E0E5"
-											opacity={0.6}
-										/>
-										<div className="relative z-10 flex flex-col h-full">
-											<div className="flex items-center gap-3 mb-2">
-												<img
-													src={value.icon}
-													alt={value.title}
-													className="w-7 h-6"
-												/>
-												<h4
-													className="text-lg font-medium"
-													style={{
-														background:
-															"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-														WebkitBackgroundClip: "text",
-														backgroundClip: "text",
-														color: "transparent",
-													}}
-												>
-													{value.title}
-												</h4>
-											</div>
-											<p className="text-sm text-gray-600 leading-relaxed">
-												{value.description}
-											</p>
-										</div>
-									</div>
-								</Card>
-							))}
-						</div>
-					</div>
-
-					{/* Third Row - 3 cards on right */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3"></div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end ">
-							{coreValues.slice(3, 6).map((value) => (
-								<Card
-									key={value.id}
-									className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] flex-shrink-0 overflow-hidden cursor-pointer"
-								>
-									{/* Default State */}
-									<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-										<img
-											src={value.icon}
-											alt={value.title}
-											className="w-7 h-6"
-										/>
-										<h4 className="text-lg font-medium text-gray-800">
-											{value.title}
-										</h4>
-									</div>
-									{/* Hover State */}
-									<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-										<SimpleRetroGrid
-											angle={220}
-											cellSize={40}
-											lineColor="#C8E0E5"
-											opacity={0.6}
-										/>
-										<div className="relative z-10 flex flex-col h-full">
-											<div className="flex items-center gap-3 mb-2">
-												<img
-													src={value.icon}
-													alt={value.title}
-													className="w-7 h-6"
-												/>
-												<h4
-													className="text-lg font-medium"
-													style={{
-														background:
-															"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-														WebkitBackgroundClip: "text",
-														backgroundClip: "text",
-														color: "transparent",
-													}}
-												>
-													{value.title}
-												</h4>
-											</div>
-											<p className="text-sm text-gray-600 leading-relaxed">
-												{value.description}
-											</p>
-										</div>
-									</div>
-								</Card>
-							))}
-						</div>
-					</div>
-                    </div>
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-semibold text-gray-900">Speed</h3>
+                <div className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
+                  <svg 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="white" 
+                    strokeWidth="2.5"
+                    className="w-5 h-5"
+                  >
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                  </svg>
                 </div>
-            </section>
-
-            {/* Mobile/Tablet (<1024px) - 2 cards per row, 1 card below 641px */}
-            <div className="block lg:hidden">
-                <MobileCoreValues />
+              </div>
+              
+              <p className="text-gray-700 leading-relaxed">
+                Faster time-to-value with our enterprise AI solutions and AI agent marketplace.
+              </p>
             </div>
-        </>
-	);
-}
+          ))}
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="relative overflow-hidden">
+        {/* Background with abstract geometric shapes */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-purple-50 to-blue-200">
+          {/* Abstract geometric shapes */}
+          <div className="absolute top-0 left-0 w-full h-full opacity-20">
+            <svg viewBox="0 0 1200 600" className="w-full h-full">
+              <defs>
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.1" />
+                </linearGradient>
+              </defs>
+              
+              {/* Geometric shapes */}
+              <polygon 
+                points="0,150 300,50 600,200 300,300" 
+                fill="url(#gradient1)"
+                className="animate-pulse"
+              />
+              <polygon 
+                points="400,100 800,0 1200,150 800,250" 
+                fill="url(#gradient1)"
+                className="animate-pulse"
+                style={{animationDelay: '1s'}}
+              />
+              <polygon 
+                points="200,350 600,250 1000,400 600,500" 
+                fill="url(#gradient1)"
+                className="animate-pulse"
+                style={{animationDelay: '2s'}}
+              />
+              <polygon 
+                points="600,400 1000,300 1200,450 900,550" 
+                fill="url(#gradient1)"
+                className="animate-pulse"
+                style={{animationDelay: '0.5s'}}
+              />
+            </svg>
+          </div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 px-8 py-24 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 max-w-4xl mx-auto leading-tight">
+            Discover what truly defines SNS Square in a detailed letter from
+          </h2>
+          
+          <button className="mt-12 bg-gray-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors duration-300 shadow-lg">
+            Read our Story
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CoreValuesSection;
