@@ -4,17 +4,17 @@ const testimonials = [
   {
     quote: "There's this strong culture of collaboration and transparency that I've never seen before.",
     author: "- Aish, Software Associate",
-    image: "/images/leadership/About-us-gowtham.png"
+    image: "/images/IMG_6488.png"
   },
   {
-    quote: "The innovation here is fearless, limitless, and unbounded. Every idea explodes into new possibilities.",
+    quote: "The innovation here is fearless, limitless, and unbounded. Every idea explodes into new.",
     author: "- Raj, Tech Lead",
-    image: "/images/leadership/about-us-raj.png"
+    image: "/images/IMG_7778.png"
   },
   {
     quote: "This ecosystem gives us connection, community, and unbounded creativity that brings out our best.",
     author: "- Jothi, Product Manager",
-    image: "/images/leadership/About-us-jothi.png"
+    image: "/images/IMG_6586.png"
   }
 ];
 
@@ -24,28 +24,28 @@ const TestimonialCards = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-16 text-left">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">In Their Own Words</h2>
-          <p className="text-gray-600 text-lg">In Their Own Words</p>
+          <h3 className=" text-gray-900 mb-2">In Their Own Words</h3>
+          <p className="text-gray-600 mt-6">In Their Own Words</p>
         </div>
 
         {/* Testimonial Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-64">
+            <div key={index} className="bg-white rounded-sm shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="relative h-96">
                 <img
                   src={testimonial.image}
                   alt={testimonial.author}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <div className="text-white">
-                    <div className="text-4xl font-bold mb-2 text-gray-200">“</div>
+                <div className="absolute inset-x-0 bottom-0 p-2 bg-white/35">
+                  <div className="text-black">
+                    <div className="text-4xl font-bold mb-2 text-black ">“</div>
                     <p className="text-base md:text-lg leading-relaxed drop-shadow-sm">
                       {testimonial.quote}
                     </p>
-                    <div className="mt-4 text-sm text-gray-300">
+                    <div className="mt-4 text-sm text-black">
                       <p>{testimonial.author}</p>
                     </div>
                   </div>

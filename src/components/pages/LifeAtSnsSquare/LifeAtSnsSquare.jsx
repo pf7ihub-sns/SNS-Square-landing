@@ -79,7 +79,7 @@ const contentSections = [
         imagePosition: "right",
         cardPosition: "left",
         cardStyle: "rounded-none lg:rotate-180",
-        textRotate: "lg:rotate-180",
+        textRotate: "lg:rotate-180 ",
     },
 ];
 
@@ -89,9 +89,9 @@ export default function Page() {
             <Hero showButton={false} />
 
             {/* What defines us section */}
-            <div className="max-w-7xl mx-auto mb-8">
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">What defines us</h3>
-                <p className="text-gray-600 text-lg mb-8">What defines us</p>
+            <div className="max-w-7xl mx-auto  py-8">
+                <h3 className="text-3xl font-bold text-gray-900 ">What defines us</h3>
+                <p className="text-gray-600 text-lg mt-4">What defines us</p>
             </div>
 
             {/* Culture Cards Horizontal Scroll */}
@@ -101,7 +101,7 @@ export default function Page() {
                         {contentSections.map((section) => (
                             <div 
                                 key={section.id} 
-                                className={`bg-[#F0FAFF]  overflow-hidden hover:shadow-xl h-90 rounded-xl transition-shadow duration-300 flex-shrink-0 w-80 ${section.cardStyle}`}
+                                className={`bg-[#F0FAFF]  overflow-hidden hover:shadow-xl h-95 rounded-xl transition-shadow duration-300 flex-shrink-0 w-80 ${section.cardStyle}`}
                             >
                                 <div className={`h-64 relative overflow-hidden ${section.hasOverlay ? 'bg-gradient-to-br from-gray-800/50 to-gray-900/50' : ''}`}>
                                     <img
@@ -110,8 +110,8 @@ export default function Page() {
                                         className={`w-full h-full object-cover rounded-lg ${section.textRotate || ''}`}
                                     />
                                 </div>
-                                <div className={`p-6 ${section.textRotate || ''}`}>
-                                    <h4 className=" text-gray-900 rounded-lg">{section.title}</h4>
+                                <div className={`flex items-center py-6 px-2  ${section.textRotate || ''}`}>
+                                    <h5 className=" text-gray-900 rounded-lg">{section.title}</h5>
                                 </div>
                             </div>
                         ))}

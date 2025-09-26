@@ -3,10 +3,10 @@ import BlackButton from "../../common/BlackButton";
 
 const HeroSection = ({ showButton = true }) => {
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white  mt-20">
       <div className="relative w-full bg-gradient-to-b from-blue-50 to-blue-100">
         {/* Header section with logo and content */}
-        <div className="container mx-auto px-4 pt-20 pb-16">
+        <div className="container mx-auto px-4 pt-20 ">
           {/* SNS Square Logo */}
           <div className="mb-12 text-center">
             <img
@@ -14,17 +14,16 @@ const HeroSection = ({ showButton = true }) => {
               alt="SNS Square Logo"
               className="h-24 mx-auto mb-4"
             />
-            <p className="text-gray-600 text-lg">Reimagining Business</p>
           </div>
 
           <div className="relative max-w-5xl mx-auto text-center">
             {/* Main Heading */}
-            <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+            <h1 className=" leading-tight mb-6">
               A Culture that Erupts into <span className="text-blue-600">Brilliance</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-gray-700 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed mb-12">
+            <p className="text-gray-700  max-w-4xl mx-auto leading-relaxed mt-6">
               We are a culture of bold thinkers and fearless doers. Here, boundaries fade, routines transform into freedom, and creativity flows without limits.
             </p>
 
