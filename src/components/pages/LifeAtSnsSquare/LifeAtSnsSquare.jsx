@@ -69,16 +69,17 @@ export default function Page() {
         <div className=" bg-white">
 
             <Hero />
-            <div className="px-8 py-14">
-                <div><h3>What defines us</h3>
+            <div className=" pt-14 mb-12 flex max-w-7xl  mx-auto">
+                <div className=""><h3>What defines us</h3>
                     <p className="mt-6 mb-6">What defines us</p></div>
-                <InfiniteMovingCards
+             
+            </div>
+               <InfiniteMovingCards
                     items={contentSections}
                     direction="left"
                     speed="normal"
                     pauseOnHover={true}
                 />
-            </div>
             <CoreValueSection />
             <ScenarioSection />
             <InTheirOwnWords />

@@ -4,8 +4,8 @@ import { FaYoutube, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="">
-      <footer className="bg-white max-w-7xl mx-auto  p-8 rounded-lg shadow">
+    <div >
+      <footer className="bg-white mx-auto  p-8 rounded-lg shadow">
         <div className=" px-6 pb-10 grid grid-cols-1 md:grid-cols-5 gap-10  ">
           {/* Logo */}
           <div>

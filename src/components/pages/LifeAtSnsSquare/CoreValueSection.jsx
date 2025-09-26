@@ -3,35 +3,35 @@ import BlackButton from '../../common/BlackButton';
 
 const coreValues = [
   {
-    title: "Speed",
+    title: "Future-First Innovation",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
       </svg>
     ),
-    description: "Faster time-to-value with our enterprise AI solutions and AI agent marketplace."
+    description: "At SNS Square, we challenge limits and design solutions that keep businesses ahead in the Agentic AI era."
   },
   {
-    title: "Innovation",
+    title: "Integrity as Our Core",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
         <circle cx="12" cy="12" r="10"></circle>
         <path d="M8 12l2 2 4-4"></path>
       </svg>
     ),
-    description: "Cutting-edge solutions that push the boundaries of what's possible with AI technology."
+    description: "We operate with transparency and responsibility, building lasting trust with our clients, partners, and teams."
   },
   {
-    title: "Excellence",
+    title: "Collaboration that Scales",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
         <path d="M6 9l6 6 6-6"></path>
       </svg>
     ),
-    description: "Uncompromising quality in every solution we deliver and every relationship we build."
+    description: "Together, we bring diverse expertise and ideas, transforming them into scalable solutions for real-world impact."
   },
   {
-    title: "Collaboration",
+    title: "Purpose-Driven Impact",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -40,7 +40,7 @@ const coreValues = [
         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
       </svg>
     ),
-    description: "Working together with clients as partners to achieve transformative business outcomes."
+    description: "Every innovation we create is focused on solving real challenges and shaping a smarter, sustainable future."
   }
 ];
 
@@ -64,9 +64,9 @@ const CoreValuesSection = () => {
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between mb-8">
                   <p className="text-gray-900 highlight text-lg font-semibold">{value.title}</p>
-                  <div className="w-8 h-8 bg-gray-900 rounded-md flex items-center justify-center text-white">
+                  {/* <div className="w-6 h-6 bg-gray-900 rounded-md flex items-center justify-center text-white">
                     {value.icon}
-                  </div>
+                  </div> */}
                 </div>
 
                 <p className="text-gray-700 leading-relaxed mt-auto">

@@ -5,50 +5,32 @@ import BlackButton from "../../common/BlackButton";
 const categories = [
   {
     key: "supply",
-    label: "Supply Chain",
+    label: "Tech Talk ",
     images: ["/images/home/usecase/SupplyChain.png"],
     gradient:
       "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI transforms supply chains into proactive, intelligent networks, predicting disruptions, optimizing flows, and ensuring products reach the right place at the right time with unmatched efficiency.",
+      "Every Friday, our employees lead a Tech Talk to share the latest tools, AI innovations, and future-ready hacks. It’s peer-to-peer learning that sparks new ideas and helps us all work smarter.",
   },
   {
     key: "it",
-    label: "Information Technology",
+    label: "Talk Series",
     images: ["/images/home/usecase/InformationTechnology.png"],
     gradient:
     "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI turns IT into a strategic engine, self-monitoring, self-healing, and continuously optimizing systems to accelerate digital transformation and reduce risk.",
+      "Industry leaders, CEOs, VPs, and innovators join us to share their journeys, insights, and visions. An open forum for our team to ask questions, gain perspectives, and learn directly from the best minds shaping tomorrow.",
   },  
   {
     key: "health",
-    label: "Health Care",
+    label: "Agentic Bootcamps",
     images: ["/images/home/usecase/Health-care.png"],
     gradient:
       // "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
        "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI powers healthcare that is precise, predictive, and compassionate, enabling personalized patient care, smarter operations, and lighter burdens for caregivers.",
-  },
-  {
-    key: "hr",
-    label: "Human Resource",
-    images: ["/images/home/usecase/HumanResource.png"],
-    gradient:
-    "linear-gradient(359.77deg, rgba(249, 238, 241, 0.94) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
-    description:
-      "Agentic AI empowers HR to unlock human potential, from intelligent recruitment and predictive retention to adaptive learning, turning people-first strategies into scalable impact.",
-  },
-  {
-    key: "ins",
-    label: "Insurance",
-    images: ["/images/home/usecase/Insurance.png"],
-    gradient:
-    "linear-gradient(359.77deg, rgba(254, 241, 230, 0.8) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
-    description:
-      "Agentic AI strengthens trust and agility in insurance, detecting fraud in real time, automating claims, and delivering hyper-personalized policies with speed and confidence.",
-  },
+      "Our Agentic Bootcamps are immersive learning experiences designed to equip every employee with practical AI and future-tech skills. Hands-on, real-world, and impact-driven so our people stay ahead of the curve.",
+  }
 ];
 
 
@@ -152,19 +134,6 @@ const RealScenariosSection = () => {
     }
   };
 
-  const handleKnowMoreClick = (e, categoryKey) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const mappedCategory = keyToUsecaseCategory[categoryKey];
-    if (mappedCategory) {
-      navigate(`/usecase?category=${mappedCategory}`);
-    } else {
-      // Fallback to just /usecase if mapping not found
-      navigate('/usecase');
-    }
-  };
-
   return (
     <section
       className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
@@ -176,8 +145,8 @@ const RealScenariosSection = () => {
           <div className="flex flex-col justify-start sticky top-24 lg:min-h-[400px]">
             {/* Row 1: Heading (Desktop H3) */}
             <div>
-              <h3 className="font-manrope font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-tight text-black scenario-section mb-4">
-                Beyond Hype: <br/>Agentic AI in Action
+              <h3 className="leading-tight text-black scenario-section mb-4">
+                We offer programs to create access and opportunity for all
               </h3>
             </div>
             {/* Row 2: Paragraph + Button */}
@@ -186,15 +155,6 @@ const RealScenariosSection = () => {
                 Discover practical scenarios where Agentic AI reshapes industries, accelerates decisions, and delivers results that once seemed impossible.
               </p>
               <div className="flex flex-col lg:flex-row items-start gap-4 mb-14 lg:mb-0">
-                <BlackButton
-                  size="medium"
-                  variant="black"
-                  className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300 order-2 lg:order-1"
-                  onClick={() => navigate("/usecase")}
-                >
-                  View More
-                </BlackButton>
-                {/* Mobile Tabs Slider */}
                 <div className="w-full lg:hidden order-1 overflow-x-auto scrollbar-hide">
                   <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'min-content' }}>
                     {categories.map((c) => (
@@ -280,17 +240,6 @@ const RealScenariosSection = () => {
                           <p className="font-inter text-black/90 text-sm md:text-base mb-4">
                             {cat.description}
                           </p>
-                   
-                          <BlackButton
-                            size="small"
-                            variant="black"
-                            className="px-4 py-2"
-                            onClick={(e) => handleKnowMoreClick(e, cat.key)}
-                            
-                          
-                          >
-                            Know more
-                          </BlackButton>
                         </div>
                       </div>
                     </div>
