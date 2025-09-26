@@ -46,9 +46,9 @@ const coreValues = [
 
 const CoreValuesSection = () => {
   return (
-    <div className="bg-white ">
+    <div className="bg-white py-16">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 mb-8">
         <div className="mb-16">
           <h3 className="  text-gray-900 mb-2">Our core values define who we are</h3>
           <p className="text-gray-600 mt-6">Our core values define who we are</p>
