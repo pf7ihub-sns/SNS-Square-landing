@@ -1,5 +1,4 @@
 import React from 'react';
-import BlackButton from '../../common/BlackButton';
 
 const coreValues = [
   {
@@ -48,28 +47,31 @@ const CoreValuesSection = () => {
   return (
     <div className="bg-white py-16">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto  mb-8">
+      <div className="max-w-7xl mx-auto lg:px-6 px-4 sm:px-6 mb-8">
         <div className="mb-16">
-          <h3 className="text-gray-900 mb-2">Our core values define who we are</h3>
-          <p className="text-gray-600 mt-6">Our core values define who we are</p>
+          <h3 className="text-gray-900 mb-2 lg:text-left">
+            Our core values define who we are
+          </h3>
+          <p className="text-gray-600 mt-6  lg:text-left">
+            Our core values define who we are
+          </p>
         </div>
 
         {/* Values Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6 lg:h-80 min-h-[320px] sm:min-h-[280px] mb-12">
           {coreValues.map((value, index) => (
             <div
               key={index}
-              className="bg-blue-50 rounded-md p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
+              className="bg-blue-50 rounded-md  lg:p-6 p-4 sm:p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between mb-8">
-                  <p className="text-gray-900 highlight text-lg font-semibold">{value.title}</p>
-                  {/* <div className="w-6 h-6 bg-gray-900 rounded-md flex items-center justify-center text-white">
-                    {value.icon}
-                  </div> */}
+                <div className="flex items-center justify-between lg:mb-8 mb-6 sm:mb-8">
+                  <p className="text-gray-900 highlight lg:text-lg text-base sm:text-lg font-semibold lg:leading-normal leading-tight lg:pr-0 pr-2">
+                    {value.title}
+                  </p>
                 </div>
 
-                <p className="text-gray-700 leading-relaxed mt-auto">
+                <p className="text-gray-700 leading-relaxed mt-auto lg:text-base text-sm sm:text-base">
                   {value.description}
                 </p>
               </div>
@@ -79,24 +81,20 @@ const CoreValuesSection = () => {
       </div>
 
       {/* CTA Section (GlassCube background) */}
-
-      <div className="relative overflow-hidden max-w-7xl mx-auto rounded-md bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff] ">
-        {/* Background Image positioned on the left side */}
+      <div className="relative overflow-hidden max-w-7xl mx-auto lg:mt-0 mt-8 md:mt-12 rounded-md bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff] lg:mx-auto mx-4 sm:mx-6">
+        {/* Background Image positioned on the left side - Hidden on mobile, visible on tablet+ */}
         <div
-          className="absolute left-0 top-0 w-1/2 h-full bg-cover bg-center bg-no-repeat "
-          style={{ backgroundImage: "url('/images/GlassCube.png')" }}
+          className="absolute left-0 top-0 lg:w-1/2 w-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat"
+         style={{ backgroundImage: "url('/images/GlassCube.png')" }}
         ></div>
 
-        {/* Blue gradient overlay */}
-        <div></div>
-
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24">
-          <div className="mx-auto max-w-4xl text-center rounded-md border border-white/40 bg-white/20 backdrop-blur-sm shadow-xl p-8 md:p-12">
-            <h3 className="  text-gray-900 leading-tight mb-4">
+        <div className="relative z-10 max-w-7xl mx-auto lg:px-4 px-4 sm:px-6 lg:py-16 md:py-24 py-12 sm:py-16">
+          <div className="mx-auto max-w-4xl text-center rounded-md border border-white/40 bg-white/20 backdrop-blur-sm shadow-xl lg:p-8 md:p-12 p-6 sm:p-8">
+            <h3 className="text-gray-900 leading-tight mb-4 lg:text-2xl text-lg sm:text-xl md:text-2xl font-semibold lg:px-0 px-2 sm:px-4">
               Discover what truly defines SNS Square in a detailed letter from
             </h3>
-            <button className="mt-8 px-8 py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-colors duration-300">
+            <button className="lg:mt-8 mt-6 sm:mt-8 lg:px-8 px-6 sm:px-8 lg:py-3 py-2.5 sm:py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-colors duration-300 lg:text-base text-sm sm:text-base">
               Read our Story
             </button>
           </div>

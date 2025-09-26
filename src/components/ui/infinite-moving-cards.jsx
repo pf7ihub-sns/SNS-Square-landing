@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 import { Card, CardContent } from "../common/card.jsx";
+
 export const InfiniteMovingCards = ({
   items,
   direction = "left",
@@ -92,6 +93,29 @@ export const InfiniteMovingCards = ({
     }
   };
 
+  // Touch handlers for mobile
+  const handleTouchStart = (e) => {
+    setIsMouseDown(true);
+    if (containerRef.current) {
+      setStartX(e.touches[0].pageX - containerRef.current.offsetLeft);
+      setScrollLeft(containerRef.current.scrollLeft);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isMouseDown) return;
+    e.preventDefault();
+    if (containerRef.current) {
+      const x = e.touches[0].pageX - containerRef.current.offsetLeft;
+      const scroll = x - startX;
+      containerRef.current.scrollLeft = scrollLeft - scroll;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsMouseDown(false);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -103,11 +127,14 @@ export const InfiniteMovingCards = ({
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-4  px-6",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-2 sm:gap-3 md:gap-4 px-3 sm:px-4 md:px-6",
           start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
@@ -116,16 +143,19 @@ export const InfiniteMovingCards = ({
           <li
             key={idx}
             className={cn(
-              "relative  max-w-full shrink-0",
+              "relative max-w-full shrink-0",
               item.cardStyle
             )}
           >
-            <Card>
-              <CardContent className="flex flex-col gap-4 w-150">
+            <Card className="w-full">
+    <CardContent className="flex flex-col gap-2 sm:gap-3 md:gap-4 w-full min-w-[200px] max-w-[250px] sm:min-w-[240px] sm:max-w-[280px] md:min-w-[300px] md:max-w-[350px] lg:min-w-[350px] lg:max-w-[400px] xl:w-150">
                 {item.textPosition === 'top' ? (
                   <>
-                    <div className="p-8">
-                      <h4 className={cn("", item.textRotate)}>
+                    <div className="p-3 sm:p-4 md:p-6 lg:p-8">
+                      <h4 className={cn(
+                        "text-sm sm:text-base md:text-lg lg:text-xl font-semibold leading-tight",
+                        item.textRotate
+                      )}>
                         {item.title}
                       </h4>
                     </div>
@@ -133,7 +163,7 @@ export const InfiniteMovingCards = ({
                       src={item.imageSrc}
                       alt={item.title}
                       draggable="false"
-                      className="w-full h-150 object-cover rounded-lg"
+                      className="w-full h-32 sm:h-40 md:h-48 lg:h-56 xl:h-150 object-cover rounded-lg"
                     />
                   </>
                 ) : (
@@ -142,10 +172,13 @@ export const InfiniteMovingCards = ({
                       src={item.imageSrc}
                       alt={item.title}
                       draggable="false"
-                      className="w-full h-150 object-cover rounded-lg"
+                      className="w-full h-32 sm:h-40 md:h-48 lg:h-56 xl:h-150 object-cover rounded-lg"
                     />
-                    <div className="p-8">
-                      <h4 className={cn("", item.textRotate)}>
+                    <div className="p-3 sm:p-4 md:p-6 lg:p-8">
+                      <h4 className={cn(
+                        " leading-tight",
+                        item.textRotate
+                      )}>
                         {item.title}
                       </h4>
                     </div>
