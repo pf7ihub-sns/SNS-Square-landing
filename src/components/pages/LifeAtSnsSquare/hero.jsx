@@ -3,10 +3,10 @@ import BlackButton from "../../common/BlackButton";
 
 const HeroSection = ({ showButton = true }) => {
   return (
-    <div className="bg-white  mt-20">
-      <div className="relative w-full bg-gradient-to-b from-blue-50 to-blue-100">
+    <div className="bg-white  mt-20 px-8 pt-12 rounded-b-md">
+      <div className="relative w-full bg-[#D6F0FE]">
         {/* Header section with logo and content */}
-        <div className="container mx-auto px-4 pt-20 ">
+        <div className="container mx-auto px-4 pt-12 ">
           {/* SNS Square Logo */}
           <div className="mb-12 text-center">
             <img
@@ -29,20 +29,20 @@ const HeroSection = ({ showButton = true }) => {
 
             {/* CTA Button */}
             {showButton && (
-              <BlackButton className="px-8 py-4 text-lg font-semibold">
+              <BlackButton className="px-8 py-4 text-lg font-semibold mt-8">
                 Work With Us
               </BlackButton>
             )}
           </div>
 
           {/* Team Image section */}
-          <div className="relative mt-16 mx-auto max-w-6xl">
+          <div className="relative mt-16 mx-auto ">
             <div className="relative">
               {/* Team image */}
               <img
-                src="/images/Team.png"
+                src="/images/team1.png"
                 alt="SNS Square Team"
-                className="w-full rounded-2xl shadow-2xl"
+                className="w-full rounded-md "
               />
             </div>
           </div>

@@ -20,7 +20,7 @@ const testimonials = [
 
 const TestimonialCards = () => {
   return (
-    <div className="bg-gray-50 py-16">
+    <div className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-16 text-left">
@@ -31,7 +31,7 @@ const TestimonialCards = () => {
         {/* Testimonial Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white rounded-sm shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div key={index} className="bg-white rounded-md shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="relative h-96">
                 <img
                   src={testimonial.image}

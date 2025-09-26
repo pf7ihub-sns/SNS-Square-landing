@@ -44,7 +44,7 @@ const SignupForm = () => {
               className="w-[100px] sm:w-[150px]"
             />
           </div>
-          <div className="bg-white rounded-sm shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
+          <div className="bg-white rounded-md shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
             <div className="w-full">
               <h3 className="text-xl sm:text-2xl font-semibold">Sign up</h3>
               <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Lorem ipsum nisi lorem turpis</p>

@@ -205,7 +205,7 @@ const RealScenariosSection = () => {
                           (active === c.key
                             ? "bg-black text-white"
                             : "bg-white text-black border border-black/10 hover:bg-black/5") +
-                          " rounded-[6px] px-4 py-2.5 whitespace-nowrap text-sm font-inter scenario-tab-button transition-all duration-300"
+                          " rounded-md px-4 py-2.5 whitespace-nowrap text-sm font-inter scenario-tab-button transition-all duration-300"
                         }
                       >
                         {c.label}
@@ -229,7 +229,7 @@ const RealScenariosSection = () => {
                     (active === c.key
                       ? "bg-black text-white"
                       : "bg-white text-black border border-black/10 hover:bg-black/5") +
-                    " rounded-[6px] px-4 py-2.5 lg:px-5 text-sm lg:text-base font-inter scenario-tab-button transition-all duration-300"
+                    " rounded-md px-4 py-2.5 lg:px-5 text-sm lg:text-base font-inter scenario-tab-button transition-all duration-300"
                   }
                 >
                   {c.label}
@@ -240,7 +240,7 @@ const RealScenariosSection = () => {
             {/* Row 2: slider container (peek next slide) */}
             <div
               ref={viewportRef}
-              className="relative w-full bg-transparent rounded-[4px] h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
+              className="relative w-full bg-transparent rounded-md h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
               style={{ clipPath: "inset(0 -100vw 0 0)" }}
               onMouseDown={onPointerDown}
               onMouseMove={onPointerMove}
@@ -261,7 +261,7 @@ const RealScenariosSection = () => {
                     className="h-full overflow-hidden group"
                     style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}
                   >
-                    <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2 rounded-[6px] overflow-hidden">
+                    <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2 rounded-md overflow-hidden">
                       <img
                         src={cat.images[0]}
                         alt={cat.label}

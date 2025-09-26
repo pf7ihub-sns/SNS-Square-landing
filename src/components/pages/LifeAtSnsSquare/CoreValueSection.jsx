@@ -48,29 +48,31 @@ const CoreValuesSection = () => {
   return (
     <div className="bg-white py-16">
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-4 mb-8">
+      <div className="max-w-7xl mx-auto  mb-8">
         <div className="mb-16">
-          <h3 className="  text-gray-900 mb-2">Our core values define who we are</h3>
+          <h3 className="text-gray-900 mb-2">Our core values define who we are</h3>
           <p className="text-gray-600 mt-6">Our core values define who we are</p>
         </div>
 
         {/* Values Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-80">
           {coreValues.map((value, index) => (
             <div
               key={index}
-              className="bg-blue-50 rounded-sm p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
+              className="bg-blue-50 rounded-md p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="flex items-center justify-between mb-6">
-                <p className=" text-gray-900 highlight">{value.title}</p>
-                <div className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center text-white">
-                  {value.icon}
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between mb-8">
+                  <p className="text-gray-900 highlight text-lg font-semibold">{value.title}</p>
+                  <div className="w-8 h-8 bg-gray-900 rounded-md flex items-center justify-center text-white">
+                    {value.icon}
+                  </div>
                 </div>
-              </div>
 
-              <p className="text-gray-700 leading-relaxed  mt-28">
-                {value.description}
-              </p>
+                <p className="text-gray-700 leading-relaxed mt-auto">
+                  {value.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -78,7 +80,7 @@ const CoreValuesSection = () => {
 
       {/* CTA Section (GlassCube background) */}
 
-      <div className="relative overflow-hidden bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff] ">
+      <div className="relative overflow-hidden max-w-7xl mx-auto rounded-md bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff] ">
         {/* Background Image positioned on the left side */}
         <div
           className="absolute left-0 top-0 w-1/2 h-full bg-cover bg-center bg-no-repeat "
@@ -90,11 +92,11 @@ const CoreValuesSection = () => {
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-24">
-          <div className="mx-auto max-w-4xl text-center rounded-2xl border border-white/40 bg-white/20 backdrop-blur-sm shadow-xl p-8 md:p-12">
+          <div className="mx-auto max-w-4xl text-center rounded-md border border-white/40 bg-white/20 backdrop-blur-sm shadow-xl p-8 md:p-12">
             <h3 className="  text-gray-900 leading-tight mb-4">
               Discover what truly defines SNS Square in a detailed letter from
             </h3>
-            <button className="mt-8 px-8 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-colors duration-300">
+            <button className="mt-8 px-8 py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-colors duration-300">
               Read our Story
             </button>
           </div>
