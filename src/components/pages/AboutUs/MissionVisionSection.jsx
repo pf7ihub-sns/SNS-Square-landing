@@ -2,53 +2,58 @@ import React from "react";
 
 const MissionVisionSection = () => {
   return (
-    <section className="py-16 lg:py-10">
+    <section className="py-6 sm:py-8 lg:py-12">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1225px] mx-auto">
-          {/* Main Container with Background */}
-          <div className="w-full min-h-80 lg:h-80 relative bg-white rounded-md overflow-hidden">
+        <div className="w-full max-w-[1225px] mx-auto">
+          {/* Main Container with Background - Reduced Heights */}
+          <div className="w-full min-h-[450px] sm:min-h-[380px] md:min-h-[340px] lg:h-[320px] relative bg-white rounded-md overflow-hidden">
             
-            {/* Background SVG/Image - Replace with your actual SVG path */}
-            <img className="opacity-30 absolute inset-0 w-full h-full object-cover"
+            {/* Background SVG/Image */}
+            <img 
+              className="opacity-45 absolute inset-0 w-full h-full object-cover"
               src="/images/backgroundgrids/bgformission.svg" 
-              alt="bg image"
+              alt="Background pattern"
             />
             
             {/* Gradient Blur Effects */}
-            <div className="w-[803px] h-[1127px] left-[706px] top-[-133px] absolute opacity-25 bg-sky-400 rounded-full blur-[250px]" />
-            <div className="w-[803px] h-[1127px] left-[-117px] top-[-323px] absolute opacity-25 bg-blue-700 rounded-full blur-[250px]" />
+            <div className="hidden lg:block w-[803px] h-[1127px] left-[706px] top-[-133px] absolute opacity-25 bg-sky-400 rounded-full blur-[250px]" />
+            <div className="hidden lg:block w-[803px] h-[1127px] left-[-117px] top-[-323px] absolute opacity-25 bg-blue-700 rounded-full blur-[250px]" />
             
-            {/* Content Cards */}
-            <div className="absolute top-[36px] left-[36.5px] right-[36.5px] lg:left-[36.5px] lg:right-auto">
-              <div className="flex flex-col lg:flex-row justify-start items-start lg:items-center gap-6">
+            {/* Mobile Gradient Effects */}
+            <div className="block lg:hidden w-[300px] h-[400px] sm:w-[500px] sm:h-[600px] right-[-100px] top-[-80px] absolute opacity-15 bg-sky-400 rounded-full blur-[120px]" />
+            <div className="block lg:hidden w-[300px] h-[400px] sm:w-[500px] sm:h-[600px] left-[-150px] top-[-150px] absolute opacity-15 bg-blue-700 rounded-full blur-[120px]" />
+            
+            {/* Content Cards Container - Reduced Padding */}
+            <div className="absolute inset-3 sm:inset-4 lg:inset-[28px]">
+              <div className="flex flex-col lg:flex-row justify-center items-stretch gap-3 sm:gap-4 lg:gap-5 h-full">
                 
-                {/* Mission Card */}
-                <div className="w-full lg:w-[564px] px-5 py-9 bg-white/75 rounded inline-flex flex-col justify-center items-center gap-2.5">
-                  <div className="w-full lg:w-[511px] flex flex-col justify-start items-start gap-6">
-                    <div className="inline-flex justify-start items-center gap-5">
-                      <div className="w-12 h-12 lg:w-16 lg:h-16 bg-zinc-300 rounded flex-shrink-0" />
-                      <div className="text-black text-2xl lg:text-4xl font-bold font-manrope">
-                        Mission
-                      </div>
+                {/* Vision Card - Reduced Padding */}
+                <div className="flex-1 lg:max-w-[564px] px-3 sm:px-4 py-4 sm:py-5 lg:py-6 bg-white/90 backdrop-blur-sm rounded-lg flex flex-col justify-center">
+                  <div className="w-full flex flex-col justify-start items-start gap-3 sm:gap-4 lg:gap-5">
+                    <div className="flex justify-start items-center gap-3 sm:gap-4 lg:gap-5">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-zinc-300 rounded flex-shrink-0" />
+                      <h3 className="text-black leading-tight">
+                        Vision
+                      </h3>
                     </div>
-                    <div className="w-full text-zinc-700 text-sm lg:text-base font-normal font-inter leading-snug">
-                      SNS Square democratizes enterprise AI, empowering organizations to transform operations through intelligent automation. We make AI accessible, intuitive, and impactful, redefining performance across the value chain.
-                    </div>
+                    <p className="w-full text-zinc-700 font-inter leading-snug">
+                      We envision AI as an integral part of every organization, driving smarter decisions, operational efficiency, and continuous growth. Our goal is to make AI adoption fast, secure, and business-aligned, empowering enterprises to achieve real-world impact.
+                    </p>
                   </div>
                 </div>
 
-                {/* Vision Card */}
-                <div className="w-full lg:w-[564px] px-5 py-9 bg-white/75 rounded inline-flex flex-col justify-center items-center gap-2.5">
-                  <div className="w-full lg:w-[511px] flex flex-col justify-start items-start gap-6">
-                    <div className="inline-flex justify-start items-center gap-5">
-                      <div className="w-12 h-12 lg:w-16 lg:h-16 bg-zinc-300 rounded flex-shrink-0" />
-                      <div className="text-black text-2xl lg:text-4xl font-bold font-manrope">
-                        Vision
-                      </div>
+                {/* Mission Card - Reduced Padding */}
+                <div className="flex-1 lg:max-w-[564px] px-3 sm:px-4 py-4 sm:py-5 lg:py-6 bg-white/90 backdrop-blur-sm rounded-lg flex flex-col justify-center">
+                  <div className="w-full flex flex-col justify-start items-start gap-3 sm:gap-4 lg:gap-5">
+                    <div className="flex justify-start items-center gap-3 sm:gap-4 lg:gap-5">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-zinc-300 rounded flex-shrink-0" />
+                      <h3 className="text-black leading-tight">
+                        Mission
+                      </h3>
                     </div>
-                    <div className="w-full text-zinc-700 text-sm lg:text-base font-normal font-inter leading-snug">
-                      We envision AI as an integral part of every organization, driving smarter decisions, operational efficiency, and continuous growth. Our goal is to make AI adoption fast, secure, and business-aligned, empowering enterprises to achieve real-world impact.
-                    </div>
+                    <p className="w-full text-zinc-700 font-inter leading-snug">
+                      SNS Square democratizes enterprise AI, empowering organizations to transform operations through intelligent automation. We make AI accessible, intuitive, and impactful, redefining performance across the value chain.
+                    </p>
                   </div>
                 </div>
 

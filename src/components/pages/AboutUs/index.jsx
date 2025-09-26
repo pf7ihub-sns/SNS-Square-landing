@@ -15,7 +15,6 @@ const AboutUs = () => {
       <MissionVisionSection />
       <EndToEndCards/>
       <LeadershipSection />
-      <Certificate />
     </div>
   );
 };
