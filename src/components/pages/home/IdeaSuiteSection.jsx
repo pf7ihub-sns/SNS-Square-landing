@@ -6,7 +6,7 @@ import UseCaseCardNew from "../../common/UseCaseCardNew";
 import supplyChainData from "../../../data/Blog/supplyChain.json";
 import itData from "../../../data/Blog/it.json";
 import healthCareData from "../../../data/Blog/healthCare.json";
-import insuranceData from "../../../data/Blog/insuranc.json";
+import insuranceData from "../../../data/Blog/insurance.json";
 
 const IdeaSuiteSection = () => {
   const navigate = useNavigate();

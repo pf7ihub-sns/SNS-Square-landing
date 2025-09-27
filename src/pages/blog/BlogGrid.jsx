@@ -10,7 +10,8 @@ import BlackButton from '../../components/common/BlackButton';
 import supplyChainData from '../../data/Blog/supplyChain.json';
 import itData from '../../data/Blog/it.json';
 import healthCareData from '../../data/Blog/healthCare.json';
-import insuranceData from '../../data/Blog/insuranc.json';
+import insuranceData from '../../data/Blog/insurance.json';
+import humanResourceData from '../../data/Blog/humanResource.json';
 
 const BlogGrid = () => {
   const navigate = useNavigate();
@@ -26,9 +27,8 @@ const BlogGrid = () => {
     'All',
     'Information Technology',
     'Supply Chain',
- 
     'Healthcare',
-    // 'Human Resource',
+    'Human Resource',
     'Insurance'
   ];
 
@@ -36,7 +36,7 @@ const BlogGrid = () => {
     'Supply Chain': supplyChainData,
     'Information Technology': itData,
     'Healthcare': healthCareData,
-    // 'Human Resource': itData, // Using IT data as placeholder
+    'Human Resource': humanResourceData, 
     'Insurance': insuranceData
   };
 
