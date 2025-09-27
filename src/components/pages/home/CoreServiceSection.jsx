@@ -20,7 +20,7 @@ const TABS = [
     label: 'AI & Data Solutions', 
     desc: 'Our team provides advanced AI and data-driven strategies along with practical implementations that accelerate decision-making and create measurable impact.', 
     icon: '/images/home/iconsCore/5.png',
-    image: '/images/home/coreservice/data_transformation.png', // Add your specific image for AI & data
+    image: '/images/home/coreservice/AI & Data Solutions.png', // Add your specific image for AI & data
 
   },
   { 

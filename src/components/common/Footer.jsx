@@ -7,7 +7,7 @@ export default function Footer() {
   const location = useLocation();
   const isCareersPage = location.pathname === '/careers';
   return (
-    <footer id="footer" className="bg-gradient-to-r from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff] font-inter">
+    <footer id="footer" className="bg-gradient-to-r from-[#b3cbf7] via-[#D8E9FC] to-[#d2efff] font-inter px-8">
       {/* Top CTA Section */}
       <div className="max-w-7xl mx-auto px-6 py-16 text-center">
         {isCareersPage ? (
@@ -43,7 +43,7 @@ export default function Footer() {
       </div>
 
       {/* Footer Links */}
-      <div className="bg-white max-w-7xl mx-auto mb-6 p-8 rounded-lg shadow">
+      <div className="bg-white  mx-auto mb-6 p-8 rounded-lg shadow">
         <div className=" px-6 pb-10 grid grid-cols-1 md:grid-cols-5 gap-10  ">
           {/* Logo */}
           <div>

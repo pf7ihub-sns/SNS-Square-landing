@@ -1,303 +1,107 @@
-import { Card } from "../../common/card";
-import { SimpleRetroGrid } from "../../ui/simple-retro-grid";
+import React from 'react';
 
 const coreValues = [
-	{
-		id: 1,
-		title: "Innovation",
-		description:
-			"We embrace cutting-edge technology and foster creative solutions that drive meaningful digital transformation.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 2,
-		title: "Collaboration",
-		description:
-			"We work together, sharing knowledge and expertise to achieve collective success and deliver greater value.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 3,
-		title: "Customer-Centricity",
-		description:
-			"Our clients are at the heart of everything we do. We strive to understand their needs and exceed their expectations.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 4,
-		title: "Impact",
-		description:
-			"We are focused on delivering measurable results that make a real difference for our clients and their businesses.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 5,
-		title: "Integrity and Trust",
-		description:
-			"We operate with transparency and honesty, building lasting relationships based on mutual trust and respect.",
-		icon: "/images/home/OCS-icon.png",
-	},
-	{
-		id: 6,
-		title: "Adaptability",
-		description:
-			"In a fast-changing world, we pride ourselves on our ability to adapt, learn, and evolve to stay ahead of the curve.",
-		icon: "/images/home/OCS-icon.png",
-	},
+  {
+    title: "Future-First Innovation",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+      </svg>
+    ),
+    description: "At SNS Square, we challenge limits and design solutions that keep businesses ahead in the Agentic AI era."
+  },
+  {
+    title: "Integrity as Our Core",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M8 12l2 2 4-4"></path>
+      </svg>
+    ),
+    description: "We operate with transparency and responsibility, building lasting trust with our clients, partners, and teams."
+  },
+  {
+    title: "Collaboration that Scales",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+        <path d="M6 9l6 6 6-6"></path>
+      </svg>
+    ),
+    description: "Together, we bring diverse expertise and ideas, transforming them into scalable solutions for real-world impact."
+  },
+  {
+    title: "Purpose-Driven Impact",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+    ),
+    description: "Every innovation we create is focused on solving real challenges and shaping a smarter, sustainable future."
+  }
 ];
 
-function MobileCoreValues() {
-    return (
-        <section
-            className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
-            style={{
-                backgroundImage: "url('/images/home/Background-home-RS.png')",
-            }}
-        >
-            <div className="p-8">
-                <div className="max-w-[1480px] mx-auto">
-                    <div className="mb-6">
-                        <h2 className="text-3xl font-bold text-gray-900 text-balance">Our Core Values</h2>
-                        <p className="text-gray-600 text-base leading-relaxed mt-3">
-                            Pre-built AI agents designed with advanced capabilities to serve
-                        </p>
-                    </div>
+const CoreValuesSection = () => {
+  return (
+    <div className="bg-white py-16">
+      {/* Header Section */}
+      <div className="max-w-7xl mx-auto lg:px-6 px-4 sm:px-6 mb-8">
+        <div className="mb-16">
+          <h3 className="text-gray-900 mb-2 lg:text-left">
+            Our core values define who we are
+          </h3>
+          <p className="text-gray-600 mt-6  lg:text-left">
+            Our core values define who we are
+          </p>
+        </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {coreValues.map((value) => (
-                            <Card
-                                key={value.id}
-                                className="group relative w-full h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer"
-                            >
-                                <div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-                                    <img src={value.icon} alt={value.title} className="w-7 h-6" />
-                                    <h4 className="text-lg font-medium text-gray-800">{value.title}</h4>
-                                </div>
-                                <div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-                                    <SimpleRetroGrid angle={220} cellSize={40} lineColor="#C8E0E5" opacity={0.6} />
-                                    <div className="relative z-10 flex flex-col h-full">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <img src={value.icon} alt={value.title} className="w-7 h-6" />
-                                            <h4
-                                                className="text-lg font-medium"
-                                                style={{
-                                                    background: "linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-                                                    WebkitBackgroundClip: "text",
-                                                    backgroundClip: "text",
-                                                    color: "transparent",
-                                                }}
-                                            >
-                                                {value.title}
-                                            </h4>
-                                        </div>
-                                        <p className="text-sm text-gray-600 leading-relaxed">{value.description}</p>
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-}
-
-export default function CoreValueSection() {
-	return (
-        <>
-            {/* Desktop and larger (>=1024px) - keep existing design */}
-            <section
-                className="hidden lg:block w-full bg-no-repeat bg-cover bg-center overflow-hidden"
-                style={{
-                    backgroundImage: "url('/images/home/Background-home-RS.png')",
-                }}
+        {/* Values Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-6 lg:h-80 min-h-[320px] sm:min-h-[280px] mb-12">
+          {coreValues.map((value, index) => (
+            <div
+              key={index}
+              className="bg-blue-50 rounded-md  lg:p-6 p-4 sm:p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
             >
-                <div className="p-8">
-                    <div className="max-w-[1110px] mx-auto">
-					{/* First Row - Title on left, 1 card on right with spacing */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3">
-							<h2 className="text-4xl font-bold text-gray-900 text-balance">
-								Our Core Values
-							</h2>
-							<p className="text-gray-600 text-lg leading-relaxed mt-4">
-								Pre-built AI agents designed with advanced capabilities to
-								serve
-							</p>
-						</div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end">
-							<Card className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer">
-								{/* Default State */}
-								<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-									<img
-										src={coreValues[0].icon}
-										alt={coreValues[0].title}
-										className="w-7 h-6"
-									/>
-									<h4 className="text-lg font-medium text-gray-800">
-										{coreValues[0].title}
-									</h4>
-								</div>
-								{/* Hover State */}
-								<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-									<SimpleRetroGrid
-										angle={220}
-										cellSize={40}
-										lineColor="#C8E0E5"
-										opacity={0.6}
-									/>
-									<div className="relative z-10 flex flex-col h-full">
-										<div className="flex items-center gap-3 mb-2">
-											<img
-												src={coreValues[0].icon}
-												alt={coreValues[0].title}
-												className="w-7 h-6"
-											/>
-											<h4
-												className="text-lg font-medium"
-												style={{
-													background:
-														"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-													WebkitBackgroundClip: "text",
-													backgroundClip: "text",
-													color: "transparent",
-												}}
-											>
-												{coreValues[0].title}
-											</h4>
-										</div>
-										<p className="text-sm text-gray-600 leading-relaxed">
-											{coreValues[0].description}
-										</p>
-									</div>
-								</div>
-							</Card>
-						</div>
-					</div>
-
-					{/* Second Row - 2 cards on right */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3"></div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end ">
-							{[coreValues[1], coreValues[2]].map((value) => (
-								<Card
-									key={value.id}
-									className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] overflow-hidden cursor-pointer"
-								>
-									{/* Default State */}
-									<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-										<img
-											src={value.icon}
-											alt={value.title}
-											className="w-7 h-6"
-										/>
-										<h4 className="text-lg font-medium text-gray-800">
-											{value.title}
-										</h4>
-									</div>
-									{/* Hover State */}
-									<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-										<SimpleRetroGrid
-											angle={220}
-											cellSize={40}
-											lineColor="#C8E0E5"
-											opacity={0.6}
-										/>
-										<div className="relative z-10 flex flex-col h-full">
-											<div className="flex items-center gap-3 mb-2">
-												<img
-													src={value.icon}
-													alt={value.title}
-													className="w-7 h-6"
-												/>
-												<h4
-													className="text-lg font-medium"
-													style={{
-														background:
-															"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-														WebkitBackgroundClip: "text",
-														backgroundClip: "text",
-														color: "transparent",
-													}}
-												>
-													{value.title}
-												</h4>
-											</div>
-											<p className="text-sm text-gray-600 leading-relaxed">
-												{value.description}
-											</p>
-										</div>
-									</div>
-								</Card>
-							))}
-						</div>
-					</div>
-
-					{/* Third Row - 3 cards on right */}
-					<div className="grid grid-cols-12">
-						<div className="col-span-12 lg:col-span-3"></div>
-						<div className="col-span-12 lg:col-span-9 flex justify-end ">
-							{coreValues.slice(3, 6).map((value) => (
-								<Card
-									key={value.id}
-									className="group relative w-[394px] h-[186px] p-6 bg-white border border-[#E5E5E5] shadow-sm transition-shadow rounded-[4px] flex-shrink-0 overflow-hidden cursor-pointer"
-								>
-									{/* Default State */}
-									<div className="flex items-center gap-3 h-full transition-opacity duration-800 ease-in-out group-hover:opacity-0">
-										<img
-											src={value.icon}
-											alt={value.title}
-											className="w-7 h-6"
-										/>
-										<h4 className="text-lg font-medium text-gray-800">
-											{value.title}
-										</h4>
-									</div>
-									{/* Hover State */}
-									<div className="absolute inset-0 p-6 bg-[#EDFAFC] opacity-0 group-hover:opacity-100 transition-opacity duration-800 ease-in-out">
-										<SimpleRetroGrid
-											angle={220}
-											cellSize={40}
-											lineColor="#C8E0E5"
-											opacity={0.6}
-										/>
-										<div className="relative z-10 flex flex-col h-full">
-											<div className="flex items-center gap-3 mb-2">
-												<img
-													src={value.icon}
-													alt={value.title}
-													className="w-7 h-6"
-												/>
-												<h4
-													className="text-lg font-medium"
-													style={{
-														background:
-															"linear-gradient(90deg, #017BC0 0%, #02BBB7 100%)",
-														WebkitBackgroundClip: "text",
-														backgroundClip: "text",
-														color: "transparent",
-													}}
-												>
-													{value.title}
-												</h4>
-											</div>
-											<p className="text-sm text-gray-600 leading-relaxed">
-												{value.description}
-											</p>
-										</div>
-									</div>
-								</Card>
-							))}
-						</div>
-					</div>
-                    </div>
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between lg:mb-8 mb-6 sm:mb-8">
+                  <p className="text-gray-900 highlight lg:text-lg text-base sm:text-lg font-semibold lg:leading-normal leading-tight lg:pr-0 pr-2">
+                    {value.title}
+                  </p>
                 </div>
-            </section>
 
-            {/* Mobile/Tablet (<1024px) - 2 cards per row, 1 card below 641px */}
-            <div className="block lg:hidden">
-                <MobileCoreValues />
+                <p className="text-gray-700 leading-relaxed mt-auto lg:text-base text-sm sm:text-base">
+                  {value.description}
+                </p>
+              </div>
             </div>
-        </>
-	);
-}
+          ))}
+        </div>
+      </div>
+
+      {/* CTA Section (GlassCube background) */}
+      <div className="relative overflow-hidden max-w-7xl mx-auto lg:mt-0 mt-8 md:mt-12 rounded-md bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff] lg:mx-auto mx-4 sm:mx-6">
+        {/* Background Image positioned on the left side - Hidden on mobile, visible on tablet+ */}
+        <div
+          className="absolute left-0 top-0 lg:w-1/2 w-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat"
+         style={{ backgroundImage: "url('/images/GlassCube.png')" }}
+        ></div>
+
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto lg:px-4 px-4 sm:px-6 lg:py-16 md:py-24 py-12 sm:py-16">
+          <div className="mx-auto max-w-4xl text-center rounded-md border border-white/40 bg-white/20 backdrop-blur-sm shadow-xl lg:p-8 md:p-12 p-6 sm:p-8">
+            <h3 className="text-gray-900 leading-tight mb-4 lg:text-2xl text-lg sm:text-xl md:text-2xl font-semibold lg:px-0 px-2 sm:px-4">
+              Discover what truly defines SNS Square in a detailed letter from
+            </h3>
+            <button className="lg:mt-8 mt-6 sm:mt-8 lg:px-8 px-6 sm:px-8 lg:py-3 py-2.5 sm:py-3 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-colors duration-300 lg:text-base text-sm sm:text-base">
+              Read our Story
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CoreValuesSection;

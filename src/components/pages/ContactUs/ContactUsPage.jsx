@@ -27,22 +27,31 @@ const ContactUsPage = () => {
   };
 
   return (
+    <div className="bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter ">
     <div
-      className="bg-fill p-6"
-      style={{ backgroundImage: "url('/images/Frame 97499.png')" }}
+      className="bg-fill p-6 bg-gradient-to-t from-transparent to-white h-[100%]"
     >
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto pb-4 mt-24 p-4">
+      <main className="max-w-7xl mx-auto pb-4 mt-24 p-4 ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left Content */}
-          <div className="space-y-6">
-            <h3 className="text-black leading-tight">
+          <div className="relative space-y-6">
+            {/* Background image shifted down */}
+            <img
+              src="/images/GlassCube.png"
+              alt="Glass Cube"
+              className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-10 w-40vh h-auto"
+            />
+
+            <h3 className="text-black leading-tight relative z-10">
               Connect with our experts to explore your use case in detail
             </h3>
-            <p className="text-gray-600 leading-relaxed mt-4">
+            <p className="text-gray-600 leading-relaxed mt-4 relative z-10">
               Schedule a consultation to explore how our Agent Platform will drives the value and innovation you need.
             </p>
           </div>
+
+
 
           {/* Right Content - Contact Form */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
@@ -208,6 +217,7 @@ const ContactUsPage = () => {
 
       {/* Footer */}
       <Footer />
+    </div>
     </div>
   );
 };
