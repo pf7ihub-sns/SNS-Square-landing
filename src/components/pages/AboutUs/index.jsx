@@ -5,6 +5,7 @@ import MissionVisionSection from "./MissionVisionSection";
 import LeadershipSection from "./LeadershipSection";
 import Certificate from "./Certificate";
 import CareersSection from "./CareersSection";
+import EndToEndCards from "./endtoendCards";
 
 const AboutUs = () => {
   return (
@@ -12,9 +13,8 @@ const AboutUs = () => {
       <HeroSection />
       <ValuesSection />
       <MissionVisionSection />
+      <EndToEndCards/>
       <LeadershipSection />
-      <Certificate />
-      <CareersSection />
     </div>
   );
 };

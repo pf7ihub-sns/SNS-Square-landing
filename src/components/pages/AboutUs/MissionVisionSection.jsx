@@ -2,32 +2,63 @@ import React from "react";
 
 const MissionVisionSection = () => {
   return (
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="text-center lg:text-left">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-manrope font-bold text-global-1 mb-8">
-              Our Mission
-            </h2>
-            <p className="text-lg sm:text-xl font-inter text-gray-700 leading-relaxed mb-8">
-              To empower businesses with cutting-edge AI solutions that drive growth and efficiency. 
-              We strive to be a leader in the AI industry, delivering exceptional value to our clients 
-              and fostering a culture of innovation and collaboration.
-            </p>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-manrope font-bold text-global-1 mb-6">
-              Our Vision
-            </h3>
-            <p className="text-lg sm:text-xl font-inter text-gray-700 leading-relaxed">
-              To redefine the future through world-class agentic AI, creating adaptive solutions 
-              that drive growth and innovation across industries.
-            </p>
-          </div>
-          <div className="flex justify-center lg:justify-end">
-            <img
-              src="/images/ChatGPT Image Sep 13, 2025, 10_45_51 AM.png"
-              alt="Innovation concept"
-              className="w-full max-w-md lg:max-w-lg h-auto object-cover rounded-[32px] shadow-2xl"
+    <section className="py-6 sm:py-8 lg:py-12">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-[1225px] mx-auto">
+          {/* Main Container with Background - Reduced Heights */}
+          <div className="w-full min-h-[450px] sm:min-h-[380px] md:min-h-[340px] lg:h-[320px] relative bg-white rounded-md overflow-hidden">
+            
+            {/* Background SVG/Image */}
+            <img 
+              className="opacity-45 absolute inset-0 w-full h-full object-cover"
+              src="/images/backgroundgrids/bgformission.svg" 
+              alt="Background pattern"
             />
+            
+            {/* Gradient Blur Effects */}
+            <div className="hidden lg:block w-[803px] h-[1127px] left-[706px] top-[-133px] absolute opacity-25 bg-sky-400 rounded-full blur-[250px]" />
+            <div className="hidden lg:block w-[803px] h-[1127px] left-[-117px] top-[-323px] absolute opacity-25 bg-blue-700 rounded-full blur-[250px]" />
+            
+            {/* Mobile Gradient Effects */}
+            <div className="block lg:hidden w-[300px] h-[400px] sm:w-[500px] sm:h-[600px] right-[-100px] top-[-80px] absolute opacity-15 bg-sky-400 rounded-full blur-[120px]" />
+            <div className="block lg:hidden w-[300px] h-[400px] sm:w-[500px] sm:h-[600px] left-[-150px] top-[-150px] absolute opacity-15 bg-blue-700 rounded-full blur-[120px]" />
+            
+            {/* Content Cards Container - Reduced Padding */}
+            <div className="absolute inset-3 sm:inset-4 lg:inset-[28px]">
+              <div className="flex flex-col lg:flex-row justify-center items-stretch gap-3 sm:gap-4 lg:gap-5 h-full">
+                
+                {/* Vision Card - Reduced Padding */}
+                <div className="flex-1 lg:max-w-[564px] px-3 sm:px-4 py-4 sm:py-5 lg:py-6 bg-white/90 backdrop-blur-sm rounded-lg flex flex-col justify-center">
+                  <div className="w-full flex flex-col justify-start items-start gap-3 sm:gap-4 lg:gap-5">
+                    <div className="flex justify-start items-center gap-3 sm:gap-4 lg:gap-5">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-zinc-300 rounded flex-shrink-0" />
+                      <h3 className="text-black leading-tight">
+                        Vision
+                      </h3>
+                    </div>
+                    <p className="w-full text-zinc-700 font-inter leading-snug">
+                      We envision AI as an integral part of every organization, driving smarter decisions, operational efficiency, and continuous growth. Our goal is to make AI adoption fast, secure, and business-aligned, empowering enterprises to achieve real-world impact.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Mission Card - Reduced Padding */}
+                <div className="flex-1 lg:max-w-[564px] px-3 sm:px-4 py-4 sm:py-5 lg:py-6 bg-white/90 backdrop-blur-sm rounded-lg flex flex-col justify-center">
+                  <div className="w-full flex flex-col justify-start items-start gap-3 sm:gap-4 lg:gap-5">
+                    <div className="flex justify-start items-center gap-3 sm:gap-4 lg:gap-5">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-zinc-300 rounded flex-shrink-0" />
+                      <h3 className="text-black leading-tight">
+                        Mission
+                      </h3>
+                    </div>
+                    <p className="w-full text-zinc-700 font-inter leading-snug">
+                      SNS Square democratizes enterprise AI, empowering organizations to transform operations through intelligent automation. We make AI accessible, intuitive, and impactful, redefining performance across the value chain.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>

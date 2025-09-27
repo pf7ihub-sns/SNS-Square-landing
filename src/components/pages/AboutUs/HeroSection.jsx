@@ -2,31 +2,34 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <section 
-      aria-labelledby="hero-heading" 
-      className="relative bg-gradient-to-b from-[#EEF4FF] to-white w-full"
-      style={{
-        backgroundImage: `url('/images/HomeHero.png')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat"
-      }}
-    >
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32 xl:py-40">
+       <div className="relative w-full py-20 mt-20 px-4">
+      {/* Horizontal gradient with the same colors as HeroSection.jsx */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#d3e0fa] to-[#e1f4ff]" />
+
+      {/* Bottom fade to white */}
+      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-white" />
+
+      <div className="relative max-w-6xl mx-auto text-center">
+        {/* Main Heading */}
         <header className="text-center">
           <h1
             id="hero-heading"
             className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[64px] xl:text-7xl font-sora font-semibold leading-tight sm:leading-snug md:leading-tight lg:leading-snug text-center text-global-1 w-full mt-12 sm:mt-16 md:mt-20"
           >
-            About <span className="text-[#1E63FF]">SNS Square</span>
-          </h1>
+            We give you <span className="text-[#1E63FF]">world-class agentic AI,</span>
+          </h1><br />
+          <h1>designed for limitless possibilities.</h1>
+          
         </header>
 
-        <p className="mx-auto mt-6 sm:mt-8 lg:mt-10 max-w-5xl text-pretty text-center font-sans text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-black/90 font-medium">
-          We are a team of passionate individuals dedicated to creating innovative AI solutions that drive growth and efficiency across industries.
+        {/* Subtitle */}
+        <p className="mt-14 text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed ">
+          Lorem ipsum dolor sit amet consectetur. Dictum consequat faucibus odio auctor id mi mauris hendrerit elit. Non in morbi sem eros.
         </p>
       </div>
-    </section>
+
+      <div className="absolute bottom-0 left-0 right-0 max-w-[1480px] mx-auto border-b border-gray-300 mb-8" />
+    </div>
   );
 };
 
