@@ -152,11 +152,6 @@ const AgentDetailsPage = () => {
           backgroundImage: "linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(29, 78, 216, 0.9)), url('/images/AgentFrame.png')",
         }}
       >
-        {/* Decorative Elements */}
-        <div className="absolute top-8 left-8 w-16 h-16 bg-white bg-opacity-20 rounded-lg transform rotate-12"></div>
-        <div className="absolute top-12 right-20 w-12 h-12 bg-white bg-opacity-15 rounded-lg transform -rotate-45"></div>
-        <div className="absolute bottom-16 left-16 w-20 h-20 bg-white bg-opacity-10 rounded-lg transform rotate-45"></div>
-        <div className="absolute bottom-8 right-16 w-8 h-8 bg-white bg-opacity-25 rounded-lg"></div>
 
         {/* Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
