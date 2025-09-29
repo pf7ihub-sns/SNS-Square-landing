@@ -355,7 +355,15 @@ const AgentDetailsPage = () => {
                       {agent.howItWorks.steps[0].process.map((item, idx) => (
                         <React.Fragment key={idx}>
                           <div className="flex flex-col items-center space-y-2 p-4 bg-blue-50 rounded-lg border-2 border-blue-200 min-w-[140px]">
-                            <span className="text-3xl">{item.icon}</span>
+                            {item.isImage ? (
+                              <img
+                                src={item.icon}
+                                alt={item.label}
+                                className="w-12 h-12 object-contain"
+                              />
+                            ) : (
+                              <span className="text-3xl">{item.icon}</span>
+                            )}
                             <span className="font-semibold text-gray-900 text-sm text-center">
                               {item.label}
                             </span>

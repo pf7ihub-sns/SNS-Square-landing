@@ -36,7 +36,7 @@ export default {
                                 subtitle: "Deploy intelligent agents and automation ready to coordinate at enterprise scale and optimize complex workflows across diverse industry verticals",
                                 cases: [
                                     {
-                                        icon: "💼",
+                                        icon: "/images/icons/upload.png",
                                         title: "Finance",
                                         description: "Parsing invoices, reports, and audit records"
                                     },
