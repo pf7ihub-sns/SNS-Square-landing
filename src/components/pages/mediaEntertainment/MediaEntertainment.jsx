@@ -17,6 +17,7 @@ import Dev from "../../../../public/images/dev.png";
 import Work from "../../../../public/images/work.png";
 import Social from "../../../../public/images/social.png";
 
+
 const categoryIcons = {
   'doc-knowledge': Docimg,
   'data-management': Dataimg,
@@ -291,7 +292,7 @@ const MediaEntertainment = () => {
   });
 
   // Pagination logic
-  const agentsPerPage = 12;
+  const agentsPerPage = 6;
   const totalPages = Math.ceil(filteredAgents.length / agentsPerPage);
   const paginatedAgents = filteredAgents.slice(
     (currentPage - 1) * agentsPerPage,
@@ -455,7 +456,7 @@ const MediaEntertainment = () => {
         className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0 "
       >
         <div className="flex flex-col sm:flex-row gap-5 sm:gap-5">
-          <div className="relative flex-1 lg:-ml-40">
+          <div className="relative flex-1 lg:-ml-45">
             <input
               type="text"
               placeholder="Search Agents"
@@ -515,57 +516,90 @@ const MediaEntertainment = () => {
         {/* Content Layout */}
         <div className="flex gap-6 lg:-mt-20 ">
           {/* Desktop Sidebar */}
-          {/* Desktop Sidebar */}
           <div className="hidden lg:block w-80 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="px-5 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
+                <h3 className="text-lg font-medium text-gray-900 -tracking-tight">Categories</h3>
               </div>
 
-              <div className="py-2">
-                <div className="space-y-1">
+              <div className="py-3">
+                <div className="space-y-0">
                   {categories.map((category) => (
-                    <div key={category.id}>
+                    <div key={category.id} className="relative">
+                      {/* Flowing blue line from icon to selected subcategory */}
+                      {selectedCategory === category.id && category.subCategories && category.subCategories.length > 0 && (
+                        <div
+                          className="absolute left-6.5 top-10 w-1 bg-blue-500 transition-all duration-300 ease-out z-10 rounded-2xl"
+                          style={{
+                            height: selectedSubCategory ?
+                              `${((category.subCategories.findIndex(sub => sub.id === selectedSubCategory) + 1) * 40) + 8}px` :
+                              `${category.subCategories.length * 40}px`,
+                            background: selectedSubCategory ?
+                              'linear-gradient(to bottom, #3b82f6, #1d4ed8)' :
+                              '#d1d5db'
+                          }}
+                        />
+                      )}
+
+                      {/* Main Category Button */}
                       <button
                         onClick={() => handleCategoryClick(category.id)}
-                        className="w-full px-5 py-3 text-left hover:bg-gray-50 transition-colors duration-150"
+                        className={`w-full px-5 py-3 text-left transition-all duration-200 group ${selectedCategory === category.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'
+                          }`}
                       >
-                        <div className="flex items-center">
-                          <div className="w-4 h-4 mr-3 flex-shrink-0">
+                        <div className="flex items-center space-x-3">
+                          {/* Category Icon */}
+                          <div className="w-4 h-4 flex-shrink-0">
                             {categoryIcons[category.id] ? (
                               <img
                                 src={categoryIcons[category.id]}
                                 alt={category.name}
-                                className="w-full h-full rounded-full object-cover"
+                                className="w-full h-full object-contain"
                               />
                             ) : (
-                              <div className="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
-                                <span className="text-white text-xs font-bold">
-                                  {category.name.charAt(0)}
-                                </span>
+                              <div className={`w-4 h-4 rounded-sm flex items-center justify-center text-xs font-semibold text-white ${selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
+                                }`}>
+                                📄
                               </div>
                             )}
                           </div>
-                          <div className="flex-1">
-                            <div className="font-medium text-sm text-gray-900">{category.name}</div>
+
+                          {/* Category Name */}
+                          <div className="flex-1 min-w-0">
+                            <div className={`font-medium text-base leading-tight tracking-tight ${selectedCategory === category.id ? 'text-[#000000]' : 'text-gray-900'
+                              }`}>
+                              {category.name}
+                            </div>
                           </div>
                         </div>
                       </button>
 
+                      {/* Subcategories with proper hierarchy */}
                       {selectedCategory === category.id && category.subCategories && (
-                        <div className="px-5 py-2 space-y-1">
-                          {category.subCategories.map((subCategory) => (
-                            <button
-                              key={subCategory.id}
-                              onClick={() => handleSubCategoryClick(subCategory.id)}
-                              className={`w-full px-4 py-2 text-left transition-all duration-200 rounded-md border ${selectedSubCategory === subCategory.id
-                                ? 'bg-blue-50 text-blue-700 border-blue-200'
-                                : 'text-gray-700 hover:bg-gray-50 border-gray-200'
-                                }`}
-                            >
-                              <div className="text-sm font-medium">{subCategory.name}</div>
-                            </button>
-                          ))}
+                        <div className="relative">
+                          <div className="ml-8 space-y-1 animate-in slide-in-from-top duration-300">
+                            {category.subCategories.map((subCategory, index) => (
+                              <div key={subCategory.id} className="relative">
+                                <button
+                                  onClick={() => handleSubCategoryClick(subCategory.id)}
+                                  className={`w-65 px-5 py-1 text-left transition-all duration-150 rounded-md ml-2 transform ${selectedSubCategory === subCategory.id
+                                    ? ' text-[#000000] bg-[#F3F5FA] shadow-lg scale-105'
+                                    : ' hover:border border-[#064EE3]'
+                                    }`}
+                                  style={{
+                                    animationDelay: `${index * 50}ms`
+                                  }}
+                                >
+                                  <div
+                                    className="text-sm font-medium leading-tight tracking-tight bg-[#F3F5FA]  px-3 py-2 rounded"
+                                  >
+                                    {subCategory.name}
+                                  </div>
+
+                                </button>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -578,10 +612,10 @@ const MediaEntertainment = () => {
           {/* Main Content */}
           <div className="flex-1  ">
             {/* Header */}
-            <div className="mb-4 sm:mb-6 ml-5">
+            <div className="mb-4 sm:mb-6 ml-1">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mt-15">
+                  <h2 className="text-xl sm:text-xl font-bold text-gray-900 mt-15">
                     {selectedSubCategory ? getCurrentSubCategoryData()?.name :
                       selectedCategory ? getCurrentCategoryData()?.name :
                         `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}

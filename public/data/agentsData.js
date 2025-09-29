@@ -39,6 +39,7 @@ export default {
               solutions: ["Layout analysis", "Table extraction", "Schema validation"],
               useCases: ["Invoices", "Contracts", "Receipts"],
               description: ["DocumentParser allows users to upload PDF or Excel files and extract structured information such as document ID, title, author, keywords, and summary. It displays a summarized view with the option to expand for full details, handles errors, and provides a loading indicator during processing. Supported formats include PDF, XLS, and XLSX."],
+              heading:["Document Parser Agent Transform unstructured files into Structured insights"],
               status: "available"
             },
             {
