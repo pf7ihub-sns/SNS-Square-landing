@@ -17,6 +17,7 @@ const BlackButton = ({
   const variants = {
     black: 'bg-black text-white hover:bg-gray-800 focus:ring-gray-500',
     'black-outline': 'border border-black text-black hover:bg-black hover:text-white focus:ring-gray-500',
+    'black-outline2': 'border border-gray-400 text-gray-400 hover:bg-black hover:text-white focus:ring-gray-400',
     'black-secondary': 'bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-500',
   };
   
