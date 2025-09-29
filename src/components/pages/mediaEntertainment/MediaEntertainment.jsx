@@ -304,7 +304,6 @@ const MediaEntertainment = () => {
   };
 
   const handleViewAgent = (agentId) => {
-  // Navigate to a new page route instead of opening modal
   navigate(`/agent-details/${agentId}`);
 };
 

@@ -1,167 +1,9 @@
-// import React from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { useNavigate } from 'react-router-dom';
 
-// const AgentDetailsModal = ({ isOpen, onClose, agent, category }) => {
-//   const navigate = useNavigate();
-
-//   if (!agent || !category) return null;
-
-//   const handleTryAgent = () => {
-//     navigate(`/agent-playground/agent/${agent.id}`);
-//   };
-
-//   // Get other agents in the same category (excluding current agent)
-//   const otherAgents = category.agents?.filter(a => a.id !== agent.id) || [];
-
-//   return (
-//     <AnimatePresence>
-//       {isOpen && (
-//         <div className="fixed inset-0 z-[100] overflow-y-auto" style={{ backgroundColor: 'rgba(249, 250, 251, 0.8)' }}>
-//           {/* Backdrop */}
-//           <motion.div
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             exit={{ opacity: 0 }}
-//             className="fixed inset-0 backdrop-blur-sm"
-//             onClick={onClose}
-//           />
-
-//           {/* Modal Container - Positioned relative to viewport */}
-//           <div className="relative min-h-screen flex items-start justify-center pt-20 pb-10 px-4">
-//             <motion.div
-//               initial={{ opacity: 0, scale: 0.95, y: 30 }}
-//               animate={{ opacity: 1, scale: 1, y: 0 }}
-//               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-//               transition={{ duration: 0.2, ease: 'easeOut' }}
-//               onClick={(e) => e.stopPropagation()}
-//               className="relative bg-white rounded-lg shadow-md border border-gray-200 w-full max-w-5xl max-h-[75vh] flex flex-col"
-//             >
-//               {/* Header */}
-//               <div className="text-white text-center py-4 px-6 rounded-t-lg border-b border-gray-200 flex items-center justify-between" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-//                 <div className="flex items-center space-x-3">
-//                   <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-lg font-bold" style={{ color: '#1E3A8A' }}>
-//                     {agent.name.charAt(0)}
-//                   </div>
-//                   <div className="text-left">
-//                     <h2 className="text-xl font-semibold text-white">{agent.name}</h2>
-//                     {/* <p className="text-sm text-blue-200">{category.name}</p> */}
-//                     {/* <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-//                       {agent.status || 'Available'}
-//                     </span> */}
-//                   </div>
-//                 </div>
-//                 <button
-//                   onClick={onClose}
-//                   className="text-blue-200 hover:text-white transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md"
-//                 >
-//                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-//                   </svg>
-//                 </button>
-//               </div>
-
-//               {/* Content */}
-//               <div className="flex-1 overflow-y-auto p-6" style={{ backgroundColor: '#F9FAFB' }}>
-//                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-//                   {/* Main Content */}
-//                   <div className="lg:col-span-2 space-y-6">
-//                     {/* Agent Overview */}
-//                     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
-//                       <div className="border-b border-gray-200 pb-3 mb-3">
-//                         <h4 className="text-md font-medium mb-2" style={{ color: '#1E3A8A' }}>Overview</h4>
-//                       </div>
-//                       <p className="text-gray-900 leading-relaxed text-md">
-//                         {agent.description}
-//                       </p>
-//                     </div>
-
-//                     {/* Related Agents Cards */}
-//                     {otherAgents.length > 0 && (
-//                       <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
-//                         <h4 className="text-md font-medium mb-4" style={{ color: '#1E3A8A' }}>Related Agents</h4>
-//                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//                           {otherAgents.slice(0, 6).map((relatedAgent) => (
-//                             <div key={relatedAgent.id} className="bg-gray-50 rounded-lg shadow-sm p-4 hover:shadow-md transition-all duration-200 border border-gray-200">
-//                               {/* Agent Icon */}
-//                               <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3 text-white" style={{ backgroundColor: '#1E3A8A' }}>
-//                                 <span className="text-lg font-bold">
-//                                   {relatedAgent.name.charAt(0)}
-//                                 </span>
-//                               </div>
-
-//                               {/* Agent Info */}
-//                               <h5 className="text-sm font-medium text-gray-800 mb-2 line-clamp-1">
-//                                 {relatedAgent.name}
-//                               </h5>
-//                               <p className="text-xs text-gray-600 mb-3 line-clamp-2 leading-relaxed">
-//                                 {relatedAgent.description}
-//                               </p>
-
-//                               {/* Action Buttons */}
-//                               <div className="flex space-x-2">
-//                                 <button
-//                                   onClick={() => navigate(`/agent-playground/agent/${relatedAgent.id}`)}
-//                                   className="flex-1 text-white px-3 py-1.5 rounded text-xs font-medium transition-colors hover:opacity-90"
-//                                   style={{ backgroundColor: '#1E3A8A' }}
-//                                 >
-//                                   Try Agent
-//                                 </button>
-//                                 <button
-//                                   onClick={() => {
-//                                     window.location.reload();
-//                                     console.log('View agent:', relatedAgent.id);
-//                                   }}
-//                                   className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded text-xs font-medium hover:bg-gray-50 transition-colors"
-//                                 >
-//                                   View
-//                                 </button>
-//                               </div>
-//                             </div>
-//                           ))}
-//                         </div>
-//                       </div>
-//                     )}
-//                   </div>
-
-//                   {/* Sidebar */}
-//                   <div className="lg:col-span-1">
-//                     <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 h-full">
-//                       <h4 className="text-md font-medium mb-4" style={{ color: '#1E3A8A' }}>Quick Actions</h4>
-
-//                       <div className="space-y-3 mb-6">
-//                         <button
-//                           onClick={handleTryAgent}
-//                           className="w-full text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm hover:opacity-90"
-//                           style={{ backgroundColor: '#1E3A8A' }}
-//                         >
-//                           Try Our Agent
-//                         </button>
-//                         <button
-//                           onClick={onClose}
-//                           className="w-full border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
-//                         >
-//                           Close
-//                         </button>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </motion.div>
-//           </div>
-//         </div>
-//       )}
-//     </AnimatePresence>
-//   );
-// };
-
-// export default AgentDetailsModal;
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../../../store/store';
-import agentsData from '../../../../public/data/agentsData';
+import agentsData from '../../../../public/data/agentsData.js';
 
 const AgentDetailsPage = () => {
   const navigate = useNavigate();
@@ -170,6 +12,7 @@ const AgentDetailsPage = () => {
   const [agent, setAgent] = useState(null);
   const [category, setCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -177,28 +20,29 @@ const AgentDetailsPage = () => {
       return;
     }
 
-    // Find the agent and its category
+    console.log('agentId:', agentId);
+    console.log('agentsData:', agentsData);
+
     const findAgentInData = () => {
       const allCategories = [...(agentsData.foundational || []), ...(agentsData.industry || [])];
-      
+
       for (const cat of allCategories) {
-        // Check if agent is directly in category
         if (cat.agents) {
           const foundAgent = cat.agents.find(a => a.id === agentId);
           if (foundAgent) {
+            console.log('Found Agent:', foundAgent);
             setAgent(foundAgent);
             setCategory(cat);
             setIsLoading(false);
             return;
           }
         }
-        
-        // Check in subcategories
         if (cat.subCategories) {
           for (const subCat of cat.subCategories) {
             if (subCat.agents) {
               const foundAgent = subCat.agents.find(a => a.id === agentId);
               if (foundAgent) {
+                console.log('Found Agent:', foundAgent);
                 setAgent(foundAgent);
                 setCategory(cat);
                 setIsLoading(false);
@@ -208,13 +52,23 @@ const AgentDetailsPage = () => {
           }
         }
       }
-      
-      // Agent not found
+
+      console.log('Agent not found for agentId:', agentId);
       setIsLoading(false);
     };
 
     findAgentInData();
   }, [agentId, isAuthenticated, navigate]);
+
+  // Add this useEffect to determine the category type
+  useEffect(() => {
+    if (category) {
+      // Check if the category exists in foundational or industry
+      const foundationalCategories = agentsData.foundational || [];
+      const isFoundational = foundationalCategories.some(cat => cat.id === category.id);
+      setActiveTab(isFoundational ? 'foundational' : 'industry');
+    }
+  }, [category]);
 
   const handleTryAgent = () => {
     navigate(`/agent-playground/agent/${agent.id}`);
@@ -227,7 +81,7 @@ const AgentDetailsPage = () => {
   // Get other agents in the same category (excluding current agent)
   const getOtherAgents = () => {
     if (!category) return [];
-    
+
     let allAgents = [];
     if (category.agents) {
       allAgents = [...category.agents];
@@ -239,7 +93,7 @@ const AgentDetailsPage = () => {
         }
       });
     }
-    
+
     return allAgents.filter(a => a.id !== agent?.id);
   };
 
@@ -289,7 +143,7 @@ const AgentDetailsPage = () => {
       </div>
 
       {/* Hero Section with Background Image */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -307,27 +161,27 @@ const AgentDetailsPage = () => {
         {/* Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
           {/* Agent Category Badge */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center px-4 py-2 bg-blue-500 bg-opacity-80 text-white text-sm font-medium rounded-full mb-4"
           >
-            Foundation Agent
+            {activeTab === 'foundational' ? 'Foundation Agent' : 'Industry Agent'}
           </motion.div>
 
           {/* Agent Title */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight max-w-4xl text-center"
           >
-            {agent.heading && agent.heading[0] ? agent.heading[0] : agent.name}
+            {agent ? (agent.heading || agent.name || 'Agent Details') : 'Loading Agent...'}
           </motion.h1>
 
           {/* Agent Subtitle/Description */}
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -358,7 +212,7 @@ const AgentDetailsPage = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Agent Overview */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -383,7 +237,7 @@ const AgentDetailsPage = () => {
             </motion.div>
 
             {/* Solutions & Use Cases */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -420,11 +274,60 @@ const AgentDetailsPage = () => {
               )}
             </motion.div>
 
+            {/* Related Agents */}
+            {otherAgents.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+              >
+                <h4 className="text-lg font-semibold text-gray-900 mb-6">Related Agents</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {otherAgents.slice(0, 4).map((relatedAgent) => (
+                    <div key={relatedAgent.id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-all duration-200 border border-gray-200 hover:border-blue-200">
+                      {/* Agent Icon */}
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <span className="text-white text-sm font-bold">
+                            {relatedAgent.name.charAt(0)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Agent Info */}
+                      <h5 className="font-medium text-gray-900 mb-2 line-clamp-1">
+                        {relatedAgent.name}
+                      </h5>
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+                        {relatedAgent.summary || relatedAgent.description}
+                      </p>
+
+                      {/* Action Buttons */}
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => navigate(`/agent-playground/agent/${relatedAgent.id}`)}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          Try Agent
+                        </button>
+                        <button
+                          onClick={() => navigate(`/agent-details/${relatedAgent.id}`)}
+                          className="px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                        >
+                          View
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -447,6 +350,31 @@ const AgentDetailsPage = () => {
                 </button>
               </div>
 
+              {/* Agent Status */}
+              <div className="border-t border-gray-200 pt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-700">Status</span>
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${agent.status === 'available'
+                      ? 'bg-green-100 text-green-800'
+                      : agent.status === 'not available'
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                    {agent.status === 'available'
+                      ? 'Available'
+                      : agent.status === 'not available'
+                        ? 'Not Available'
+                        : 'Status Unknown'}
+                  </span>
+                </div>
+
+                {category && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">Category</span>
+                    <span className="text-sm text-gray-600">{category.name}</span>
+                  </div>
+                )}
+              </div>
             </motion.div>
           </div>
         </div>
