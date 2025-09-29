@@ -19,6 +19,7 @@ import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
+import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -28,6 +29,7 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/agent-details/:agentId" element={<AgentDetailsModelPage />} />
       
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={

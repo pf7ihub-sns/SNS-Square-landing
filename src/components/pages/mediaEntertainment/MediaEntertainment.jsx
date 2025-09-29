@@ -304,12 +304,9 @@ const MediaEntertainment = () => {
   };
 
   const handleViewAgent = (agentId) => {
-    const agent = agents.find(a => a.id === agentId);
-    if (agent) {
-      setSelectedAgent(agent);
-      setIsModalOpen(true);
-    }
-  };
+  // Navigate to a new page route instead of opening modal
+  navigate(`/agent-details/${agentId}`);
+};
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -750,10 +747,7 @@ const MediaEntertainment = () => {
 
         {/* Agent Details Modal */}
         <AgentDetailsModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          agent={selectedAgent}
-          category={getCurrentCategoryData()}
+         
         />
       </div>
     </div>
