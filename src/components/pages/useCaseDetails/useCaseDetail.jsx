@@ -280,7 +280,7 @@ export default function ResponsiveUseCaseDetailPage() {
             {/* Desktop Follow Us section - Hidden on mobile/tablet */}
             <div className="hidden xl:block absolute top-0 -right-28 2xl:-right-32">
               <div className="flex flex-col items-center gap-3">
-                <span className="text-sm text-gray-600">Follow Us</span>
+                <span className="text-sm text-gray-600">Share</span>
                 <div className="flex flex-col gap-2 relative">
                   {/* Direct Social Links */}
                   <a 
@@ -301,14 +301,14 @@ export default function ResponsiveUseCaseDetailPage() {
                     <FaInstagram className="w-5 h-5 text-gray-900" />
                   </a>
                   
-                  <a 
+                  {/* <a 
                     href="https://www.youtube.com/@snssquare" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
                   >
                     <AiOutlineYoutube className="w-5 h-5 text-gray-900" />
-                  </a>
+                  </a> */}
 
                   {/* Share Button with Dropdown */}
                   <div className="relative">
@@ -373,14 +373,14 @@ export default function ResponsiveUseCaseDetailPage() {
                   <FaInstagram className="w-4 h-4 text-gray-900" />
                 </a>
                 
-                <a 
+                {/* <a 
                   href="https://www.youtube.com/@snssquare" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center hover:bg-pink-100 transition-colors"
                 >
                   <AiOutlineYoutube className="w-4 h-4 text-gray-900" />
-                </a>
+                </a> */}
 
                 {/* Mobile Share Button */}
                 <div className="relative">

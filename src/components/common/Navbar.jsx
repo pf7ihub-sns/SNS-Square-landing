@@ -77,16 +77,16 @@ const Header = () => {
   // Dropdown content for each navigation item
   const dropdownContent = {
     'agentic-workbench': [
-      { label: 'Foundation Agents', href: '/agent-workbench/ai-agents', icon:'icons/newicons/foundatioagent.svg'},
-      { label: 'Industry Solutions', href: '/agent-workbench/workflow-builder', icon: 'icons/newicons/industrysol.svg' },
-      { label: 'Customer Solutions', href: '/agent-workbench/marketplace', icon: 'icons/newicons/customersol.svg' }
+      { label: 'Foundation Agents', href: '/agent-workbench/ai-agents', icon: '/icons/newicons/foundatioagent.svg'},
+      { label: 'Industry Solutions', href: '/agent-workbench/workflow-builder', icon: '/icons/newicons/industrysol.svg' },
+      { label: 'Customer Solutions', href: '/agent-workbench/marketplace', icon: '/icons/newicons/customersol.svg' }
     ],
     'use-cases': [
-      { label: 'Supply Chain', href: '/usecase?category=supply-chain', icon: 'icons/newicons/supplychain.svg' },
-      { label: 'Information Technology', href: '/usecase?category=information-technology', icon: 'icons/newicons/IT.svg' },
-      { label: 'Healthcare', href: '/usecase?category=healthcare', icon: 'icons/newicons/healthcare.svg' },
-      { label: 'Human Resource', href: '/usecase?category=human-resource', icon: 'icons/newicons/humanresource.svg' },
-      { label: 'Insurance', href: '/usecase?category=insurance', icon: 'icons/newicons/insurance.svg' }
+      { label: 'Supply Chain', href: '/usecase?category=supply-chain', icon: '/icons/newicons/supplychain.svg' },
+      { label: 'Information Technology', href: '/usecase?category=information-technology', icon: '/icons/newicons/IT.svg' },
+      { label: 'Healthcare', href: '/usecase?category=healthcare', icon: '/icons/newicons/healthcare.svg' },
+      { label: 'Human Resource', href: '/usecase?category=human-resource', icon: '/icons/newicons/humanresource.svg' },
+      { label: 'Insurance', href: '/usecase?category=insurance', icon: '/icons/newicons/insurance.svg' }
     ],
   };
 

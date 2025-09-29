@@ -18,18 +18,10 @@ const DesktopCategoryFilters = ({ categoryFilters, handleCategoryClick }) => {
             className="w-6 h-6 md:w-8 md:h-8"
             alt="Category icon"
             src={filter.icon}
-            style={
-              filter.isActive
-                ? {
-                    filter:
-                      "brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(3028%) hue-rotate(212deg) brightness(94%) contrast(90%)",
-                  }
-                : {
-                    filter:
-                      "brightness(0) saturate(100%) invert(15%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(95%)",
-                    opacity: 0.41,
-                  }
-            }
+            style={{
+              opacity: filter.isActive ? 1 : 0.6,
+              transition: 'opacity 0.3s ease'
+            }}
           />
 
           <div

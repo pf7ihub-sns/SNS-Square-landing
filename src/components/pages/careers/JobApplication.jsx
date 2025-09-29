@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import JodDecriptionHero from './JodDecriptionHero';
 import Box from '@mui/material/Box';
@@ -6,6 +6,51 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { AiOutlineCloudUpload, AiOutlineFilePdf, AiOutlineFileWord, AiOutlineFile } from 'react-icons/ai';
 import { MdClose, MdCheck } from 'react-icons/md';
+
+// Toast Component
+const Toast = ({ show, message, type = 'success', onClose }) => {
+  useEffect(() => {
+    if (show) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 4000); // Auto close after 4 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [show, onClose]);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-300">
+      <div className={`flex items-center gap-3 p-4 rounded-lg shadow-lg border max-w-md ${
+        type === 'success' 
+          ? 'bg-green-50 border-green-200 text-green-800' 
+          : 'bg-red-50 border-red-200 text-red-800'
+      }`}>
+        <div className="flex-shrink-0">
+          {type === 'success' ? (
+            <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+              <MdCheck className="w-4 h-4 text-green-600" />
+            </div>
+          ) : (
+            <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+              <MdClose className="w-4 h-4 text-red-600" />
+            </div>
+          )}
+        </div>
+        <div className="flex-1">
+          <p className="font-medium text-sm">{message}</p>
+        </div>
+        <button
+          onClick={onClose}
+          className="flex-shrink-0 p-1 hover:bg-black hover:bg-opacity-5 rounded transition-colors"
+        >
+          <MdClose className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // Material-UI FormField component
 const FormField = ({
@@ -302,19 +347,74 @@ const JobApplication = () => {
 
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [consentChecked, setConsentChecked] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+  };
+
+  const hideToast = () => {
+    setToast({ show: false, message: '', type: 'success' });
+  };
+
+  const handleSubmit = async () => {
     if (!consentChecked) {
-      alert("Please agree to the terms and conditions before submitting.");
+      showToast("Please agree to the terms and conditions before submitting.", "error");
       return;
     }
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
-    console.log("Uploaded files:", uploadedFiles);
+
+    if (uploadedFiles.length === 0) {
+      showToast("Please upload your resume before submitting.", "error");
+      return;
+    }
+
+    // Validate required fields
+    const requiredFields = [
+      { field: 'firstName', label: 'First Name' },
+      { field: 'email', label: 'Email ID' },
+      { field: 'contact', label: 'Contact' },
+      { field: 'gender', label: 'Gender' },
+      { field: 'currentLocation', label: 'Current Location' },
+      { field: 'yearOfGraduation', label: 'Year of Graduation' },
+      { field: 'experienceYears', label: 'Experience in Years' },
+      { field: 'noticePeriod', label: 'Notice Period' },
+      { field: 'skillSet', label: 'Skill Set' }
+    ];
+
+    for (const { field, label } of requiredFields) {
+      if (!formData[field] || formData[field].trim() === '') {
+        showToast(`Please fill in the ${label} field.`, "error");
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Handle form submission logic here
+      console.log("Form submitted:", formData);
+      console.log("Uploaded files:", uploadedFiles);
+      
+      showToast("Application submitted successfully! We'll get back to you soon.", "success");
+      
+      // Optional: Reset form after successful submission
+      // setFormData({...initial state});
+      // setUploadedFiles([]);
+      // setConsentChecked(false);
+      
+    } catch (error) {
+      showToast("Failed to submit application. Please try again.", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -531,21 +631,32 @@ const JobApplication = () => {
               <div className="pt-3 lg:pt-4 lg:sticky lg:bottom-0 bg-white pb-3 lg:pb-4">
                 <button 
                   onClick={handleSubmit}
-                  disabled={!consentChecked}
-                  className={`w-full px-8 py-3 rounded text-base font-medium transition-colors ${
-                    consentChecked 
+                  disabled={!consentChecked || isSubmitting}
+                  className={`w-full px-8 py-3 rounded text-base font-medium transition-colors flex items-center justify-center gap-2 ${
+                    consentChecked && !isSubmitting
                       ? 'bg-gray-900 text-white hover:bg-gray-800' 
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                   style={{ fontFamily: 'Manrope, sans-serif' }}
                 >
-                  Submit Application
+                  {isSubmitting && (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  )}
+                  {isSubmitting ? 'Submitting...' : 'Submit Application'}
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      <Toast 
+        show={toast.show}
+        message={toast.message}
+        type={toast.type}
+        onClose={hideToast}
+      />
     </div>
   );
 };

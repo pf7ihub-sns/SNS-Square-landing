@@ -23,7 +23,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "supply-chain",
         label: "Supply Chain",
-        icon: "/icons/supply.svg",
+        icon: "/icons/newicons/supplychain.svg",
       },
     },
     "information-technology": {
@@ -33,7 +33,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "information-technology",
         label: "Information Technology",
-        icon: "/icons/it.svg",
+        icon: "/icons/newicons/IT.svg",
       },
     },
     healthcare: {
@@ -43,7 +43,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "healthcare",
         label: "Healthcare",
-        icon: "/icons/healthcare.svg",
+        icon: "/icons/newicons/healthcare.svg",
       },
     },
     "human-resource": {
@@ -53,7 +53,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "human-resource",
         label: "Human Resource",
-        icon: "/icons/humanresource.svg",
+        icon: "/icons/newicons/humanresource.svg",
       },
     },
     insurance: {
@@ -63,7 +63,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "insurance",
         label: "Insurance",
-        icon: "/icons/humanresource.svg",
+        icon: "/icons/newicons/insurance.svg",
       },
     },
   }), []);

@@ -20,7 +20,8 @@ const MobileCategoryAccordion = ({
               alt="Category icon"
               src={getActiveFilter()?.icon}
               style={{
-                filter: "brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(3028%) hue-rotate(212deg) brightness(94%) contrast(90%)"
+                opacity: 1,
+                transition: 'opacity 0.3s ease'
               }}
             />
             <span className="font-Manrope font-semibold text-base text-[#064EE3]">
@@ -54,8 +55,8 @@ const MobileCategoryAccordion = ({
                   alt="Category icon"
                   src={filter.icon}
                   style={{
-                    filter: "brightness(0) saturate(100%) invert(15%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(95%)",
-                    opacity: 0.41
+                    opacity: 0.6,
+                    transition: 'opacity 0.3s ease'
                   }}
                 />
                 <span className="font-Manrope font-semibold text-base text-[#04040469]">
