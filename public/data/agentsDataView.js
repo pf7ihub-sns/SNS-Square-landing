@@ -1,3 +1,4 @@
+
 export default {
     foundational: [
         {
@@ -37,25 +38,30 @@ export default {
                                 cases: [
                                     {
                                         icon: "/icons/Finance.svg",
+                                        icon: "/icons/Finance.svg",
                                         title: "Finance",
                                         description: "Parsing invoices, reports, and audit records"
                                     },
                                     {
+                                        icon: "/icons/Healthcareuicon.svg",
                                         icon: "/icons/Healthcareuicon.svg",
                                         title: "Healthcare",
                                         description: "Extracting structured information from medical reports"
                                     },
                                     {
                                         icon: "/icons/Legal.svg",
+                                        icon: "/icons/Legal.svg",
                                         title: "Legal",
                                         description: "Automating contract metadata extraction"
                                     },
                                     {
                                         icon: "/icons/education.svg",
+                                        icon: "/icons/education.svg",
                                         title: "Education",
                                         description: "Summarizing research papers and academic reports"
                                     },
                                     {
+                                        icon: "/icons/ITIcon.svg",
                                         icon: "/icons/ITIcon.svg",
                                         title: "Enterprise IT",
                                         description: "Feeding parsed data into knowledge bases and CRMs"
@@ -65,23 +71,28 @@ export default {
                             whyItMatters: {
                                 title: "Business Impact",
                                 subtitle: "Our agent-based AI transforms manual workflows into automated, error-resistant processes, enabling teams to work faster, make smarter decisions, and scale operations with confidence.",
+                                subtitle: "Our agent-based AI transforms manual workflows into automated, error-resistant processes, enabling teams to work faster, make smarter decisions, and scale operations with confidence.",
                                 benefits: [
                                     {
+                                        icon: "/icons/BI1.svg",
                                         icon: "/icons/BI1.svg",
                                         title: "Saves up to 70% of manual document review time",
                                         description: "Automate repetitive document processing tasks"
                                     },
                                     {
                                         icon: "/icons/BI2.svg",
+                                        icon: "/icons/BI2.svg",
                                         title: "Reduces human error in transcription and data entry",
                                         description: "Achieve higher accuracy with AI-powered extraction"
                                     },
                                     {
                                         icon: "/icons/BI3.svg",
+                                        icon: "/icons/BI3.svg",
                                         title: "Speeds up compliance workflows by providing structured metadata",
                                         description: "Streamline regulatory compliance processes"
                                     },
                                     {
+                                        icon: "/icons/BI4.svg",
                                         icon: "/icons/BI4.svg",
                                         title: "Improves knowledge management and searchability",
                                         description: "Enhance information retrieval and organization"
