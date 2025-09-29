@@ -255,7 +255,13 @@ const AgentDetailsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {agent.useCases.cases.map((useCase, index) => (
                 <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-all">
-                  <div className="text-4xl mb-4">{useCase.icon}</div>
+                  <div className="text-4xl mb-4">
+                    {typeof useCase.icon === 'string' && useCase.icon.startsWith('/') ? (
+                      <img src={useCase.icon} alt={useCase.title} className="w-12 h-12 object-contain" />
+                    ) : (
+                      useCase.icon
+                    )}
+                  </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-3">{useCase.title}</h4>
                   <p className="text-gray-600 leading-relaxed">{useCase.description}</p>
                 </div>
@@ -290,7 +296,13 @@ const AgentDetailsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {agent.whyItMatters.benefits.map((benefit, index) => (
                 <div key={index} className="bg-gradient-to-br from-blue-50 to-white rounded-xl p-8 border border-blue-100 hover:shadow-md transition-all">
-                  <div className="text-4xl mb-4">{benefit.icon}</div>
+                  <div className="text-4xl mb-4">
+                    {typeof benefit.icon === 'string' && benefit.icon.startsWith('/') ? (
+                      <img src={benefit.icon} alt={benefit.title} className="w-12 h-12 object-contain" />
+                    ) : (
+                      benefit.icon
+                    )}
+                  </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
                     {benefit.title}
                   </h4>
