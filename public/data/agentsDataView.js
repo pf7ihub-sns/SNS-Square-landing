@@ -1,3 +1,4 @@
+
 export default {
     foundational: [
         {
@@ -36,27 +37,27 @@ export default {
                                 subtitle: "Deploy intelligent agents and automation ready to coordinate at enterprise scale and optimize complex workflows across diverse industry verticals",
                                 cases: [
                                     {
-                                        icon: "/images/icons/upload.png",
+                                        icon: "/icons/Finance.svg",
                                         title: "Finance",
                                         description: "Parsing invoices, reports, and audit records"
                                     },
                                     {
-                                        icon: "🏥",
+                                        icon: "/icons/Healthcareuicon.svg",
                                         title: "Healthcare",
                                         description: "Extracting structured information from medical reports"
                                     },
                                     {
-                                        icon: "⚖️",
+                                        icon: "/icons/Legal.svg",
                                         title: "Legal",
                                         description: "Automating contract metadata extraction"
                                     },
                                     {
-                                        icon: "🎓",
+                                        icon: "/icons/education.svg",
                                         title: "Education",
                                         description: "Summarizing research papers and academic reports"
                                     },
                                     {
-                                        icon: "🏢",
+                                        icon: "/icons/ITIcon.svg",
                                         title: "Enterprise IT",
                                         description: "Feeding parsed data into knowledge bases and CRMs"
                                     }
@@ -64,25 +65,25 @@ export default {
                             },
                             whyItMatters: {
                                 title: "Business Impact",
-                                subtitle: "Ndava's agent-based AI empowers studios to create more immersive experiences, reduce development cycles, iterate faster, and build games that continuously evolve with player behavior",
+                                subtitle: "Our agent-based AI transforms manual workflows into automated, error-resistant processes, enabling teams to work faster, make smarter decisions, and scale operations with confidence.",
                                 benefits: [
                                     {
-                                        icon: "⚡",
+                                        icon: "/icons/BI1.svg",
                                         title: "Saves up to 70% of manual document review time",
                                         description: "Automate repetitive document processing tasks"
                                     },
                                     {
-                                        icon: "🎯",
+                                        icon: "/icons/BI2.svg",
                                         title: "Reduces human error in transcription and data entry",
                                         description: "Achieve higher accuracy with AI-powered extraction"
                                     },
                                     {
-                                        icon: "📋",
+                                        icon: "/icons/BI3.svg",
                                         title: "Speeds up compliance workflows by providing structured metadata",
                                         description: "Streamline regulatory compliance processes"
                                     },
                                     {
-                                        icon: "🧠",
+                                        icon: "/icons/BI4.svg",
                                         title: "Improves knowledge management and searchability",
                                         description: "Enhance information retrieval and organization"
                                     }
@@ -94,24 +95,39 @@ export default {
                                     {
                                         number: "01",
                                         title: "Architecture Overview",
-                                        description: "Implement AI-driven systems to handle customer queries and requests autonomously",
+                                        description: "Ingest → Analyze → Deliver structured insights in real time.",
                                         process: [
-                                            { icon: "📄", label: "File Upload" },
-                                            { icon: "🔍", label: "Parsing Engine" },
-                                            { icon: "📊", label: "Summarization & Structuring" },
-                                            { icon: "💾", label: "Output as JSON/API Response/UI Table" }
+                                            { icon: "/icons/AO1.svg", label: " File Upload", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: " Parsing Engine", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "Summarization & Structuring", isImage: true },
+                                            { icon: "/icons/AO5.svg", label: "Output as JSON / API Response / UI Table", isImage: true },
                                         ]
                                     },
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Analyze credit risk, market risk, and operational risk through comprehensive data analysis"
+                                        description: "Data ingestion, AI processing, output, and error handling.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "File ingestion API",
+                                            "AI-based parsing and metadata extraction module",
+                                            "Summarization engine",
+                                            "Error handling & retry logic",
+                                            "UI components for summary and expanded view"
+                                        ]
                                     },
                                     {
                                         number: "03",
                                         title: "Data Handling",
-                                        description: "Implement AI-driven systems to handle customer queries and requests autonomously"
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input Formats: PDF, XLS, XLSX",
+                                            "Output Formats: JSON, CSV, API response objects",
+                                            "Processing: Metadata + Summary + Error logs"
+                                        ]
                                     }
+
                                 ]
                             }
                         }
