@@ -77,16 +77,16 @@ const Header = () => {
   // Dropdown content for each navigation item
   const dropdownContent = {
     'agentic-workbench': [
-      { label: 'Foundation Agents', href: '/agent-workbench/ai-agents' },
-      { label: 'Industry Solutions', href: '/agent-workbench/workflow-builder' },
-      { label: 'Customer Solutions', href: '/agent-workbench/marketplace' }
+      { label: 'Foundation Agents', href: '/agent-workbench/ai-agents', icon:'icons/newicons/foundatioagent.svg'},
+      { label: 'Industry Solutions', href: '/agent-workbench/workflow-builder', icon: 'icons/newicons/industrysol.svg' },
+      { label: 'Customer Solutions', href: '/agent-workbench/marketplace', icon: 'icons/newicons/customersol.svg' }
     ],
     'use-cases': [
-      { label: 'Supply Chain', href: '/usecase?category=supply-chain' },
-      { label: 'Information Technology', href: '/usecase?category=information-technology' },
-      { label: 'Healthcare', href: '/usecase?category=healthcare' },
-      { label: 'Human Resource', href: '/usecase?category=human-resource' },
-      { label: 'Insurance', href: '/usecase?category=insurance' }
+      { label: 'Supply Chain', href: '/usecase?category=supply-chain', icon: 'icons/newicons/supplychain.svg' },
+      { label: 'Information Technology', href: '/usecase?category=information-technology', icon: 'icons/newicons/IT.svg' },
+      { label: 'Healthcare', href: '/usecase?category=healthcare', icon: 'icons/newicons/healthcare.svg' },
+      { label: 'Human Resource', href: '/usecase?category=human-resource', icon: 'icons/newicons/humanresource.svg' },
+      { label: 'Insurance', href: '/usecase?category=insurance', icon: 'icons/newicons/insurance.svg' }
     ],
   };
 
@@ -191,7 +191,7 @@ const Header = () => {
               className="group flex items-center gap-3 w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors duration-200"
             >
               <div className="flex-shrink-0 w-10 h-10 rounded-lg  flex items-center justify-center  transition-colors duration-200">
-                <img src="/images/home/OCS-icon.png" alt="OCS Icon" className="w-6 h-6" />
+                <img src={item.icon || "/images/home/OCS-icon.png"} alt={`${item.label} Icon`} className="w-6 h-6" />
               </div>
               <div className="flex flex-col">
                 <span className="text-base font-medium text-gray-900">

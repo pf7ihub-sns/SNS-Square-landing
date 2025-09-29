@@ -5,21 +5,21 @@ const TABS = [
     key: 'marketplace', 
     label: 'Agentic AI Marketplace', 
     desc: 'SNS Square offers a next-generation Agentic AI marketplace with pre-built foundation agents designed to deliver speed, scale, and real-world impact. We empower enterprises with ready-to-deploy intelligence tailored to their industry needs.', 
-    icon: '/images/home/iconsCore/6.png',
+    icon: 'icons/newicons/agentic_market.svg',
     image: '/images/home/coreservice/agentic_marketplace.png', // Add your specific image for marketplace
   },
   { 
     key: 'digital', 
     label: 'Digital Transformation', 
     desc: 'SNS Square drives end-to-end digital transformation by blending AI, automation, and modern technologies. We help organisations reimagine processes, unlock efficiencies, and stay future-ready in a fast-evolving digital economy.', 
-    icon: '/images/home/iconsCore/7.png',
+    icon: 'icons/newicons/digitaltrans.svg',
     image: '/images/home/coreservice/transformation.png', // Add your specific image for digital transformation
   },
   { 
     key: 'data', 
     label: 'AI & Data Solutions', 
     desc: 'With deep expertise in AI and data, SNS Square turns raw information into actionable intelligence. From predictive analytics to advanced machine learning, we craft solutions that fuel smarter decisions and measurable business growth.', 
-    icon: '/images/home/iconsCore/5.png',
+    icon: 'icons/newicons/aidatasol.svg',
     image: '/images/home/coreservice/AI & Data Solutions.png', // Add your specific image for AI & data
 
   },
@@ -27,14 +27,14 @@ const TABS = [
     key: 'platform', 
     label: 'Enterprise Platform Services', 
     desc: 'SNS Square strengthens enterprises with scalable platform services that integrate seamlessly into existing ecosystems. From cloud to automation, we deliver robust, secure, and future-ready platforms built to accelerate performance.', 
-    icon: '/images/home/iconsCore/8.png',
+    icon: 'icons/newicons/enterpriseplat.svg',
     image: '/images/home/coreservice/platformsrvc.png', // Add your specific image for platform services
   },
   { 
     key: 'custom', 
     label: 'Custom Development', 
     desc: 'SNS Square specialises in building tailor-made digital solutions that align perfectly with business goals. Whether it’s applications, platforms, or AI-driven tools, our custom development ensures precision, innovation, and competitive advantage.', 
-    icon: '/images/home/iconsCore/9.png',
+    icon: 'icons/newicons/custdev.svg',
     image: '/images/home/coreservice/custom_dev.png', // Add your specific image for custom development
   },
 ];
