@@ -50,17 +50,20 @@ const WhyWeAreHereSection = () => {
 
                   {/* Third Paragraph */}
                   <p className="text-neutral-600 font-medium font-manrope leading-relaxed flex-1">
-                   Our mission is simple empower businesses to grow at the speed of change. Whether it’s transforming industries with AI-driven use cases, building enterprise-grade platforms, or enabling custom solutions tailored to your needs, SNS Square is your partner in shaping a smarter, faster, more resilient future.
+                    Our mission is simple empower businesses to grow at the speed of change. Whether it’s transforming industries with AI-driven use cases, building enterprise-grade platforms, or enabling custom solutions tailored to your needs, SNS Square is your partner in shaping a smarter, faster, more resilient future.
                   </p>
                 </div>
               </div>
 
               {/* Right Image Placeholder */}
-              <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full lg:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] bg-gray-200 rounded flex items-center justify-center">
-                <div className="text-gray-500 font-medium">
-                  Image Placeholder
-                </div>
+              <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full lg:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] rounded overflow-hidden">
+                <img
+                  src="/images/About_us/About us.jpg" // replace with your image path
+                  alt="Descriptive Alt Text"
+                  className="w-full h-full object-cover"
+                />
               </div>
+
             </div>
 
             {/* Contact Button */}
