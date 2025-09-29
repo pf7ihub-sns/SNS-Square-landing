@@ -30,8 +30,7 @@ export default function Footer() {
               Let's Build Your Agentic Future
             </h3>
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto mt-12">
-              Ready to transform your business with Agentic AI, autonomous solutions? Partner with us
-              and take the first step into the Agentic era.
+             Step beyond automation. Empower your business with Agentic AI that thinks, acts, and grows, transforming ideas into outcomes at the speed of intelligence. The future isn’t coming. It’s agentic.
             </p>
             <Link to="/contact-us">
               <BlackButton className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]">

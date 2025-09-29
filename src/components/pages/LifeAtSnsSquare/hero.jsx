@@ -1,7 +1,12 @@
 import React from "react";
 import BlackButton from "../../common/BlackButton";
+import { useNavigate } from "react-router-dom";
+
+
 
 const HeroSection = ({ showButton = true }) => {
+
+   const navigate = useNavigate();
   return (
     <div className="bg-white  mt-20 px-8 pt-12 rounded-b-md">
       <div className="relative w-full bg-[#D6F0FE]">
@@ -29,7 +34,7 @@ const HeroSection = ({ showButton = true }) => {
 
             {/* CTA Button */}
             {showButton && (
-              <BlackButton className="px-8 py-4 text-lg font-semibold mt-8">
+              <BlackButton className="px-8 py-4 text-lg font-semibold mt-8" onClick={() => navigate("/careers")}>
                 Work With Us
               </BlackButton>
             )}

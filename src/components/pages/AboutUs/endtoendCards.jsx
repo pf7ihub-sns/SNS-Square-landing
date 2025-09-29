@@ -18,7 +18,7 @@ const FeatureCardsSection = () => {
       className="relative z-30 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 2xl:py-24 bg-white flex flex-col items-center"
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 md:px-4 lg:px-4">
         {/* Header Section */}
         <div className="mb-8 sm:mb-10 lg:mb-12 xl:mb-16">
           <h2 className="leading-tight text-black text-left">
@@ -36,10 +36,10 @@ const FeatureCardsSection = () => {
           >
             <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
               <h4 className="text-red-600">
-                Foundational Agents
+           Strategy to Execution
               </h4>
               <p className="text-zinc-600 font-inter leading-snug text-sm">
-                Foundational Agents are core AI building blocks-flexible, scalable, and ready to power your business with Agentic intelligence, automation and innovation.
+               We don’t just advise; we architect. From identifying the right AI opportunities to designing a tailored roadmap, we align your business vision with transformative AI strategies that are practical, scalable, and future-ready.
               </p>
             </div>
           </article>
@@ -51,10 +51,10 @@ const FeatureCardsSection = () => {
           >
             <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
               <h4 className="text-violet-500">
-                Industry Solutions
+                Seamless Integration
               </h4>
               <p className="text-zinc-600 font-inter leading-snug text-sm">
-                AI Agents crafted for your industry, delivering precise insights, efficiency and growth tailored to your business needs.
+                AI delivers value only when it’s embedded into your core operations. We integrate intelligent systems into your existing workflows, ensuring interoperability, automation, and measurable efficiency without disrupting business continuity.
               </p>
             </div>
           </article>
@@ -66,10 +66,10 @@ const FeatureCardsSection = () => {
           >
             <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
               <h4 className="text-blue-700">
-                Customer Solutions
+                Continuous Optimisation
               </h4>
               <p className="text-zinc-600 font-inter leading-snug text-sm">
-                Personalised Agentic AI solutions crafted to meet your business needs with unique solutions.
+                AI isn’t a one-time solution it evolves. Our approach includes ongoing monitoring, model retraining, and performance tuning, enabling your business to adapt quickly, stay competitive, and unlock sustained growth.
               </p>
             </div>
           </article>
@@ -97,11 +97,11 @@ const FeatureCardsSection = () => {
                       color: "transparent",
                     }}
                   >
-                    Foundational Agents
+                Strategy to Execution
                   </h4>
                 </div>
                 <p className="w-full text-zinc-600 font-inter leading-snug text-base">
-                  Foundational Agents are core AI building blocks-flexible, scalable, and ready to power your business with Agentic intelligence, automation and innovation.
+                 We don’t just advise; we architect. From identifying the right AI opportunities to designing a tailored roadmap, we align your business vision with transformative AI strategies that are practical, scalable, and future-ready.
                 </p>
               </div>
             </article>
@@ -124,11 +124,11 @@ const FeatureCardsSection = () => {
                       color: "transparent",
                     }}
                   >
-                    Industry Solutions
+                  Seamless Integration
                   </h4>
                 </div>
                 <p className="w-full text-zinc-600 font-inter leading-snug text-base">
-                  AI Agents crafted for your industry, delivering precise insights, efficiency and growth tailored to your business needs.
+                  AI delivers value only when it’s embedded into your core operations. We integrate intelligent systems into your existing workflows, ensuring interoperability, automation, and measurable efficiency without disrupting business continuity.
                 </p>
               </div>
             </article>
@@ -151,11 +151,11 @@ const FeatureCardsSection = () => {
                       color: "transparent",
                     }}
                   >
-                    Customer Solutions
+                      Continuous Optimisation
                   </h4>
                 </div>
                 <p className="w-full text-zinc-600 font-inter leading-snug text-base">
-                  Personalised Agentic AI solutions crafted to meet your business needs with unique solutions.
+                  AI isn’t a one-time solution it evolves. Our approach includes ongoing monitoring, model retraining, and performance tuning, enabling your business to adapt quickly, stay competitive, and unlock sustained growth.
                 </p>
               </div>
             </article>

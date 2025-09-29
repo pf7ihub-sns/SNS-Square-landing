@@ -1,5 +1,5 @@
 "use client";
- 
+
 import React, { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 import { Card, CardContent } from "../common/card.jsx";
@@ -16,17 +16,17 @@ export const InfiniteMovingCards = ({
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  
+
   useEffect(() => {
     addAnimation();
   }, []);
-  
+
   const [start, setStart] = useState(false);
-  
+
   function addAnimation() {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
- 
+
       // Clone the items multiple times to ensure smooth infinite scroll
       for (let i = 0; i < 3; i++) {
         scrollerContent.forEach((item) => {
@@ -36,13 +36,13 @@ export const InfiniteMovingCards = ({
           }
         });
       }
- 
+
       getDirection();
       getSpeed();
       setStart(true);
     }
   }
-  
+
   const getDirection = () => {
     if (containerRef.current) {
       if (direction === "left") {
@@ -58,7 +58,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
-  
+
   const getSpeed = () => {
     if (containerRef.current) {
       if (speed === "fast") {
@@ -70,7 +70,7 @@ export const InfiniteMovingCards = ({
       }
     }
   };
-  
+
   const handleMouseDown = (e) => {
     setIsMouseDown(true);
     if (containerRef.current) {
@@ -148,7 +148,7 @@ export const InfiniteMovingCards = ({
             )}
           >
             <Card className="w-full">
-    <CardContent className="flex flex-col gap-2 sm:gap-3 md:gap-4 w-full min-w-[200px] max-w-[250px] sm:min-w-[240px] sm:max-w-[280px] md:min-w-[300px] md:max-w-[350px] lg:min-w-[350px] lg:max-w-[400px] xl:w-150">
+              <CardContent className="flex flex-col gap-2 sm:gap-3 md:gap-4 w-full min-w-[200px] max-w-[250px] sm:min-w-[200px] sm:max-w-[250px] md:min-w-[300px] md:max-w-[350px] lg:min-w-[450px] lg:max-w-[600px] xl:w-250">
                 {item.textPosition === 'top' ? (
                   <>
                     <div className="p-3 sm:p-4 md:p-6 lg:p-8">

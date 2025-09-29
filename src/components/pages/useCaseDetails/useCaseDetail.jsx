@@ -198,7 +198,7 @@ export default function ResponsiveUseCaseDetailPage() {
       </div>
 
       {/* Main container - Responsive */}
-      <div className="max-w-[1480px] mx-auto">
+      <div className="max-w-[1480px] xl:w-[1100px] mx-auto">
 
         {/* Breadcrumb navigation - Responsive */}
         <nav className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-4 sm:py-6 lg:py-8 text-xs sm:text-sm text-gray-500 overflow-x-auto">

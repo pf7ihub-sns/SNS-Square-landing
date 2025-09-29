@@ -37,7 +37,7 @@ const MissionVisionSection = () => {
                       </h3>
                     </div>
                     <p className="w-full text-zinc-700 font-inter leading-snug">
-                      We envision AI as an integral part of every organization, driving smarter decisions, operational efficiency, and continuous growth. Our goal is to make AI adoption fast, secure, and business-aligned, empowering enterprises to achieve real-world impact.
+                     To redefine the future of business by empowering people and organisations with intelligent, agentic technologies that accelerate growth, innovation, and impact
                     </p>
                   </div>
                 </div>
@@ -52,7 +52,7 @@ const MissionVisionSection = () => {
                       </h3>
                     </div>
                     <p className="w-full text-zinc-700 font-inter leading-snug">
-                      SNS Square democratizes enterprise AI, empowering organizations to transform operations through intelligent automation. We make AI accessible, intuitive, and impactful, redefining performance across the value chain.
+                     Our mission is to build transformative solutions that blend AI, automation, and human ingenuity, helping businesses adapt faster, scale smarter, and unlock opportunities for a better tomorrow
                     </p>
                   </div>
                 </div>

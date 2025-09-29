@@ -1,5 +1,6 @@
 import React from 'react'
 import BlackButton from '../../common/BlackButton';
+import TextField from '@mui/material/TextField';
 
 const LoginForm = () => {
     return (
@@ -28,7 +29,7 @@ const LoginForm = () => {
                     <div className="bg-white rounded-md shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
                         <div className="w-full">
                             <h3 className="text-xl sm:text-2xl font-semibold">Login to your account</h3>
-                            <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Lorem ipsum nisi lorem turpis</p>
+                            <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Welcome Back</p>
                             <div className="space-y-6 py-4">
                                 <div className="relative">
                                     <input
@@ -45,7 +46,7 @@ const LoginForm = () => {
                                     />
                                 </div>
                             </div>
-                            <p className="text-gray-500  mt-6 mb-6">By continuing, you agree to our Terms of Service</p>
+                            <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
                             <BlackButton className="w-full bg-black ">
                                 Continue
                             </BlackButton>

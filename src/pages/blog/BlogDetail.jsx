@@ -508,6 +508,17 @@ const BlogDetail = () => {
           </div>
         </section>
       );
+            if (content.image3) {
+        sections.push(
+          <div key="image3" className="mb-8 sm:mb-12 rounded-lg overflow-hidden">
+            <img
+              src={content.image3}
+              alt={`${title} - Additional Content`}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        );
+      }
     }
 
     return sections;

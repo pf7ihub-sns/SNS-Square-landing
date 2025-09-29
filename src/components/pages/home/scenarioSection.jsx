@@ -10,7 +10,7 @@ const categories = [
     gradient:
       "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI transforms supply chains into proactive, intelligent networks, predicting disruptions, optimizing flows, and ensuring products reach the right place at the right time with unmatched efficiency.",
+      "SNS Square brings unmatched efficiency to supply chains by integrating AI-powered visibility, predictive analytics, and automation. From procurement to last-mile delivery, our solutions cut delays, reduce costs, and deliver precision at scale.",
   },
   {
     key: "it",
@@ -19,7 +19,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI turns IT into a strategic engine, self-monitoring, self-healing, and continuously optimizing systems to accelerate digital transformation and reduce risk.",
+      "SNS Square’s IT solutions redefine innovation. With future-ready AI, automation, and security, we transform infrastructure into intelligent ecosystems, making businesses faster, smarter, and more resilient in the digital era.",
   },  
   {
     key: "health",
@@ -29,7 +29,7 @@ const categories = [
       // "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
        "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI powers healthcare that is precise, predictive, and compassionate, enabling personalized patient care, smarter operations, and lighter burdens for caregivers.",
+      "SNS Square powers smarter healthcare systems with AI-driven insights, predictive diagnostics, and streamlined workflows. From patient care to hospital operations, our solutions deliver accuracy, speed, and life-saving impact where it matters most.",
   },
   {
     key: "hr",
@@ -38,7 +38,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(249, 238, 241, 0.94) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI empowers HR to unlock human potential, from intelligent recruitment and predictive retention to adaptive learning, turning people-first strategies into scalable impact.",
+      "SNS Square revolutionises HR with intelligent solutions that go beyond administration, optimising hiring, engagement, and performance. With data-driven insights and automation, we help organisations unlock their people’s true potential.",
   },
   {
     key: "ins",
@@ -47,7 +47,7 @@ const categories = [
     gradient:
     "linear-gradient(359.77deg, rgba(254, 241, 230, 0.8) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
-      "Agentic AI strengthens trust and agility in insurance, detecting fraud in real time, automating claims, and delivering hyper-personalized policies with speed and confidence.",
+      "SNS Square transforms insurance with AI-driven risk assessment, fraud detection, and customer-first automation. Our solutions enable faster claims, personalised policies, and smarter decision-making, making insurers stronger and clients more secure.",
   },
 ];
 
@@ -183,7 +183,7 @@ const RealScenariosSection = () => {
             {/* Row 2: Paragraph + Button */}
             <div className="mt-4 lg:mt-6">
               <p className="font-inter text-[#606060] mb-6 lg:mb-8 text-[16px] md:text-[18px] leading-relaxed">
-                Discover practical scenarios where Agentic AI reshapes industries, accelerates decisions, and delivers results that once seemed impossible.
+               We don’t just build solutions, we drive impact. Our use cases show how Agentic AI, automation, and intelligent technologies solve real-world challenges from supply chains and healthcare to HR, IT, and insurance, delivering measurable results and new benchmarks for efficiency, innovation, and growth.
               </p>
               <div className="flex flex-col lg:flex-row items-start gap-4 mb-14 lg:mb-0">
                 <BlackButton

@@ -1,4 +1,5 @@
 import React from 'react';
+import { RiFlashlightLine } from "react-icons/ri";
 
 const coreValues = [
   {
@@ -65,16 +66,23 @@ const CoreValuesSection = () => {
               className="bg-blue-50 rounded-md  lg:p-6 p-4 sm:p-6 border border-blue-100 hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between lg:mb-8 mb-6 sm:mb-8">
-                  <p className="text-gray-900 highlight lg:text-lg text-base sm:text-lg font-semibold lg:leading-normal leading-tight lg:pr-0 pr-2">
+                {/* Title + Icon container */}
+                <div className="flex justify-between items-start lg:mb-8 mb-6 sm:mb-8">
+                  <p className="text-gray-900 highlight lg:text-lg text-base sm:text-lg font-semibold lg:leading-normal leading-tight pr-2">
                     {value.title}
                   </p>
+                  <div className="w-10 h-10 bg-white flex items-center justify-center rounded">
+                    <RiFlashlightLine className="text-gray-900 text-xl text-bold" />
+                  </div>
                 </div>
 
+                {/* Description */}
                 <p className="text-gray-700 leading-relaxed mt-auto lg:text-base text-sm sm:text-base">
                   {value.description}
                 </p>
               </div>
+
+
             </div>
           ))}
         </div>
@@ -85,7 +93,7 @@ const CoreValuesSection = () => {
         {/* Background Image positioned on the left side - Hidden on mobile, visible on tablet+ */}
         <div
           className="absolute left-0 top-0 lg:w-1/2 w-0 md:w-1/2 h-full bg-cover bg-center bg-no-repeat"
-         style={{ backgroundImage: "url('/images/GlassCube.png')" }}
+          style={{ backgroundImage: "url('/images/GlassCube.png')" }}
         ></div>
 
         {/* Content */}

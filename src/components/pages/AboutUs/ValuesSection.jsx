@@ -2,7 +2,7 @@ import React from "react";
 
 const WhyWeAreHereSection = () => {
   return (
-    <section 
+    <section
       className="py-8 sm:py-12 lg:py-16 bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('/images/backgroundgrids/gridBG.png')"
@@ -15,7 +15,7 @@ const WhyWeAreHereSection = () => {
             Why We're Here
           </h3>
           <p className="text-zinc-600 font-normal font-inter leading-snug">
-            The Story Of how SNS square Began
+            We’re not just solving today’s problems. We’re building tomorrow’s possibilities.
           </p>
         </div>
 
@@ -23,7 +23,7 @@ const WhyWeAreHereSection = () => {
         <div className="relative max-w-[1224px] mx-auto">
           {/* White Card Background */}
           <div className="w-full min-h-[400px] sm:min-h-[500px] lg:h-[675px] bg-white rounded border border-stone-300 relative p-4 sm:p-6 lg:p-0">
-            
+
             <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-0 h-full">
               {/* Left Content Area */}
               <div className="lg:absolute lg:left-[35px] lg:top-[44px] lg:w-[505px] flex flex-col justify-center lg:justify-start">
@@ -31,16 +31,28 @@ const WhyWeAreHereSection = () => {
                 <h3 className="text-black font-bold font-manrope mb-4 sm:mb-6 lg:mb-[110px] leading-tight">
                   Accelerate growth at the new speed of business
                 </h3>
-                
-                {/* First Paragraph - Uses p from index.css with custom sizing */}
-                <p className="text-neutral-500 text-sm sm:text-base lg:text-xl font-medium font-manrope mb-4 sm:mb-6 lg:mb-[113px] leading-relaxed">
-                  We work with enterprises to reimagine business with our AI Agent Platform, AI Solutions for Work, Service and Process, and Agent Marketplace.
-                </p>
-                
-                {/* Second Paragraph - Uses p from index.css */}
-                <p className="text-neutral-600 font-medium font-manrope leading-relaxed mb-6 sm:mb-8 lg:mb-0">
-                  With SNS Square customers get a standardized approach to developing, deploying, and orchestrating AI agents across the enterprise with speed, control, and flexibility. We help you keep up with the rapid pace of the AI industry.
-                </p>
+
+                {/* First Paragraph */}
+                <div className="flex flex-col flex-1 gap-6 mt-6">
+                  {/* First Paragraph */}
+                  <p className="text-neutral-500 leading-relaxed flex-1">
+                    We believe the future belongs to those who move fast, adapt faster, and innovate without limits.
+                    Businesses today don’t just need technology; they need intelligent, scalable solutions that keep
+                    them ahead in an ever-changing world.
+                  </p>
+
+                  {/* Second Paragraph */}
+                  <p className="text-neutral-600 font-medium font-manrope leading-relaxed flex-1">
+                    That’s why we’re here: to bridge the gap between ambition and execution. We combine Agentic AI,
+                    automation, and next-gen digital solutions to help organisations reimagine possibilities, unlock
+                    efficiency, and create measurable impact.
+                  </p>
+
+                  {/* Third Paragraph */}
+                  <p className="text-neutral-600 font-medium font-manrope leading-relaxed flex-1">
+                   Our mission is simple empower businesses to grow at the speed of change. Whether it’s transforming industries with AI-driven use cases, building enterprise-grade platforms, or enabling custom solutions tailored to your needs, SNS Square is your partner in shaping a smarter, faster, more resilient future.
+                  </p>
+                </div>
               </div>
 
               {/* Right Image Placeholder */}

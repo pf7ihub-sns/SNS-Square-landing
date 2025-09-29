@@ -24,7 +24,7 @@ const HeroSection = () => {
 
         {/* Subtitle */}
         <p className="mt-14 text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed ">
-          Lorem ipsum dolor sit amet consectetur. Dictum consequat faucibus odio auctor id mi mauris hendrerit elit. Non in morbi sem eros.
+          We believe the next era of business will be driven by intelligent, autonomous systems. We’re not just building technology, we’re building the future of work, processes, and innovation through Agentic AI.
         </p>
       </div>
 

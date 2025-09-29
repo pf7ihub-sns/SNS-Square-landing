@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import BlackButton from '../../common/BlackButton';
+import TextField from '@mui/material/TextField';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,7 @@ const SignupForm = () => {
           <div className="bg-white rounded-md shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
             <div className="w-full">
               <h3 className="text-xl sm:text-2xl font-semibold">Sign up</h3>
-              <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Lorem ipsum nisi lorem turpis</p>
+              <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Let's get Start</p>
 
               <form onSubmit={handleSubmit}>
                 <div className="space-y-6 py-4">
@@ -112,7 +113,7 @@ const SignupForm = () => {
                   </div>
                 </div>
 
-                <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
+                <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
 
                 <BlackButton className="w-full bg-black">
                   Continue
