@@ -436,15 +436,15 @@ const JobApplication = () => {
           <div className="lg:col-span-2">
             
             {/* Personal Details Section */}
-            <div className="mb-12 lg:mb-16">
-              <div className="flex items-center gap-4 mb-6 lg:mb-8">
+            <div className="mb-12">
+              <div className="flex items-center gap-4 mb-6">
                 <h4 className="text-lg lg:text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   Personal Details
                 </h4>
               </div>
 
-              <div className="space-y-6 lg:space-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="First Name"
                     value={formData.firstName}
@@ -471,7 +471,7 @@ const JobApplication = () => {
                   required={true}
                 />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="Contact"
                     value={formData.contact}
@@ -490,7 +490,7 @@ const JobApplication = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="Current Location"
                     value={formData.currentLocation}
@@ -510,14 +510,14 @@ const JobApplication = () => {
             </div>
 
             {/* Education & Experience Section */}
-            <div className="mb-12 lg:mb-16">
-              <div className="flex items-center gap-4 mb-6 lg:mb-8">
+            <div className="mb-12">
+              <div className="flex items-center gap-4 mb-6">
                 <h4 className="text-lg lg:text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   Education & Experience
                 </h4>
               </div>
 
-              <div className="space-y-6 lg:space-y-8">
+              <div className="space-y-6">
                 <FormField
                   label="Year of Graduation"
                   value={formData.yearOfGraduation}
@@ -527,7 +527,7 @@ const JobApplication = () => {
                   required={true}
                 />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="Experience in Years"
                     value={formData.experienceYears}
@@ -546,7 +546,7 @@ const JobApplication = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="Current CTC (In Lakhs Annum)"
                     value={formData.currentCTC}
@@ -566,8 +566,8 @@ const JobApplication = () => {
             </div>
 
             {/* Skills & Expertise Section */}
-            <div className="mb-12 lg:mb-16">
-              <div className="flex items-center gap-4 mb-6 lg:mb-8">
+            <div className="mb-12">
+              <div className="flex items-center gap-4 mb-6">
                 <h4 className="text-lg lg:text-base font-medium text-gray-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   Skills & Expertise
                 </h4>
@@ -588,11 +588,11 @@ const JobApplication = () => {
 
           {/* Right Column - Sticky Resume Upload & Apply Button (1/3 width) */}
           <div className="lg:col-span-1 lg:sticky lg:top-28 lg:h-fit lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto mt-8 lg:mt-0">
-            <div className="lg:pl-8 space-y-6 lg:space-y-8">
+            <div className="lg:pl-8 space-y-6">
               
               {/* Resume Section Header */}
               <div>
-                <h4 className="text-lg lg:text-base font-medium text-gray-900 mb-4 lg:mb-6" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                <h4 className="text-lg lg:text-base font-medium text-gray-900 mb-6" style={{ fontFamily: 'Manrope, sans-serif' }}>
                   Resume*
                 </h4>
                 
@@ -604,7 +604,7 @@ const JobApplication = () => {
               </div>
 
               {/* Consent Checkbox Section */}
-              <div className="pt-3 lg:pt-4 border-t border-gray-200">
+              <div className="pt-3 border-t border-gray-200">
                 <div className="flex items-start space-x-3">
                   <input
                     type="checkbox"
@@ -628,7 +628,7 @@ const JobApplication = () => {
               </div>
 
               {/* Apply Button */}
-              <div className="pt-3 lg:pt-4 lg:sticky lg:bottom-0 bg-white pb-3 lg:pb-4">
+              <div className="pt-3 lg:sticky lg:bottom-0 bg-white pb-3">
                 <button 
                   onClick={handleSubmit}
                   disabled={!consentChecked || isSubmitting}
