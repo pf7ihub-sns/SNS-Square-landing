@@ -106,14 +106,14 @@ export default {
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Data ingestion, AI processing, output, and error handling.",
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
                                         image: "/images/corecomponents.png",
                                         features: [
-                                            "File ingestion API",
-                                            "AI-based parsing and metadata extraction module",
-                                            "Summarization engine",
-                                            "Error handling & retry logic",
-                                            "UI components for summary and expanded view"
+                                            "Structured field and table extraction engine",
+                                            "JSON typing and validation module",
+                                            "Error handling and logging system",
+                                            "Export/download or API integration module",
+                                            "Scalable batch processing system"
                                         ]
                                     },
                                     {
@@ -122,9 +122,9 @@ export default {
                                         description: "Support multiple inputs, output structured results, track errors.",
                                         image: "/images/datahandling.png",
                                         features: [
-                                            "Input Formats: PDF, XLS, XLSX",
-                                            "Output Formats: JSON, CSV, API response objects",
-                                            "Processing: Metadata + Summary + Error logs"
+                                            "Input Formats: PDF, XLS/XLSX, TXT",
+                                            "Output Formats: Typed JSON, API response objects, exportable files",
+                                            "Processing: Parsing → field/table extraction → JSON conversion → validation → export"
                                         ]
                                     }
 

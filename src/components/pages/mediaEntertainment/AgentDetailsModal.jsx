@@ -373,6 +373,7 @@ const AgentDetailsPage = () => {
                 ))}
               </div>
             </div>
+
             {/* Active Step Content */}
             <div className="bg-[#EFF3FF] rounded-2xl p-8 lg:p-12 border border-blue-100">
               {agent.howItWorks.steps[activeStep] && (
@@ -390,9 +391,8 @@ const AgentDetailsPage = () => {
                       <p className="text-lg text-[#6B7280] leading-relaxed">
                         {agent.howItWorks.steps[activeStep].description}
                       </p>
-                      <hr className='mt-5 border-t-2 text-[#C7C7C7] ' />
+                      <hr className='mt-5 border-t-2 border-[#C7C7C7]' />
                     </div>
-
                   </div>
 
                   {/* Process Flow - Only for step 1 (Architecture Overview) */}
@@ -424,10 +424,10 @@ const AgentDetailsPage = () => {
                     </div>
                   )}
 
-                  {/* Features List with Image - For steps 2 & 3 */}
                   {agent.howItWorks.steps[activeStep].features && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                      <div className="space-y-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full">
+                      {/* Left side - Features (spans 1 column) */}
+                      <div className="lg:col-span-1 space-y-4">
                         {agent.howItWorks.steps[activeStep].features.map((feature, idx) => (
                           <div key={idx} className="flex items-start space-x-3">
                             <div className="flex-shrink-0 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mt-1">
@@ -441,12 +441,14 @@ const AgentDetailsPage = () => {
                           </div>
                         ))}
                       </div>
+
+                      {/* Right side - Image (spans 1 column, aligned to the top right) */}
                       {agent.howItWorks.steps[activeStep].image && (
-                        <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-8 flex items-center justify-center">
+                        <div className="lg:col-span-1 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-2 flex justify-end w-full">
                           <img
                             src={agent.howItWorks.steps[activeStep].image}
                             alt={agent.howItWorks.steps[activeStep].title}
-                            className="max-w-full h-auto rounded-lg"
+                            className="w-full h-auto rounded-lg max-w-[400px]"
                           />
                         </div>
                       )}
