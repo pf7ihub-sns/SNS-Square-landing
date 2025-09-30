@@ -38,30 +38,25 @@ export default {
                                 cases: [
                                     {
                                         icon: "/icons/Finance.svg",
-                                        icon: "/icons/Finance.svg",
                                         title: "Finance",
                                         description: "Parsing invoices, reports, and audit records"
                                     },
                                     {
-                                        icon: "/icons/Healthcareuicon.svg",
                                         icon: "/icons/Healthcareuicon.svg",
                                         title: "Healthcare",
                                         description: "Extracting structured information from medical reports"
                                     },
                                     {
                                         icon: "/icons/Legal.svg",
-                                        icon: "/icons/Legal.svg",
                                         title: "Legal",
                                         description: "Automating contract metadata extraction"
                                     },
                                     {
                                         icon: "/icons/education.svg",
-                                        icon: "/icons/education.svg",
                                         title: "Education",
                                         description: "Summarizing research papers and academic reports"
                                     },
                                     {
-                                        icon: "/icons/ITIcon.svg",
                                         icon: "/icons/ITIcon.svg",
                                         title: "Enterprise IT",
                                         description: "Feeding parsed data into knowledge bases and CRMs"
@@ -70,32 +65,32 @@ export default {
                             },
                             whyItMatters: {
                                 title: "Business Impact",
-                                subtitle: "Our agent-based AI transforms manual workflows into automated, error-resistant processes, enabling teams to work faster, make smarter decisions, and scale operations with confidence.",
-                                subtitle: "Our agent-based AI transforms manual workflows into automated, error-resistant processes, enabling teams to work faster, make smarter decisions, and scale operations with confidence.",
+                                subtitle: "Our Tech Documentation Agent converts lengthy technical files into structured, easy-to-digest insights, helping teams capture executive summaries, key points, and findings with speed and accuracy.",
                                 benefits: [
                                     {
-                                        icon: "/icons/BI1.svg",
-                                        icon: "/icons/BI1.svg",
-                                        title: "Saves up to 70% of manual document review time",
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduces time spent reading and interpreting long technical documents",
                                         description: "Automate repetitive document processing tasks"
                                     },
                                     {
-                                        icon: "/icons/BI2.svg",
-                                        icon: "/icons/BI2.svg",
-                                        title: "Reduces human error in transcription and data entry",
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Ensures key information is not missed by stakeholders",
                                         description: "Achieve higher accuracy with AI-powered extraction"
                                     },
                                     {
-                                        icon: "/icons/BI3.svg",
-                                        icon: "/icons/BI3.svg",
-                                        title: "Speeds up compliance workflows by providing structured metadata",
+                                        icon: "/icons/supports.svg",
+                                        title: "Supports faster decision-making through structured summaries",
                                         description: "Streamline regulatory compliance processes"
                                     },
                                     {
-                                        icon: "/icons/BI4.svg",
-                                        icon: "/icons/BI4.svg",
-                                        title: "Improves knowledge management and searchability",
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Enhances knowledge sharing across teams",
                                         description: "Enhance information retrieval and organization"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Improves productivity by automating document comprehension",
+                                        description: "Improve productivity by automating document comprehension"
                                     }
                                 ]
                             },
@@ -199,29 +194,29 @@ export default {
                                     {
                                         icon: "/icons/BI1.svg",
                                         title: "Saves time and effort in manual data entry from images",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI2.svg",
                                         title: "Ensures higher accuracy and consistency in extracted content",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI3.svg",
                                         title: "Enables faster decision-making with summarized insights",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI4.svg",
                                         title: "Provides structured output for analytics, reporting, or documentation",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI4.svg",
                                         title: "Reduces errors associated with manual transcription",
-                                        
+
                                     }
-                                
+
                                 ]
                             },
                             howItWorks: {
@@ -242,13 +237,29 @@ export default {
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Handles file ingestion, AI processing, output visualization, and robust error management."
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Image ingestion and preprocessing module",
+                                            "OCR engine for text extraction",
+                                            "Summarization and keyword extraction module",
+                                            "Interactive UI for viewing extracted text, summary, and keywords",
+                                            "Export/download module (TXT, CSV, or other formats)",
+                                            "Error handling and processing feedback system",
+                                        ]
                                     },
                                     {
                                         number: "03",
                                         title: "Data Handling",
-                                        description: "Supports multiple input formats, delivers structured outputs, and ensures traceable processing."
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input Formats: PNG, JPG",
+                                            "Output Formats: Extracted text, summaries, keywords, exportable files",
+                                            "Processing: Text extraction → summarization → keyword generation → interactive display → export"
+                                        ]
                                     }
+
                                 ]
                             }
                         },
@@ -310,29 +321,29 @@ export default {
                                     {
                                         icon: "/icons/BI1.svg",
                                         title: "Saves time by automating date standardization",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI2.svg",
                                         title: "Improves accuracy and consistency in datasets",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI3.svg",
                                         title: "Identifies invalid entries early for correction",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI4.svg",
                                         title: "Reduces manual effort in data cleaning workflows",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI4.svg",
                                         title: "Supports reliable downstream analytics and reporting",
-                                        
+
                                     }
-                                
+
                                 ]
                             },
                             howItWorks: {
@@ -353,13 +364,29 @@ export default {
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Handles file ingestion, AI processing, output visualization, and robust error management."
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "CSV ingestion module",
+                                            "Date parsing and validation engine",
+                                            "Format conversion module",
+                                            "Interactive UI for reviewing original vs converted dates",
+                                            "Export/download module for corrected CSV",
+                                            "Error handling and processing feedback system"
+                                        ]
                                     },
                                     {
                                         number: "03",
                                         title: "Data Handling",
-                                        description: "Supports multiple input formats, delivers structured outputs, and ensures traceable processing."
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input Formats: CSV files with date fields",
+                                            "Output Formats: Corrected CSV, interactive UI display",
+                                            "Processing: Date parsing → validation → conversion → interactive verification → export"
+                                        ]
                                     }
+
                                 ]
                             }
                         },
@@ -421,29 +448,29 @@ export default {
                                     {
                                         icon: "/icons/BI1.svg",
                                         title: "Saves time in manually reading and searching PDFs",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/Accurate.svg",
                                         title: "Provides accurate, context-aware answers for informed decision-making",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI3.svg",
                                         title: "Enhances productivity by enabling interactive document exploration",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/knowledge.svg",
                                         title: "Improves knowledge accessibility and comprehension",
-                                        
+
                                     },
                                     {
                                         icon: "/icons/BI2.svg",
                                         title: "Reduces errors in interpreting complex documents",
-                                        
+
                                     }
-                                
+
                                 ]
                             },
                             howItWorks: {
@@ -464,13 +491,29 @@ export default {
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Handles file ingestion, AI processing, output visualization, and robust error management."
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "PDF ingestion and processing module",
+                                            "AI-based content parsing engine",
+                                            "Natural language understanding and query engine",
+                                            "Interactive UI for asking questions and viewing answers",
+                                            "Export/download module for answers or summaries",
+                                            "Error handling and processing feedback system"
+                                        ]
                                     },
                                     {
                                         number: "03",
                                         title: "Data Handling",
-                                        description: "Supports multiple input formats, delivers structured outputs, and ensures traceable processing."
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input Formats: PDF documents",
+                                            "Output Formats: Interactive Q&A responses, exportable summaries or answers",
+                                            "Processing: PDF parsing → content indexing → query understanding → contextual answer generation → interactive display → export"
+                                        ]
                                     }
+
                                 ]
                             }
                         },
@@ -529,26 +572,32 @@ export default {
                                 subtitle: "Our Tech Documentation Agent converts lengthy technical files into structured, easy-to-digest insights, helping teams capture executive summaries, key points, and findings with speed and accuracy.",
                                 benefits: [
                                     {
-                                        icon: "/icons/BI1.svg",
+                                        icon: "/icons/Reduces.svg",
                                         title: "Reduces time spent reading and interpreting long technical documents",
-                                        
+
                                     },
                                     {
-                                        icon: "/icons/Accurate.svg",
+                                        icon: "/icons/Reduces-1.svg",
                                         title: "Ensures key information is not missed by stakeholders",
-                                        
+
                                     },
                                     {
-                                        icon: "/icons/BI3.svg",
-                                        title: "Enhances knowledge sharing across teams",
-                                        
+                                        icon: "/icons/supports.svg",
+                                        title: "Supports faster decision-making through structured summaries",
+
                                     },
                                     {
                                         icon: "/icons/knowledge.svg",
-                                        title: "Improves productivity by automating document comprehension",
-                                        
+                                        title: "Enhances knowledge sharing across teams",
+
                                     },
-                                
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Improves productivity by automating document comprehension",
+
+                                    },
+
+
                                 ]
                             },
                             howItWorks: {
@@ -559,26 +608,170 @@ export default {
                                         title: "Architecture Overview",
                                         description: "Upload files → AI-powered processing → Structured output delivery. Designed for scalability, real-time feedback, and seamless integration into existing workflows.",
                                         process: [
-                                            { icon: "/icons/AO1.svg", label: "PDF Upload", isImage: true },
-                                            { icon: "/icons/AO2.svg", label: "Content Processing & Parsing", isImage: true },
-                                            { icon: "/icons/AO3.svg", label: "Natural Language Query Handling", isImage: true },
-                                            { icon: "/icons/Contextual.svg", label: "Contextual Answer Generation", isImage: true },
-                                            { icon: "/icons/AO4.svg", label: "Interactive Display & Export Options", isImage: true },
+                                            { icon: "/icons/AO1.svg", label: "Document Upload (PDF/DOCX)", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Text Extraction & Parsing Engine", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "Executive Summary & Key Points Identification", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Findings Table Generation", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Structured Summary Output", isImage: true },
                                         ]
                                     },
                                     {
                                         number: "02",
                                         title: "Core Components",
-                                        description: "Handles file ingestion, AI processing, output visualization, and robust error management."
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "File ingestion and format handling module",
+                                            "Text extraction engine for PDFs and DOCX",
+                                            "Summary generation and key points identification logic",
+                                            "Findings table creation module",
+                                            "Output formatting and display manager"
+                                        ]
                                     },
                                     {
                                         number: "03",
                                         title: "Data Handling",
-                                        description: "Supports multiple input formats, delivers structured outputs, and ensures traceable processing."
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: PDF or DOCX technical documents",
+                                            "Output: Structured summary with executive summary, key points, and findings table",
+                                            "Processing: Text extraction → Summarization → Findings identification → Structured output"
+                                        ]
                                     }
+
                                 ]
                             }
                         },
+                        {
+                            id: "entity-recognition",
+                            name: "Entity Extraction Tool",
+                            summary: "An AI-powered agent that identifies and extracts key entities such as people, dates, organizations, locations, and monetary values from unstructured text.",
+                            image: "/placeholder.jpg",
+                            heading: "Entity Extraction Tool–Unlock hidden insights from text with precision.",
+                            status: "available",
+                            whatItIs: {
+                                title: "Transforming Entity Extraction with AI Agents",
+                                description: "The Entity Extraction Tool processes unstructured documents, messages, or datasets to automatically identify relevant entities. It recognizes categories such as people, organizations, locations, dates, and money values, and generates summaries with confidence scores. Users can filter results by entity type, review structured outputs, and export the extracted data into CSV, Excel, or JSON formats for further analysis and integration."
+                            },
+                            features: [
+                                "Automatic identification of entities (people, dates, organizations, locations, money values)",
+                                "Confidence scoring for each extracted entity",
+                                "Summarized entity view with filtering options",
+                                "Export to CSV, Excel, or JSON",
+                                "Support for large-scale text processing",
+                                "Interactive UI with real-time results",
+                                "Error handling and log tracking"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Deploy intelligent entity extraction agents to transform unstructured text into structured insights, enabling faster analysis, compliance, and reporting across industries.",
+                                cases: [
+                                    {
+                                        icon: "/icons/finance.svg",
+                                        title: "Finance",
+                                        description: "Extracting transaction details, money values, and counterparties from reports"
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuivcon.svg",
+                                        title: "Healthcare",
+                                        description: "Identifying patient names, dates, and medical organizations from case notes"
+                                    },
+                                    {
+                                        icon: "/icons/Legal.svg",
+                                        title: "Legal",
+                                        description: "Parsing contracts to extract parties, dates, and obligations"
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Media & Research",
+                                        description: "Structuring news articles with people, places, and organizations"
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Enterprise IT",
+                                        description: "Enriching unstructured data for analytics and compliance systems"
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Our Tech Documentation Agent transforms dense technical documents into clear, structured insights—delivering summaries, key takeaways, and findings quickly and reliably.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduces time spent on manual text review by up to 75%",
+
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Improves data quality with accurate and confidence-scored extraction",
+
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enables structured insights from previously unstructured sources",
+
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Enhances compliance, reporting, and analytics pipelines",
+
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Facilitates automation by converting text into machine-readable formats",
+
+                                    },
+
+
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "Upload files → AI-powered processing → Structured output delivery. Designed for scalability, real-time feedback, and seamless integration into existing workflows.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "Text Input (documents/emails/messages)", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "AI Entity Recognition Engine", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "Confidence Scoring & Summarization", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Filtering & Review", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Export to CSV/Excel/JSON", isImage: true },
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Document ingestion module (PDF, Excel, TXT)",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Text ingestion & parsing module",
+                                            "Named Entity Recognition (NER) engine",
+                                            "Confidence scoring & validation logic",
+                                            "Entity filtering & summarization interface",
+                                            "Export/download manager",
+                                            "Error handling & monitoring system"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Support multiple inputs, output structured results, track errors.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Text (plain text, DOCX, PDF, email, etc.)",
+                                            "Output: CSV, Excel, JSON",
+                                            "Processing: Entity recognition + confidence scoring + structured export"
+                                        ]
+                                    }
+
+                                ]
+                            }
+                        },
+
                     ]
                 }
 
