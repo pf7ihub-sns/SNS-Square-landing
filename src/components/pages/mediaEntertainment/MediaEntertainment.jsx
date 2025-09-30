@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +15,7 @@ import Dataimg from "../../../../public/images/data.png";
 import Dev from "../../../../public/images/dev.png";
 import Work from "../../../../public/images/work.png";
 import Social from "../../../../public/images/social.png";
-
+import AgentCard from './AgentCard.jsx';
 
 const categoryIcons = {
   'doc-knowledge': Docimg,
@@ -292,7 +291,7 @@ const MediaEntertainment = () => {
   });
 
   // Pagination logic
-  const agentsPerPage = 6;
+  const agentsPerPage = 4;
   const totalPages = Math.ceil(filteredAgents.length / agentsPerPage);
   const paginatedAgents = filteredAgents.slice(
     (currentPage - 1) * agentsPerPage,
@@ -304,8 +303,8 @@ const MediaEntertainment = () => {
   };
 
   const handleViewAgent = (agentId) => {
-  navigate(`/agent-details/${agentId}`);
-};
+    navigate(`/agent-details/${agentId}`);
+  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -458,7 +457,7 @@ const MediaEntertainment = () => {
               placeholder="Search Agents"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-5xl px-4 py-2 pl-10 border border-[#6E757E] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              className="w-5xl px-4 py-2 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -616,7 +615,7 @@ const MediaEntertainment = () => {
                       selectedCategory ? getCurrentCategoryData()?.name :
                         `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
                   </h2>
-                  <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                  <p className="text-[#000] mt-1 text-sm sm:text-base">
                     {selectedSubCategory ? getCurrentSubCategoryData()?.description :
                       selectedCategory ? getCurrentCategoryData()?.description :
                         `Explore our ${activeTab} agent categories`}
@@ -629,84 +628,16 @@ const MediaEntertainment = () => {
             </div>
 
             {/* Agents Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {paginatedAgents.length > 0 ? (
                 paginatedAgents.map((agent, index) => (
-                  <motion.div
+                  <AgentCard
                     key={agent.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-all duration-200 flex flex-col h-full"
-                  >
-                    {/* Agent Icon and Status */}
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                          <span className="text-white text-sm sm:text-lg font-bold">
-                            {agent.name.charAt(0)}
-                          </span>
-                        </div>
-                      </div>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${agent.status === 'available'
-                        ? 'bg-green-100 text-green-800'
-                        : agent.status === 'not available'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                        {agent.status === 'available'
-                          ? 'Available'
-                          : agent.status === 'not available'
-                            ? 'Not Available'
-                            : 'Status Unknown'}
-                      </span>
-                    </div>
-
-                    {/* Agent Title */}
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">{agent.name}</h3>
-
-                    {/* Agent Description */}
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed flex-1">
-                      {agent.summary || agent.description}
-                    </p>
-
-                    {/* Solutions Preview */}
-                    {agent.solutions && agent.solutions.length > 0 && (
-                      <div className="mb-4">
-                        <div className="flex flex-wrap gap-1">
-                          {agent.solutions.slice(0, 2).map((solution, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded-md"
-                            >
-                              {solution}
-                            </span>
-                          ))}
-                          {agent.solutions.length > 2 && (
-                            <span className="px-2 py-1 text-xs bg-gray-100 text-gray-500 rounded-md">
-                              +{agent.solutions.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Action Buttons */}
-                    <div className="mt-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                      <button
-                        onClick={() => handleTryAgent(agent.id)}
-                        className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
-                      >
-                        Try Agent
-                      </button>
-                      <button
-                        onClick={() => handleViewAgent(agent.id)}
-                        className="text-blue-600 hover:opacity-80 text-sm font-medium transition-colors py-2 sm:py-0"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </motion.div>
+                    agent={agent}
+                    index={index}
+                    onTryAgent={handleTryAgent}
+                    onViewAgent={handleViewAgent}
+                  />
                 ))
               ) : (
                 <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12">
@@ -715,7 +646,7 @@ const MediaEntertainment = () => {
                     alt="Objects"
                     className="w-50 sm:w-62 mb-6"
                   />
-                  <h3 className="text-base sm:text-lg  text-gray-800 mb-2">
+                  <h3 className="text-base sm:text-lg text-gray-800 mb-2">
                     {selectedCategory ? 'No agents found' : 'Select a category to view agents'}
                   </h3>
                   <p className="text-gray-600 text-sm sm:text-base px-4 max-w-md">
@@ -724,7 +655,6 @@ const MediaEntertainment = () => {
                       : 'Choose a category from the sidebar to explore available agents.'}
                   </p>
                 </div>
-
               )}
             </div>
 
@@ -746,7 +676,7 @@ const MediaEntertainment = () => {
 
         {/* Agent Details Modal */}
         <AgentDetailsModal
-         
+
         />
       </div>
     </div>

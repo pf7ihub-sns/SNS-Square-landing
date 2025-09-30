@@ -977,15 +977,6 @@ export default {
               description: ["Storyline Generator turns your ideas into engaging story plots with AI-crafted narratives.Simply enter a theme and get structured, ready-to-use storylines instantly.Perfect for writers, filmmakers, and creatives to save time and spark imagination."]
             },
 
-          ]
-        },
-        {
-          id: "social-media-content-creation",
-          name: "Social Media Content Creation",
-          description: "Create engaging social media content and manage content strategies.",
-          image: "/placeholder.jpg",
-          agents: [
-
             {
               id: "work-management",
               name: "Headline Generator Agent",
@@ -1017,6 +1008,16 @@ export default {
               description: ["Image to PDF Converter turns your images into professional, multi-page PDFs effortlessly. Supports JPG and PNG formats, allowing batch uploads for seamless conversion. Ideal for students, professionals, and creators needing fast, high-quality PDFs."],
               status: "available"
             }
+
+          ]
+        },
+        {
+          id: "social-media-content-creation",
+          name: "Social Media Content Creation",
+          description: "Create engaging social media content and manage content strategies.",
+          image: "/placeholder.jpg",
+          agents: [
+
           ]
         }
       ]
