@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { ArrowLeft, Menu, X } from 'lucide-react';
 
 function DeepResearchAgent() {
@@ -10,6 +11,18 @@ function DeepResearchAgent() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [showInstructions, setShowInstructions] = useState(false);
+
+  // Reset scroll position when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Scroll to top when result is displayed
+  useEffect(() => {
+    if (result) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [result]);
 
   const formatContent = (content) => {
     // Remove markdown headers (##, ###, etc.) and bold markers (**, __)
