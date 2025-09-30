@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +5,40 @@ import { useAuthStore } from '../../../store/store';
 import agentsData from '../../../../public/data/agentsData.js';
 import AgentDetailsModal from './AgentDetailsModal';
 import Pagination from '../../common/Pagination.jsx';
+import SelectCatagoryImg from "../../../../public/images/objects.png";
+import Docimg from "../../../../public/images/doc.png";
+import Sumimg from "../../../../public/images/sum.png";
+import Com from "../../../../public/images/Com.png"
+import BusinessImg from "../../../../public/images/Business.png"
+import Compliance from "../../../../public/images/compliance.png"
+import Dataimg from "../../../../public/images/data.png";
+import Dev from "../../../../public/images/dev.png";
+import Work from "../../../../public/images/work.png";
+import Social from "../../../../public/images/social.png";
+import AgentCard from './AgentCard.jsx';
+
+const categoryIcons = {
+  'doc-knowledge': Docimg,
+  'data-management': Dataimg,
+  'communication-assistance': Com,
+  'business-intelligence': BusinessImg,
+  'compliance-security': Compliance,
+  'summarization': Sumimg,
+  'social-media': Social,
+  'work-management': Work,
+  'developer-support': Dev,
+  'manufacturing': '/images/icons/manufacturing.png',
+  'agriculture': '/images/icons/agriculture.png',
+  'healthcare': '/images/icons/healthcare.png',
+  'legal': '/images/icons/legal.png',
+  'media-entertainment': '/images/icons/media.png',
+  'retail': '/images/icons/retail.png',
+  'real-estate': '/images/icons/realestate.png',
+  'hr': '/images/icons/hr.png',
+  'fintech': '/images/icons/fintech.png',
+  'banking': '/images/icons/banking.png',
+  'general': '/images/icons/general.png'
+};
 
 const MediaEntertainment = () => {
   const [activeTab, setActiveTab] = useState('foundational');
@@ -129,6 +162,7 @@ const MediaEntertainment = () => {
     return [];
   };
 
+
   // Get current category data
   const getCurrentCategoryData = () => {
     if (!selectedCategory) return null;
@@ -178,7 +212,7 @@ const MediaEntertainment = () => {
   // Hero Section
   const heroSection = (
     <div
-      className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[440px] bg-cover bg-center bg-no-repeat"
+      className="relative w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[610px] bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: "url('/images/AgentFrame.png')",
       }}
@@ -189,7 +223,7 @@ const MediaEntertainment = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center drop-shadow-lg"
+          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-center drop-shadow-lg mt-15  py-5"
         >
           Agentic Workbench
         </motion.h1>
@@ -197,11 +231,32 @@ const MediaEntertainment = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-sm sm:text-base md:text-lg lg:text-xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-4xl"
+          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl "
         >
           Welcome back, {userName}! Explore our comprehensive suite of AI agents and choose the perfect one for your needs
         </motion.p>
+        <div className="flex  justify-center mt-25 sm:mb-8">
+          <div className=" p-1 w-full sm:w-auto">
+            <div className="flex space-x-5">
+              {['foundational', 'industry'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-lg font-medium transition-colors ${activeTab === tab
+                    ? 'bg-white text-blue-600'
+                    : 'text-white   border-1  border-amber-50 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
       </div>
+
+
     </div>
   );
 
@@ -236,7 +291,7 @@ const MediaEntertainment = () => {
   });
 
   // Pagination logic
-  const agentsPerPage = 12;
+  const agentsPerPage = 4;
   const totalPages = Math.ceil(filteredAgents.length / agentsPerPage);
   const paginatedAgents = filteredAgents.slice(
     (currentPage - 1) * agentsPerPage,
@@ -248,11 +303,7 @@ const MediaEntertainment = () => {
   };
 
   const handleViewAgent = (agentId) => {
-    const agent = agents.find(a => a.id === agentId);
-    if (agent) {
-      setSelectedAgent(agent);
-      setIsModalOpen(true);
-    }
+    navigate(`/agent-details/${agentId}`);
   };
 
   const handleCloseModal = () => {
@@ -387,8 +438,9 @@ const MediaEntertainment = () => {
     );
   }
 
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       {heroSection}
 
       {/* Search and Filter Section */}
@@ -396,16 +448,16 @@ const MediaEntertainment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0"
+        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0 "
       >
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-2">
-          <div className="relative flex-1">
+        <div className="flex flex-col sm:flex-row gap-5 sm:gap-5">
+          <div className="relative flex-1 lg:-ml-45">
             <input
               type="text"
               placeholder="Search Agents"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              className="w-5xl px-4 py-2 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -413,21 +465,21 @@ const MediaEntertainment = () => {
               </svg>
             </div>
           </div>
-          <div className="relative sm:w-auto">
+          <div className="relative ">
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
-              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
+              className="w-30 px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
             >
-              <option value="all">All Status</option>
-              <option value="available">Available</option>
-              <option value="not available">Not Available</option>
+              <option className='text-black' value="all">All Status</option>
+              <option className='text-black' value="available">Available</option>
+              <option className='text-black' value="not available">Not Available</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <svg
-                className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -440,26 +492,8 @@ const MediaEntertainment = () => {
       </motion.div>
 
       {/* Main Content Container */}
-      <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 ">
         {/* Tabs */}
-        <div className="flex justify-center mb-6 sm:mb-8">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1 w-full sm:w-auto">
-            <div className="flex space-x-1">
-              {['foundational', 'industry'].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4 sm:mb-6">
@@ -475,90 +509,113 @@ const MediaEntertainment = () => {
         </div>
 
         {/* Content Layout */}
-        <div className="flex gap-6">
+        <div className="flex gap-6 lg:-mt-20 ">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-80 flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5">
-              <h3 className="text-xl font-bold text-gray-900 mb-5 pb-2 border-b border-gray-100">Categories</h3>
-              <div className="space-y-2">
-                {categories.map((category) => (
-                  <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
-                    <button
-                      onClick={() => handleCategoryClick(category.id)}
-                      className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
-                        : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
-                        }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="font-semibold text-base">{category.name}</div>
-                          <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
-                            }`}>
-                            {category.subCategories
-                              ? `${category.subCategories.length} subcategories`
-                              : `${getFilteredAgentCount(category.agents)} agents`}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-5 py-4 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900 -tracking-tight">Categories</h3>
+              </div>
 
-                          </div>
-                        </div>
-                        {category.subCategories && (
-                          <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
-                            }`}>
-                            <svg
-                              className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
-                                }`}
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    </button>
+              <div className="py-3">
+                <div className="space-y-0">
+                  {categories.map((category) => (
+                    <div key={category.id} className="relative">
+                      {/* Flowing blue line from icon to selected subcategory */}
+                      {selectedCategory === category.id && category.subCategories && category.subCategories.length > 0 && (
+                        <div
+                          className="absolute left-6.5 top-10 w-1 bg-blue-500 transition-all duration-300 ease-out z-10 rounded-2xl"
+                          style={{
+                            height: selectedSubCategory ?
+                              `${((category.subCategories.findIndex(sub => sub.id === selectedSubCategory) + 1) * 40) + 8}px` :
+                              `${category.subCategories.length * 40}px`,
+                            background: selectedSubCategory ?
+                              'linear-gradient(to bottom, #3b82f6, #1d4ed8)' :
+                              '#d1d5db'
+                          }}
+                        />
+                      )}
 
-                    {selectedCategory === category.id && category.subCategories && (
-                      <div className="bg-gray-50/50 border-t border-gray-100">
-                        <div className="p-3 space-y-2">
-                          {category.subCategories.map((subCategory) => (
-                            <button
-                              key={subCategory.id}
-                              onClick={() => handleSubCategoryClick(subCategory.id)}
-                              className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
-                                ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
-                                : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
-                                }`}
-                            >
-                              <div className="font-medium text-sm">{subCategory.name}</div>
-                              <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
+                      {/* Main Category Button */}
+                      <button
+                        onClick={() => handleCategoryClick(category.id)}
+                        className={`w-full px-5 py-3 text-left transition-all duration-200 group ${selectedCategory === category.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'
+                          }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          {/* Category Icon */}
+                          <div className="w-4 h-4 flex-shrink-0">
+                            {categoryIcons[category.id] ? (
+                              <img
+                                src={categoryIcons[category.id]}
+                                alt={category.name}
+                                className="w-full h-full object-contain"
+                              />
+                            ) : (
+                              <div className={`w-4 h-4 rounded-sm flex items-center justify-center text-xs font-semibold text-white ${selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
                                 }`}>
-                                {getFilteredAgentCount(subCategory.agents)} agents
-
+                                📄
                               </div>
-                            </button>
-                          ))}
+                            )}
+                          </div>
+
+                          {/* Category Name */}
+                          <div className="flex-1 min-w-0">
+                            <div className={`font-medium text-base leading-tight tracking-tight ${selectedCategory === category.id ? 'text-[#000000]' : 'text-gray-900'
+                              }`}>
+                              {category.name}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      </button>
+
+                      {/* Subcategories with proper hierarchy */}
+                      {selectedCategory === category.id && category.subCategories && (
+                        <div className="relative">
+                          <div className="ml-8 space-y-1 animate-in slide-in-from-top duration-300">
+                            {category.subCategories.map((subCategory, index) => (
+                              <div key={subCategory.id} className="relative">
+                                <button
+                                  onClick={() => handleSubCategoryClick(subCategory.id)}
+                                  className={`w-65 px-5 py-1 text-left transition-all duration-150 rounded-md ml-2 transform ${selectedSubCategory === subCategory.id
+                                    ? ' text-[#000000] bg-[#F3F5FA] shadow-lg scale-105'
+                                    : ' hover:border border-[#064EE3]'
+                                    }`}
+                                  style={{
+                                    animationDelay: `${index * 50}ms`
+                                  }}
+                                >
+                                  <div
+                                    className="text-sm font-medium leading-tight tracking-tight bg-[#F3F5FA]  px-3 py-2 rounded"
+                                  >
+                                    {subCategory.name}
+                                  </div>
+
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="flex-1">
+          <div className="flex-1  ">
             {/* Header */}
-            <div className="mb-4 sm:mb-6">
+            <div className="mb-4 sm:mb-6 ml-1">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  <h2 className="text-xl sm:text-xl font-bold text-gray-900 mt-15">
                     {selectedSubCategory ? getCurrentSubCategoryData()?.name :
                       selectedCategory ? getCurrentCategoryData()?.name :
                         `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
                   </h2>
-                  <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                  <p className="text-[#000] mt-1 text-sm sm:text-base">
                     {selectedSubCategory ? getCurrentSubCategoryData()?.description :
                       selectedCategory ? getCurrentCategoryData()?.description :
                         `Explore our ${activeTab} agent categories`}
@@ -571,96 +628,31 @@ const MediaEntertainment = () => {
             </div>
 
             {/* Agents Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {paginatedAgents.length > 0 ? (
                 paginatedAgents.map((agent, index) => (
-                  <motion.div
+                  <AgentCard
                     key={agent.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-all duration-200 flex flex-col h-full"
-                  >
-                    {/* Agent Icon and Status */}
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                          <span className="text-white text-sm sm:text-lg font-bold">
-                            {agent.name.charAt(0)}
-                          </span>
-                        </div>
-                      </div>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${agent.status === 'available'
-                        ? 'bg-green-100 text-green-800'
-                        : agent.status === 'not available'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                        {agent.status === 'available'
-                          ? 'Available'
-                          : agent.status === 'not available'
-                            ? 'Not Available'
-                            : 'Status Unknown'}
-                      </span>
-                    </div>
-
-                    {/* Agent Title */}
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">{agent.name}</h3>
-
-                    {/* Agent Description */}
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed flex-1">
-                      {agent.summary || agent.description}
-                    </p>
-
-                    {/* Solutions Preview */}
-                    {agent.solutions && agent.solutions.length > 0 && (
-                      <div className="mb-4">
-                        <div className="flex flex-wrap gap-1">
-                          {agent.solutions.slice(0, 2).map((solution, idx) => (
-                            <span
-                              key={idx}
-                              className="px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded-md"
-                            >
-                              {solution}
-                            </span>
-                          ))}
-                          {agent.solutions.length > 2 && (
-                            <span className="px-2 py-1 text-xs bg-gray-100 text-gray-500 rounded-md">
-                              +{agent.solutions.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Action Buttons */}
-                    <div className="mt-auto flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                      <button
-                        onClick={() => handleTryAgent(agent.id)}
-                        className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
-                      >
-                        Try Agent
-                      </button>
-                      <button
-                        onClick={() => handleViewAgent(agent.id)}
-                        className="text-blue-600 hover:opacity-80 text-sm font-medium transition-colors py-2 sm:py-0"
-                      >
-                        View Details
-                      </button>
-                    </div>
-                  </motion.div>
+                    agent={agent}
+                    index={index}
+                    onTryAgent={handleTryAgent}
+                    onViewAgent={handleViewAgent}
+                  />
                 ))
               ) : (
-                <div className="col-span-full text-center py-8 sm:py-12">
-                  <div className="text-gray-400 text-3xl sm:text-4xl mb-4">🔍</div>
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-600 mb-2">
+                <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12">
+                  <img
+                    src={SelectCatagoryImg}
+                    alt="Objects"
+                    className="w-50 sm:w-62 mb-6"
+                  />
+                  <h3 className="text-base sm:text-lg text-gray-800 mb-2">
                     {selectedCategory ? 'No agents found' : 'Select a category to view agents'}
                   </h3>
-                  <p className="text-gray-500 text-sm sm:text-base px-4">
+                  <p className="text-gray-600 text-sm sm:text-base px-4 max-w-md">
                     {selectedCategory
                       ? 'Try adjusting your search terms or browse different categories.'
-                      : 'Choose a category from the sidebar to explore available agents.'
-                    }
+                      : 'Choose a category from the sidebar to explore available agents.'}
                   </p>
                 </div>
               )}
@@ -684,10 +676,7 @@ const MediaEntertainment = () => {
 
         {/* Agent Details Modal */}
         <AgentDetailsModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          agent={selectedAgent}
-          category={getCurrentCategoryData()}
+
         />
       </div>
     </div>

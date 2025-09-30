@@ -29,6 +29,7 @@ export default {
                 "Back-office intake automation",
               ],
               description: ["DeepResearchAgent helps users perform detailed research on a topic by generating structured reports with clear content, sources, and references, allowing quick insights, in-depth analysis, or comprehensive investigation."],
+              heading: "Deep Research Agent for Comprehensive Insights",
               status: "available"
             },
             {
@@ -39,6 +40,7 @@ export default {
               solutions: ["Layout analysis", "Table extraction", "Schema validation"],
               useCases: ["Invoices", "Contracts", "Receipts"],
               description: ["DocumentParser allows users to upload PDF or Excel files and extract structured information such as document ID, title, author, keywords, and summary. It displays a summarized view with the option to expand for full details, handles errors, and provides a loading indicator during processing. Supported formats include PDF, XLS, and XLSX."],
+              heading: "Document Parser Agent Transform unstructured files into Structured insights",
               status: "available"
             },
             {
@@ -62,15 +64,6 @@ export default {
               status: "available"
             },
             {
-              id: "handwriting-recognition",
-              name: "Handwriting Recognition Agent",
-              summary: "Extract handwritten content from notes and forms.",
-              image: "/placeholder.jpg",
-              solutions: ["Stroke modeling", "Confidence scoring", "Inline corrections"],
-              useCases: ["Clinical notes", "Delivery slips", "Service reports"],
-              status: "not available"
-            },
-            {
               id: "pdf-chat-agent",
               name: "PDF Chat Agent",
               summary: "Engage in conversations about PDF documents.",
@@ -91,15 +84,6 @@ export default {
               status: "available"
             },
             {
-              id: "parsing-extraction",
-              name: "Document Parsing & Extraction Agent",
-              summary: "Parse structured fields and tables into typed JSON.",
-              image: "/placeholder.jpg",
-              solutions: ["Layout + semantic parsing", "Table extraction", "Schema validation"],
-              useCases: ["Invoices", "Contracts", "Receipts"],
-              status: "not available"
-            },
-            {
               id: "entity-recognition",
               name: "Entity Extraction Tool",
               summary: "Detect and normalize entities like people, orgs, and amounts.",
@@ -117,24 +101,7 @@ export default {
           description: "Automated review of legal and business documents for risks, clauses, and obligations.",
           image: "images/summarization.jpg",
           agents: [
-            {
-              id: "clause-detection",
-              name: "Clause Detection Agent",
-              summary: "Identify critical clauses and obligations in contracts.",
-              image: "/placeholder.jpg",
-              solutions: ["Legal NLP models", "Clause libraries", "Risk scoring"],
-              useCases: ["Contract approval workflows", "Compliance validation", "Vendor management"],
-              status: "not available"
-            },
-            {
-              id: "risk-assessment",
-              name: "Risk Assessment Agent",
-              summary: "Highlight risky terms and missing clauses.",
-              image: "/placeholder.jpg",
-              solutions: ["Heuristic + ML models", "Legal benchmarks", "Deviation detection"],
-              useCases: ["Negotiation support", "Legal compliance", "Procurement reviews"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -143,24 +110,7 @@ export default {
           description: "Validate compliance with internal or external policies.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "policy-matching",
-              name: "Policy Matching Agent",
-              summary: "Map documents against corporate or regulatory policies.",
-              image: "/placeholder.jpg",
-              solutions: ["Policy libraries", "Semantic similarity", "Deviation alerts"],
-              useCases: ["HR policy compliance", "Finance audits", "IT governance"],
-              status: "not available"
-            },
-            {
-              id: "regulation-check",
-              name: "Regulation Check Agent",
-              summary: "Check adherence to industry standards and laws.",
-              image: "/placeholder.jpg",
-              solutions: ["Rule-based + ML checks", "Cross-reference with standards", "Auto-updated regulation DB"],
-              useCases: ["GDPR validation", "HIPAA compliance", "SOX audits"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -169,24 +119,6 @@ export default {
           description: "Efficient retrieval of knowledge from structured and unstructured sources.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "semantic-search",
-              name: "Semantic Search Agent",
-              summary: "Retrieve information using semantic similarity and context.",
-              image: "/placeholder.jpg",
-              solutions: ["Vector embeddings", "Dense retrieval", "Contextual ranking"],
-              useCases: ["Enterprise search", "FAQ retrieval", "Legal discovery"],
-              status: "not available"
-            },
-            {
-              id: "contextual-rag",
-              name: "RAG Knowledge Agent",
-              summary: "Combine retrieval with generation for contextual answers.",
-              image: "/placeholder.jpg",
-              solutions: ["Hybrid retrieval", "LLM integration", "Context grounding"],
-              useCases: ["Chatbots", "Research assistants", "Decision support"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -195,24 +127,7 @@ export default {
           description: "Keep organizational knowledge bases clean, updated, and structured.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "content-curation",
-              name: "Content Curation Agent",
-              summary: "Filter and curate knowledge base entries.",
-              image: "/placeholder.jpg",
-              solutions: ["Relevance scoring", "Duplication removal", "Update suggestions"],
-              useCases: ["Internal wiki upkeep", "Customer support KB", "Research libraries"],
-              status: "not available"
-            },
-            {
-              id: "auto-update",
-              name: "Knowledge Update Agent",
-              summary: "Automatically ingest and update new content into KBs.",
-              image: "/placeholder.jpg",
-              solutions: ["Scheduled ingestion", "Version control", "Entity alignment"],
-              useCases: ["Technical documentation", "Product updates", "Compliance libraries"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -221,24 +136,7 @@ export default {
           description: "Generate summaries, notes, and highlights from long content.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "meeting-summarizer",
-              name: "Meeting Summarization Agent",
-              summary: "Convert meeting transcripts into structured notes.",
-              image: "/placeholder.jpg",
-              solutions: ["ASR + NLP", "Key-point extraction", "Action item detection"],
-              useCases: ["Business meetings", "Classroom lectures", "Workshops"],
-              status: "not available"
-            },
-            {
-              id: "highlight-extractor",
-              name: "Highlight Extraction Agent",
-              summary: "Extract key highlights from large documents.",
-              image: "/placeholder.jpg",
-              solutions: ["Keyword extraction", "Abstractive summarization", "Topic clustering"],
-              useCases: ["Research papers", "Books", "Reports"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -247,24 +145,7 @@ export default {
           description: "Build and maintain knowledge graphs with linked entities and relationships.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "entity-linking",
-              name: "Entity Linking Agent",
-              summary: "Link extracted entities to canonical knowledge bases.",
-              image: "/placeholder.jpg",
-              solutions: ["NER + linking", "Ontology mapping", "Disambiguation"],
-              useCases: ["KYC systems", "Research knowledge graphs", "Customer 360"],
-              status: "not available"
-            },
-            {
-              id: "relationship-extraction",
-              name: "Relationship Extraction Agent",
-              summary: "Identify relationships between entities and build graphs.",
-              image: "/placeholder.jpg",
-              solutions: ["Relation extraction models", "Graph storage", "Knowledge updates"],
-              useCases: ["Fraud detection", "Healthcare graphs", "Supply chain insights"],
-              status: "not available"
-            },
+
           ],
         },
       ],
@@ -282,15 +163,7 @@ export default {
           description: "Extract key insights and create concise summaries from various content types.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "general-text-summarizer",
-              name: "General Text Summarization Agent",
-              summary: "Create comprehensive summaries of any text content with customizable length and style.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-format support", "Customizable length", "Style adaptation"],
-              useCases: ["Document summarization", "Content review", "Information extraction"],
-              status: "not available"
-            },
+
             {
               id: "resume-analyzer-agent",
               name: "Resume Analyzer Agent",
@@ -311,33 +184,6 @@ export default {
               description: ["Document Summarizer Agent allows users to upload PDF, DOCX, or TXT files and generate AI-powered summaries in different formats such as executive overviews, abstracts, or key takeaways. It makes large documents easier to review by providing concise, structured insights with word counts and processing details."],
               status: "available"
             },
-            {
-              id: "extractive-summarizer",
-              name: "Extractive Summarization Agent",
-              summary: "Extract key sentences and phrases directly from source content to create summaries.",
-              image: "/placeholder.jpg",
-              solutions: ["Key sentence extraction", "Phrase identification", "Source preservation"],
-              useCases: ["Research papers", "Legal documents", "Technical reports"],
-              status: "not available"
-            },
-            {
-              id: "abstractive-summarizer",
-              name: "Abstractive Summarization Agent",
-              summary: "Generate new, concise summaries by understanding and rephrasing the original content.",
-              image: "/placeholder.jpg",
-              solutions: ["Content understanding", "Rephrasing generation", "Coherent summaries"],
-              useCases: ["News articles", "Blog posts", "Marketing content"],
-              status: "not available"
-            },
-            {
-              id: "headline-title-generator",
-              name: "Headline/Title Generator Agent",
-              summary: "Generate compelling headlines and titles that capture the essence of content.",
-              image: "/placeholder.jpg",
-              solutions: ["SEO optimization", "Engagement focus", "Brand consistency"],
-              useCases: ["Article titles", "Email subject lines", "Social media posts"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -346,33 +192,7 @@ export default {
           description: "Automatically generate structured meeting notes and action items.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "meeting-transcriber",
-              name: "Meeting Transcriber Agent",
-              summary: "Convert meeting audio to structured text with speaker identification.",
-              image: "/placeholder.jpg",
-              solutions: ["Real-time transcription", "Speaker diarization", "Timestamp alignment"],
-              useCases: ["Business meetings", "Conference calls", "Training sessions"],
-              status: "not available"
-            },
-            {
-              id: "action-item-extractor",
-              name: "Action Item Extractor Agent",
-              summary: "Identify and track action items, deadlines, and responsibilities.",
-              image: "/placeholder.jpg",
-              solutions: ["Task identification", "Assignee detection", "Deadline extraction"],
-              useCases: ["Project management", "Team coordination", "Follow-up tracking"],
-              status: "not available"
-            },
-            {
-              id: "decision-logger",
-              name: "Decision Logger Agent",
-              summary: "Document key decisions and their rationale from meetings.",
-              image: "/placeholder.jpg",
-              solutions: ["Decision point detection", "Rationale extraction", "Vote tracking"],
-              useCases: ["Board meetings", "Strategy sessions", "Policy discussions"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -381,33 +201,6 @@ export default {
           description: "Organize and analyze feedback from various sources for actionable insights.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "feedback-collector",
-              name: "Feedback Collector Agent",
-              summary: "Collect and aggregate feedback from multiple sources and channels.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-source collection", "Data aggregation", "Feedback consolidation"],
-              useCases: ["Customer surveys", "Product feedback", "Service reviews"],
-              status: "not available"
-            },
-            {
-              id: "language-detector",
-              name: "Language Detection Agent",
-              summary: "Detect and categorize feedback by language for global analysis.",
-              image: "/placeholder.jpg",
-              solutions: ["Language identification", "Multi-language support", "Regional analysis"],
-              useCases: ["International feedback", "Localization analysis", "Global customer insights"],
-              status: "not available"
-            },
-            {
-              id: "sentiment-analyzer",
-              name: "Sentiment Analysis Agent",
-              summary: "Analyze sentiment and emotional tone in feedback for deeper insights.",
-              image: "/placeholder.jpg",
-              solutions: ["Sentiment scoring", "Emotion detection", "Trend analysis"],
-              useCases: ["Customer satisfaction", "Brand perception", "Product sentiment"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -416,42 +209,7 @@ export default {
           description: "Generate high-quality text content for various purposes and audiences.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "social-media-content-generator",
-              name: "Social Media Content Generator Agent",
-              summary: "Generate engaging social media posts and content for various platforms.",
-              image: "/placeholder.jpg",
-              solutions: ["Platform optimization", "Engagement focus", "Trend integration"],
-              useCases: ["Social media marketing", "Brand content", "Community engagement"],
-              status: "not available"
-            },
-            {
-              id: "ad-copy-generator",
-              name: "Ad Copy Generator Agent",
-              summary: "Create compelling advertising copy for various media channels.",
-              image: "/placeholder.jpg",
-              solutions: ["Persuasive writing", "CTA optimization", "Audience targeting"],
-              useCases: ["Digital advertising", "Print ads", "Marketing campaigns"],
-              status: "not available"
-            },
-            {
-              id: "email-marketing-agent",
-              name: "Email Marketing Agent",
-              summary: "Generate effective email marketing content and campaigns.",
-              image: "/placeholder.jpg",
-              solutions: ["Campaign creation", "Personalization", "A/B testing"],
-              useCases: ["Email marketing", "Newsletter creation", "Lead nurturing"],
-              status: "not available"
-            },
-            {
-              id: "product-description-generator",
-              name: "Product Description Generator Agent",
-              summary: "Create compelling product descriptions and marketing copy.",
-              image: "/placeholder.jpg",
-              solutions: ["Feature highlighting", "Benefit focus", "SEO optimization"],
-              useCases: ["E-commerce", "Product catalogs", "Marketing materials"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -460,42 +218,6 @@ export default {
           description: "Generate creative content and develop innovative ideas.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "ideation-research-agent",
-              name: "Ideation & Research Agent",
-              summary: "Conduct research and generate creative ideas for content and projects.",
-              image: "/placeholder.jpg",
-              solutions: ["Market research", "Trend analysis", "Idea generation"],
-              useCases: ["Content planning", "Product development", "Creative projects"],
-              status: "not available"
-            },
-            {
-              id: "concept-development-agent",
-              name: "Concept Development Agent",
-              summary: "Develop and refine creative concepts and ideas into actionable plans.",
-              image: "/placeholder.jpg",
-              solutions: ["Concept refinement", "Strategy development", "Implementation planning"],
-              useCases: ["Campaign development", "Product ideation", "Creative strategy"],
-              status: "not available"
-            },
-            {
-              id: "drafting-agent",
-              name: "Drafting Agent",
-              summary: "Create initial drafts and rough content for creative projects.",
-              image: "/placeholder.jpg",
-              solutions: ["Rough drafting", "Content creation", "Structure development"],
-              useCases: ["Content creation", "Creative writing", "Project development"],
-              status: "not available"
-            },
-            {
-              id: "editing-agent",
-              name: "Editing Agent",
-              summary: "Review, refine, and polish creative content for final delivery.",
-              image: "/placeholder.jpg",
-              solutions: ["Content refinement", "Quality assurance", "Style consistency"],
-              useCases: ["Content editing", "Quality control", "Final review"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -504,42 +226,6 @@ export default {
           description: "Facilitate creative thinking and collaborative idea generation.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "idea-generator-agent",
-              name: "Idea Generator Agent",
-              summary: "Generate diverse ideas and solutions for creative challenges and problems.",
-              image: "/placeholder.jpg",
-              solutions: ["Divergent thinking", "Idea exploration", "Creative frameworks"],
-              useCases: ["Product development", "Problem solving", "Innovation sessions"],
-              status: "not available"
-            },
-            {
-              id: "problem-reframing-agent",
-              name: "Problem Reframing Agent",
-              summary: "Reframe problems from different perspectives to unlock new solutions.",
-              image: "/placeholder.jpg",
-              solutions: ["Perspective shifting", "Problem analysis", "Solution pathways"],
-              useCases: ["Strategic planning", "Innovation challenges", "Complex problem solving"],
-              status: "not available"
-            },
-            {
-              id: "mind-mapping-agent",
-              name: "Mind Mapping Agent",
-              summary: "Create visual mind maps and concept connections for idea organization.",
-              image: "/placeholder.jpg",
-              solutions: ["Visual mapping", "Concept organization", "Relationship mapping"],
-              useCases: ["Project planning", "Knowledge organization", "Learning facilitation"],
-              status: "not available"
-            },
-            {
-              id: "scamper-method-agent",
-              name: "SCAMPER Method Agent",
-              summary: "Apply SCAMPER technique (Substitute, Combine, Adapt, Modify, Put to other uses, Eliminate, Reverse) for creative problem solving.",
-              image: "/placeholder.jpg",
-              solutions: ["SCAMPER framework", "Creative techniques", "Innovation methods"],
-              useCases: ["Product innovation", "Process improvement", "Creative problem solving"],
-              status: "not available"
-            }
           ]
         }
       ]
@@ -646,24 +332,6 @@ export default {
               description: ["Text-to-Voice Assistant helps users effortlessly convert written text into natural, clear speech. It generates audio in real-time, allowing users to listen, play, or download the generated voice. The tool ensures a seamless experience, making text content accessible, engaging, and easy to consume."],
               status: "available"
             },
-            {
-              id: "chat-support-bot",
-              name: "Live Chat Support Agent",
-              summary: "Provide instant customer support with context-aware responses.",
-              image: "/placeholder.jpg",
-              solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
-              useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
-              status: "not available"
-            },
-            {
-              id: "conversation-manager",
-              name: "Conversation Manager Agent",
-              summary: "Orchestrate multi-turn conversations with memory and context.",
-              image: "/placeholder.jpg",
-              solutions: ["Conversation state tracking", "Intent recognition", "Response generation"],
-              useCases: ["Customer onboarding", "Troubleshooting flows", "Appointment booking"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -682,15 +350,6 @@ export default {
               description: ["FAQ Generator Assistant helps users create accurate and organized FAQs from text or uploaded documents. It processes content intelligently, clusters related information, and generates questions and answers with confidence scores. The tool ensures efficient knowledge extraction, making content easier to understand, share, and reference."],
               status: "available"
             },
-            {
-              id: "support-triage",
-              name: "Support Triage Agent",
-              summary: "Route customer inquiries to appropriate support channels.",
-              image: "/placeholder.jpg",
-              solutions: ["Issue classification", "Priority scoring", "Channel routing"],
-              useCases: ["Support ticket routing", "Escalation management", "Resource allocation"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -699,24 +358,7 @@ export default {
           description: "Intelligent routing of conversations to appropriate agents or systems.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "intent-router",
-              name: "Intent Router Agent",
-              summary: "Route conversations based on user intent and context.",
-              image: "/placeholder.jpg",
-              solutions: ["Intent classification", "Skill matching", "Load balancing"],
-              useCases: ["Call center routing", "Chat distribution", "Support escalation"],
-              status: "not available"
-            },
-            {
-              id: "conversation-analyzer",
-              name: "Conversation Analyzer Agent",
-              summary: "Analyze conversation patterns for optimal routing decisions.",
-              image: "/placeholder.jpg",
-              solutions: ["Sentiment analysis", "Complexity assessment", "Agent skill mapping"],
-              useCases: ["Quality assurance", "Training optimization", "Performance monitoring"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -736,15 +378,6 @@ export default {
               status: "available"
 
             },
-            {
-              id: "email-responder",
-              name: "Email Response Agent",
-              summary: "Generate contextual email responses and follow-ups.",
-              image: "/placeholder.jpg",
-              solutions: ["Template generation", "Personalization", "Follow-up scheduling"],
-              useCases: ["Customer inquiries", "Appointment confirmations", "Status updates"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -753,24 +386,6 @@ export default {
           description: "Intelligent notification systems with personalized delivery.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "smart-notifier",
-              name: "Smart Notification Agent",
-              summary: "Send personalized notifications based on user preferences and context.",
-              image: "/placeholder.jpg",
-              solutions: ["Preference management", "Timing optimization", "Channel selection"],
-              useCases: ["App updates", "Security alerts", "Reminder systems"],
-              status: "not available"
-            },
-            {
-              id: "alert-manager",
-              name: "Alert Manager Agent",
-              summary: "Manage and prioritize alerts with intelligent filtering.",
-              image: "/placeholder.jpg",
-              solutions: ["Alert aggregation", "Priority scoring", "Escalation rules"],
-              useCases: ["System monitoring", "Security incidents", "Business alerts"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -779,24 +394,7 @@ export default {
           description: "Convert speech to text with high accuracy and context awareness.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "speech-transcriber",
-              name: "Speech Transcription Agent",
-              summary: "Convert audio to text with speaker identification and timestamps.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-speaker recognition", "Noise reduction", "Timestamp alignment"],
-              useCases: ["Meeting recordings", "Call center analytics", "Accessibility services"],
-              status: "not available"
-            },
-            {
-              id: "voice-command-processor",
-              name: "Voice Command Processor",
-              summary: "Process voice commands for system control and automation.",
-              image: "/placeholder.jpg",
-              solutions: ["Command recognition", "Intent extraction", "Action execution"],
-              useCases: ["Smart home control", "Voice assistants", "Hands-free operation"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -805,24 +403,6 @@ export default {
           description: "Convert text to natural-sounding speech with emotion and context.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "tts-generator",
-              name: "Text-to-Speech Agent",
-              summary: "Generate natural-sounding speech from text content.",
-              image: "/placeholder.jpg",
-              solutions: ["Voice synthesis", "Emotion control", "Speed adjustment"],
-              useCases: ["Audiobooks", "Accessibility tools", "Voice assistants"],
-              status: "not available"
-            },
-            {
-              id: "voice-personalizer",
-              name: "Voice Personalization Agent",
-              summary: "Customize voice characteristics for different contexts and users.",
-              image: "/placeholder.jpg",
-              solutions: ["Voice cloning", "Style adaptation", "Language support"],
-              useCases: ["Brand voice", "Personal assistants", "Multilingual content"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -831,24 +411,7 @@ export default {
           description: "Translate content and adapt it for different cultures and regions.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "content-translator",
-              name: "Content Translation Agent",
-              summary: "Translate text content while preserving meaning and context.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-language support", "Context preservation", "Quality assurance"],
-              useCases: ["Website localization", "Document translation", "Customer support"],
-              status: "not available"
-            },
-            {
-              id: "cultural-adaptor",
-              name: "Cultural Adaptation Agent",
-              summary: "Adapt content for cultural relevance and local preferences.",
-              image: "/placeholder.jpg",
-              solutions: ["Cultural context analysis", "Localization rules", "Sensitivity checking"],
-              useCases: ["Marketing campaigns", "Product descriptions", "User interfaces"],
-              status: "not available"
-            }
+
           ]
         }
       ]
@@ -905,15 +468,7 @@ export default {
               description: ["Idea Refinement Agent helps users transform raw, unstructured ideas into polished and actionable concepts. Users can input their idea, and the system provides a refined version with clean formatting and structured paragraphs. This UI offers a clear input-output workflow with visual feedback, making idea enhancement simple and intuitive."],
               status: "available"
             },
-            {
-              id: "market-researcher",
-              name: "Market Research Agent",
-              summary: "Conduct comprehensive market research and competitive analysis.",
-              image: "/placeholder.jpg",
-              solutions: ["Data aggregation", "Competitive benchmarking", "Market sizing"],
-              useCases: ["Business planning", "Strategic positioning", "Opportunity assessment"],
-              status: "not available"
-            },
+
             {
               id: "outline-generator-agent",
               name: "Outline Generator Agent",
@@ -924,15 +479,7 @@ export default {
               description: ["Outline Generator helps users create structured outlines from a given topic and optional context. Users can select the desired detail level, and the system produces a clear, hierarchical outline with headings, subpoints, and feedback. The interface provides real-time feedback, loading states, and error handling for smooth interaction."],
               status: "available"
             },
-            {
-              id: "consumer-behavior-analyzer",
-              name: "Consumer Behavior Analyzer Agent",
-              summary: "Analyze consumer preferences, behaviors, and purchasing patterns.",
-              image: "/placeholder.jpg",
-              solutions: ["Behavioral analytics", "Segmentation analysis", "Predictive modeling"],
-              useCases: ["Marketing strategy", "Product development", "Customer targeting"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -941,33 +488,6 @@ export default {
           description: "Comprehensive financial data analysis and performance evaluation.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "financial-analyzer",
-              name: "Financial Analyzer Agent",
-              summary: "Analyze financial statements and performance metrics.",
-              image: "/placeholder.jpg",
-              solutions: ["Ratio analysis", "Cash flow modeling", "Valuation metrics"],
-              useCases: ["Investment analysis", "Credit assessment", "Performance evaluation"],
-              status: "not available"
-            },
-            {
-              id: "profitability-analyzer",
-              name: "Profitability Analyzer Agent",
-              summary: "Evaluate business profitability and revenue optimization opportunities.",
-              image: "/placeholder.jpg",
-              solutions: ["Margin analysis", "Cost optimization", "Revenue modeling"],
-              useCases: ["Business optimization", "Pricing strategy", "Cost management"],
-              status: "not available"
-            },
-            {
-              id: "investment-analyzer",
-              name: "Investment Analyzer Agent",
-              summary: "Analyze investment opportunities and portfolio performance.",
-              image: "/placeholder.jpg",
-              solutions: ["Risk-return analysis", "Portfolio optimization", "Asset allocation"],
-              useCases: ["Investment management", "Asset allocation", "Performance tracking"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -976,33 +496,7 @@ export default {
           description: "Identify, evaluate, and mitigate business and operational risks.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "risk-analyzer",
-              name: "Risk Analyzer Agent",
-              summary: "Identify and assess various types of business risks.",
-              image: "/placeholder.jpg",
-              solutions: ["Risk identification", "Impact assessment", "Probability modeling"],
-              useCases: ["Enterprise risk management", "Compliance monitoring", "Strategic planning"],
-              status: "not available"
-            },
-            {
-              id: "credit-risk-assessor",
-              name: "Credit Risk Assessor Agent",
-              summary: "Evaluate creditworthiness and default risk for lending decisions.",
-              image: "/placeholder.jpg",
-              solutions: ["Credit scoring", "Default prediction", "Portfolio risk analysis"],
-              useCases: ["Lending decisions", "Credit management", "Risk mitigation"],
-              status: "not available"
-            },
-            {
-              id: "operational-risk-manager",
-              name: "Operational Risk Manager Agent",
-              summary: "Monitor and manage operational risks across business processes.",
-              image: "/placeholder.jpg",
-              solutions: ["Process monitoring", "Incident tracking", "Risk mitigation"],
-              useCases: ["Process optimization", "Compliance management", "Business continuity"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1011,33 +505,6 @@ export default {
           description: "Predict future financial performance and create accurate budget projections.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "budget-forecaster",
-              name: "Budget Forecaster Agent",
-              summary: "Create accurate budget forecasts based on historical data and trends.",
-              image: "/placeholder.jpg",
-              solutions: ["Time series forecasting", "Scenario modeling", "Variance analysis"],
-              useCases: ["Financial planning", "Budget allocation", "Performance tracking"],
-              status: "not available"
-            },
-            {
-              id: "revenue-predictor",
-              name: "Revenue Predictor Agent",
-              summary: "Predict future revenue streams and growth opportunities.",
-              image: "/placeholder.jpg",
-              solutions: ["Revenue modeling", "Growth projection", "Seasonal analysis"],
-              useCases: ["Sales planning", "Growth strategy", "Investment decisions"],
-              status: "not available"
-            },
-            {
-              id: "cost-predictor",
-              name: "Cost Predictor Agent",
-              summary: "Forecast future costs and identify cost optimization opportunities.",
-              image: "/placeholder.jpg",
-              solutions: ["Cost modeling", "Trend analysis", "Optimization suggestions"],
-              useCases: ["Cost management", "Budget planning", "Efficiency improvement"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1046,33 +513,6 @@ export default {
           description: "Monitor, categorize, and analyze business expenses for optimization.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "expense-analyzer",
-              name: "Expense Analyzer Agent",
-              summary: "Analyze expense patterns and identify optimization opportunities.",
-              image: "/placeholder.jpg",
-              solutions: ["Expense categorization", "Pattern recognition", "Anomaly detection"],
-              useCases: ["Cost control", "Budget management", "Fraud detection"],
-              status: "not available"
-            },
-            {
-              id: "expense-categorizer",
-              name: "Expense Categorizer Agent",
-              summary: "Automatically categorize and classify business expenses.",
-              image: "/placeholder.jpg",
-              solutions: ["ML classification", "Rule-based categorization", "Learning algorithms"],
-              useCases: ["Accounting automation", "Tax preparation", "Financial reporting"],
-              status: "not available"
-            },
-            {
-              id: "expense-optimizer",
-              name: "Expense Optimizer Agent",
-              summary: "Identify cost-saving opportunities and expense reduction strategies.",
-              image: "/placeholder.jpg",
-              solutions: ["Cost analysis", "Optimization recommendations", "ROI calculation"],
-              useCases: ["Cost reduction", "Efficiency improvement", "Budget optimization"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1081,33 +521,7 @@ export default {
           description: "Monitor competitors and market dynamics for strategic advantage.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "competitor-monitor",
-              name: "Competitor Monitor Agent",
-              summary: "Track competitor activities, pricing, and market positioning.",
-              image: "/placeholder.jpg",
-              solutions: ["Competitive tracking", "Price monitoring", "Activity analysis"],
-              useCases: ["Strategic planning", "Pricing strategy", "Market positioning"],
-              status: "not available"
-            },
-            {
-              id: "competitive-analyzer",
-              name: "Competitive Analyzer Agent",
-              summary: "Analyze competitive landscape and identify strategic opportunities.",
-              image: "/placeholder.jpg",
-              solutions: ["SWOT analysis", "Gap analysis", "Opportunity identification"],
-              useCases: ["Market entry", "Product development", "Strategic positioning"],
-              status: "not available"
-            },
-            {
-              id: "market-intelligence",
-              name: "Market Intelligence Agent",
-              summary: "Gather and analyze market intelligence for strategic decision-making.",
-              image: "/placeholder.jpg",
-              solutions: ["Data collection", "Market analysis", "Insight generation"],
-              useCases: ["Strategic planning", "Investment decisions", "Business development"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1116,33 +530,6 @@ export default {
           description: "Identify unusual patterns and anomalies in business data and processes.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "anomaly-detector",
-              name: "Anomaly Detector Agent",
-              summary: "Detect unusual patterns and anomalies in business data.",
-              image: "/placeholder.jpg",
-              solutions: ["Statistical analysis", "Machine learning models", "Real-time monitoring"],
-              useCases: ["Fraud detection", "Quality control", "System monitoring"],
-              status: "not available"
-            },
-            {
-              id: "fraud-detector",
-              name: "Fraud Detector Agent",
-              summary: "Identify fraudulent activities and suspicious transactions.",
-              image: "/placeholder.jpg",
-              solutions: ["Pattern recognition", "Risk scoring", "Alert generation"],
-              useCases: ["Financial fraud", "Insurance fraud", "Cybersecurity"],
-              status: "not available"
-            },
-            {
-              id: "performance-monitor",
-              name: "Performance Monitor Agent",
-              summary: "Monitor system and business performance for anomalies.",
-              image: "/placeholder.jpg",
-              solutions: ["Performance tracking", "Threshold monitoring", "Alert systems"],
-              useCases: ["IT monitoring", "Business operations", "Quality assurance"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1151,24 +538,6 @@ export default {
           description: "Analyze customer sentiment and market perception for business insights.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "sentiment-analyzer",
-              name: "Sentiment Analyzer Agent",
-              summary: "Analyze customer sentiment from various data sources.",
-              image: "/placeholder.jpg",
-              solutions: ["Text analysis", "Emotion detection", "Trend tracking"],
-              useCases: ["Customer feedback", "Brand monitoring", "Product development"],
-              status: "not available"
-            },
-            {
-              id: "market-sentiment-tracker",
-              name: "Market Sentiment Tracker Agent",
-              summary: "Track market sentiment and investor confidence indicators.",
-              image: "/placeholder.jpg",
-              solutions: ["Market analysis", "Sentiment indicators", "Confidence tracking"],
-              useCases: ["Investment decisions", "Market timing", "Risk assessment"],
-              status: "not available"
-            }
           ]
         }
       ]
@@ -1185,15 +554,7 @@ export default {
           description: "Monitor and ensure adherence to regulatory requirements and industry standards.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "regulatory-monitor",
-              name: "Regulatory Monitor Agent",
-              summary: "Monitor compliance with regulatory requirements and standards.",
-              image: "/placeholder.jpg",
-              solutions: ["Regulation tracking", "Compliance assessment", "Audit preparation"],
-              useCases: ["Financial compliance", "Healthcare regulations", "Data protection laws"],
-              status: "not available"
-            },
+
             {
               id: "aes-agent",
               name: "AES Agent",
@@ -1224,15 +585,6 @@ export default {
               description: ["Security Risk Analyzer allows users to upload documents (PDF, DOCX, TXT) for automated security risk assessment. It evaluates content using local checks and AI scoring, highlighting potential risks and providing document excerpts. The interface handles file upload, loading states, errors, and displays results in a structured, readable format."],
               status: "available"
             },
-            {
-              id: "audit-assistant",
-              name: "Audit Assistant Agent",
-              summary: "Prepare and support audit processes with automated documentation.",
-              image: "/placeholder.jpg",
-              solutions: ["Audit trail generation", "Evidence collection", "Report preparation"],
-              useCases: ["Internal audits", "External audits", "Compliance reviews"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1241,33 +593,6 @@ export default {
           description: "Monitor and protect against cybersecurity threats and vulnerabilities.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "threat-detector",
-              name: "Threat Detector Agent",
-              summary: "Detect and analyze cybersecurity threats in real-time.",
-              image: "/placeholder.jpg",
-              solutions: ["Threat intelligence", "Anomaly detection", "Incident response"],
-              useCases: ["Network security", "Endpoint protection", "Cloud security"],
-              status: "not available"
-            },
-            {
-              id: "vulnerability-scanner",
-              name: "Vulnerability Scanner Agent",
-              summary: "Scan systems and applications for security vulnerabilities.",
-              image: "/placeholder.jpg",
-              solutions: ["Vulnerability assessment", "Risk scoring", "Remediation guidance"],
-              useCases: ["Application security", "Infrastructure security", "Compliance scanning"],
-              status: "not available"
-            },
-            {
-              id: "security-analyzer",
-              name: "Security Analyzer Agent",
-              summary: "Analyze security logs and events for potential threats.",
-              image: "/placeholder.jpg",
-              solutions: ["Log analysis", "Event correlation", "Threat hunting"],
-              useCases: ["SIEM operations", "Incident investigation", "Security monitoring"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1276,33 +601,6 @@ export default {
           description: "Protect personal and sensitive information through automated redaction and privacy controls.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "pii-detector",
-              name: "PII Detector Agent",
-              summary: "Identify and locate personally identifiable information in documents and data.",
-              image: "/placeholder.jpg",
-              solutions: ["PII recognition", "Pattern matching", "Confidence scoring"],
-              useCases: ["Document processing", "Data classification", "Privacy compliance"],
-              status: "not available"
-            },
-            {
-              id: "data-redactor",
-              name: "Data Redactor Agent",
-              summary: "Automatically redact sensitive information from documents and communications.",
-              image: "/placeholder.jpg",
-              solutions: ["Selective redaction", "Format preservation", "Audit trails"],
-              useCases: ["Legal documents", "Healthcare records", "Financial data"],
-              status: "not available"
-            },
-            {
-              id: "privacy-validator",
-              name: "Privacy Validator Agent",
-              summary: "Validate data handling practices for privacy compliance.",
-              image: "/placeholder.jpg",
-              solutions: ["Privacy assessment", "Consent verification", "Data flow tracking"],
-              useCases: ["GDPR compliance", "CCPA compliance", "Data governance"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1311,24 +609,7 @@ export default {
           description: "Validate content and processes against established policies and standards.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "content-validator",
-              name: "Content Validator Agent",
-              summary: "Validate content against organizational policies and guidelines.",
-              image: "/placeholder.jpg",
-              solutions: ["Policy matching", "Content analysis", "Compliance checking"],
-              useCases: ["Marketing content", "Internal communications", "External publications"],
-              status: "not available"
-            },
-            {
-              id: "process-validator",
-              name: "Process Validator Agent",
-              summary: "Validate business processes against compliance requirements.",
-              image: "/placeholder.jpg",
-              solutions: ["Process analysis", "Compliance mapping", "Gap identification"],
-              useCases: ["Workflow validation", "Procedure compliance", "Quality assurance"],
-              status: "not available"
-            }
+
           ]
         }
       ]
@@ -1405,24 +686,6 @@ export default {
               description: ["RAG Data Query enables users to upload CSV or JSON files, store them in a Retrieval-Augmented Generation (RAG) system, and query the data using natural language. It provides instant answers along with source references and allows users to manage the stored document repository. The interface is interactive, user-friendly, and supports real-time data operations."],
               status: "available"
             },
-            {
-              id: "data-transformer",
-              name: "Data Transformer Agent",
-              summary: "Transform and normalize data for consistent processing and analysis.",
-              image: "/placeholder.jpg",
-              solutions: ["Data normalization", "Format conversion", "Schema mapping"],
-              useCases: ["ETL processes", "Data integration", "Analytics preparation"],
-              status: "not available"
-            },
-            {
-              id: "data-validator",
-              name: "Data Validator Agent",
-              summary: "Validate data quality and integrity across different sources and formats.",
-              image: "/placeholder.jpg",
-              solutions: ["Quality assessment", "Integrity checking", "Anomaly detection"],
-              useCases: ["Data governance", "Quality assurance", "Compliance monitoring"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1431,24 +694,7 @@ export default {
           description: "Analyze and process spreadsheet data for insights and automation.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "excel-analyzer",
-              name: "Excel Analyzer Agent",
-              summary: "Analyze Excel spreadsheets and extract insights from tabular data.",
-              image: "/placeholder.jpg",
-              solutions: ["Formula analysis", "Data extraction", "Pattern recognition"],
-              useCases: ["Financial analysis", "Business reporting", "Data processing"],
-              status: "not available"
-            },
-            {
-              id: "spreadsheet-automator",
-              name: "Spreadsheet Automator Agent",
-              summary: "Automate spreadsheet operations and data processing workflows.",
-              image: "/placeholder.jpg",
-              solutions: ["Workflow automation", "Data manipulation", "Report generation"],
-              useCases: ["Financial modeling", "Inventory management", "Sales tracking"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1457,33 +703,6 @@ export default {
           description: "Query, manage, and optimize database operations and data retrieval.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "query-optimizer",
-              name: "Query Optimizer Agent",
-              summary: "Optimize database queries for improved performance and efficiency.",
-              image: "/placeholder.jpg",
-              solutions: ["Query analysis", "Performance tuning", "Index optimization"],
-              useCases: ["Database administration", "Performance monitoring", "System optimization"],
-              status: "not available"
-            },
-            {
-              id: "data-retriever",
-              name: "Data Retriever Agent",
-              summary: "Retrieve and extract data from various database systems and sources.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-source queries", "Data extraction", "Format conversion"],
-              useCases: ["Data integration", "Reporting", "Analytics"],
-              status: "not available"
-            },
-            {
-              id: "database-manager",
-              name: "Database Manager Agent",
-              summary: "Manage database operations, maintenance, and administration tasks.",
-              image: "/placeholder.jpg",
-              solutions: ["Schema management", "Backup automation", "Performance monitoring"],
-              useCases: ["Database administration", "System maintenance", "Data governance"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1492,24 +711,6 @@ export default {
           description: "Extract and collect data from web sources and online platforms.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "web-scraper",
-              name: "Web Scraper Agent",
-              summary: "Extract structured data from websites and web applications.",
-              image: "/placeholder.jpg",
-              solutions: ["HTML parsing", "Data extraction", "Rate limiting"],
-              useCases: ["Market research", "Price monitoring", "Content aggregation"],
-              status: "not available"
-            },
-            {
-              id: "api-extractor",
-              name: "API Extractor Agent",
-              summary: "Extract data from APIs and web services efficiently.",
-              image: "/placeholder.jpg",
-              solutions: ["API integration", "Data transformation", "Authentication handling"],
-              useCases: ["Data integration", "Third-party services", "Real-time data"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1518,24 +719,6 @@ export default {
           description: "Process and extract data from invoices and financial documents.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "invoice-extractor",
-              name: "Invoice Extractor Agent",
-              summary: "Extract key information from invoices and financial documents.",
-              image: "/placeholder.jpg",
-              solutions: ["OCR processing", "Field extraction", "Data validation"],
-              useCases: ["Accounts payable", "Expense management", "Financial reporting"],
-              status: "not available"
-            },
-            {
-              id: "invoice-validator",
-              name: "Invoice Validator Agent",
-              summary: "Validate invoice data and detect discrepancies or errors.",
-              image: "/placeholder.jpg",
-              solutions: ["Data validation", "Error detection", "Compliance checking"],
-              useCases: ["Fraud detection", "Quality control", "Compliance monitoring"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1544,24 +727,7 @@ export default {
           description: "Convert and format files between different formats and standards.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "format-converter",
-              name: "Format Converter Agent",
-              summary: "Convert files between different formats while preserving data integrity.",
-              image: "/placeholder.jpg",
-              solutions: ["Multi-format support", "Data preservation", "Batch processing"],
-              useCases: ["Document conversion", "Data migration", "System integration"],
-              status: "not available"
-            },
-            {
-              id: "data-formatter",
-              name: "Data Formatter Agent",
-              summary: "Format and structure data according to specific requirements and standards.",
-              image: "/placeholder.jpg",
-              solutions: ["Custom formatting", "Standard compliance", "Validation"],
-              useCases: ["Data preparation", "System integration", "Reporting"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1570,24 +736,6 @@ export default {
           description: "Create compelling visualizations and charts from data insights.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "chart-generator",
-              name: "Chart Generator Agent",
-              summary: "Generate charts and graphs from data for better understanding and presentation.",
-              image: "/placeholder.jpg",
-              solutions: ["Chart selection", "Data mapping", "Visual optimization"],
-              useCases: ["Business reporting", "Analytics presentation", "Data storytelling"],
-              status: "not available"
-            },
-            {
-              id: "dashboard-creator",
-              name: "Dashboard Creator Agent",
-              summary: "Create interactive dashboards and data visualizations.",
-              image: "/placeholder.jpg",
-              solutions: ["Dashboard design", "Interactive elements", "Real-time updates"],
-              useCases: ["Business intelligence", "Performance monitoring", "Analytics platforms"],
-              status: "not available"
-            }
           ]
         }
       ]
@@ -1604,33 +752,6 @@ export default {
           description: "Review code quality, identify bugs, and provide debugging assistance.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "code-reviewer",
-              name: "Code Reviewer Agent",
-              summary: "Review code for quality, best practices, and potential issues.",
-              image: "/placeholder.jpg",
-              solutions: ["Code analysis", "Best practice checking", "Security scanning"],
-              useCases: ["Code quality assurance", "Security review", "Team collaboration"],
-              status: "not available"
-            },
-            {
-              id: "bug-detector",
-              name: "Bug Detector Agent",
-              summary: "Identify and analyze bugs and issues in code and applications.",
-              image: "/placeholder.jpg",
-              solutions: ["Static analysis", "Error detection", "Issue classification"],
-              useCases: ["Debugging", "Quality assurance", "Code maintenance"],
-              status: "not available"
-            },
-            {
-              id: "debug-assistant",
-              name: "Debug Assistant Agent",
-              summary: "Provide debugging guidance and troubleshooting assistance.",
-              image: "/placeholder.jpg",
-              solutions: ["Error analysis", "Solution suggestions", "Debugging workflows"],
-              useCases: ["Problem solving", "Development support", "Learning assistance"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1659,15 +780,6 @@ export default {
               description: ["The Automated Linter is a web-based tool that analyzes source code for errors, style violations, and potential improvements. It supports multiple programming languages and provides detailed suggestions for code quality, refactoring, and AI-assisted insights. Users can input code directly or upload files for instant linting results."],
               status: "available"
             },
-            {
-              id: "qa-analyzer",
-              name: "QA Analyzer Agent",
-              summary: "Analyze test results and provide quality insights and recommendations.",
-              image: "/placeholder.jpg",
-              solutions: ["Result analysis", "Quality metrics", "Improvement suggestions"],
-              useCases: ["Quality monitoring", "Release management", "Process improvement"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1676,24 +788,6 @@ export default {
           description: "Monitor and manage DevOps processes, infrastructure, and deployments.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "infrastructure-monitor",
-              name: "Infrastructure Monitor Agent",
-              summary: "Monitor infrastructure performance, health, and resource utilization.",
-              image: "/placeholder.jpg",
-              solutions: ["Performance monitoring", "Resource tracking", "Alert management"],
-              useCases: ["System monitoring", "Capacity planning", "Performance optimization"],
-              status: "not available"
-            },
-            {
-              id: "deployment-manager",
-              name: "Deployment Manager Agent",
-              summary: "Manage and automate deployment processes and release management.",
-              image: "/placeholder.jpg",
-              solutions: ["Deployment automation", "Release management", "Rollback handling"],
-              useCases: ["Continuous deployment", "Release coordination", "Environment management"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1702,24 +796,7 @@ export default {
           description: "Automate development workflows and repetitive tasks.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "workflow-automator",
-              name: "Workflow Automator Agent",
-              summary: "Automate development workflows and process optimization.",
-              image: "/placeholder.jpg",
-              solutions: ["Process automation", "Workflow optimization", "Task scheduling"],
-              useCases: ["Development efficiency", "Process improvement", "Time optimization"],
-              status: "not available"
-            },
-            {
-              id: "task-automator",
-              name: "Task Automator Agent",
-              summary: "Automate repetitive development tasks and operations.",
-              image: "/placeholder.jpg",
-              solutions: ["Task automation", "Script generation", "Process streamlining"],
-              useCases: ["Build automation", "Deployment scripts", "Maintenance tasks"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1728,24 +805,6 @@ export default {
           description: "Manage API integrations and system connectivity.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "api-manager",
-              name: "API Manager Agent",
-              summary: "Manage API development, documentation, and integration processes.",
-              image: "/placeholder.jpg",
-              solutions: ["API design", "Documentation generation", "Integration testing"],
-              useCases: ["API development", "System integration", "Third-party services"],
-              status: "not available"
-            },
-            {
-              id: "integration-specialist",
-              name: "Integration Specialist Agent",
-              summary: "Handle system integrations and data flow between applications.",
-              image: "/placeholder.jpg",
-              solutions: ["System integration", "Data mapping", "Error handling"],
-              useCases: ["Enterprise integration", "Data synchronization", "Service connectivity"],
-              status: "not available"
-            }
           ]
         }
       ]
@@ -1762,15 +821,7 @@ export default {
           description: "Manage tasks, projects, and team collaboration efficiently.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "project-manager",
-              name: "Project Manager Agent",
-              summary: "Manage project timelines, resources, and deliverables.",
-              image: "/placeholder.jpg",
-              solutions: ["Timeline management", "Resource allocation", "Progress tracking"],
-              useCases: ["Project planning", "Team coordination", "Delivery management"],
-              status: "not available"
-            },
+
             {
               id: "task-breakdown-agent",
               name: "Task Breakdown Agent",
@@ -1811,15 +862,7 @@ export default {
               description: ["Report Generator transforms your PDF or Excel files into a structured, professional report. It extracts key information and presents it in a clear, readable format. Perfect for professionals and teams to summarize data efficiently and save time."],
               status: "available"
             },
-            {
-              id: "task-organizer",
-              name: "Task Organizer Agent",
-              summary: "Organize and prioritize tasks for optimal productivity.",
-              image: "/placeholder.jpg",
-              solutions: ["Task prioritization", "Workflow optimization", "Deadline management"],
-              useCases: ["Personal productivity", "Team coordination", "Workflow management"],
-              status: "not available"
-            },
+
             {
               id: "general-utility-agent",
               name: "General Utility Agent",
@@ -1860,15 +903,6 @@ export default {
               description: ["Text Evaluation Agent analyzes your summaries or notes for accuracy, tone, and completeness. It detects key elements like topics, participants, timelines, and action items. Ideal for teams and professionals seeking clear, actionable feedback on written content."],
               status: "available"
             },
-            {
-              id: "collaboration-facilitator",
-              name: "Collaboration Facilitator Agent",
-              summary: "Facilitate team collaboration and communication workflows.",
-              image: "/placeholder.jpg",
-              solutions: ["Communication management", "Team coordination", "Information sharing"],
-              useCases: ["Team collaboration", "Remote work", "Project coordination"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1877,24 +911,6 @@ export default {
           description: "Manage calendars, appointments, and scheduling optimization.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "calendar-manager",
-              name: "Calendar Manager Agent",
-              summary: "Manage and optimize calendar scheduling and time management.",
-              image: "/placeholder.jpg",
-              solutions: ["Schedule optimization", "Conflict resolution", "Time blocking"],
-              useCases: ["Personal scheduling", "Meeting coordination", "Time management"],
-              status: "not available"
-            },
-            {
-              id: "appointment-scheduler",
-              name: "Appointment Scheduler Agent",
-              summary: "Automate appointment scheduling and booking processes.",
-              image: "/placeholder.jpg",
-              solutions: ["Automated booking", "Availability management", "Reminder systems"],
-              useCases: ["Customer appointments", "Service booking", "Meeting scheduling"],
-              status: "not available"
-            }
           ]
         },
         {
@@ -1903,24 +919,7 @@ export default {
           description: "Create and optimize presentations and visual content.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "presentation-creator",
-              name: "Presentation Creator Agent",
-              summary: "Create compelling presentations from content and data.",
-              image: "/placeholder.jpg",
-              solutions: ["Content organization", "Visual design", "Storytelling"],
-              useCases: ["Business presentations", "Educational content", "Sales pitches"],
-              status: "not available"
-            },
-            {
-              id: "slide-optimizer",
-              name: "Slide Optimizer Agent",
-              summary: "Optimize presentation slides for clarity and impact.",
-              image: "/placeholder.jpg",
-              solutions: ["Content optimization", "Visual enhancement", "Message clarity"],
-              useCases: ["Presentation improvement", "Content refinement", "Audience engagement"],
-              status: "not available"
-            }
+
           ]
         },
         {
@@ -1929,24 +928,7 @@ export default {
           description: "Assist with research tasks, data collection, and information gathering.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "research-assistant",
-              name: "Research Assistant Agent",
-              summary: "Conduct comprehensive research and information gathering.",
-              image: "/placeholder.jpg",
-              solutions: ["Information gathering", "Source validation", "Data synthesis"],
-              useCases: ["Market research", "Academic research", "Competitive analysis"],
-              status: "not available"
-            },
-            {
-              id: "data-collector",
-              name: "Data Collector Agent",
-              summary: "Collect and organize research data from various sources.",
-              image: "/placeholder.jpg",
-              solutions: ["Data collection", "Source tracking", "Information organization"],
-              useCases: ["Research projects", "Data analysis", "Report preparation"],
-              status: "not available"
-            }
+
           ]
         }
       ]
@@ -1963,15 +945,7 @@ export default {
           description: "Analyze social media performance, trends, and audience engagement.",
           image: "/placeholder.jpg",
           agents: [
-            {
-              id: "social-analytics",
-              name: "Social Analytics Agent",
-              summary: "Analyze social media performance and engagement metrics.",
-              image: "/placeholder.jpg",
-              solutions: ["Performance tracking", "Engagement analysis", "Trend monitoring"],
-              useCases: ["Social media marketing", "Brand monitoring", "Campaign analysis"],
-              status: "not available"
-            },
+
             {
               id: "social-media-content-agent",
               name: "Social Media Content Agent",
@@ -2002,41 +976,7 @@ export default {
               status: "available",
               description: ["Storyline Generator turns your ideas into engaging story plots with AI-crafted narratives.Simply enter a theme and get structured, ready-to-use storylines instantly.Perfect for writers, filmmakers, and creatives to save time and spark imagination."]
             },
-            {
-              id: "audience-analyzer",
-              name: "Audience Analyzer Agent",
-              summary: "Analyze audience demographics, behavior, and preferences.",
-              image: "/placeholder.jpg",
-              solutions: ["Demographic analysis", "Behavior tracking", "Preference mapping"],
-              useCases: ["Audience targeting", "Content strategy", "Market research"],
-              status: "not available"
-            },
-            {
-              id: "trend-tracker",
-              name: "Trend Tracker Agent",
-              summary: "Track and analyze social media trends and viral content.",
-              image: "/placeholder.jpg",
-              solutions: ["Trend detection", "Viral analysis", "Content monitoring"],
-              useCases: ["Trend analysis", "Content strategy", "Viral marketing"],
-              status: "not available"
-            }
-          ]
-        },
-        {
-          id: "social-media-content-creation",
-          name: "Social Media Content Creation",
-          description: "Create engaging social media content and manage content strategies.",
-          image: "/placeholder.jpg",
-          agents: [
-            {
-              id: "content-creator",
-              name: "Content Creator Agent",
-              summary: "Create engaging social media content for various platforms.",
-              image: "/placeholder.jpg",
-              solutions: ["Content generation", "Platform optimization", "Engagement focus"],
-              useCases: ["Social media marketing", "Brand content", "Campaign creation"],
-              status: "not available"
-            },
+
             {
               id: "work-management",
               name: "Headline Generator Agent",
@@ -2048,24 +988,6 @@ export default {
               status: "available"
             },
 
-            {
-              id: "content-scheduler",
-              name: "Content Scheduler Agent",
-              summary: "Schedule and optimize content posting for maximum engagement.",
-              image: "/placeholder.jpg",
-              solutions: ["Optimal timing", "Platform scheduling", "Engagement optimization"],
-              useCases: ["Content management", "Social media strategy", "Audience engagement"],
-              status: "not available"
-            },
-            {
-              id: "hashtag-optimizer",
-              name: "Hashtag Optimizer Agent",
-              summary: "Optimize hashtag strategies for better reach and engagement.",
-              image: "/placeholder.jpg",
-              solutions: ["Hashtag research", "Trend analysis", "Reach optimization"],
-              useCases: ["Social media marketing", "Content discovery", "Audience growth"],
-              status: "not available"
-            },
             {
               id: "image-generation-agent",
               name: "Image Generation Agent",
@@ -2086,6 +1008,16 @@ export default {
               description: ["Image to PDF Converter turns your images into professional, multi-page PDFs effortlessly. Supports JPG and PNG formats, allowing batch uploads for seamless conversion. Ideal for students, professionals, and creators needing fast, high-quality PDFs."],
               status: "available"
             }
+
+          ]
+        },
+        {
+          id: "social-media-content-creation",
+          name: "Social Media Content Creation",
+          description: "Create engaging social media content and manage content strategies.",
+          image: "/placeholder.jpg",
+          agents: [
+
           ]
         }
       ]

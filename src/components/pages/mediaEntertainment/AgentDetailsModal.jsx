@@ -1,338 +1,467 @@
-// import React from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { useNavigate } from 'react-router-dom';
 
-// const AgentDetailsModal = ({ isOpen, onClose, agent, category }) => {
-//   const navigate = useNavigate();
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuthStore } from '../../../store/store';
+import agentsData from '../../../../public/data/agentsDataView';
+import Right from "../../../../public/images/rightclick.png";
 
-//   if (!agent || !category) return null;
-
-//   const handleTryAgent = () => {
-//     navigate(`/agent-playground/agent/${agent.id}`);
-//   };
-
-//   // Get other agents in the same category (excluding current agent)
-//   const otherAgents = category.agents?.filter(a => a.id !== agent.id) || [];
-
-//   return (
-//     <AnimatePresence>
-//       {isOpen && (
-//         <div className="fixed inset-0 z-[100] overflow-y-auto">
-//           {/* Backdrop */}
-//           <motion.div
-//             initial={{ opacity: 0 }}
-//             animate={{ opacity: 1 }}
-//             exit={{ opacity: 0 }}
-//             className="fixed inset-0 backdrop-blur-sm"
-//             onClick={onClose}
-//           />
-
-//           {/* Modal Container - Positioned relative to viewport */}
-//           <div className="relative min-h-screen flex items-start justify-center pt-20 pb-10 px-4">
-//             <motion.div
-//               initial={{ opacity: 0, scale: 0.95, y: 30 }}
-//               animate={{ opacity: 1, scale: 1, y: 0 }}
-//               exit={{ opacity: 0, scale: 0.95, y: 30 }}
-//               transition={{ duration: 0.2, ease: 'easeOut' }}
-//               onClick={(e) => e.stopPropagation()}
-//               className="relative bg-white rounded-xl shadow-2xl w-full max-w-5xl max-h-[75vh] flex flex-col"
-//             >
-//               {/* Header */}
-//               <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-//                 <div className="flex items-center space-x-3">
-//                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-lg font-bold">
-//                     {agent.name.charAt(0)}
-//                   </div>
-//                   <div>
-//                     <h2 className="text-xl font-bold text-gray-900">{agent.name}</h2>
-//                     <p className="text-sm  text-gray-500">{category.name}</p>
-//                     <span className="px-2 py-1   rounded-full text-xs font-medium bg-green-100 text-green-800">
-//                       {agent.status || 'Available'}
-//                     </span>
-//                   </div>
-//                 </div>
-//                 <button
-//                   onClick={onClose}
-//                   className="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-lg"
-//                 >
-//                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-//                   </svg>
-//                 </button>
-//               </div>
-
-//               {/* Content */}
-//               <div className="flex-1 overflow-y-auto p-6">
-//                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-//                   {/* Main Content */}
-//                   <div className="lg:col-span-2 space-y-6">
-//                     {/* Agent Overview */}
-//                     <div className="bg-gray-50 rounded-lg p-4 mb-4">
-
-//                       <div className="border-t border-gray-200 pt-3">
-//                         <h4 className="text-sm font-semibold text-gray-800 mb-2">Overview</h4>
-//                         <p className="text-gray-600 leading-relaxed text-xs">
-//                           {agent.description}
-//                         </p>
-//                       </div>
-//                     </div>
-
-//                     {/* Related Agents Cards */}
-//                     {otherAgents.length > 0 && (
-//                       <div className="bg-white border border-gray-200 rounded-lg p-4">
-//                         <h4 className="text-lg font-bold text-gray-800 mb-4">Related Agents</h4>
-//                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//                           {otherAgents.slice(0, 6).map((relatedAgent) => (
-//                             <div key={relatedAgent.id} className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200">
-//                               {/* Agent Icon */}
-//                               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-3">
-//                                 <span className="text-white text-lg font-bold">
-//                                   {relatedAgent.name.charAt(0)}
-//                                 </span>
-//                               </div>
-
-//                               {/* Agent Info */}
-//                               <h5 className="text-sm font-semibold text-gray-800 mb-2 line-clamp-1">
-//                                 {relatedAgent.name}
-//                               </h5>
-//                               <p className="text-xs text-gray-600 mb-3 line-clamp-2 leading-relaxed">
-//                                 {relatedAgent.description}
-//                               </p>
-
-//                               {/* Action Buttons */}
-//                               <div className="flex space-x-2">
-//                                 <button
-//                                   onClick={() => navigate(`/agent-playground/agent/${relatedAgent.id}`)}
-//                                   className="flex-1 bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-blue-700 transition-colors"
-//                                 >
-//                                   Try Agent
-//                                 </button>
-//                                 <button
-//                                   onClick={() => {
-//                                     window.location.reload();
-//                                     console.log('View agent:', relatedAgent.id);
-//                                   }}
-//                                   className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded text-xs font-medium hover:bg-gray-50 transition-colors"
-//                                 >
-//                                   View
-//                                 </button>
-//                               </div>
-//                             </div>
-//                           ))}
-//                         </div>
-//                       </div>
-//                     )}
-
-//                     {/* Use Cases */}
-//                     {/* <div className="bg-white border border-gray-200 rounded-lg p-4">
-//                       <h4 className="text-lg font-bold text-gray-800 mb-3">Use Cases</h4>
-//                       <div className="space-y-2">
-//                         {agent.useCases.map((useCase, idx) => (
-//                           <div key={idx} className="flex items-start space-x-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-//                             <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-//                               <span className="text-blue-600 font-semibold text-xs">{idx + 1}</span>
-//                             </div>
-//                             <div>
-//                               <h5 className="font-semibold text-gray-800 mb-1 text-sm">{useCase}</h5>
-//                               <p className="text-xs text-gray-600">
-//                                 Perfect for handling this specific scenario with high accuracy.
-//                               </p>
-//                             </div>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     </div> */}
-//                   </div>
-
-//                   {/* Sidebar */}
-//                   <div className="lg:col-span-1">
-//                     <div className="bg-white border border-gray-200 rounded-lg p-4 h-full">
-//                       <h4 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h4>
-
-//                       <div className="space-y-3 mb-6">
-//                         <button
-//                           onClick={handleTryAgent}
-//                           className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
-//                         >
-//                           Try Our Agent
-//                         </button>
-//                         <button
-//                           onClick={onClose}
-//                           className="w-full border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
-//                         >
-//                           Close
-//                         </button>
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </motion.div>
-//           </div>
-//         </div>
-//       )}
-//     </AnimatePresence>
-//   );
-// };
-
-// export default AgentDetailsModal;
-
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-
-const AgentDetailsModal = ({ isOpen, onClose, agent, category }) => {
+const AgentDetailsPage = () => {
   const navigate = useNavigate();
+  const { agentId } = useParams();
+  const { isAuthenticated } = useAuthStore();
+  const [agent, setAgent] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(null);
+  const [activeStep, setActiveStep] = useState(0);
 
-  if (!agent || !category) return null;
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/', { replace: true });
+      return;
+    }
+
+    const findAgentInData = () => {
+      const allCategories = [...(agentsData.foundational || []), ...(agentsData.industry || [])];
+
+      for (const cat of allCategories) {
+        if (cat.agents) {
+          const foundAgent = cat.agents.find(a => a.id === agentId);
+          if (foundAgent) {
+            setAgent(foundAgent);
+            setCategory(cat);
+            setIsLoading(false);
+            return;
+          }
+        }
+        if (cat.subCategories) {
+          for (const subCat of cat.subCategories) {
+            if (subCat.agents) {
+              const foundAgent = subCat.agents.find(a => a.id === agentId);
+              if (foundAgent) {
+                setAgent(foundAgent);
+                setCategory(cat);
+                setIsLoading(false);
+                return;
+              }
+            }
+          }
+        }
+      }
+
+      setIsLoading(false);
+    };
+
+    findAgentInData();
+  }, [agentId, isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (category) {
+      const foundationalCategories = agentsData.foundational || [];
+      const isFoundational = foundationalCategories.some(cat => cat.id === category.id);
+      setActiveTab(isFoundational ? 'foundational' : 'industry');
+    }
+  }, [category]);
 
   const handleTryAgent = () => {
     navigate(`/agent-playground/agent/${agent.id}`);
   };
 
-  // Get other agents in the same category (excluding current agent)
-  const otherAgents = category.agents?.filter(a => a.id !== agent.id) || [];
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const getOtherAgents = () => {
+    if (!category) return [];
+
+    let allAgents = [];
+    if (category.agents) {
+      allAgents = [...category.agents];
+    }
+    if (category.subCategories) {
+      category.subCategories.forEach(subCat => {
+        if (subCat.agents) {
+          allAgents = [...allAgents, ...subCat.agents];
+        }
+      });
+    }
+
+    return allAgents.filter(a => a.id !== agent?.id);
+  };
+
+  const otherAgents = getOtherAgents();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto"></div>
+          <p className="mt-6 text-blue-600 font-medium text-lg">Loading agent details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!agent) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Agent Not Found</h2>
+          <p className="text-gray-600 mb-6">The requested agent could not be found.</p>
+          <button
+            onClick={handleBack}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] overflow-y-auto" style={{ backgroundColor: 'rgba(249, 250, 251, 0.8)' }}>
-          {/* Backdrop */}
+    <div className="min-h-screen bg-gray-50">
+      {/* Back Button - Fixed Position */}
+      <div className="fixed top-4 left-4 z-10">
+        <button
+          onClick={handleBack}
+          className="flex items-center space-x-2 px-4 py-2 bg-white shadow-md rounded-lg hover:shadow-lg transition-all duration-200 border border-gray-200"
+        >
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="text-gray-700 font-medium">Back</span>
+        </button>
+      </div>
+
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/bgall.png')",
+        }}
+      >
+        <div className="w-full max-w-6xl mx-auto px-4 py-20 text-center ">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 backdrop-blur-sm"
-            onClick={onClose}
-          />
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center px-5 py-2 border-1 border-[#155DFC] bg-transparent text-blue-600 text-[16px] font-semibold rounded-full mb-8 mt-8"
+          >
+            {activeTab === 'foundational' ? 'Foundation Agent' : 'Industry Agent'}
+          </motion.div>
 
-          {/* Modal Container - Positioned relative to viewport */}
-          <div className="relative min-h-screen flex items-start justify-center pt-20 pb-10 px-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 30 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative bg-white rounded-lg shadow-md border border-gray-200 w-full max-w-5xl max-h-[75vh] flex flex-col"
+          <div className="flex justify-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold 
+               text-gray-900 mb-6 leading-tight px-4 max-w-4xl text-center"
             >
-              {/* Header */}
-              <div className="text-white text-center py-4 px-6 rounded-t-lg border-b border-gray-200 flex items-center justify-between" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-lg font-bold" style={{ color: '#1E3A8A' }}>
-                    {agent.name.charAt(0)}
-                  </div>
-                  <div className="text-left">
-                    <h2 className="text-xl font-semibold text-white">{agent.name}</h2>
-                    {/* <p className="text-sm text-blue-200">{category.name}</p> */}
-                    {/* <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      {agent.status || 'Available'}
-                    </span> */}
-                  </div>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="text-blue-200 hover:text-white transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+              {agent.heading || agent.name}
+            </motion.h1>
+          </div>
+
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-xl text-[#6E757E] mb-10 max-w-2xl mx-auto leading-relaxed px-4"
+          >
+            {agent.summary}
+          </motion.p>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            onClick={handleTryAgent}
+            className="inline-flex items-center px-11 py-3 bg-gradient-to-r from-blue-600 to-blue-400 hover:bg-blue-700 text-white text-base font-semibold rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            Try Now
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Content Sections */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+
+        {/* What It Is Section */}
+        {agent.whatItIs && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-20"
+          >
+            <div className="mb-12">
+              <div className="inline-block border-b-4 border-blue-500 pb-2">
+                <h2 className="text-2xl font-medium text-[#000]">What It Is</h2>
               </div>
+            </div>
 
-              {/* Content */}
-              <div className="flex-1 overflow-y-auto p-6" style={{ backgroundColor: '#F9FAFB' }}>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Main Content */}
-                  <div className="lg:col-span-2 space-y-6">
-                    {/* Agent Overview */}
-                    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
-                      <div className="border-b border-gray-200 pb-3 mb-3">
-                        <h4 className="text-md font-medium mb-2" style={{ color: '#1E3A8A' }}>Overview</h4>
-                      </div>
-                      <p className="text-gray-900 leading-relaxed text-md">
-                        {agent.description}
-                      </p>
-                    </div>
+            <div className="px-6 py-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Left Column - Title and Description */}
+                <div className="pr-8">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6 leading-tight break-words">
+                    {agent.whatItIs.title}
+                  </h3>
 
-                    {/* Related Agents Cards */}
-                    {otherAgents.length > 0 && (
-                      <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
-                        <h4 className="text-md font-medium mb-4" style={{ color: '#1E3A8A' }}>Related Agents</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {otherAgents.slice(0, 6).map((relatedAgent) => (
-                            <div key={relatedAgent.id} className="bg-gray-50 rounded-lg shadow-sm p-4 hover:shadow-md transition-all duration-200 border border-gray-200">
-                              {/* Agent Icon */}
-                              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3 text-white" style={{ backgroundColor: '#1E3A8A' }}>
-                                <span className="text-lg font-bold">
-                                  {relatedAgent.name.charAt(0)}
-                                </span>
-                              </div>
+                  <p className="text-lg text-gray-600 leading-relaxed text-justify">
+                    {agent.whatItIs.description}
+                  </p>
+                </div>
 
-                              {/* Agent Info */}
-                              <h5 className="text-sm font-medium text-gray-800 mb-2 line-clamp-1">
-                                {relatedAgent.name}
-                              </h5>
-                              <p className="text-xs text-gray-600 mb-3 line-clamp-2 leading-relaxed">
-                                {relatedAgent.description}
-                              </p>
-
-                              {/* Action Buttons */}
-                              <div className="flex space-x-2">
-                                <button
-                                  onClick={() => navigate(`/agent-playground/agent/${relatedAgent.id}`)}
-                                  className="flex-1 text-white px-3 py-1.5 rounded text-xs font-medium transition-colors hover:opacity-90"
-                                  style={{ backgroundColor: '#1E3A8A' }}
-                                >
-                                  Try Agent
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    window.location.reload();
-                                    console.log('View agent:', relatedAgent.id);
-                                  }}
-                                  className="px-3 py-1.5 border border-gray-300 text-gray-700 rounded text-xs font-medium hover:bg-gray-50 transition-colors"
-                                >
-                                  View
-                                </button>
-                              </div>
-                            </div>
-                          ))}
+                {/* Right Column - Features in single column */}
+                {agent.features && agent.features.length > 0 && (
+                  <div className="space-y-5">
+                    {agent.features.map((feature, index) => (
+                      <div key={index} className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center mt-0.5">
+                          <img src={Right} alt="" />
                         </div>
+                        <span className="text-lg text-[#000] leading-relaxed flex-1 font-medium">
+                          {feature}
+                        </span>
                       </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </motion.section>
+        )}
+        {/* Use Cases Section */}
+        {agent.useCases && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-20"
+          >
+            <div className="text-center mb-8">
+              <div className="inline-block border-b-4 border-blue-500 pb-2">
+                <h2 className="text-2xl font-medium text-[#000]">Use Cases</h2>
+              </div>
+            </div>
+
+            <div className="text-center mb-12">
+              <h3 className="text-3xl lg:text-4xl font-bold text-[#000] mb-4">
+                {agent.useCases.title}
+              </h3>
+              <p className="text-[17px] text-[#3D3D3D] max-w-5xl mx-auto leading-relaxed">
+                {agent.useCases.subtitle}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
+              {agent.useCases.cases.map((useCase, index) => (
+                <div key={index} className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-sm transition-all">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="text-4xl">
+                      {typeof useCase.icon === 'string' && useCase.icon.startsWith('/') ? (
+                        <img src={useCase.icon} alt={useCase.title} className="w-9 h-9 object-contain" />
+                      ) : (
+                        useCase.icon
+                      )}
+                    </div>
+                    <h4 className="text-[17px] font-bold text-[#000]">{useCase.title}</h4>
+                  </div>
+                  <p className="text-[17px] text-[#3D3D3D] leading-relaxed">{useCase.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
+        {/* Why It Matters Section */}
+        {agent.whyItMatters && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-20"
+          >
+            <div className="text-center mb-8">
+              <div className="inline-block border-b-4 border-blue-500 pb-2">
+                <h2 className="text-2xl font-medium text-[#000]">Why It Matters</h2>
+              </div>
+            </div>
+
+            <div className="text-center mb-12">
+              <h3 className="text-3xl lg:text-4xl font-bold text-[#000] mb-6">
+                {agent.whyItMatters.title}
+              </h3>
+              <p className="text-[17px] text-[#6B7280] max-w-4xl mx-auto leading-relaxed">
+                {agent.whyItMatters.subtitle}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {agent.whyItMatters.benefits.map((benefit, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-md transition-all"
+                >
+                  <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                    {typeof benefit.icon === 'string' && benefit.icon.startsWith('/') ? (
+                      <img src={benefit.icon} alt={benefit.title} className="w-6 h-6 object-contain" />
+                    ) : (
+                      <span className="text-white text-2xl">{benefit.icon}</span>
                     )}
                   </div>
+                  <h4 className="text-lg  font-medium text-[#000] mb-3 leading-tight">
+                    {benefit.title}
+                  </h4>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
-                  {/* Sidebar */}
-                  <div className="lg:col-span-1">
-                    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 h-full">
-                      <h4 className="text-md font-medium mb-4" style={{ color: '#1E3A8A' }}>Quick Actions</h4>
+        {/* How It Works Section */}
+        {agent.howItWorks && (
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-20"
+          >
+            <div className="text-center mb-8">
+              <div className="inline-block border-b-4 border-blue-500 pb-2">
+                <h2 className="text-2xl font-medium text-[#000]">{agent.howItWorks.title}</h2>
+              </div>
+            </div>
 
-                      <div className="space-y-3 mb-6">
-                        <button
-                          onClick={handleTryAgent}
-                          className="w-full text-white px-4 py-2 rounded-lg transition-colors font-medium text-sm hover:opacity-90"
-                          style={{ backgroundColor: '#1E3A8A' }}
-                        >
-                          Try Our Agent
-                        </button>
-                        <button
-                          onClick={onClose}
-                          className="w-full border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm"
-                        >
-                          Close
-                        </button>
-                      </div>
+            {/* Steps Navigation */}
+            <div className="flex justify-center mb-12">
+              <div className="flex space-x-8">
+                {agent.howItWorks.steps.map((step, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveStep(index)}
+                    className="relative pb-4 px-4 transition-all duration-300 border border-gray-200 rounded-xl shadow-lg bg-white"
+                  >
+                    {/* Top border */}
+                    <div
+                      className={`absolute top-0 left-0 right-0 h-2 rounded-t-xl transition-all duration-300 ${activeStep === index
+                        ? 'bg-blue-600'
+                        : 'bg-gray-300'
+                        }`}
+                    />
+
+
+                    <span className={`text-2xl font-bold block text-left mt-4 ${activeStep === index ? 'text-blue-600' : 'text-gray-400'
+                      }`}>
+                      {step.number}
+                    </span>
+                    <div className={`text-xl mt-1 font-medium text-left  ${activeStep === index ? 'text-[#000]' : 'text-gray-500'
+                      }`}>
+                      {step.title}
+                    </div>
+                    <p className="text-[18px] mt-1 text-[#6E757E] text-left">
+                      {step.description?.substring(0, 80)}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Step Content */}
+            <div className="bg-[#EFF3FF] rounded-2xl p-8 lg:p-12 border border-blue-100">
+              {agent.howItWorks.steps[activeStep] && (
+                <div>
+                  <div className=" items-start space-x-6 mb-8">
+                    <div className=" mb-2  items-center justify-center ">
+                      <span className="text-[#155DFC] text-3xl font-bold">
+                        {agent.howItWorks.steps[activeStep].number}
+                      </span>
+                    </div>
+                    <div className=" inline-block ">
+                      <h4 className="text-3xl font-bold text-[#000] mb-2">
+                        {agent.howItWorks.steps[activeStep].title}
+                      </h4>
+                      <p className="text-lg text-[#6B7280] leading-relaxed">
+                        {agent.howItWorks.steps[activeStep].description}
+                      </p>
+                      <hr className='mt-5 border-t-2 border-[#C7C7C7]' />
                     </div>
                   </div>
+
+                  {/* Process Flow - Only for step 1 (Architecture Overview) */}
+                  {agent.howItWorks.steps[activeStep].process && (
+                    <div className="flex flex-wrap items-center justify-center gap-4  rounded-xl p-6">
+                      {agent.howItWorks.steps[activeStep].process.map((item, idx) => (
+                        <React.Fragment key={idx}>
+                          <div className="flex items-center space-x-4 p-6 bg-white rounded-xl shadow-md border border-gray-100 min-w-[200px]">
+                            {item.isImage ? (
+                              <img
+                                src={item.icon}
+                                alt={item.label}
+                                className="w-7 h-7 object-contain flex-shrink-0"
+                              />
+                            ) : (
+                              <span className="text-xl flex-shrink-0">{item.icon}</span>
+                            )}
+                            <span className="font-medium text-gray-900 text-base text-left leading-snug max-w-[160px]">
+                              {item.label}
+                            </span>
+                          </div>
+                          {idx < agent.howItWorks.steps[activeStep].process.length - 1 && (
+                            <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  )}
+
+                  {agent.howItWorks.steps[activeStep].features && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full">
+                      {/* Left side - Features (spans 1 column) */}
+                      <div className="lg:col-span-1 space-y-4">
+                        {agent.howItWorks.steps[activeStep].features.map((feature, idx) => (
+                          <div key={idx} className="flex items-start space-x-3">
+                            <div className="flex-shrink-0 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mt-1">
+                              <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-base text-[#000] leading-relaxed font-medium">
+                              {feature}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Right side - Image (spans 1 column, aligned to the top right) */}
+                      {agent.howItWorks.steps[activeStep].image && (
+                        <div className="lg:col-span-1 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-2 flex justify-end w-full">
+                          <img
+                            src={agent.howItWorks.steps[activeStep].image}
+                            alt={agent.howItWorks.steps[activeStep].title}
+                            className="w-full h-auto rounded-lg max-w-[400px]"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      )}
-    </AnimatePresence>
+              )}
+            </div>
+          </motion.section>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default AgentDetailsModal;
+export default AgentDetailsPage;
