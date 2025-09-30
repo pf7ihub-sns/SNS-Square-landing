@@ -64,6 +64,7 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -132,7 +133,8 @@ const AgentRouter = () => {
     "contract-management": <ContractManagement />,
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
-    "Lab-results-extractor": <LabResultsExtractor /> // New mapping
+    "Lab-results-extractor": <LabResultsExtractor /> ,
+    "knowledge-base-agent": <KnowledgeBaseChat />
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
