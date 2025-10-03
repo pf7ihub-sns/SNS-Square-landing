@@ -2,6 +2,14 @@ import React, { useState, useMemo } from 'react';
 import countryList from 'react-select-country-list';
 import BlackButton from '../../common/BlackButton';
 import Footer from './Footer';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import CircularProgress from '@mui/material/CircularProgress';
+import { submitContactForm } from '../../../api/Service/contact';
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +23,14 @@ const ContactUsPage = () => {
     consent: false
   });
 
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+
   // Get all countries from the library
   const countries = useMemo(() => countryList().getData(), []);
 
@@ -24,200 +40,371 @@ const ContactUsPage = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+
+    if (!formData.companyEmail.trim()) {
+      newErrors.companyEmail = 'Company email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.companyEmail)) {
+      newErrors.companyEmail = 'Please enter a valid email address';
+    }
+
+    if (!formData.companyName.trim()) {
+      newErrors.companyName = 'Company name is required';
+    }
+
+    if (!formData.country) {
+      newErrors.country = 'Country is required';
+    }
+
+    if (!formData.industry) {
+      newErrors.industry = 'Industry is required';
+    }
+
+    if (!formData.consent) {
+      newErrors.consent = 'You must consent to receive communications';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      setSnackbar({
+        open: true,
+        message: 'Please fill in all required fields',
+        severity: 'error'
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await submitContactForm(formData);
+      
+      setSnackbar({
+        open: true,
+        message: response.message || 'Thank you! We will get back to you soon.',
+        severity: 'success'
+      });
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        companyEmail: '',
+        companyName: '',
+        country: '',
+        industry: '',
+        message: '',
+        consent: false
+      });
+      setErrors({});
+
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: error.message || 'Something went wrong. Please try again.',
+        severity: 'error'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
+
+  const textFieldStyles = {
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#D1D5DB',
+      borderBottomWidth: '2px',
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottomColor: '#9CA3AF',
+      borderBottomWidth: '2px',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#3B82F6',
+      borderBottomWidth: '2px',
+    },
+  };
+
+  const labelStyles = {
+    color: '#6B7280',
+    fontSize: '1rem',
   };
 
   return (
     <div className="bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter ">
-    <div
-      className="bg-fill p-6 bg-gradient-to-t from-transparent to-white h-[100%]"
-    >
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto pb-4 mt-24 p-4 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left Content */}
-          <div className="relative space-y-6">
-            {/* Background image shifted down */}
-            <img
-              src="/images/GlassCube.png"
-              alt="Glass Cube"
-              className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-10 w-40vh h-auto"
-            />
+      <div className="bg-fill p-6 bg-gradient-to-t from-transparent to-white h-[100%]">
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto mt-24 pb-8 pt-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Left Content */}
+            <div className="relative space-y-6">
+              {/* Background image shifted down */}
+              <img
+                src="/images/GlassCube.png"
+                alt="Glass Cube"
+                className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 mt-10 w-40vh h-auto"
+              />
 
-            <h3 className="text-black leading-tight relative z-10">
-              Connect with our experts to explore your use case in detail
-            </h3>
-            <p className="text-gray-600 leading-relaxed mt-4 relative z-10">
-              Schedule a consultation to explore how our Agent Platform will drives the value and innovation you need.
-            </p>
-          </div>
+              <h3 className="text-black leading-tight relative z-10">
+                Connect with our experts to explore your use case in detail
+              </h3>
+              <p className="text-gray-600 leading-relaxed mt-4 relative z-10">
+                Schedule a consultation to explore how our Agent Platform will drives the value and innovation you need.
+              </p>
+            </div>
 
-
-
-          {/* Right Content - Contact Form */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6 space-y-8">
-              {/* First Row - Name Fields */}
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="block text-gray-500 text-base font-normal">
-                    First Name*
-                  </label>
-                  <input
+            {/* Right Content - Contact Form */}
+            <div className="bg-white rounded-md shadow-sm border border-gray-200">
+              <form onSubmit={handleSubmit} className="p-6 gap-8 flex flex-col">
+                {/* First Row - Name Fields */}
+                <div className="grid grid-cols-2 gap-8">
+                  <TextField
                     type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600 text-base"
+                    label="First Name"
+                    variant="standard"
+                    fullWidth
                     required
+                    error={!!errors.firstName}
+                    helperText={errors.firstName}
+                    disabled={loading}
+                    InputLabelProps={{
+                      sx: labelStyles
+                    }}
+                    sx={textFieldStyles}
                   />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-gray-500 text-base font-normal">
-                    Last Name
-                  </label>
-                  <input
+                  <TextField
                     type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
+                    label="Last Name"
+                    variant="standard"
+                    fullWidth
+                    disabled={loading}
+                    InputLabelProps={{
+                      sx: labelStyles
+                    }}
+                    sx={textFieldStyles}
                   />
                 </div>
-              </div>
 
-              {/* Company Email */}
-              <div className="space-y-2">
-                <label className="block text-gray-500 text-base font-normal">
-                  Company Email*
-                </label>
-                <input
+                {/* Company Email */}
+                <TextField
                   type="email"
                   name="companyEmail"
                   value={formData.companyEmail}
                   onChange={handleInputChange}
-                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
+                  label="Company Email"
+                  variant="standard"
+                  fullWidth
                   required
+                  error={!!errors.companyEmail}
+                  helperText={errors.companyEmail}
+                  disabled={loading}
+                  InputLabelProps={{
+                    sx: labelStyles
+                  }}
+                  sx={textFieldStyles}
                 />
-              </div>
 
-              {/* Company Name */}
-              <div className="space-y-2">
-                <label className="block text-gray-500 text-base font-normal">
-                  Company Name*
-                </label>
-                <input
+                {/* Company Name */}
+                <TextField
                   type="text"
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleInputChange}
-                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base"
+                  label="Company Name"
+                  variant="standard"
+                  fullWidth
                   required
+                  error={!!errors.companyName}
+                  helperText={errors.companyName}
+                  disabled={loading}
+                  InputLabelProps={{
+                    sx: labelStyles
+                  }}
+                  sx={textFieldStyles}
                 />
-              </div>
 
-              {/* Country and Industry Row */}
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="block text-gray-500 text-base font-normal">
-                    Country*
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 focus:outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
-                      required
-                    >
-                      <option value="">Select Country</option>
-                      {countries.map((country) => (
-                        <option key={country.value} value={country.value}>
-                          {country.label}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
+                {/* Country and Industry Row */}
+                <div className="grid grid-cols-2 gap-8">
+                  <TextField
+                    select
+                    name="country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                    label="Country"
+                    variant="standard"
+                    fullWidth
+                    required
+                    error={!!errors.country}
+                    helperText={errors.country}
+                    disabled={loading}
+                    InputLabelProps={{
+                      sx: labelStyles
+                    }}
+                    sx={textFieldStyles}
+                  >
+                    <MenuItem value="">Select Country</MenuItem>
+                    {countries.map((country) => (
+                      <MenuItem key={country.value} value={country.value}>
+                        {country.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    select
+                    name="industry"
+                    value={formData.industry}
+                    onChange={handleInputChange}
+                    label="Industry"
+                    variant="standard"
+                    fullWidth
+                    required
+                    error={!!errors.industry}
+                    helperText={errors.industry}
+                    disabled={loading}
+                    InputLabelProps={{
+                      sx: labelStyles
+                    }}
+                    sx={textFieldStyles}
+                  >
+                    <MenuItem value="">Select Industry</MenuItem>
+                    <MenuItem value="technology">Technology</MenuItem>
+                    <MenuItem value="healthcare">Healthcare</MenuItem>
+                    <MenuItem value="finance">Finance</MenuItem>
+                    <MenuItem value="education">Education</MenuItem>
+                    <MenuItem value="retail">Retail</MenuItem>
+                    <MenuItem value="manufacturing">Manufacturing</MenuItem>
+                    <MenuItem value="consulting">Consulting</MenuItem>
+                    <MenuItem value="other">Other</MenuItem>
+                  </TextField>
                 </div>
-                <div className="space-y-2">
-                  <label className="block text-gray-500 text-base font-normal">
-                    Industry*
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="industry"
-                      value={formData.industry}
-                      onChange={handleInputChange}
-                      className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 focus:outline-none focus:border-blue-500 text-base appearance-none cursor-pointer"
-                      required
-                    >
-                      <option value="">Select Industry</option>
-                      <option value="technology">Technology</option>
-                      <option value="healthcare">Healthcare</option>
-                      <option value="finance">Finance</option>
-                      <option value="education">Education</option>
-                      <option value="retail">Retail</option>
-                      <option value="manufacturing">Manufacturing</option>
-                      <option value="consulting">Consulting</option>
-                      <option value="other">Other</option>
-                    </select>
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Message Field */}
-              <div className="space-y-2 pt-4">
-                <label className="block text-gray-500 text-base font-normal">
-                  Leave us a message
-                </label>
-                <textarea
+                {/* Message Field */}
+                <TextField
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
+                  label="Leave us a message"
+                  variant="standard"
+                  fullWidth
+                  multiline
                   rows={4}
-                  className="w-full border-0 border-b-2 border-gray-300 bg-transparent pb-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 text-base resize-none"
-                  placeholder=""
+                  disabled={loading}
+                  InputLabelProps={{
+                    sx: labelStyles
+                  }}
+                  sx={textFieldStyles}
                 />
-              </div>
 
-              {/* Consent Checkbox */}
-              <div className="flex items-start space-x-3 pt-2">
-                <input
-                  type="checkbox"
-                  id="consent"
-                  name="consent"
-                  checked={formData.consent}
-                  onChange={handleInputChange}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="consent" className="text-sm text-gray-700 leading-relaxed">
-                  By submitting, I consent to receive relevant email communication from SNS Square in accordance with the Privacy Policy and understand I can opt out at any time.*
-                </label>
-              </div>
+                {/* Consent Checkbox */}
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="consent"
+                        checked={formData.consent}
+                        onChange={handleInputChange}
+                        disabled={loading}
+                        sx={{
+                          color: '#D1D5DB',
+                          '&.Mui-checked': {
+                            color: '#3B82F6',
+                          },
+                        }}
+                      />
+                    }
+                    label={
+                      <span className="text-sm text-gray-700 leading-relaxed">
+                        By submitting, I consent to receive relevant email communication from SNS Square in accordance with the Privacy Policy and understand I can opt out at any time.*
+                      </span>
+                    }
+                    sx={{ alignItems: 'flex-start', marginLeft: '-9px' }}
+                  />
+                  {errors.consent && (
+                    <p className="text-red-600 text-xs mt-1 ml-8">{errors.consent}</p>
+                  )}
+                </div>
 
-              {/* Submit Button */}
-              <div className="">
-                <BlackButton type="submit">
-                  Submit
-                </BlackButton>
-              </div>
+                {/* Submit Button */}
+                <div className="">
+                  <BlackButton 
+                    type="submit" 
+                    disabled={loading}
+                    style={{ 
+                      position: 'relative',
+                      opacity: loading ? 0.7 : 1 
+                    }}
+                  >
+                    {loading ? (
+                      <>
+                        <CircularProgress 
+                          size={20} 
+                          sx={{ 
+                            color: 'white',
+                            marginRight: '8px'
+                          }} 
+                        />
+                        Submitting...
+                      </>
+                    ) : (
+                      'Submit'
+                    )}
+                  </BlackButton>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+        <Footer />
+
+        {/* Snackbar for notifications */}
+        <Snackbar 
+          open={snackbar.open} 
+          autoHideDuration={6000} 
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert 
+            onClose={handleCloseSnackbar} 
+            severity={snackbar.severity}
+            sx={{ width: '100%' }}
+            variant="filled"
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </div>
     </div>
   );
 };

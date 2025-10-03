@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import ReactGA from "react-ga4";
 import UseCase from "../pages/UseCase/UseCase";
 import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail";
 import LifeAtSNSSquare from "../pages/lifeAtSnsSquare";
@@ -42,6 +43,11 @@ export default function AppRoutes() {
     }
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname, hash]);
+
+  // Track page views with Google Analytics
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: pathname });
+  }, [pathname]);
 
   return (
     <Routes>

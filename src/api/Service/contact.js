@@ -1,13 +1,11 @@
 import axiosInstance from "./axiosInstance";
 
-export const submitContactEmail = async (email) => {
+export const submitContactForm = async (formData) => {
   try {
-    const response = await axiosInstance.post("/enquiry", { email });
+    const response = await axiosInstance.post("/enquiry", formData);
     return response.data;
   } catch (error) {
-    const errorMessage = error.response?.data?.message || "An error occurred";
+    const errorMessage = error.response?.data?.message || "An error occurred while submitting your enquiry";
     throw new Error(errorMessage);
   }
 };
-
-
