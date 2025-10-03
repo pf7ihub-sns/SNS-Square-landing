@@ -10,7 +10,7 @@ const WhyWeAreHereSection = () => {
     >
       <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-4">
         {/* Header Section - Left Aligned */}
-        <div className="flex flex-col justify-start items-start gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-14 max-w-[1224px] mx-auto">
+        <div className="flex flex-col justify-start items-start gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-14  mx-auto">
           <h3 className="leading-tight">
             Why We're Here
           </h3>
@@ -20,7 +20,7 @@ const WhyWeAreHereSection = () => {
         </div>
 
         {/* Main Content Card */}
-        <div className="relative max-w-[1224px] mx-auto">
+        <div className="relative  mx-auto">
           {/* White Card Background */}
           <div className="w-full min-h-[400px] sm:min-h-[500px] lg:h-[675px] bg-white rounded border border-stone-300 relative p-4 sm:p-6 lg:p-0">
 

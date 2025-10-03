@@ -6,7 +6,7 @@ const categories = [
   {
     key: "supply",
     label: "Tech Talk ",
-    images: ["/images/home/usecase/SupplyChain.png"],
+    images: ["/images/About_us/1748084687756.jpeg"],
     gradient:
       "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
@@ -15,7 +15,7 @@ const categories = [
   {
     key: "it",
     label: "Talk Series",
-    images: ["/images/home/usecase/InformationTechnology.png"],
+    images: ["/images/About_us/1748693027497.jpeg"],
     gradient:
     "linear-gradient(359.77deg, rgba(216, 230, 255, 0.86) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
@@ -24,10 +24,10 @@ const categories = [
   {
     key: "health",
     label: "Agentic Bootcamps",
-    images: ["/images/home/usecase/Health-care.png"],
+    images: ["/images/About_us/1750238020086.jpeg"],
     gradient:
-      // "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
-       "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+      "linear-gradient(359.77deg, rgba(216, 230, 255, 0.75) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
+      //  "linear-gradient(359.77deg, rgba(202, 236, 188, 0.51) 52.68%, rgba(255, 255, 255, 0) 119.66%)",
     description:
       "Our Agentic Bootcamps are immersive learning experiences designed to equip every employee with practical AI and future-tech skills. Hands-on, real-world, and impact-driven so our people stay ahead of the curve.",
   }

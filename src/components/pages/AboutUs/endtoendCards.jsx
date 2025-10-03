@@ -15,159 +15,125 @@ const FeatureCardsSection = () => {
 
   return (
     <div
-      className="relative z-30 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 2xl:py-24 bg-white flex flex-col items-center"
+      className="relative z-30 py-12 md:py-16 lg:py-20 xl:py-24"
       onMouseMove={handleMouseMove}
     >
-      <div className="max-w-[1440px] mx-auto px-3 sm:px-4 md:px-4 lg:px-4">
-        {/* Header Section */}
-        <div className="mb-8 sm:mb-10 lg:mb-12 xl:mb-16">
-          <h2 className="leading-tight text-black text-left">
-            End-to-end<br />
-            AI Enablement Approach
-          </h2>
+      <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-4">
+        <div className="flex justify-between items-start md:items-center">
+          {/* Section Title - Desktop H3 */}
+          <h3 className="font-bold leading-tight text-2xl md:text-3xl lg:text-4xl">
+            End-to-end <br className="hidden md:block" /> AI Enablement Approach
+          </h3>
+          <button onClick={() => navigate('/agent-workbench')} className="border border-black rounded-[4px] px-8 py-3 text-black font-medium hidden md:block whitespace-nowrap">
+            Explore
+          </button>
         </div>
-
-        {/* Mobile Cards - Show on small screens */}
-        <div className="flex flex-col gap-4 lg:hidden">
-          {/* Foundational Agents Card - Mobile */}
+        {/* <p className="mt-3 text-[#606060]">
+          Not just another AI platform. A complete Agentic AI suite engineered to adapt to your challenges, empower your teams, and unlock new possibilities.
+        </p> */}
+        {/* Three image-backed cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-8 mt-6 md:mt-8 lg:mt-10">
+          {/* Card 1 */}
           <article
-            className="w-full h-[280px] relative bg-rose-100 rounded-lg border border-neutral-200 overflow-hidden"
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
+            onMouseEnter={showCursor}
+            onMouseLeave={hideCursor}
             onClick={() => navigate('/agent-workbench')}
+            style={{
+              backgroundImage: "url('/images/home/Link.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
           >
-            <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
-              <h4 className="text-red-600">
-           Strategy to Execution
-              </h4>
-              <p className="text-zinc-600 font-inter leading-snug text-sm">
-               We don’t just advise; we architect. From identifying the right AI opportunities to designing a tailored roadmap, we align your business vision with transformative AI strategies that are practical, scalable, and future-ready.
-              </p>
-            </div>
-          </article>
-
-          {/* Industry Solutions Card - Mobile */}
-          <article
-            className="w-full h-[280px] relative bg-gradient-to-l from-indigo-300 to-fuchsia-200 rounded-lg border border-neutral-200 overflow-hidden"
-            onClick={() => navigate('/agent-workbench')}
-          >
-            <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
-              <h4 className="text-violet-500">
-                Seamless Integration
-              </h4>
-              <p className="text-zinc-600 font-inter leading-snug text-sm">
-                AI delivers value only when it’s embedded into your core operations. We integrate intelligent systems into your existing workflows, ensuring interoperability, automation, and measurable efficiency without disrupting business continuity.
-              </p>
-            </div>
-          </article>
-
-          {/* Customer Solutions Card - Mobile */}
-          <article
-            className="w-full h-[280px] relative bg-violet-100 rounded-lg border border-neutral-200 overflow-hidden"
-            onClick={() => navigate('/agent-workbench')}
-          >
-            <div className="absolute inset-4 flex flex-col justify-start items-start gap-3">
-              <h4 className="text-blue-700">
-                Continuous Optimisation
-              </h4>
-              <p className="text-zinc-600 font-inter leading-snug text-sm">
-                AI isn’t a one-time solution it evolves. Our approach includes ongoing monitoring, model retraining, and performance tuning, enabling your business to adapt quickly, stay competitive, and unlock sustained growth.
-              </p>
-            </div>
-          </article>
-        </div>
-
-        {/* Desktop Cards - Show on large screens */}
-        <div className="hidden lg:flex justify-start items-center">
-          <div className="flex flex-row justify-start items-center gap-6 max-w-[1224px]">
-            
-            {/* Foundational Agents Card */}
-            <article
-              className="w-96 h-[527px] relative bg-rose-100 rounded border border-neutral-200 overflow-hidden cursor-none"
-              onMouseEnter={showCursor}
-              onMouseLeave={hideCursor}
-              onClick={() => navigate('/agent-workbench')}
-            >
-              <div className="w-80 left-[25px] top-[33.11px] absolute flex flex-col justify-start items-start gap-3.5">
-                <div className="w-full flex justify-between items-center">
-                  <h4
-                    className="inline-block leading-tight text-3xl font-bold font-manrope"
-                    style={{
-                      background: "linear-gradient(90deg, #FA0800 0%, #FF8A0E 100%)",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                Strategy to Execution
-                  </h4>
-                </div>
-                <p className="w-full text-zinc-600 font-inter leading-snug text-base">
-                 We don’t just advise; we architect. From identifying the right AI opportunities to designing a tailored roadmap, we align your business vision with transformative AI strategies that are practical, scalable, and future-ready.
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div>
+                <h4
+                  className="inline-block leading-normal"
+                  style={{
+                    background: "linear-gradient(90deg, #FA0800 0%, #FF8A0E 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                  }}
+                >
+                   Strategy to Execution
+                </h4>
+                <p className="mt-3 text-[#606060]">
+                  We don’t just advise; we architect. From identifying the right AI opportunities to designing a tailored roadmap, we align your business vision with transformative AI strategies that are practical, scalable, and future-ready.
                 </p>
               </div>
-            </article>
+            </div>
+          </article>
 
-            {/* Industry Solutions Card */}
-            <article
-              className="w-96 h-[527px] relative bg-gradient-to-l from-indigo-300 to-fuchsia-200 rounded border border-neutral-200 overflow-hidden cursor-none"
-              onMouseEnter={showCursor}
-              onMouseLeave={hideCursor}
-              onClick={() => navigate('/agent-workbench')}
-            >
-              <div className="w-80 left-[25px] top-[33.11px] absolute flex flex-col justify-start items-start gap-4">
-                <div className="w-full flex justify-between items-center">
-                  <h4
-                    className="inline-block leading-tight text-3xl font-bold font-manrope"
-                    style={{
-                      background: "linear-gradient(90deg, #805DFC 0%, #4C3796 100%)",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
+          {/* Card 2 */}
+          <article
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
+            onMouseEnter={showCursor}
+            onMouseLeave={hideCursor}
+            onClick={() => navigate('/agent-workbench')}
+            style={{
+              backgroundImage: "url('/images/home/Link (1).png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div>
+                <h4 
+                className="inline-block leading-normal"
+                style={{
+                  background: "linear-gradient(90deg, #805DFC 0%, #4C3796 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}>
                   Seamless Integration
-                  </h4>
-                </div>
-                <p className="w-full text-zinc-600 font-inter leading-snug text-base">
-                  AI delivers value only when it’s embedded into your core operations. We integrate intelligent systems into your existing workflows, ensuring interoperability, automation, and measurable efficiency without disrupting business continuity.
+                </h4>
+                <p className="mt-3 text-[#606060]">
+               AI delivers value only when it’s embedded into your core operations. We integrate intelligent systems into your existing workflows, ensuring interoperability, automation, and measurable efficiency without disrupting business continuity.
                 </p>
               </div>
-            </article>
+            </div>
+          </article>
 
-            {/* Customer Solutions Card */}
-            <article
-              className="w-96 h-[527px] relative bg-violet-100 rounded border border-neutral-200 overflow-hidden cursor-none"
-              onMouseEnter={showCursor}
-              onMouseLeave={hideCursor}
-              onClick={() => navigate('/agent-workbench')}
-            >
-              <div className="w-80 left-[25px] top-[33.11px] absolute flex flex-col justify-start items-start gap-4">
-                <div className="w-full flex justify-start items-center gap-7">
-                  <h4
-                    className="inline-block leading-tight text-3xl font-bold font-manrope"
-                    style={{
-                      background: "linear-gradient(90deg, #1357E5 0%, #002E8E 100%)",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      color: "transparent",
-                    }}
-                  >
-                      Continuous Optimisation
-                  </h4>
-                </div>
-                <p className="w-full text-zinc-600 font-inter leading-snug text-base">
+          {/* Card 3 */}
+          <article
+            className="relative rounded-[4px] overflow-hidden shadow-sm bg-white cursor-none"
+            onMouseEnter={showCursor}
+            onMouseLeave={hideCursor}
+            onClick={() => navigate('/agent-workbench')}
+            style={{
+              backgroundImage: "url('/images/home/Link (2).png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="absolute inset-0 bg-white/10" />
+            <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div>
+                <h4 style={{
+                  background: "linear-gradient(90deg, #1357E5 0%, #002E8E 100%)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  color: "transparent",
+                }}>
+                  Continuous Optimisation
+                </h4>
+                <p className="mt-3 text-[#606060]">
                   AI isn’t a one-time solution it evolves. Our approach includes ongoing monitoring, model retraining, and performance tuning, enabling your business to adapt quickly, stay competitive, and unlock sustained growth.
                 </p>
               </div>
-            </article>
-
-          </div>
+            </div>
+          </article>
         </div>
       </div>
 
-      {/* Custom Cursor - Only visible on desktop */}
+      {/* Custom Cursor */}
       {cursor.visible && (
         <div
-          className="fixed z-[100] pointer-events-none hidden lg:block"
+          className="fixed z-[100] pointer-events-none"
           style={{ left: cursor.x, top: cursor.y, transform: 'translate(-50%, -50%)' }}
         >
           <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center shadow-lg transition-transform duration-150">

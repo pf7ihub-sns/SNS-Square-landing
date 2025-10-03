@@ -4,17 +4,17 @@ const testimonials = [
   {
     quote: "There's this strong culture of collaboration and transparency that I've never seen before.",
     author: "- Aish, Software Associate",
-    image: "/images/IMG_6488.png"
+    image: "/images/About_us/6.png"
   },
   {
     quote: "The innovation here is fearless, limitless, and unbounded. Every idea explodes into new.",
     author: "- Raj, Tech Lead",
-    image: "/images/IMG_7778.png"
+    image: "/images/About_us/7.png"
   },
   {
     quote: "This ecosystem gives us connection, community, and unbounded creativity that brings out our best.",
     author: "- Jothi, Product Manager",
-    image: "/images/IMG_6586.png"
+    image: "/images/About_us/8.png"
   }
 ];
 
