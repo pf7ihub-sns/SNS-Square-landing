@@ -29,22 +29,50 @@ const LoginForm = () => {
                     <div className="bg-white rounded-md shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
                         <div className="w-full">
                             <h3 className="text-xl sm:text-2xl font-semibold">Login to your account</h3>
-                            <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Welcome Back</p>
-                            <div className="space-y-6 py-4">
-                                <div className="relative">
-                                    <input
-                                        type="email"
-                                        placeholder="Email ID*"
-                                        className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
-                                <div className="relative">
-                                    <input
-                                        type="password"
-                                        placeholder="Password*"
-                                        className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                                    />
-                                </div>
+                            <p className="text-gray-500 mb-4 sm:mb-4 mt-4 sm:mt-4 text-sm sm:text-base">Welcome Back</p>
+                            <div className="space-y-6 py-4 gap-4 sm:gap-6 flex flex-col">
+                                <TextField
+                                    type="email"
+                                    label="Email ID"
+                                    variant="standard"
+                                    fullWidth
+                                    required
+                                    InputLabelProps={{
+                                        sx: { color: '#6B7280' }
+                                    }}
+                                    sx={{
+                                        '& .MuiInput-underline:before': {
+                                            borderBottomColor: '#D1D5DB',
+                                        },
+                                        '& .MuiInput-underline:hover:before': {
+                                            borderBottomColor: '#9CA3AF',
+                                        },
+                                        '& .MuiInput-underline:after': {
+                                            borderBottomColor: '#3B82F6',
+                                        },
+                                    }}
+                                />
+                                <TextField
+                                    type="password"
+                                    label="Password"
+                                    variant="standard"
+                                    fullWidth
+                                    required
+                                    InputLabelProps={{
+                                        sx: { color: '#6B7280' }
+                                    }}
+                                    sx={{
+                                        '& .MuiInput-underline:before': {
+                                            borderBottomColor: '#D1D5DB',
+                                        },
+                                        '& .MuiInput-underline:hover:before': {
+                                            borderBottomColor: '#9CA3AF',
+                                        },
+                                        '& .MuiInput-underline:after': {
+                                            borderBottomColor: '#3B82F6',
+                                        },
+                                    }}
+                                />
                             </div>
                             <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
                             <BlackButton className="w-full bg-black ">

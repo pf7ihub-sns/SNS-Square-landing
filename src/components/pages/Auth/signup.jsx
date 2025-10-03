@@ -48,69 +48,134 @@ const SignupForm = () => {
           <div className="bg-white rounded-md shadow-xl p-4 sm:p-8 w-full max-w-[600px] mx-auto">
             <div className="w-full">
               <h3 className="text-xl sm:text-2xl font-semibold">Sign up</h3>
-              <p className="text-gray-500 mb-6 sm:mb-8 mt-4 sm:mt-4 text-sm sm:text-base">Let's get Start</p>
+              <p className="text-gray-500 mb-4 sm:mb-4 mt-4 sm:mt-4 text-sm sm:text-base">Let's get Start</p>
 
               <form onSubmit={handleSubmit}>
-                <div className="space-y-6 py-4">
+                <div className=" py-4 gap-4  flex flex-col">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        placeholder="First Name*"
-                        className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                        required
-                      />
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        placeholder="Last Name"
-                        className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
+                    <TextField
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
                       onChange={handleChange}
-                      placeholder="Email ID*"
-                      className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
+                      label="First Name"
+                      variant="standard"
+                      fullWidth
                       required
+                      InputLabelProps={{
+                        sx: { color: '#6B7280' }
+                      }}
+                      sx={{
+                        '& .MuiInput-underline:before': {
+                          borderBottomColor: '#D1D5DB',
+                        },
+                        '& .MuiInput-underline:hover:before': {
+                          borderBottomColor: '#9CA3AF',
+                        },
+                        '& .MuiInput-underline:after': {
+                          borderBottomColor: '#3B82F6',
+                        },
+                      }}
+                    />
+                    <TextField
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      label="Last Name"
+                      variant="standard"
+                      fullWidth
+                      InputLabelProps={{
+                        sx: { color: '#6B7280' }
+                      }}
+                      sx={{
+                        '& .MuiInput-underline:before': {
+                          borderBottomColor: '#D1D5DB',
+                        },
+                        '& .MuiInput-underline:hover:before': {
+                          borderBottomColor: '#9CA3AF',
+                        },
+                        '& .MuiInput-underline:after': {
+                          borderBottomColor: '#3B82F6',
+                        },
+                      }}
                     />
                   </div>
 
-                  <div className="relative">
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Password*"
-                      className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
+                  <TextField
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    label="Email ID"
+                    variant="standard"
+                    fullWidth
+                    required
+                    InputLabelProps={{
+                      sx: { color: '#6B7280' }
+                    }}
+                    sx={{
+                      '& .MuiInput-underline:before': {
+                        borderBottomColor: '#D1D5DB',
+                      },
+                      '& .MuiInput-underline:hover:before': {
+                        borderBottomColor: '#9CA3AF',
+                      },
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: '#3B82F6',
+                      },
+                    }}
+                  />
 
-                  <div className="relative">
-                    <input
-                      type="password"
-                      name="rePassword"
-                      value={formData.rePassword}
-                      onChange={handleChange}
-                      placeholder="Re-enter Password*"
-                      className="w-full p-2 border-b border-gray-300 focus:outline-none focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
+                  <TextField
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    label="Password"
+                    variant="standard"
+                    fullWidth
+                    required
+                    InputLabelProps={{
+                      sx: { color: '#6B7280' }
+                    }}
+                    sx={{
+                      '& .MuiInput-underline:before': {
+                        borderBottomColor: '#D1D5DB',
+                      },
+                      '& .MuiInput-underline:hover:before': {
+                        borderBottomColor: '#9CA3AF',
+                      },
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: '#3B82F6',
+                      },
+                    }}
+                  />
+
+                  <TextField
+                    type="password"
+                    name="rePassword"
+                    value={formData.rePassword}
+                    onChange={handleChange}
+                    label="Re-enter Password"
+                    variant="standard"
+                    fullWidth
+                    required
+                    InputLabelProps={{
+                      sx: { color: '#6B7280' }
+                    }}
+                    sx={{
+                      '& .MuiInput-underline:before': {
+                        borderBottomColor: '#D1D5DB',
+                      },
+                      '& .MuiInput-underline:hover:before': {
+                        borderBottomColor: '#9CA3AF',
+                      },
+                      '& .MuiInput-underline:after': {
+                        borderBottomColor: '#3B82F6',
+                      },
+                    }}
+                  />
                 </div>
 
                 <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
