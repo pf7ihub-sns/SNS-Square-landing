@@ -1,5 +1,5 @@
 // src/components/Footer.jsx
-import { FaYoutube , FaLinkedin} from "react-icons/fa";
+import { FaYoutube , FaLinkedin, FaInstagram} from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import BlackButton from "./BlackButton";
 
@@ -165,6 +165,11 @@ export default function Footer() {
               target="_blank"
             >
               <FaYoutube size={20} />
+            </a>
+            <a href="https://www.instagram.com/squaresns/?hl=en"
+              target="_blank"
+            >
+              <FaInstagram size={20} />
             </a>
           </div>
         </div>

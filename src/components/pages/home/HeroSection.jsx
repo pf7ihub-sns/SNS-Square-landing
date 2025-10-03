@@ -117,7 +117,7 @@ const HeroSection = () => {
                   <BlackButton
                     size="medium"
                     variant="black"
-                    className="rounded-[4px] px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 text-base sm:text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
+                    className="rounded-md px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 text-base sm:text-lg font-medium font-manrope text-white w-fit mx-auto leading-relaxed"
                     onClick={() => {
                       const footerSection = document.getElementById('footer');
                       if (footerSection) {
@@ -176,7 +176,7 @@ const HeroSection = () => {
                 <BlackButton
                   size="medium"
                   variant="black"
-                  className="rounded-[4px] px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]"
+                  className="rounded-md px-6 py-[12px] lg:py-[14px] xl:py-[16px] text-lg font-medium font-manrope text-white w-fit mx-auto lg:mx-0 mt-[16px] lg:mt-[20px]"
                   onClick={() => {
                     const footerSection = document.getElementById('footer');
                     if (footerSection) {
@@ -192,7 +192,7 @@ const HeroSection = () => {
               <div className="md:col-span-5 flex justify-center lg:justify-end relative z-10">
                 <div className="relative w-full h-full z-10">
                   
-                   <div className="relative w-full max-w-[450px] md:max-w-[500px] lg:max-w-[500px] xl:max-w-[600px] 2xl:max-w-[650px] bg-transparent rounded-[32px] mx-auto">
+                   <div className="relative w-full max-w-[450px] md:max-w-[500px] lg:max-w-[500px] xl:max-w-[600px] 2xl:max-w-[650px] bg-transparent rounded-md mx-auto">
                      <div className="w-full" style={{ aspectRatio: '631/374' }}>
                        <div className="transform origin-center md:scale-100 lg:scale-[0.88] xl:scale-100 2xl:scale-100">
                          <Spline 

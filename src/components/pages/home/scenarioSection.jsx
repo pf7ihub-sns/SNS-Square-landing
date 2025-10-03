@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import BlackButton from "../../common/BlackButton";
+import { RevealOnScroll } from "../../gsap/reveal-on-scroll";
 
 const categories = [
   {
@@ -175,18 +176,66 @@ return (
         {/* Left column - restructured for proper alignment */}
         <div className="flex flex-col h-full sticky top-24">
           {/* Title section */}
-          <div className="mb-6 lg:mb-8">
-            <h3 className="font-manrope font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-tight text-black scenario-section">
-              Beyond Hype: <br/>Agentic AI in Action
-            </h3>
-          </div>
+          <RevealOnScroll direction="up" duration={0.6} delay={0} distance={30}>
+            <div className="mb-6 lg:mb-8">
+              <h3 className="font-manrope font-bold text-[28px] md:text-[32px] lg:text-[40px] leading-tight text-black scenario-section">
+                Beyond Hype: <br/>Agentic AI in Action
+              </h3>
+            </div>
+          </RevealOnScroll>
           
           {/* Description section */}
 
-
           {/* Mobile Tabs - only visible on mobile */}
-          <div className="w-full lg:hidden mb-6 overflow-x-auto scrollbar-hide">
-            <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'min-content' }}>
+          <RevealOnScroll direction="up" duration={0.6} delay={0.1} distance={20}>
+            <div className="w-full lg:hidden mb-6 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'min-content' }}>
+                {categories.map((c) => (
+                  <button
+                    key={c.key}
+                    onClick={() => setActive(c.key)}
+                    className={
+                      (active === c.key
+                        ? "bg-black text-white"
+                        : "bg-white text-black border border-black/10 hover:bg-black/5") +
+                      " rounded-md px-4 py-2.5 whitespace-nowrap text-sm font-inter scenario-tab-button transition-all duration-300"
+                    }
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </RevealOnScroll>
+
+          {/* View More Button - positioned at bottom */}
+          
+          <div className="mt-auto">
+            <RevealOnScroll direction="up" duration={0.6} delay={0.2} distance={20}>
+              <div className="mb-6 lg:mb-8">
+                <p className="font-inter text-[#606060] text-[16px] md:text-[18px] leading-relaxed">
+                  We don't just build solutions, we drive impact. Our use cases show how Agentic AI, automation, and intelligent technologies solve real-world challenges from supply chains and healthcare to HR, IT, and insurance, delivering measurable results and new benchmarks for efficiency, innovation, and growth.
+                </p>
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll direction="up" duration={0.6} delay={0.3} distance={20}>
+              <BlackButton
+                size="medium"
+                variant="black"
+                className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300"
+                onClick={() => navigate("/usecase")}
+              >
+                View More
+              </BlackButton>
+            </RevealOnScroll>
+          </div>
+        </div>
+
+        {/* Right column */}
+        <div className="flex flex-col gap-4 lg:gap-6">
+          {/* Desktop Tabs */}
+          <RevealOnScroll direction="up" duration={0.6} delay={0.1} distance={20}>
+            <div className="hidden lg:flex flex-wrap gap-4 scenario-tabs mb-4 lg:mb-6">
               {categories.map((c) => (
                 <button
                   key={c.key}
@@ -195,112 +244,75 @@ return (
                     (active === c.key
                       ? "bg-black text-white"
                       : "bg-white text-black border border-black/10 hover:bg-black/5") +
-                    " rounded-[6px] px-4 py-2.5 whitespace-nowrap text-sm font-inter scenario-tab-button transition-all duration-300"
+                    " rounded-md px-4 py-2.5 lg:px-5 text-sm lg:text-base font-inter scenario-tab-button transition-all duration-300"
                   }
                 >
                   {c.label}
                 </button>
               ))}
             </div>
-          </div>
-
-          {/* View More Button - positioned at bottom */}
-          
-          <div className="mt-auto">
-                      <div className="mb-6 lg:mb-8">
-            <p className="font-inter text-[#606060] text-[16px] md:text-[18px] leading-relaxed">
-              We don't just build solutions, we drive impact. Our use cases show how Agentic AI, automation, and intelligent technologies solve real-world challenges from supply chains and healthcare to HR, IT, and insurance, delivering measurable results and new benchmarks for efficiency, innovation, and growth.
-            </p>
-          </div>
-            <BlackButton
-              size="medium"
-              variant="black"
-              className="text-lg font-medium font-manrope px-6 py-3 w-fit hover:scale-105 transition-transform duration-300"
-              onClick={() => navigate("/usecase")}
-            >
-              View More
-            </BlackButton>
-          </div>
-        </div>
-
-        {/* Right column */}
-        <div className="flex flex-col gap-4 lg:gap-6">
-          {/* Desktop Tabs */}
-          <div className="hidden lg:flex flex-wrap gap-4 scenario-tabs mb-4 lg:mb-6">
-            {categories.map((c) => (
-              <button
-                key={c.key}
-                onClick={() => setActive(c.key)}
-                className={
-                  (active === c.key
-                    ? "bg-black text-white"
-                    : "bg-white text-black border border-black/10 hover:bg-black/5") +
-                  " rounded-[6px] px-4 py-2.5 lg:px-5 text-sm lg:text-base font-inter scenario-tab-button transition-all duration-300"
-                }
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
+          </RevealOnScroll>
 
           {/* Row 2: slider container (peek next slide) */}
-          <div
-            ref={viewportRef}
-            className="relative w-full bg-transparent rounded-[4px] h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
-            style={{ clipPath: "inset(0 -100vw 0 0)" }}
-            onMouseDown={onPointerDown}
-            onMouseMove={onPointerMove}
-            onMouseUp={onPointerUp}
-            onMouseLeave={onPointerUp}
-            onTouchStart={onPointerDown}
-            onTouchMove={onPointerMove}
-            onTouchEnd={onPointerUp}
-          >
+          <RevealOnScroll direction="up" duration={0.8} delay={0.2} distance={40}>
             <div
-              ref={trackRef}
-              className="absolute inset-0 flex gap-4 will-change-transform"
-              style={{ transform: `translateX(${offset}px)`, transition: isDragging ? 'none' : 'transform 500ms ease-out' }}
+              ref={viewportRef}
+              className="relative w-full bg-transparent rounded-md h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
+              style={{ clipPath: "inset(0 -100vw 0 0)" }}
+              onMouseDown={onPointerDown}
+              onMouseMove={onPointerMove}
+              onMouseUp={onPointerUp}
+              onMouseLeave={onPointerUp}
+              onTouchStart={onPointerDown}
+              onTouchMove={onPointerMove}
+              onTouchEnd={onPointerUp}
             >
-              {categories.map((cat) => (
-                <div
-                  key={cat.key}
-                  className="h-full overflow-hidden group"
-                  style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}
-                >
-                  <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2 rounded-[6px] overflow-hidden">
-                    <img
-                      src={cat.images[0]}
-                      alt={cat.label}
-                      className="w-full h-full object-cover"
-                      draggable="false"
-                    />
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{ background: cat.gradient }}
-                    />
-                    <div className="absolute left-0 right-0 bottom-0 p-5 md:p-7">
-                      <h4 className="font-manrope font-semibold text-[24px] md:text-[28px] text-white group-hover:text-black text-left transform transition-all duration-500 ease-out group-hover:-translate-y-2">
-                        {cat.label}
-                      </h4>
-                      <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
-                        <p className="font-inter text-black/90 text-sm md:text-base mb-4">
-                          {cat.description}
-                        </p>
-                        <BlackButton
-                          size="small"
-                          variant="black"
-                          className="px-4 py-2"
-                          onClick={(e) => handleKnowMoreClick(e, cat.key)}
-                        >
-                          Know more
-                        </BlackButton>
+              <div
+                ref={trackRef}
+                className="absolute inset-0 flex gap-4 will-change-transform"
+                style={{ transform: `translateX(${offset}px)`, transition: isDragging ? 'none' : 'transform 500ms ease-out' }}
+              >
+                {categories.map((cat) => (
+                  <div
+                    key={cat.key}
+                    className="h-full overflow-hidden group"
+                    style={{ minWidth: `calc(100% - ${PEEK_PX}px)` }}
+                  >
+                    <div className="relative h-full w-full transition-transform duration-300 ease-out group-hover:-translate-y-2 rounded-md overflow-hidden">
+                      <img
+                        src={cat.images[0]}
+                        alt={cat.label}
+                        className="w-full h-full object-cover"
+                        draggable="false"
+                      />
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ background: cat.gradient }}
+                      />
+                      <div className="absolute left-0 right-0 bottom-0 p-5 md:p-7">
+                        <h4 className="font-manrope font-semibold text-[24px] md:text-[28px] text-white group-hover:text-black text-left transform transition-all duration-500 ease-out group-hover:-translate-y-2">
+                          {cat.label}
+                        </h4>
+                        <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out delay-75">
+                          <p className="font-inter text-black/90 text-sm md:text-base mb-4">
+                            {cat.description}
+                          </p>
+                          <BlackButton
+                            size="small"
+                            variant="black"
+                            className="px-4 py-2"
+                            onClick={(e) => handleKnowMoreClick(e, cat.key)}
+                          >
+                            Know more
+                          </BlackButton>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </div>
     </div>
