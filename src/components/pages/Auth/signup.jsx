@@ -1,28 +1,132 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import BlackButton from '../../common/BlackButton';
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import { useAuthStore } from '../../../store/store';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+  const { signUp, error, clearError } = useAuthStore();
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     rePassword: ''
-  })
+  });
+
+  const [formErrors, setFormErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const validateForm = () => {
+    const errors = {};
+    
+    // First Name validation
+    if (!formData.firstName.trim()) {
+      errors.firstName = 'First name is required';
+    } else if (formData.firstName.trim().length < 2) {
+      errors.firstName = 'First name must be at least 2 characters';
+    }
+
+    // Last Name validation (optional but if provided should be valid)
+    if (formData.lastName.trim() && formData.lastName.trim().length < 2) {
+      errors.lastName = 'Last name must be at least 2 characters';
+    }
+    
+    // Email validation
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    // Password validation
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      errors.password = 'Password must contain uppercase, lowercase, and number';
+    }
+    
+    // Re-enter Password validation
+    if (!formData.rePassword) {
+      errors.rePassword = 'Please confirm your password';
+    } else if (formData.password !== formData.rePassword) {
+      errors.rePassword = 'Passwords do not match';
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
-    }))
-  }
+    }));
+    
+    // Clear error for this field when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+    
+    // Clear API error and success message when user modifies form
+    if (apiError) {
+      setApiError('');
+      clearError();
+    }
+    if (successMessage) {
+      setSuccessMessage('');
+    }
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Add your signup logic here
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
+    setApiError('');
+    setSuccessMessage('');
+
+    try {
+      // Prepare signup data according to your API structure
+      const signUpData = {
+        name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
+        email: formData.email.trim(),
+        password: formData.password
+      };
+
+      const result = await signUp(signUpData);
+
+      if (result.success) {
+        setSuccessMessage(result.message || 'Account created successfully!');
+        
+        // Redirect to dashboard after successful signup
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
+      } else {
+        setApiError(result.error || 'Signup failed. Please try again.');
+      }
+    } catch (err) {
+      setApiError(err.message || 'An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter relative">
@@ -50,8 +154,25 @@ const SignupForm = () => {
               <h3 className="text-xl sm:text-2xl font-semibold">Sign up</h3>
               <p className="text-gray-500 mb-4 sm:mb-4 mt-4 sm:mt-4 text-sm sm:text-base">Let's get Start</p>
 
+              {/* Success Alert */}
+              {successMessage && (
+                <Alert severity="success" onClose={() => setSuccessMessage('')} className="mb-4">
+                  {successMessage}
+                </Alert>
+              )}
+
+              {/* Error Alert */}
+              {(apiError || error) && (
+                <Alert severity="error" onClose={() => {
+                  setApiError('');
+                  clearError();
+                }} className="mb-4">
+                  {apiError || error}
+                </Alert>
+              )}
+
               <form onSubmit={handleSubmit}>
-                <div className=" py-4 gap-4  flex flex-col">
+                <div className="py-4 gap-4 flex flex-col">
                   <div className="grid grid-cols-2 gap-4">
                     <TextField
                       type="text"
@@ -62,6 +183,9 @@ const SignupForm = () => {
                       variant="standard"
                       fullWidth
                       required
+                      error={!!formErrors.firstName}
+                      helperText={formErrors.firstName}
+                      disabled={isLoading}
                       InputLabelProps={{
                         sx: { color: '#6B7280' }
                       }}
@@ -85,6 +209,9 @@ const SignupForm = () => {
                       label="Last Name"
                       variant="standard"
                       fullWidth
+                      error={!!formErrors.lastName}
+                      helperText={formErrors.lastName}
+                      disabled={isLoading}
                       InputLabelProps={{
                         sx: { color: '#6B7280' }
                       }}
@@ -111,6 +238,9 @@ const SignupForm = () => {
                     variant="standard"
                     fullWidth
                     required
+                    error={!!formErrors.email}
+                    helperText={formErrors.email}
+                    disabled={isLoading}
                     InputLabelProps={{
                       sx: { color: '#6B7280' }
                     }}
@@ -136,6 +266,9 @@ const SignupForm = () => {
                     variant="standard"
                     fullWidth
                     required
+                    error={!!formErrors.password}
+                    helperText={formErrors.password}
+                    disabled={isLoading}
                     InputLabelProps={{
                       sx: { color: '#6B7280' }
                     }}
@@ -161,6 +294,9 @@ const SignupForm = () => {
                     variant="standard"
                     fullWidth
                     required
+                    error={!!formErrors.rePassword}
+                    helperText={formErrors.rePassword}
+                    disabled={isLoading}
                     InputLabelProps={{
                       sx: { color: '#6B7280' }
                     }}
@@ -178,10 +314,26 @@ const SignupForm = () => {
                   />
                 </div>
 
-                <p className="text-gray-500 mt-6 mb-6">By continuing, you agree to our <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">Terms of Service</a></p>
+                <p className="text-gray-500 mt-6 mb-6 text-sm sm:text-base">
+                  By continuing, you agree to our{' '}
+                  <a href="/terms-of-service" className="text-blue-600 hover:text-blue-800">
+                    Terms of Service
+                  </a>
+                </p>
 
-                <BlackButton className="w-full bg-black">
-                  Continue
+                <BlackButton 
+                  type="submit"
+                  className="w-full bg-black"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <CircularProgress size={20} sx={{ color: 'white' }} />
+                      <span>Creating account...</span>
+                    </div>
+                  ) : (
+                    'Continue'
+                  )}
                 </BlackButton>
               </form>
             </div>
@@ -193,7 +345,7 @@ const SignupForm = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

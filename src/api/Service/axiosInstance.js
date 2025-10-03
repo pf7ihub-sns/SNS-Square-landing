@@ -7,12 +7,11 @@ const hostname = typeof window !== "undefined" ? window.location.hostname : "";
 
 let apiUrl = envBaseUrl;
 if (!apiUrl) {
-  if (hostname === "localhost") {
-    apiUrl = "http://localhost:3000/api/v1/";
-  } else if (hostname === "staging.startzyai.com") {
-    apiUrl = "https://apistage.startzyai.com/api/routes";
-  } else {
-    apiUrl = "https://api.startzyai.com/api/routes";
+    apiUrl = "http://localhost:3000/api/v1/"; // default
+    if (hostname === "snssquare.com" || hostname === "www.snssquare.com") {
+        apiUrl = "https://api.snssquare.com/api/v1/";
+    } else if (hostname === "staging.snssquare.com") {
+        apiUrl = "https://staging-api.snssquare.com/api/v1/";
   }
 }
 
