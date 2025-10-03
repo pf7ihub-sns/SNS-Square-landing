@@ -26,52 +26,41 @@ const leadershipTeam = [
   }
 ];
 
-// Laptop Certificate Section Component
+// Updated Laptop Certificate Section with SVG instead of text
 const LaptopCertificateSection = () => (
   <div className="relative z-10 w-full px-4 lg:px-20 pb-16 lg:pb-24">
     <div className="w-full max-w-[1200px] h-[450px] relative bg-white rounded shadow-[0px_0px_46.20000076293945px_2px_rgba(0,0,0,0.25)] outline outline-[1.50px] outline-offset-[-1.50px] outline-sky-950/40 mx-auto overflow-hidden">
       
-      {/* Left Content Area - Better centered */}
-      <div className="absolute left-8 top-0 w-[50%] h-full py-12 px-6 flex flex-col justify-center">
+      {/* Left Content Area - Header and SVG */}
+      <div className="absolute left-8 top-0 w-[48%] h-full py-12 px-6 flex flex-col justify-center">
         
         {/* Header - Properly aligned */}
-        <div className="mb-8 text-center">
+        <div className="mb-6 text-center">
           <h2 className="text-neutral-800 text-2xl font-bold mb-4 leading-tight">
             Our Awards &<br />Achievements
           </h2>
           <div className="w-56 h-0.5 bg-blue-700 mx-auto"></div>
         </div>
 
-        {/* Award Content - Better spacing */}
-        <div className="flex flex-col items-center text-center space-y-3">
-          
-          {/* Award Title - Properly spaced */}
-          <div className="space-y-2">
-            <h3 className="text-red-600 text-xl font-bold">
-              CIO Tech Outlook
-            </h3>
-            <h4 className="text-neutral-800 text-base font-medium">
-              10 Most Promising
-            </h4>
-            <h4 className="text-red-600 text-2xl font-bold tracking-wide">
-              AGENTIC AI STARTUPS
-            </h4>
-            <h4 className="text-neutral-800 text-xl font-bold">
-              2025
-            </h4>
-          </div>
+        {/* SVG Content - Scaled down and centered */}
+        <div className="w-full h-[200px] flex justify-center items-center">
+          <img 
+            src="/images/certificationsection/certificationtext.svg" 
+            alt="CIO Tech Outlook Award - 10 Most Promising Agentic AI Startups 2025" 
+            className="w-full h-full object-contain max-w-[320px]"
+          />
+        </div>
 
-          {/* Description - Better positioned */}
-          <div className="pt-4">
-            <p className="text-neutral-600 text-sm leading-relaxed max-w-[320px]">
-              Awarded by CIO Tech Outlook for having the 10 most promising Agentic AI Startups
-            </p>
-          </div>
+        {/* Description - Better positioned */}
+        <div className="pt-4">
+          <p className="text-neutral-600 text-sm leading-relaxed text-center max-w-[320px] mx-auto">
+            Awarded by CIO Tech Outlook for having the 10 most promising Agentic AI Startups
+          </p>
         </div>
       </div>
 
-      {/* Right Certificate Image Area - Better positioned and centered */}
-      <div className="absolute right-6 pt-65 transform -translate-y-1/2 w-[42%] h-[80%]">
+      {/* Right Certificate Image Area - Properly positioned */}
+      <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-[44%] h-[75%]">
         <CometCard rotateDepth={10} translateDepth={10}>
           <div className="w-full h-full rounded-lg overflow-hidden cursor-pointer border border-black/20 shadow-xl">
             <img
@@ -106,7 +95,7 @@ const LeadershipAndCertificate = () => {
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
-  // Mobile Layout
+  // Mobile Layout (unchanged)
   const MobileLayout = () => (
     <div className="w-full min-h-screen relative overflow-hidden">
       
@@ -204,7 +193,7 @@ const LeadershipAndCertificate = () => {
     </div>
   );
 
-  // Desktop Layout (Your existing layout)
+  // Desktop Layout
   const DesktopLayout = () => (
     <div className="w-full min-h-screen relative overflow-hidden">
       
