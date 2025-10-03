@@ -104,7 +104,7 @@ const FormField = ({
   };
 
   return (
-    <Box sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: '100%' }}>
       {isDropdown ? (
         <TextField
           select
@@ -443,7 +443,7 @@ const JobApplication = () => {
                 </h4>
               </div>
 
-              <div className="space-y-6">
+              <div className="gap-4 flex flex-col">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField
                     label="First Name"
@@ -517,7 +517,7 @@ const JobApplication = () => {
                 </h4>
               </div>
 
-              <div className="space-y-6">
+              <div className="gap-4 flex flex-col">
                 <FormField
                   label="Year of Graduation"
                   value={formData.yearOfGraduation}
