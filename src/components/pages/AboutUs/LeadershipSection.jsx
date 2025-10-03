@@ -75,6 +75,51 @@ const LaptopCertificateSection = () => (
   </div>
 );
 
+// Medium Desktop Certificate Section (1280px-1440px)
+const MediumDesktopCertificateSection = () => (
+  <div className="relative z-10 w-full px-8 xl:px-16 pb-16 xl:pb-24">
+    <div className="w-full max-w-[1300px] h-[480px] relative bg-white rounded shadow-[0px_0px_46.20000076293945px_2px_rgba(0,0,0,0.25)] outline outline-[1.50px] outline-offset-[-1.50px] outline-sky-950/40 mx-auto overflow-hidden">
+      
+      {/* Header Section */}
+      <div className="absolute left-12 top-8 w-full max-w-[500px] flex flex-col items-center gap-3.5">
+        <h2 className="w-full text-center text-neutral-800 text-3xl font-bold whitespace-nowrap">
+          Our Awards & Achievements
+        </h2>
+        <div className="w-64 h-0.5 bg-blue-700 opacity-70"></div>
+      </div>
+
+      {/* SVG Content Section */}
+      <div className="absolute left-12 top-24 w-[450px] h-[240px] flex justify-center items-center pt-8">
+        <img 
+          src="/images/certificationsection/certificationtext.svg" 
+          alt="CIO Tech Outlook Award - 10 Most Promising Agentic AI Startups 2025" 
+          className="w-full h-full object-contain max-w-[400px]"
+        />
+      </div>
+
+      {/* Description Text */}
+      <div className="absolute left-16 bottom-20 w-[400px]">
+        <p className="w-full text-center text-neutral-800 font-inter text-base leading-relaxed">
+          Awarded by CIO Tech Outlook for having the 10 most promising Agentic AI Startups
+        </p>
+      </div>
+
+      {/* Certificate Image - Balanced positioning */}
+      <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-[420px] h-[360px]">
+        <CometCard rotateDepth={12} translateDepth={12}>
+          <div className="w-full h-full rounded-lg overflow-hidden cursor-pointer border border-black/30 shadow-xl">
+            <img
+              src="/images/certificate.webp"
+              alt="SNS Square Certificate of Achievement - Top 10 Agentic AI Startups 2025"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+        </CometCard>
+      </div>
+    </div>
+  </div>
+);
+
 const LeadershipAndCertificate = () => {
   const [screenSize, setScreenSize] = useState('desktop');
 
@@ -85,6 +130,8 @@ const LeadershipAndCertificate = () => {
         setScreenSize('mobile');
       } else if (width >= 1024 && width <= 1279) {
         setScreenSize('laptop');
+      } else if (width >= 1280 && width <= 1440) {
+        setScreenSize('medium-desktop');
       } else {
         setScreenSize('desktop');
       }
@@ -253,9 +300,11 @@ const LeadershipAndCertificate = () => {
         </div>
       </div>
 
-      {/* Certificate Section - Conditional Rendering */}
+      {/* Certificate Section - Conditional Rendering for different screen sizes */}
       {screenSize === 'laptop' ? (
         <LaptopCertificateSection />
+      ) : screenSize === 'medium-desktop' ? (
+        <MediumDesktopCertificateSection />
       ) : (
         <div className="relative z-10 w-full px-4 lg:px-28 pb-16 lg:pb-24">
           
