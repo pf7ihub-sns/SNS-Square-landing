@@ -26,7 +26,7 @@ const WhyWeAreHereSection = () => {
 
             <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-0 h-full">
               {/* Left Content Area */}
-              <div className="lg:absolute lg:left-[35px] lg:top-[44px] lg:w-[505px] flex flex-col justify-center lg:justify-start">
+              <div className="lg:absolute lg:left-[35px] lg:top-[44px] xl:w-[540px] lg:w-[400px] flex flex-col justify-center lg:justify-start">
                 {/* Main Heading - Uses h3 from index.css */}
                 <h3 className="text-black font-bold font-manrope mb-4 sm:mb-6 lg:mb-[110px] leading-tight">
                   Accelerate growth at the new speed of business
@@ -56,7 +56,7 @@ const WhyWeAreHereSection = () => {
               </div>
 
               {/* Right Image Placeholder */}
-              <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full lg:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] rounded overflow-hidden">
+              <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full xl:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] lg:w-[500px] rounded overflow-hidden">
                 <img
                   src="/images/About_us/About us.jpg" // replace with your image path
                   alt="Descriptive Alt Text"
