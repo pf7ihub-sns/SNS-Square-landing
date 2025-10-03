@@ -44,7 +44,7 @@ const CoreServiceSection = () => {
   const [active, setActive] = useState(TABS[0]);
 
   return (
-    <div className="px-4 xs:px-5 sm:px-6 lg:px-8 py-6 md:py-10 lg:py-14">
+    <div className="px-4 xs:px-5 sm:px-6 lg:px-8 py-6 md:py-10 lg:py-14 overflow-x-hidden">
       <div className="max-w-[1480px] mx-auto">
         {/* Row 1: heading + paragraph */}
         <RevealOnScroll direction="up" duration={0.8} delay={0}>
@@ -62,7 +62,7 @@ const CoreServiceSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-4 md:gap-6 lg:gap-10 items-start">
           {/* Left column: 5 rows (H6) */}
           <RevealOnScroll direction="left" duration={0.8} delay={0.2}>
-            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible -mx-4 px-4 lg:mx-0 lg:px-0 gap-3 lg:gap-4 pb-4 lg:pb-0">
+            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible -mx-4 px-4 lg:mx-0 lg:px-0 gap-3 lg:gap-4 pb-4 lg:pb-0 scrollbar-hide">
               {TABS.map((t, index) => (
                 <RevealOnScroll key={t.key} direction="up" duration={0.6} delay={0.3 + (index * 0.1)}>
                   <button
@@ -71,11 +71,11 @@ const CoreServiceSection = () => {
                       (active.key === t.key
                         ? 'bg-[#1357E5] text-white'
                         : 'bg-[#F8F8F8] text-black hover:bg-[#F0F0F0]') +
-                      ' flex-shrink-0 lg:flex-shrink text-left rounded-md px-4 py-3 md:py-4 lg:py-6 transition-colors flex items-center gap-3 lg:gap-4 w-auto lg:w-full'
+                      ' flex-shrink-0 lg:flex-shrink text-left rounded-md px-4 py-3 md:py-4 lg:py-6 transition-colors flex items-center gap-3 lg:gap-4 w-auto lg:w-full whitespace-nowrap'
                     }
                   >
                     <img src={t.icon} alt={t.label} className="w-5 h-5 md:w-6 md:h-6" />
-                    <h6 className="font-manrope font-medium text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] whitespace-nowrap lg:whitespace-normal">
+                    <h6 className="font-manrope font-medium text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px]">
                       {t.label}
                     </h6>
                   </button>

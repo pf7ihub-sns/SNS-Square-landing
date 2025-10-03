@@ -10,8 +10,17 @@ import CoreServiceSection from "./CoreServiceSection";
 
 const Home = () => {
   return (
-    <div className="w-full bg-white min-h-screen">
+    <div className="w-full bg-white min-h-screen overflow-x-hidden">
       <style dangerouslySetInnerHTML={{__html: `
+        /* Global overflow prevention */
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          overflow-x: hidden !important;
+        }
+        
         /* Responsive fixes for specific breakpoints */
         @media (min-width: 398px) and (max-width: 639px) {
           .responsive-container {
@@ -158,6 +167,28 @@ const Home = () => {
           }
         }
         
+        /* Additional mobile overflow fixes */
+        @media (max-width: 768px) {
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          
+          /* Ensure all containers respect viewport width */
+          .container, .max-w-\\[1480px\\] {
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+          }
+          
+          /* Fix any elements that might cause horizontal overflow */
+          * {
+            max-width: 100% !important;
+          }
+        }
+        
         @media (min-width: 768px) and (max-width: 1023px) {
           .mobile-image-fill {
             max-width: 280px !important;
@@ -189,6 +220,37 @@ const Home = () => {
           .idea-suite-section h3,
           .scenario-section h3 {
             font-size: 36px !important; /* Restore larger heading size */
+          }
+        }
+        
+        /* Fix logo overlapping in ExpertsTechSection for tablet views */
+        @media (min-width: 640px) and (max-width: 768px) {
+          .experts-tech-section {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          .experts-tech-section .logoloop-container {
+            --logoloop-gap: 48px !important;
+            --logoloop-logoHeight: 24px !important;
+          }
+          .experts-tech-section .logoloop-container img {
+            max-width: 80px !important;
+            height: 24px !important;
+          }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1023px) {
+          .experts-tech-section {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+          }
+          .experts-tech-section .logoloop-container {
+            --logoloop-gap: 40px !important;
+            --logoloop-logoHeight: 26px !important;
+          }
+          .experts-tech-section .logoloop-container img {
+            max-width: 100px !important;
+            height: 26px !important;
           }
         }
       `}} />

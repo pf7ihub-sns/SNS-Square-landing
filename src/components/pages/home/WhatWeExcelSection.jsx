@@ -173,7 +173,7 @@ const WhatWeExcelSection = () => {
   };
 
   return (
-    <section ref={sectionRef}   className="px-4 xs:px-5 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20 bg-cover bg-center bg-no-repeat relative"
+    <section ref={sectionRef}   className="px-4 xs:px-5 sm:px-10 lg:px-12 py-12 md:py-16 lg:py-20 bg-cover bg-center bg-no-repeat relative overflow-x-hidden"
       style={{ backgroundImage: "url('/images/home/what-we-excel.png')" }}/* onWheel={handleWheel} */>
       <div className="max-w-[1480px] mx-auto">
         <RevealOnScroll direction="up" duration={0.6} delay={0} distance={20}>
@@ -190,7 +190,7 @@ const WhatWeExcelSection = () => {
 
         {/* Tabs */}
         <RevealOnScroll direction="up" duration={0.6} delay={0.1} distance={20}>
-          <div className="flex gap-2 md:gap-5 w-full mb-6 md:mb-8">
+          <div className="flex gap-2 md:gap-5 w-full mb-6 md:mb-8 overflow-x-auto scrollbar-hide">
             {tabsData.map((t) => (
               <Button
                 key={t.key}
@@ -198,7 +198,7 @@ const WhatWeExcelSection = () => {
                 variant={active === t.key ? "black" : "black-outline2"}
                 size="medium"
                 fullWidth
-                className="flex-1 text-center text-sm"
+                className="flex-1 text-center text-sm whitespace-nowrap"
               >
                 {t.label}
               </Button>
@@ -214,7 +214,7 @@ const WhatWeExcelSection = () => {
           >
             <div className="absolute inset-0 bg-white/20" />
             <div className="relative z-10 h-full flex items-center">
-              <div className="p-6 md:p-10 lg:p-12 max-w-[760px]">
+              <div className="p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12 max-w-[760px]">
                 {active === "differentiators" ? (
                   <div>
                     <h2 className="leading-tight mb-6 text-xl sm:text-2xl">

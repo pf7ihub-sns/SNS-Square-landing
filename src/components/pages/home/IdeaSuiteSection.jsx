@@ -51,7 +51,7 @@ const IdeaSuiteSection = () => {
   };
 
   return (
-    <section className="px-4 xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+    <section className="px-4 xs:px-5 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20 overflow-x-hidden">
       <div className="max-w-[1480px] mx-auto">
         <RevealOnScroll direction="up" duration={0.8} delay={0}>
           <div className="mb-8 lg:mb-12">

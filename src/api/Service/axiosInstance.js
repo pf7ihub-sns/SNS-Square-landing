@@ -7,7 +7,7 @@ const hostname = typeof window !== "undefined" ? window.location.hostname : "";
 
 let apiUrl = envBaseUrl;
 if (!apiUrl) {
-    apiUrl = "http://localhost:3000/api/v1/"; // default
+    apiUrl = "https://sns-square-landing-backend.onrender.com/api/v1/"; // default
     if (hostname === "snssquare.com" || hostname === "www.snssquare.com") {
         apiUrl = "https://api.snssquare.com/api/v1/";
     } else if (hostname === "staging.snssquare.com") {

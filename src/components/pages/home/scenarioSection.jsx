@@ -171,7 +171,7 @@ return (
     className="w-full bg-no-repeat bg-cover bg-center overflow-hidden"
     style={{ backgroundImage: "url('/images/home/Background-home-RS.png')" }}
   >
-    <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+    <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 overflow-x-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-6 lg:gap-10 items-start">
         {/* Left column - restructured for proper alignment */}
         <div className="flex flex-col h-full sticky top-24">
@@ -189,7 +189,7 @@ return (
           {/* Mobile Tabs - only visible on mobile */}
           <RevealOnScroll direction="up" duration={0.6} delay={0.1} distance={20}>
             <div className="w-full lg:hidden mb-6 overflow-x-auto scrollbar-hide">
-              <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'min-content' }}>
+              <div className="flex gap-2 scenario-tabs pb-2" style={{ minWidth: 'max-content' }}>
                 {categories.map((c) => (
                   <button
                     key={c.key}
@@ -257,7 +257,7 @@ return (
           <RevealOnScroll direction="up" duration={0.8} delay={0.2} distance={40}>
             <div
               ref={viewportRef}
-              className="relative w-full bg-transparent rounded-md h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing"
+              className="relative w-full bg-transparent rounded-md h-[380px] md:h-[440px] lg:h-[480px] cursor-grab active:cursor-grabbing overflow-hidden"
               style={{ clipPath: "inset(0 -100vw 0 0)" }}
               onMouseDown={onPointerDown}
               onMouseMove={onPointerMove}

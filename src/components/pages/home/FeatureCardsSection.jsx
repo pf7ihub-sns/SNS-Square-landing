@@ -49,7 +49,7 @@ const FeatureCardsSection = () => {
   }, []);
 
   return (
-    <div className="relative z-30 py-12 md:py-16 lg:py-20 xl:py-24">
+    <div className="relative z-30 py-12 md:py-16 lg:py-20 xl:py-24 overflow-x-hidden">
       <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-4">
         <RevealOnScroll direction="up" duration={0.8} delay={0}>
           <div className="flex justify-between items-start md:items-center">
@@ -70,7 +70,7 @@ const FeatureCardsSection = () => {
         </RevealOnScroll>
         
         {/* Three image-backed cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-8 mt-6 md:mt-8 lg:mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-8 mt-6 md:mt-8 lg:mt-10">
           {/* Card 1 */}
           <RevealOnScroll direction="up" duration={0.8} delay={0.3}>
             <article
@@ -86,7 +86,7 @@ const FeatureCardsSection = () => {
               }}
             >
               <div className="absolute inset-0 bg-white/10" />
-              <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div className="relative p-4 sm:p-6 md:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
                 <div>
                   <h4
                     className="inline-block leading-normal"
@@ -122,7 +122,7 @@ const FeatureCardsSection = () => {
               }}
             >
               <div className="absolute inset-0 bg-white/10" />
-              <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div className="relative p-4 sm:p-6 md:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
                 <div>
                   <h4 
                   className="inline-block leading-normal"
@@ -157,7 +157,7 @@ const FeatureCardsSection = () => {
               }}
             >
               <div className="absolute inset-0 bg-white/10" />
-              <div className="relative p-6 sm:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
+              <div className="relative p-4 sm:p-6 md:p-8 h-[480px] md:h-[560px] flex flex-col justify-between">
                 <div>
                   <h4 style={{
                     background: "linear-gradient(90deg, #1357E5 0%, #002E8E 100%)",
