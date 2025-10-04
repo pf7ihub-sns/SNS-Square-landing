@@ -1,24 +1,11 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../../../common/AIDocsSidebar";
-// Import icons as regular images (we'll copy them from the Next.js public folder)
-// Using try-catch approach for imports that might not exist
-let docIcon, jsonIcon, mdIcon, pdfIcon, txtIcon;
-try {
-  docIcon = require("../AI_Docs/public/icons/doc.png").default || "../AI_Docs/public/icons/doc.png";
-  jsonIcon = require("../AI_Docs/public/icons/json.png").default || "../AI_Docs/public/icons/json.png";
-  mdIcon = require("../AI_Docs/public/icons/md.png").default || "../AI_Docs/public/icons/md.png";
-  pdfIcon = require("../AI_Docs/public/icons/pdf.png").default || "../AI_Docs/public/icons/pdf.png";
-  txtIcon = require("../AI_Docs/public/icons/txt.png").default || "../AI_Docs/public/icons/txt.png";
-} catch (error) {
-  // Fallback to placeholder if images don't exist
-  console.warn("Icon images not found, using placeholders");
-  docIcon = jsonIcon = mdIcon = pdfIcon = txtIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3C/svg%3E";
-}
-
-// Types
-const Message = {};
-const DocumentType = {};
-const Toast = {};
+// Using SVG icons as data URIs since PNG files don't exist in public/icons/
+const docIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cline x1='10' y1='9' x2='8' y2='9'/%3E%3C/svg%3E";
+const jsonIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F59E0B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cpath d='M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1m4 0a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1'/%3E%3C/svg%3E";
+const mdIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2310B981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cpath d='M10 13l2 2 4-4'/%3E%3C/svg%3E";
+const pdfIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23DC2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cpath d='M16 13H8'/%3E%3Cpath d='M16 17H8'/%3E%3Cpath d='M10 9H8'/%3E%3C/svg%3E";
+const txtIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cline x1='10' y1='9' x2='8' y2='9'/%3E%3C/svg%3E";
 
 function ChatPage() {
   const [documents, setDocuments] = useState([]);
@@ -481,7 +468,7 @@ function ChatPage() {
   }
 
   return (
-    <div className="flex h-screen bg-white pt-22 pb-1 text-black">
+    <div className="flex h-screen bg-white pt-22 text-black">
       {/* Toast Container */}
       <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((toast) => (
@@ -838,8 +825,8 @@ function ChatPage() {
                   </div>
                 )}
                 
-                <div className="flex gap-2">
-                  <div className="relative">
+                <div className="flex gap-2 items-end" style={{ position: 'relative', zIndex: 1 }}>
+                  <div className="relative flex-shrink-0">
                     <input
                       type="file"
                       id="file-upload"
@@ -866,16 +853,35 @@ function ChatPage() {
                         handleKeyDown(e);
                       }
                     }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.target.focus();
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.outline = 'none';
+                    }}
                     placeholder="Type your message..."
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
                     disabled={loading}
                     rows={1}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    style={{ 
+                      minHeight: '48px',
+                      cursor: loading ? 'not-allowed' : 'text',
+                      pointerEvents: loading ? 'none' : 'auto',
+                      backgroundColor: loading ? '#f3f4f6' : 'white',
+                      zIndex: 10,
+                      position: 'relative'
+                    }}
                   />
                   
                   <button
                     onClick={sendMessage}
                     disabled={loading || (!inputText.trim() && !file)}
-                    className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                    className="flex-shrink-0 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                   >
                     {loading ? (
                       <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
