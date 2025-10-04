@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { AiOutlineCloudUpload, AiOutlineFilePdf, AiOutlineFileWord, AiOutlineFile } from 'react-icons/ai';
 import { MdClose, MdCheck } from 'react-icons/md';
+import SEO from "../../common/SEO";
 
 // Toast Component
 const Toast = ({ show, message, type = 'success', onClose }) => {
@@ -241,6 +242,13 @@ const ResumeUpload = ({ uploadedFiles, setUploadedFiles }) => {
 
   return (
     <div className="w-full">
+      <SEO 
+        title="Job Application | SNS Square"
+        description="Apply for the UI/UX Designer position at SNS Square. This role involves experience in manual and automation testing, knowledge of Java Programming, MySQL/PgSQL, Selenium, and Jmeter, and more."
+        keywords="SNS Square, Job Application, UI/UX Designer, Manual Testing, Automation Testing, Java Programming, MySQL/PgSQL, Selenium, Jmeter"
+        image="https://www.snssquare.com/images/og/job-application-og.jpg"
+        url="https://www.snssquare.com/careers/job-application"
+      />
       {/* Upload Area */}
       <div
         onDragEnter={handleDragEnter}

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import countryList from 'react-select-country-list';
+import SEO from '../../common/SEO';
 import BlackButton from '../../common/BlackButton';
 import Footer from './Footer';
 import TextField from '@mui/material/TextField';
@@ -156,6 +157,13 @@ const ContactUsPage = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter ">
+      <SEO 
+        title="Contact Us | SNS Square"
+        description="Connect with SNS Square experts to explore your business use case, learn about our Agentic AI platform, and schedule a consultation to drive innovation and value."
+        keywords="SNS Square Contact, Agentic AI Consultation, Business Use Cases, AI Experts, Schedule Meeting, AI Solutions"
+        image="https://www.snssquare.com/images/og/contact-us-og.jpg"
+        url="https://www.snssquare.com/contact-us"
+      />
       <div className="bg-fill p-6 bg-gradient-to-t from-transparent to-white h-[100%]">
         {/* Main Content */}
         <main className="max-w-7xl mx-auto mt-24 pb-8 pt-4">

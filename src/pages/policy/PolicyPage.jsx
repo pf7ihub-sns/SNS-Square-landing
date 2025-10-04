@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import SEO from "../../components/common/SEO";
 
 const PolicyPage = () => {
   const [activeSection, setActiveSection] = useState('Privacy Policy');
@@ -184,6 +184,13 @@ const PolicyPage = () => {
 
   return (
     <div className="w-full min-h-screen pt-6 sm:pt-8 lg:pt-10 bg-white relative overflow-hidden">
+      <SEO 
+        title="Policy | SNS Square"
+        description="This Privacy Policy outlines the information we collect from you, how we use it, and your rights regarding your personal data. It also explains how we protect your information and share it with third parties."
+        keywords="SNS Square, Policy, Privacy Policy, Terms of Service, Acceptable Use Policy, Cookie Policy"
+        image="https://www.snssquare.com/images/og/policy-og.jpg"
+        url="https://www.snssquare.com/policy"
+      />
       {/* Background Elements */}
       <div className="w-full h-60 sm:h-80 lg:h-96 absolute top-[60px] sm:top-[75px] lg:top-[93px] opacity-40">
         <div className="w-[400px] h-[300px] sm:w-[600px] sm:h-[450px] lg:w-[803px] lg:h-[619px] absolute right-[-50px] sm:right-[-75px] lg:right-[-97px] top-[-120px] sm:top-[-160px] lg:top-[-212px] opacity-25 bg-sky-400 rounded-full blur-[150px] sm:blur-[200px] lg:blur-[250px]" />

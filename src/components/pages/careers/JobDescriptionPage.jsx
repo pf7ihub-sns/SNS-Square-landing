@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import JodDecriptionHero from './JodDecriptionHero'
+import SEO from "../../common/SEO";
 
 const JobDescriptionPage = () => {
   const navigate = useNavigate();
@@ -11,6 +12,13 @@ const JobDescriptionPage = () => {
 
   return (
     <div className="w-full bg-white">
+      <SEO 
+        title="Job Description | SNS Square"
+        description="Learn about the job description for the UI/UX Designer position at SNS Square. This role involves experience in manual and automation testing, knowledge of Java Programming, MySQL/PgSQL, Selenium, and Jmeter, and more."
+        keywords="SNS Square, Job Description, UI/UX Designer, Manual Testing, Automation Testing, Java Programming, MySQL/PgSQL, Selenium, Jmeter"
+        image="https://www.snssquare.com/images/og/job-description-og.jpg"
+        url="https://www.snssquare.com/careers/job-description"
+      />
       <JodDecriptionHero />
 
       <div className="w-full max-w-[1440px] mx-auto pt-6 sm:pt-8 px-4 sm:px-4 lg:px-8">

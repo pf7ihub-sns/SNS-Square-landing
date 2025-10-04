@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import ReactGA from "react-ga4";
-import UseCase from "../pages/UseCase/UseCase";
-import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail";
-import LifeAtSNSSquare from "../pages/lifeAtSnsSquare";
-import HomePage from '../pages/Home';
-import AboutUsPage from '../pages/aboutUs';
-import Careers from '../pages/careers';
-import ContactUs from '../pages/contactUs';
+import UseCase from "../pages/UseCase/UseCase"; //
+import UseCaseDetail from "../pages/UseCase/useCaseDetail/UseCaseDetail"; //
+import LifeAtSNSSquare from "../pages/lifeAtSnsSquare"; //
+import HomePage from '../pages/Home'; //
+import AboutUsPage from '../pages/aboutUs'; //
+import Careers from '../pages/careers'; //
+import ContactUs from '../pages/contactUs';  //
 import AgentsDetails from "../pages/agentWorkbench/AgentsDetails";
 import CategoriesAgents from "../pages/agentWorkbench/CategoriesAgents";
 import Categories from "../pages/agentWorkbench/Categories";
-import AgentWorkbenchIndex from "../pages/agentWorkbench/Index";
-import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
+import AgentWorkbenchIndex from "../pages/agentWorkbench/Index"; //
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import AgentPlayGround from "../components/pages/agentWorkBench/AgentPlayGround";
@@ -22,12 +21,12 @@ import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
-import { BlogGrid, BlogDetail } from "../pages/blog";
-import JobDescription from "../pages/careers/JobDescription";
-import JobApplicationPage from "../pages/careers/JobApplicationPage";
-import PolicyPage from "../pages/policy/PolicyPage";
-import Login from "../pages/Auth/login";
-import Signup from "../pages/Auth/signup";
+import { BlogGrid, BlogDetail } from "../pages/blog"; //
+import JobDescription from "../pages/careers/JobDescription"; //
+import JobApplicationPage from "../pages/careers/JobApplicationPage"; //
+import PolicyPage from "../pages/policy/PolicyPage"; //
+import Login from "../pages/Auth/login"; //
+import Signup from "../pages/Auth/signup"; //
 
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();

@@ -3,6 +3,7 @@ import BlackButton from '../../common/BlackButton';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import SEO from '../../common/SEO';
 import { useAuthStore } from '../../../store/store';
 import { useNavigate } from 'react-router-dom';
 
@@ -130,6 +131,13 @@ const SignupForm = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter relative">
+      <SEO 
+        title="Sign Up | Join SNS Square Agentic AI Platform"
+        description="Create your SNS Square account to access cutting-edge Agentic AI solutions, agent workbench, and digital transformation tools. Start your journey with enterprise AI innovation."
+        keywords="SNS Square Signup, Create Account, Agentic AI Platform Registration, Enterprise AI Solutions, Agent Workbench Access, AI Platform Registration"
+        image="https://www.snssquare.com/images/og/signup-og.jpg"
+        url="https://www.snssquare.com/signup"
+      />
       <div className="flex items-center justify-center min-h-screen px-4 w-full bg-gradient-to-t from-transparent to-white relative">
         
         {/* Glass Cube Image - Background Layer */}

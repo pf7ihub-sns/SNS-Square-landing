@@ -5,6 +5,7 @@ import { FaInstagram } from "react-icons/fa6";
 import { RiShareForwardLine } from "react-icons/ri";
 import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import SEO from "../../common/SEO";
 import useCaseData from "../../../data/usecase.json";
 import { FaWhatsapp, FaLinkedinIn, FaInstagram as FaInsta, FaTimes } from 'react-icons/fa';
 
@@ -191,6 +192,18 @@ export default function ResponsiveUseCaseDetailPage() {
 
   return (
     <div className="min-h-screen bg-white pt-16 sm:pt-20 lg:pt-24">
+      <SEO 
+        title={`${useCase.title} | SNS Square Agentic AI Use Case`}
+        description={useCase.description || `Discover how SNS Square's Agentic AI solutions transform ${useCase.category?.toLowerCase() || 'business operations'}. Learn about our innovative AI implementation and measurable business impact.`}
+        keywords={`SNS Square, Agentic AI, ${useCase.category || 'AI Solutions'}, Business Automation, Digital Transformation, AI Use Case, ${useCase.title}, Enterprise AI Solutions`}
+        image={useCase.image || "https://www.snssquare.com/images/og/usecase-detail-og.jpg"}
+        url={`https://www.snssquare.com/usecase/${useCaseId}`}
+        type="article"
+        publishedTime="2024-08-18T00:00:00Z"
+        modifiedTime="2024-09-02T00:00:00Z"
+        section={useCase.category || "Use Cases"}
+        tags={[useCase.category, "Agentic AI", "Business Automation", "Digital Transformation"]}
+      />
       {/* Background gradient effects - Responsive */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-16 sm:top-20 lg:top-24 right-0 w-[400px] sm:w-[600px] lg:w-[800px] h-[300px] sm:h-[450px] lg:h-[600px] bg-blue-300/20 rounded-full blur-3xl opacity-45"></div>

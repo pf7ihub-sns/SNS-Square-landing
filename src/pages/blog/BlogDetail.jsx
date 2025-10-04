@@ -6,6 +6,7 @@ import { LuLinkedin } from 'react-icons/lu';
 import { FaInstagram } from 'react-icons/fa6';
 import { RiShareForwardLine } from "react-icons/ri";
 import { FaWhatsapp, FaLinkedinIn, FaInstagram as FaInsta, FaTimes } from 'react-icons/fa';
+import SEO from '../../components/common/SEO';
 
 // Import blog data
 import supplyChainData from '../../data/Blog/supplyChain.json';
@@ -526,6 +527,17 @@ const BlogDetail = () => {
 
   return (
     <div className="min-h-screen bg-white pt-16 sm:pt-20 lg:pt-24">
+      <SEO 
+        title={blog ? `${blog.title} - SNS Square Blog` : "Blog Post - SNS Square"}
+        description={blog ? blog.description : "Read the latest insights and articles from SNS Square on AI, technology, and digital transformation."}
+        keywords={blog ? blog.tags?.join(', ') : "AI blog, technology insights, digital transformation"}
+        url={`/resources/blog/${id}`}
+        type="article"
+        publishedTime={blog?.date}
+        modifiedTime={blog?.lastModified}
+        section={blog?.category}
+        tags={blog?.tags || []}
+      />
       {/* Background gradient effects - Responsive */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-16 sm:top-20 lg:top-24 right-0 w-[400px] sm:w-[600px] lg:w-[800px] h-[300px] sm:h-[450px] lg:h-[600px] bg-blue-300/20 rounded-full blur-3xl opacity-45"></div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import SEO from '../../common/SEO';
 import BlackButton from '../../common/BlackButton';
 import { useAuthStore } from '../../../store/store';
 
@@ -90,6 +91,13 @@ const LoginForm = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-[#b0c8f6] via-[#D8E9FC] to-[#d2efff] font-inter relative">
+            <SEO 
+                title="Login | SNS Square Agentic AI Platform"
+                description="Sign in to your SNS Square account to access our Agentic AI solutions, agent workbench, and digital transformation tools. Secure login for enterprise clients."
+                keywords="SNS Square Login, Agentic AI Platform Access, Secure Login, Enterprise AI Solutions, Agent Workbench Login, AI Platform Sign In"
+                image="https://www.snssquare.com/images/og/login-og.jpg"
+                url="https://www.snssquare.com/login"
+            />
             <div className="flex items-center justify-center min-h-screen px-4 w-full bg-gradient-to-t from-transparent to-white relative">
                 
                 {/* Glass Cube Image - Background Layer */}

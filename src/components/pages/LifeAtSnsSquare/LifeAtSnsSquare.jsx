@@ -1,4 +1,5 @@
 import React from "react";
+import SEO from "../../common/SEO";
 import Hero from "./hero";
 import { Card, CardContent } from "../../common/card";
 import CoreValueSection from "./CoreValueSection";
@@ -67,6 +68,13 @@ const contentSections = [
 export default function Page() {
     return (
         <div className="bg-white">
+            <SEO 
+                title="Life at SNS Square | Culture & Values"
+                description="Discover life at SNS Square. Our culture fosters bold thinking, fearless execution, and innovation, guided by integrity, collaboration, and purpose-driven impact."
+                keywords="SNS Square, Company Culture, Work Culture, Innovation, Integrity, Collaboration, Purpose-Driven, Employee Experience, Agentic AI Workplace"
+                image="https://www.snssquare.com/images/og/life-at-sns-og.jpg"
+                url="https://www.snssquare.com/life-at-sns"
+            />
             <Hero />
             <div className="pt-8 sm:pt-10 md:pt-12 lg:pt-14 mb-6 sm:mb-8 md:mb-10 lg:mb-12 flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
                 <div className="">

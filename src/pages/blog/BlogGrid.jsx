@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 import BlogCard from '../../components/common/BlogCard';
 import FeaturedBlogCard from '../../components/common/FeaturedBlogCard';
 import HorizontalBlogCard from '../../components/common/HorizontalBlogCard';
@@ -180,6 +181,13 @@ const BlogGrid = () => {
 
   return (
     <div className="mt-20">
+      <SEO 
+        title="Blog | Insights from SNS Square Agentic AI"
+        description="Stay updated with SNS Square's blog on Agentic AI, business automation, digital transformation, and industry insights to help your organization grow smarter."
+        keywords="SNS Square Blog, Agentic AI, Business Automation, AI Insights, Digital Transformation, AI Use Cases, Enterprise AI, Industry Trends"
+        image="https://www.snssquare.com/images/og/blog-og.jpg"
+        url="https://www.snssquare.com/blog"
+      />
       {/* Header Section */}
       <div className="relative w-full py-8 md:py-12 px-4 xs:px-5 sm:px-6 lg:px-8">
         {/* Horizontal gradient with the same colors as HeroSection */}

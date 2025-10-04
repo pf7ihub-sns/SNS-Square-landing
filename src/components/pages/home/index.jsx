@@ -1,4 +1,5 @@
 import React from "react";
+import SEO from "../../common/SEO";
 import HeroSection from "./HeroSection";
 import FeatureCardsSection from "./FeatureCardsSection";
 import WhatWeExcelSection from "./WhatWeExcelSection";
@@ -11,6 +12,13 @@ import CoreServiceSection from "./CoreServiceSection";
 const Home = () => {
   return (
     <div className="w-full bg-white min-h-screen overflow-x-hidden">
+      <SEO 
+        title="SNS Square | Agentic AI for Smarter Business Automation"
+        description="SNS Square builds powerful Agentic AI solutions that transform businesses. Automate operations, unlock data intelligence, and scale smarter with our AI agents."
+        keywords="SNS Square, Agentic AI, AI Agents, Business Automation, Digital Transformation, Data Intelligence, Enterprise AI, AI Solutions"
+        image="https://www.snssquare.com/images/og/home-og.jpg"
+        url="https://www.snssquare.com/"
+      />
       <style dangerouslySetInnerHTML={{__html: `
         /* Global overflow prevention */
         * {

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import CTASection from "../Home/CTASection";
+import SEO from "../../common/SEO";
 import useCaseData from "../../../data/usecase.json";
 import HeroSection from "./HeroSection";
 import TopCategoryTabs from "./TopCategoryTabs";
@@ -132,6 +133,13 @@ export const UseCase = () => {
 
   return (
     <div className="bg-white min-h-screen w-full">
+      <SEO 
+        title="Use Cases | SNS Square Agentic AI Solutions"
+        description="Explore SNS Square's Agentic AI use cases. Discover how our AI agents empower industries to accelerate progress, innovate, and achieve measurable impact."
+        keywords="SNS Square, Agentic AI, AI Use Cases, Industry AI Solutions, Business Automation, Digital Transformation, Enterprise AI, AI Innovation"
+        image="https://www.snssquare.com/images/og/usecase-og.jpg"
+        url="https://www.snssquare.com/usecase"
+      />
       {/* Hero Section - Full Width */}
       <HeroSection />
 
