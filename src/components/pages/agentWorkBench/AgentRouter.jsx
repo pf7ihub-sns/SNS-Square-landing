@@ -65,6 +65,7 @@ import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
+import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -134,7 +135,8 @@ const AgentRouter = () => {
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor /> ,
-    "knowledge-base-agent": <KnowledgeBaseChat />
+    "knowledge-base-agent": <KnowledgeBaseChat /> ,
+    "ai-docs":<ChatPage/> ,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

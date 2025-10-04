@@ -1,0 +1,2 @@
+# Icon placeholder files
+# Copy actual icon files from frontend/public/icons/ to frontend-vite/public/icons/
