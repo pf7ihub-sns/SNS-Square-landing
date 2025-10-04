@@ -578,7 +578,45 @@ https://developers.google.com/drive/api/quickstart/js
         throw new Error('No access token available');
       }
 
-      const downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
+      // First, get file metadata to determine the file type
+      const metadataResponse = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?fields=mimeType,name`, {
+        headers: {
+          'Authorization': `Bearer ${window.googleAccessToken}`
+        }
+      });
+
+      if (!metadataResponse.ok) {
+        throw new Error(`Failed to get file metadata: ${metadataResponse.status}`);
+      }
+
+      const metadata = await metadataResponse.json();
+      const mimeType = metadata.mimeType;
+      
+      let downloadUrl;
+      let exportMimeType;
+      let exportFileName = fileName;
+
+      // Check if it's a Google Workspace file that needs to be exported
+      if (mimeType === 'application/vnd.google-apps.document') {
+        // Google Docs - export as Word document
+        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document`;
+        exportMimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.docx';
+      } else if (mimeType === 'application/vnd.google-apps.spreadsheet') {
+        // Google Sheets - export as Excel
+        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`;
+        exportMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.xlsx';
+      } else if (mimeType === 'application/vnd.google-apps.presentation') {
+        // Google Slides - export as PowerPoint
+        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation`;
+        exportMimeType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.pptx';
+      } else {
+        // Regular file - use direct download
+        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
+        exportMimeType = mimeType;
+      }
       
       const response = await fetch(downloadUrl, {
         headers: {
@@ -587,14 +625,16 @@ https://developers.google.com/drive/api/quickstart/js
       });
       
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Download error response:", errorText);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       
       const blob = await response.blob();
-      const file = new File([blob], fileName, { type: blob.type });
+      const file = new File([blob], exportFileName, { type: exportMimeType });
       
       setFile(file);
-      showToast(`File imported from Google Drive: ${fileName}`, "success");
+      showToast(`File imported from Google Drive: ${exportFileName}`, "success");
     } catch (error) {
       showToast("Failed to download file from Google Drive", "error");
       console.error("Google Drive download error:", error);
