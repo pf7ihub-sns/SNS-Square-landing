@@ -273,6 +273,16 @@ export default {
               status: "available"
             },
             {
+              id: "ai-chat",
+              name: "AI Chat Support Agent",
+              summary: "Provide instant customer support with context-aware responses.",
+              image: "/placeholder.jpg",
+              solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+              useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+              description: ["General Chat Application lets users interact with an AI virtual assistant in real-time. It maintains a persistent chat history, visually differentiates user and AI messages, and provides a smooth, scrollable chat interface. Users can send messages, view AI responses instantly, and clear the conversation when needed."],
+              status: "available"
+            },
+            {
               id: "content-validation-agent",
               name: "Content Validation Agent",
               summary: "Ensure content meets quality and compliance standards.",
