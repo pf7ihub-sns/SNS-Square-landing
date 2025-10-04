@@ -411,7 +411,43 @@ function ChatPage() {
         method: "POST",
         body: formData,
       });
+
       const data = await res.json();
+
+      // Check if there's an error in the response
+      if (!res.ok) {
+        // Show the raw error message from backend and save it as AI response
+        const errorMessage = data.detail || `Error: ${res.status} ${res.statusText}`;
+        showToast(errorMessage, "error");
+        
+        // Save the error as AI response so it's visible in chat
+        const aiMsg = { 
+          role: "agent", 
+          content: `❌ ${errorMessage}`,
+          message_id: crypto.randomUUID()
+        };
+
+        await fetch(`${API_URL}/${activeDoc}/message`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(aiMsg),
+        });
+
+        // Refresh messages to show the error in chat
+        const updatedChat = await fetch(`${API_URL}/${activeDoc}`).then((res) =>
+          res.json()
+        );
+        setDocuments((prev) =>
+          prev.map((doc) =>
+            doc.chat_id === activeDoc ? updatedChat : doc
+          )
+        );
+
+        setInputText("");
+        setFile(null);
+        setLoading(false);
+        return;
+      }
 
       // Save AI response with unique ID
       const aiMsg = { 
