@@ -20,6 +20,8 @@ function ChatPage() {
   const [exportLoading, setExportLoading] = useState(null);
   const [editingMessage, setEditingMessage] = useState(null);
   const [editContent, setEditContent] = useState("");
+  const [uploadDropdownOpen, setUploadDropdownOpen] = useState(false);
+  const [cloudLoading, setCloudLoading] = useState(null);
 
   // 🔹 Toast notification functions
   const showToast = (message, type = 'info') => {
@@ -257,11 +259,14 @@ function ChatPage() {
     fetchChats();
   }, []);
 
-  // 🔹 Close export dropdown when clicking outside
+  // 🔹 Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (exportDropdownOpen && !event.target.closest('.export-dropdown')) {
         setExportDropdownOpen(null);
+      }
+      if (uploadDropdownOpen && !event.target.closest('.upload-dropdown')) {
+        setUploadDropdownOpen(false);
       }
     };
 
@@ -269,7 +274,7 @@ function ChatPage() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [exportDropdownOpen]);
+  }, [exportDropdownOpen, uploadDropdownOpen]);
 
   const fetchChats = async () => {
     try {
@@ -377,6 +382,229 @@ function ChatPage() {
       showToast("Failed to delete chat", "error");
     }
   };
+
+  // 🔹 Handle Google Drive file upload
+  const handleGoogleDriveUpload = async () => {
+    setCloudLoading('google-drive');
+    setUploadDropdownOpen(false);
+
+    try {
+      await handleGoogleDriveAuth();
+    } catch (error) {
+      console.error('Google Drive upload error:', error);
+      showToast('Failed to connect to Google Drive', "error");
+    } finally {
+      setCloudLoading(null);
+    }
+  };
+
+  // 🔹 Google Drive authentication and file picker
+  const handleGoogleDriveAuth = async () => {
+    // Check if Google Drive is configured
+    const hasGoogleConfig = checkGoogleDriveConfig();
+    
+    if (!hasGoogleConfig) {
+      showGoogleDriveSetupModal();
+      return;
+    }
+    
+    showToast("Requesting Google Drive access...", "info");
+    
+    try {
+      // Load Google APIs dynamically
+      await loadGoogleAPIs();
+      
+      // Initialize and authenticate
+      await initializeGoogleDrive();
+      
+      // Show file picker
+      await showGoogleDrivePicker();
+    } catch (error) {
+      if (error.message === 'Google Drive API not configured') {
+        showGoogleDriveSetupModal();
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  const checkGoogleDriveConfig = () => {
+    // Check if both Client ID and API Key are set
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+    
+    return clientId && apiKey && 
+           clientId !== 'YOUR_GOOGLE_CLIENT_ID' && 
+           apiKey !== 'YOUR_GOOGLE_API_KEY';
+  };
+
+  const showGoogleDriveSetupModal = () => {
+    const setupInstructions = `
+🔧 Google Drive Setup Required
+
+To enable Google Drive integration:
+
+1. Go to Google Cloud Console
+2. Create a new project or select existing
+3. Enable Google Drive API & Google Picker API
+4. Create credentials (API Key + OAuth Client ID)
+5. Add your domain to authorized origins
+
+Environment Variables:
+VITE_GOOGLE_CLIENT_ID=your_client_id
+VITE_GOOGLE_API_KEY=your_api_key
+
+For detailed setup instructions, see:
+https://developers.google.com/drive/api/quickstart/js
+    `;
+    
+    showToast("Google Drive not configured - check console for setup instructions", "error");
+    console.log(setupInstructions);
+    
+    // Optionally open setup documentation
+    if (confirm("Open Google Drive API setup documentation?")) {
+      window.open('https://developers.google.com/drive/api/quickstart/js', '_blank');
+    }
+  };
+
+  const loadGoogleAPIs = () => {
+    return new Promise((resolve, reject) => {
+      // Check if already loaded
+      if (window.google && window.google.accounts && window.google.picker) {
+        resolve();
+        return;
+      }
+
+      // Load Google Identity Services (GIS)
+      const gisScript = document.createElement('script');
+      gisScript.src = 'https://accounts.google.com/gsi/client';
+      gisScript.onload = () => {
+        // Load Google Picker API
+        const pickerScript = document.createElement('script');
+        pickerScript.src = 'https://apis.google.com/js/api.js';
+        pickerScript.onload = () => {
+          window.gapi.load('picker', () => {
+            // Load additional picker script
+            const pickerApiScript = document.createElement('script');
+            pickerApiScript.src = 'https://apis.google.com/js/picker.js';
+            pickerApiScript.onload = () => resolve();
+            pickerApiScript.onerror = () => reject(new Error('Failed to load Google Picker API'));
+            document.head.appendChild(pickerApiScript);
+          });
+        };
+        pickerScript.onerror = () => reject(new Error('Failed to load Google APIs'));
+        document.head.appendChild(pickerScript);
+      };
+      gisScript.onerror = () => reject(new Error('Failed to load Google Identity Services'));
+      document.head.appendChild(gisScript);
+    });
+  };
+
+  const initializeGoogleDrive = async () => {
+    const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+    
+    if (!CLIENT_ID || !API_KEY || CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID' || API_KEY === 'YOUR_GOOGLE_API_KEY') {
+      throw new Error('Google Drive API not configured');
+    }
+    
+    try {
+      // Initialize Google Identity Services
+      window.google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+      });
+
+      // Request access token using Google Identity Services
+      return new Promise((resolve, reject) => {
+        window.google.accounts.oauth2.initTokenClient({
+          client_id: CLIENT_ID,
+          scope: 'https://www.googleapis.com/auth/drive.readonly',
+          callback: (response) => {
+            if (response.error) {
+              reject(new Error(`OAuth error: ${response.error}`));
+              return;
+            }
+            
+            // Store the access token for later use
+            window.googleAccessToken = response.access_token;
+            showToast("Google Drive access granted!", "success");
+            resolve(response);
+          },
+          error_callback: (error) => {
+            reject(new Error(`OAuth initialization error: ${error}`));
+          }
+        }).requestAccessToken();
+      });
+    } catch (error) {
+      console.error('Google Drive initialization error:', error);
+      throw new Error('Failed to initialize Google Drive access');
+    }
+  };
+
+  const showGoogleDrivePicker = () => {
+    return new Promise((resolve, reject) => {
+      if (!window.googleAccessToken) {
+        reject(new Error('No access token available'));
+        return;
+      }
+      
+      const picker = new window.google.picker.PickerBuilder()
+        .addView(window.google.picker.ViewId.DOCS)
+        .setOAuthToken(window.googleAccessToken)
+        .setDeveloperKey(import.meta.env.VITE_GOOGLE_API_KEY)
+        .setCallback(async (data) => {
+          if (data.action === window.google.picker.Action.PICKED) {
+            const file = data.docs[0];
+            try {
+              await downloadGoogleDriveFile(file.id, file.name);
+              resolve();
+            } catch (error) {
+              reject(error);
+            }
+          } else if (data.action === window.google.picker.Action.CANCEL) {
+            showToast("File selection cancelled", "info");
+            resolve();
+          }
+        })
+        .build();
+      
+      picker.setVisible(true);
+    });
+  };
+
+  const downloadGoogleDriveFile = async (fileId, fileName) => {
+    try {
+      if (!window.googleAccessToken) {
+        throw new Error('No access token available');
+      }
+
+      const downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
+      
+      const response = await fetch(downloadUrl, {
+        headers: {
+          'Authorization': `Bearer ${window.googleAccessToken}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: blob.type });
+      
+      setFile(file);
+      showToast(`File imported from Google Drive: ${fileName}`, "success");
+    } catch (error) {
+      showToast("Failed to download file from Google Drive", "error");
+      console.error("Google Drive download error:", error);
+      throw error;
+    }
+  };
+
+
+
+
 
   // 🔹 Send message
   const sendMessage = async () => {
@@ -863,21 +1091,66 @@ function ChatPage() {
                 
                 <div className="flex gap-2 items-end" style={{ position: 'relative', zIndex: 1 }}>
                   <div className="relative flex-shrink-0">
-                    <input
-                      type="file"
-                      id="file-upload"
-                      onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-                      title="Upload file"
-                    >
-                      <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                      </svg>
-                    </label>
+                    {/* Upload Dropdown */}
+                    <div className="relative upload-dropdown">
+                      <button
+                        onClick={() => setUploadDropdownOpen(!uploadDropdownOpen)}
+                        className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+                        title="Upload file"
+                        disabled={loading}
+                      >
+                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                      </button>
+
+                      {/* Upload Options Dropdown */}
+                      {uploadDropdownOpen && (
+                        <div className="absolute bottom-full mb-2 left-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 min-w-64">
+                          <div className="py-2">
+                            <div className="px-3 py-2 text-xs font-medium text-gray-500 border-b border-gray-100">
+                              Upload from
+                            </div>
+                            
+                            {/* Local File Upload */}
+                            <label
+                              htmlFor="local-file-upload"
+                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 cursor-pointer"
+                            >
+                              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M20 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <span>Local Device</span>
+                            </label>
+                            <input
+                              type="file"
+                              id="local-file-upload"
+                              onChange={(e) => {
+                                setFile(e.target.files ? e.target.files[0] : null);
+                                setUploadDropdownOpen(false);
+                              }}
+                              accept=".pdf,.docx,.txt,.xlsx,.xls,.csv,.json"
+                              className="hidden"
+                            />
+                            
+                            {/* Google Drive Option */}
+                            <button
+                              onClick={handleGoogleDriveUpload}
+                              disabled={cloudLoading === 'google-drive'}
+                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.28 3L3.28 8.5L6.28 14h4.44L13.72 8.5L10.72 3H6.28zM14.5 6.5L12 11h8l2.5-4.5H14.5zM16 13L12 20.5L8 13h8z"/>
+                              </svg>
+                              <span>Google Drive</span>
+                              {cloudLoading === 'google-drive' && (
+                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-500"></div>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   
                   <textarea
