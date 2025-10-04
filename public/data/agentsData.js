@@ -3516,6 +3516,15 @@ export default {
           "useCases": ["Inbox management", "Customer support", "Internal communications"],
           status: "available"
         },
+        {
+          "id": "email-support",
+          "name": "Customer Support Email Responder Agent",
+          "summary": "Automate email sorting, prioritization, and response generation.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Email classification", "Priority tagging", "Response drafting"],
+          "useCases": ["Inbox management", "Customer support", "Internal communications"],
+          status: "available"
+        },
 
       ],
     },
