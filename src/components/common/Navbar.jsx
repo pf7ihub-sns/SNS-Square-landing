@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Button from "./BlackButton.jsx";
 import { useAuthStore } from "../../store/store";
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { HiMiniSquare3Stack3D } from "react-icons/hi2";
 
 // Animated Hamburger Icon Component
 const HamburgerIcon = ({ isOpen, className, ...props }) => (

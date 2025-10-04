@@ -203,7 +203,7 @@ const PolicyPage = () => {
                 className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0"
                 style={scrollbarHideStyle}
               >
-                {menuItems.map((item, index) => (
+                {menuItems.map((item) => (
                   <div key={item} className="relative flex-shrink-0 lg:flex-shrink">
                     <button
                       onClick={() => setActiveSection(item)}

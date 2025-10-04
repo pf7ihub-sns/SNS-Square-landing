@@ -58,9 +58,9 @@ const WhyWeAreHereSection = () => {
               {/* Right Image Placeholder */}
               <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full xl:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] lg:w-[500px] rounded overflow-hidden">
                 <img
-                  src="/images/About_us/About us.jpg" // replace with your image path
+                  src="/images/About_us/About us.png" // replace with your image path
                   alt="Descriptive Alt Text"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-fill"
                 />
               </div>
 

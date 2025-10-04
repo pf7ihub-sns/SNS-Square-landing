@@ -6,8 +6,6 @@ import { useLocation } from "react-router-dom";
 
 function App() {
   const location = useLocation();
-  const isAboutUsPage = location.pathname === "/about-us";
-  const isMediaEntertainmentPage = location.pathname === "/media-entertainment";
   const isContactUsPage = location.pathname === "/contact-us" || location.pathname === "/login" || location.pathname === "/signup"; 
 
   return (

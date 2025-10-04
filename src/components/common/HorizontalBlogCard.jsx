@@ -8,7 +8,6 @@ const HorizontalBlogCard = ({
   className = "",
   badge = null,
   date = "",
-  readTime = ""
 }) => {
   return (
     <div 

@@ -27,7 +27,7 @@ const OrbitHero = () => {
             return { transform: 'translateY(-90px)', marginBottom: '0px' };
         } else if (width === 375) {
             return { transform: 'translateY(-50px)', marginBottom: '0px' };
-        } else if (width === 425) {
+        } else if (width === 425) {run 
             return { transform: 'translateY(-20px)', marginBottom: '0px' };
         } else if (width <= 480) {
             return { transform: 'translateY(-30px)', marginBottom: '0px' };

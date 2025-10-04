@@ -77,7 +77,7 @@ const LoginForm = () => {
 
             if (result.success) {
                 // Navigate to dashboard or home page on successful login
-                navigate('/dashboard');
+                navigate('/agent-workbench');
             } else {
                 setApiError(result.error || 'Login failed. Please try again.');
             }

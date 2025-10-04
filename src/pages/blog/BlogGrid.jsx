@@ -267,7 +267,7 @@ const BlogGrid = () => {
               {/* Latest Blogs - 3/7 width with horizontal layout */}
               <div className="lg:col-span-3 flex flex-col gap-4">
                 {latestBlogs.length > 0 ? (
-                  latestBlogs.map((blog, index) => (
+                  latestBlogs.map((blog) => (
                     <HorizontalBlogCard
                       key={blog.id}
                       title={blog.title}

@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import BlackButton from "../../common/BlackButton";
 
 const categories = [
   {
@@ -40,14 +39,6 @@ const RealScenariosSection = () => {
   const [index, setIndex] = useState(0); // index of category
   const activeImages = useMemo(() => categories[index].images, [index]);
 
-  // Fixed mapping to match the useCase.jsx categories
-  const keyToUsecaseCategory = {
-    health: 'healthcare',
-    supply: 'supply-chain',
-    hr: 'human-resource',
-    it: 'information-technology',
-    ins: 'insurance',
-  };
 
   useEffect(() => {
     const next = categories.findIndex((c) => c.key === active);

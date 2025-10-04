@@ -19,14 +19,14 @@ const ExpertsTechSection = () => {
         </h5> */}
         
         {/* Static logo display for tablet views to prevent overlapping */}
-        <div className="w-full mt-8 overflow-hidden">
+        <div className="w-full mt-8 mb-4 overflow-hidden">
           <div className="hidden lg:block">
             <LogoLoop
               logos={logos}
               speed={120}
               direction="left"
-              logoHeight={28}
-              gap={40}
+              logoHeight={58}
+              gap={60}
               pauseOnHover={true}
               fadeOut={true}
               scaleOnHover={false}

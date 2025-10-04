@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaYoutube, FaLinkedin } from "react-icons/fa";
+import { FaYoutube, FaLinkedin , FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -130,6 +130,11 @@ const Footer = () => {
               className="text-black hover:text-red-500 transition-colors"
             >
               <FaYoutube size={20} />
+            </a>
+            <a href="https://www.instagram.com/squaresns/?hl=en"
+              target="_blank"
+            >
+              <FaInstagram size={20} />
             </a>
           </div>
         </div>
