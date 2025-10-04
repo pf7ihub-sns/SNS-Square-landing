@@ -643,9 +643,6 @@ https://developers.google.com/drive/api/quickstart/js
   };
 
 
-
-
-
   // 🔹 Send message
   const sendMessage = async () => {
     if (!inputText && !file) return;
