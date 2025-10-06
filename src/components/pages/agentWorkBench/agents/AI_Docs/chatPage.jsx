@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../../../../common/AIDocsSidebar";
-import OneDriveModal from "./OneDriveModal";
+import Sidebar from "./utils/AIDocsSidebar";
+import OneDriveModal from "./utils/OneDriveModal";
+import FileUploadDropdown from "./utils/FileUploadDropdown";
+import { CloudStorageService } from "./utils/CloudStorageService";
 // Using SVG icons as data URIs since PNG files don't exist in public/icons/
 const docIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cline x1='10' y1='9' x2='8' y2='9'/%3E%3C/svg%3E";
 const jsonIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F59E0B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cpath d='M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1m4 0a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1'/%3E%3C/svg%3E";
@@ -433,349 +435,72 @@ function ChatPage() {
 
   // 🔹 Google Drive authentication and file picker
   const handleGoogleDriveAuth = async () => {
-    // Check if Google Drive is configured
-    const hasGoogleConfig = checkGoogleDriveConfig();
+    const hasGoogleConfig = CloudStorageService.checkGoogleDriveConfig();
     
     if (!hasGoogleConfig) {
-      showGoogleDriveSetupModal();
+      CloudStorageService.showGoogleDriveSetupModal();
+      showToast("Google Drive not configured - check console for setup instructions", "error");
       return;
     }
     
     showToast("Requesting Google Drive access...", "info");
     
     try {
-      // Load Google APIs dynamically
-      await loadGoogleAPIs();
+      await CloudStorageService.loadGoogleAPIs();
+      await CloudStorageService.initializeGoogleDrive();
+      showToast("Google Drive access granted!", "success");
       
-      // Initialize and authenticate
-      await initializeGoogleDrive();
-      
-      // Show file picker
-      await showGoogleDrivePicker();
+      const result = await CloudStorageService.showGoogleDrivePicker();
+      if (result) {
+        setFile(result.file);
+        showToast(`File imported from Google Drive: ${result.fileName}`, "success");
+      } else {
+        showToast("File selection cancelled", "info");
+      }
     } catch (error) {
       if (error.message === 'Google Drive API not configured') {
-        showGoogleDriveSetupModal();
+        CloudStorageService.showGoogleDriveSetupModal();
+        showToast("Google Drive not configured - check console for setup instructions", "error");
       } else {
         throw error;
       }
     }
   };
 
-  const checkGoogleDriveConfig = () => {
-    // Check if both Client ID and API Key are set
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
-    
-    return clientId && apiKey && 
-           clientId !== 'YOUR_GOOGLE_CLIENT_ID' && 
-           apiKey !== 'YOUR_GOOGLE_API_KEY';
-  };
 
-  const showGoogleDriveSetupModal = () => {
-    const setupInstructions = `
-🔧 Google Drive Setup Required
 
-To enable Google Drive integration:
 
-1. Go to Google Cloud Console
-2. Create a new project or select existing
-3. Enable Google Drive API & Google Picker API
-4. Create credentials (API Key + OAuth Client ID)
-5. Add your domain to authorized origins
 
-Environment Variables:
-VITE_GOOGLE_CLIENT_ID=your_client_id
-VITE_GOOGLE_API_KEY=your_api_key
 
-For detailed setup instructions, see:
-https://developers.google.com/drive/api/quickstart/js
-    `;
-    
-    showToast("Google Drive not configured - check console for setup instructions", "error");
-    console.log(setupInstructions);
-    
-    // Optionally open setup documentation
-    if (confirm("Open Google Drive API setup documentation?")) {
-      window.open('https://developers.google.com/drive/api/quickstart/js', '_blank');
-    }
-  };
-
-  const loadGoogleAPIs = () => {
-    return new Promise((resolve, reject) => {
-      // Check if already loaded
-      if (window.google && window.google.accounts && window.google.picker) {
-        resolve();
-        return;
-      }
-
-      // Load Google Identity Services (GIS)
-      const gisScript = document.createElement('script');
-      gisScript.src = 'https://accounts.google.com/gsi/client';
-      gisScript.onload = () => {
-        // Load Google Picker API
-        const pickerScript = document.createElement('script');
-        pickerScript.src = 'https://apis.google.com/js/api.js';
-        pickerScript.onload = () => {
-          window.gapi.load('picker', () => {
-            // Load additional picker script
-            const pickerApiScript = document.createElement('script');
-            pickerApiScript.src = 'https://apis.google.com/js/picker.js';
-            pickerApiScript.onload = () => resolve();
-            pickerApiScript.onerror = () => reject(new Error('Failed to load Google Picker API'));
-            document.head.appendChild(pickerApiScript);
-          });
-        };
-        pickerScript.onerror = () => reject(new Error('Failed to load Google APIs'));
-        document.head.appendChild(pickerScript);
-      };
-      gisScript.onerror = () => reject(new Error('Failed to load Google Identity Services'));
-      document.head.appendChild(gisScript);
-    });
-  };
-
-  const initializeGoogleDrive = async () => {
-    const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-    
-    if (!CLIENT_ID || !API_KEY || CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID' || API_KEY === 'YOUR_GOOGLE_API_KEY') {
-      throw new Error('Google Drive API not configured');
-    }
-    
-    try {
-      // Initialize Google Identity Services
-      window.google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-      });
-
-      // Request access token using Google Identity Services
-      return new Promise((resolve, reject) => {
-        window.google.accounts.oauth2.initTokenClient({
-          client_id: CLIENT_ID,
-          scope: 'https://www.googleapis.com/auth/drive.readonly',
-          callback: (response) => {
-            if (response.error) {
-              reject(new Error(`OAuth error: ${response.error}`));
-              return;
-            }
-            
-            // Store the access token for later use
-            window.googleAccessToken = response.access_token;
-            showToast("Google Drive access granted!", "success");
-            resolve(response);
-          },
-          error_callback: (error) => {
-            reject(new Error(`OAuth initialization error: ${error}`));
-          }
-        }).requestAccessToken();
-      });
-    } catch (error) {
-      console.error('Google Drive initialization error:', error);
-      throw new Error('Failed to initialize Google Drive access');
-    }
-  };
-
-  const showGoogleDrivePicker = () => {
-    return new Promise((resolve, reject) => {
-      if (!window.googleAccessToken) {
-        reject(new Error('No access token available'));
-        return;
-      }
-      
-      const picker = new window.google.picker.PickerBuilder()
-        .addView(window.google.picker.ViewId.DOCS)
-        .setOAuthToken(window.googleAccessToken)
-        .setDeveloperKey(import.meta.env.VITE_GOOGLE_API_KEY)
-        .setCallback(async (data) => {
-          if (data.action === window.google.picker.Action.PICKED) {
-            const file = data.docs[0];
-            try {
-              await downloadGoogleDriveFile(file.id, file.name);
-              resolve();
-            } catch (error) {
-              reject(error);
-            }
-          } else if (data.action === window.google.picker.Action.CANCEL) {
-            showToast("File selection cancelled", "info");
-            resolve();
-          }
-        })
-        .build();
-      
-      picker.setVisible(true);
-    });
-  };
-
-  const downloadGoogleDriveFile = async (fileId, fileName) => {
-    try {
-      if (!window.googleAccessToken) {
-        throw new Error('No access token available');
-      }
-
-      // First, get file metadata to determine the file type
-      const metadataResponse = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?fields=mimeType,name`, {
-        headers: {
-          'Authorization': `Bearer ${window.googleAccessToken}`
-        }
-      });
-
-      if (!metadataResponse.ok) {
-        throw new Error(`Failed to get file metadata: ${metadataResponse.status}`);
-      }
-
-      const metadata = await metadataResponse.json();
-      const mimeType = metadata.mimeType;
-      
-      let downloadUrl;
-      let exportMimeType;
-      let exportFileName = fileName;
-
-      // Check if it's a Google Workspace file that needs to be exported
-      if (mimeType === 'application/vnd.google-apps.document') {
-        // Google Docs - export as Word document
-        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document`;
-        exportMimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.docx';
-      } else if (mimeType === 'application/vnd.google-apps.spreadsheet') {
-        // Google Sheets - export as Excel
-        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`;
-        exportMimeType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.xlsx';
-      } else if (mimeType === 'application/vnd.google-apps.presentation') {
-        // Google Slides - export as PowerPoint
-        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation`;
-        exportMimeType = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
-        exportFileName = fileName.replace(/\.[^/.]+$/, '') + '.pptx';
-      } else {
-        // Regular file - use direct download
-        downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
-        exportMimeType = mimeType;
-      }
-      
-      const response = await fetch(downloadUrl, {
-        headers: {
-          'Authorization': `Bearer ${window.googleAccessToken}`
-        }
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Download error response:", errorText);
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const blob = await response.blob();
-      const file = new File([blob], exportFileName, { type: exportMimeType });
-      
-      setFile(file);
-      showToast(`File imported from Google Drive: ${exportFileName}`, "success");
-    } catch (error) {
-      showToast("Failed to download file from Google Drive", "error");
-      console.error("Google Drive download error:", error);
-      throw error;
-    }
-  };
 
   // 🔹 OneDrive integration functions
   const handleOneDriveAuth = async () => {
-    const hasOneDriveConfig = checkOneDriveConfig();
+    const hasOneDriveConfig = CloudStorageService.checkOneDriveConfig();
     
     if (!hasOneDriveConfig) {
-      showOneDriveSetupModal();
+      CloudStorageService.showOneDriveSetupModal();
+      showToast("OneDrive not configured - check console for setup instructions", "error");
       return;
     }
     
     showToast("Requesting OneDrive access...", "info");
     
     try {
-      await loadMicrosoftGraph();
-      await initializeOneDrive();
+      await CloudStorageService.loadMicrosoftGraph();
+      await CloudStorageService.initializeOneDrive();
+      showToast("OneDrive access granted!", "success");
       await showOneDrivePicker();
     } catch (error) {
       if (error.message === 'OneDrive API not configured') {
-        showOneDriveSetupModal();
+        CloudStorageService.showOneDriveSetupModal();
+        showToast("OneDrive not configured - check console for setup instructions", "error");
       } else {
         throw error;
       }
     }
   };
 
-  const checkOneDriveConfig = () => {
-    const clientId = import.meta.env.VITE_ONEDRIVE_CLIENT_ID;
-    return clientId && clientId !== 'YOUR_ONEDRIVE_CLIENT_ID';
-  };
 
-  const showOneDriveSetupModal = () => {
-    const setupInstructions = `
-🔧 OneDrive Setup Required
-
-To enable OneDrive integration:
-
-1. Go to Azure Portal (portal.azure.com)
-2. Register a new application in Azure AD
-3. Add Microsoft Graph API permissions
-4. Get your Application (client) ID
-5. Add redirect URI for your domain
-
-Environment Variables:
-VITE_ONEDRIVE_CLIENT_ID=your_client_id
-
-For detailed setup instructions, see:
-https://docs.microsoft.com/en-us/graph/auth-register-app-v2
-    `;
-    
-    showToast("OneDrive not configured - check console for setup instructions", "error");
-    console.log(setupInstructions);
-    
-    if (confirm("Open OneDrive API setup documentation?")) {
-      window.open('https://docs.microsoft.com/en-us/graph/auth-register-app-v2', '_blank');
-    }
-  };
-
-  const loadMicrosoftGraph = () => {
-    return new Promise((resolve, reject) => {
-      if (window.msal) {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://alcdn.msauth.net/browser/2.32.2/js/msal-browser.min.js';
-      script.onload = () => {
-        window.msalInstance = new window.msal.PublicClientApplication({
-          auth: {
-            clientId: import.meta.env.VITE_ONEDRIVE_CLIENT_ID,
-            authority: 'https://login.microsoftonline.com/common',
-            redirectUri: window.location.origin
-          }
-        });
-        resolve();
-      };
-      script.onerror = () => reject(new Error('Failed to load Microsoft Graph SDK'));
-      document.head.appendChild(script);
-    });
-  };
-
-  const initializeOneDrive = async () => {
-    const CLIENT_ID = import.meta.env.VITE_ONEDRIVE_CLIENT_ID;
-    
-    if (!CLIENT_ID || CLIENT_ID === 'YOUR_ONEDRIVE_CLIENT_ID') {
-      throw new Error('OneDrive API not configured');
-    }
-    
-    try {
-      const loginRequest = {
-        scopes: ['Files.Read', 'Files.Read.All']
-      };
-      
-      const response = await window.msalInstance.loginPopup(loginRequest);
-      window.oneDriveAccessToken = response.accessToken;
-      showToast("OneDrive access granted!", "success");
-      return response;
-    } catch (error) {
-      console.error('OneDrive initialization error:', error);
-      throw new Error('Failed to initialize OneDrive access');
-    }
-  };
 
   const showOneDrivePicker = async () => {
     try {
@@ -882,164 +607,48 @@ https://docs.microsoft.com/en-us/graph/auth-register-app-v2
 
   const downloadOneDriveFile = async (fileId, fileName) => {
     try {
-      if (!window.oneDriveAccessToken) {
-        throw new Error('No OneDrive access token available');
-      }
-
-      const downloadUrl = `https://graph.microsoft.com/v1.0/me/drive/items/${fileId}/content`;
-      
-      const response = await fetch(downloadUrl, {
-        headers: {
-          'Authorization': `Bearer ${window.oneDriveAccessToken}`
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const blob = await response.blob();
-      const file = new File([blob], fileName, { type: blob.type });
-      
-      setFile(file);
-      showToast(`File imported from OneDrive: ${fileName}`, "success");
+      const result = await CloudStorageService.downloadOneDriveFile(fileId, fileName);
+      setFile(result.file);
+      showToast(`File imported from OneDrive: ${result.fileName}`, "success");
     } catch (error) {
       showToast("Failed to download file from OneDrive", "error");
-      console.error("OneDrive download error:", error);
       throw error;
     }
   };
 
   // 🔹 Dropbox integration functions
   const handleDropboxAuth = async () => {
-    const hasDropboxConfig = checkDropboxConfig();
+    const hasDropboxConfig = CloudStorageService.checkDropboxConfig();
     
     if (!hasDropboxConfig) {
-      showDropboxSetupModal();
+      CloudStorageService.showDropboxSetupModal();
+      showToast("Dropbox not configured - check console for setup instructions", "error");
       return;
     }
     
     showToast("Requesting Dropbox access...", "info");
     
     try {
-      await loadDropboxSDK();
-      await showDropboxPicker();
+      await CloudStorageService.loadDropboxSDK();
+      const result = await CloudStorageService.showDropboxPicker();
+      
+      if (result) {
+        setFile(result.file);
+        showToast(`File imported from Dropbox: ${result.fileName}`, "success");
+      } else {
+        showToast("File selection cancelled", "info");
+      }
     } catch (error) {
       if (error.message === 'Dropbox API not configured') {
-        showDropboxSetupModal();
+        CloudStorageService.showDropboxSetupModal();
+        showToast("Dropbox not configured - check console for setup instructions", "error");
       } else {
         throw error;
       }
     }
   };
 
-  const checkDropboxConfig = () => {
-    const appKey = import.meta.env.VITE_DROPBOX_APP_KEY;
-    return appKey && appKey !== 'YOUR_DROPBOX_APP_KEY';
-  };
 
-  const showDropboxSetupModal = () => {
-    const setupInstructions = `
-🔧 Dropbox Setup Required
-
-To enable Dropbox integration:
-
-1. Go to Dropbox App Console (dropbox.com/developers/apps)
-2. Create a new app
-3. Choose 'Scoped access' and 'Full Dropbox'
-4. Get your App key
-5. Add your domain to OAuth redirect URIs
-
-Environment Variables:
-VITE_DROPBOX_APP_KEY=your_app_key
-
-For detailed setup instructions, see:
-https://developers.dropbox.com/oauth-guide
-    `;
-    
-    showToast("Dropbox not configured - check console for setup instructions", "error");
-    console.log(setupInstructions);
-    
-    if (confirm("Open Dropbox API setup documentation?")) {
-      window.open('https://developers.dropbox.com/oauth-guide', '_blank');
-    }
-  };
-
-  const loadDropboxSDK = () => {
-    return new Promise((resolve, reject) => {
-      if (window.Dropbox) {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/dropbox/dist/Dropbox-sdk.min.js';
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load Dropbox SDK'));
-      document.head.appendChild(script);
-    });
-  };
-
-  const showDropboxPicker = async () => {
-    try {
-      // Use Dropbox Chooser (simpler alternative to full OAuth)
-      const script = document.createElement('script');
-      script.src = 'https://www.dropbox.com/static/api/2/dropins.js';
-      script.id = 'dropboxjs';
-      script.setAttribute('data-app-key', import.meta.env.VITE_DROPBOX_APP_KEY);
-      
-      return new Promise((resolve, reject) => {
-        script.onload = () => {
-          window.Dropbox.choose({
-            success: async (files) => {
-              if (files && files.length > 0) {
-                const file = files[0];
-                try {
-                  await downloadDropboxFile(file.link, file.name);
-                  resolve();
-                } catch (error) {
-                  reject(error);
-                }
-              }
-            },
-            cancel: () => {
-              showToast("File selection cancelled", "info");
-              resolve();
-            },
-            linkType: 'direct',
-            multiselect: false,
-            extensions: ['.pdf', '.docx', '.txt', '.xlsx', '.xls', '.csv', '.json']
-          });
-        };
-        script.onerror = () => reject(new Error('Failed to load Dropbox Chooser'));
-        document.head.appendChild(script);
-      });
-    } catch (error) {
-      showToast("Failed to open Dropbox file picker", "error");
-      console.error("Dropbox picker error:", error);
-      throw error;
-    }
-  };
-
-  const downloadDropboxFile = async (fileUrl, fileName) => {
-    try {
-      const response = await fetch(fileUrl);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
-      const blob = await response.blob();
-      const file = new File([blob], fileName, { type: blob.type });
-      
-      setFile(file);
-      showToast(`File imported from Dropbox: ${fileName}`, "success");
-    } catch (error) {
-      showToast("Failed to download file from Dropbox", "error");
-      console.error("Dropbox download error:", error);
-      throw error;
-    }
-  };
 
   // 🔹 Send message
   const sendMessage = async () => {
@@ -1540,81 +1149,19 @@ https://developers.dropbox.com/oauth-guide
                       </button>
 
                       {/* Upload Options Dropdown */}
-                      {uploadDropdownOpen && (
-                        <div className="absolute bottom-full mb-2 left-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 min-w-64">
-                          <div className="py-2">
-                            <div className="px-3 py-2 text-xs font-medium text-gray-500 border-b border-gray-100">
-                              Upload from
-                            </div>
-                            
-                            {/* Local File Upload */}
-                            <label
-                              htmlFor="local-file-upload"
-                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 cursor-pointer"
-                            >
-                              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M20 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                              <span>Local Device</span>
-                            </label>
-                            <input
-                              type="file"
-                              id="local-file-upload"
-                              onChange={(e) => {
-                                setFile(e.target.files ? e.target.files[0] : null);
-                                setUploadDropdownOpen(false);
-                              }}
-                              accept=".pdf,.docx,.txt,.xlsx,.xls,.csv,.json"
-                              className="hidden"
-                            />
-                            
-                            {/* Google Drive Option */}
-                            <button
-                              onClick={handleGoogleDriveUpload}
-                              disabled={cloudLoading === 'google-drive'}
-                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M6.28 3L3.28 8.5L6.28 14h4.44L13.72 8.5L10.72 3H6.28zM14.5 6.5L12 11h8l2.5-4.5H14.5zM16 13L12 20.5L8 13h8z"/>
-                              </svg>
-                              <span>Google Drive</span>
-                              {cloudLoading === 'google-drive' && (
-                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-500"></div>
-                              )}
-                            </button>
-                            
-                            {/* OneDrive Option */}
-                            <button
-                              onClick={handleOneDriveUpload}
-                              disabled={cloudLoading === 'onedrive'}
-                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              <svg className="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.71 11.2A5.09 5.09 0 0 0 14 7.5a6.12 6.12 0 0 0-6 5.1 3.5 3.5 0 0 0 .5 6.9h9.5a2.5 2.5 0 0 0 1.21-4.7z"/>
-                              </svg>
-                              <span>OneDrive</span>
-                              {cloudLoading === 'onedrive' && (
-                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-600"></div>
-                              )}
-                            </button>
-                            
-                            {/* Dropbox Option */}
-                            <button
-                              onClick={handleDropboxUpload}
-                              disabled={cloudLoading === 'dropbox'}
-                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              <svg className="w-4 h-4 text-blue-700" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M7.004 3.5L0 7.5l7.004 4L7.004 7.5zm9.992 0L24 7.5l-7.004 4V7.5zM0 16.5l7.004 4L7.004 16.5l7.004-4L24 16.5l-7.004 4-2.004-1.25L12 20.5z"/>
-                              </svg>
-                              <span>Dropbox</span>
-                              {cloudLoading === 'dropbox' && (
-                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-700"></div>
-                              )}
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                      <FileUploadDropdown 
+                        isOpen={uploadDropdownOpen}
+                        onClose={() => setUploadDropdownOpen(false)}
+                        onLocalFileSelect={(e) => {
+                          setFile(e.target.files ? e.target.files[0] : null);
+                          setUploadDropdownOpen(false);
+                        }}
+                        onGoogleDriveClick={handleGoogleDriveUpload}
+                        onOneDriveClick={handleOneDriveUpload}
+                        onDropboxClick={handleDropboxUpload}
+                        cloudLoading={cloudLoading}
+                        loading={loading}
+                      />
                     </div>
                   </div>
                   
