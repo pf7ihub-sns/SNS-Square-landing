@@ -398,6 +398,36 @@ function ChatPage() {
     }
   };
 
+  // 🔹 Handle OneDrive file upload
+  const handleOneDriveUpload = async () => {
+    setCloudLoading('onedrive');
+    setUploadDropdownOpen(false);
+
+    try {
+      await handleOneDriveAuth();
+    } catch (error) {
+      console.error('OneDrive upload error:', error);
+      showToast('Failed to connect to OneDrive', "error");
+    } finally {
+      setCloudLoading(null);
+    }
+  };
+
+  // 🔹 Handle Dropbox file upload
+  const handleDropboxUpload = async () => {
+    setCloudLoading('dropbox');
+    setUploadDropdownOpen(false);
+
+    try {
+      await handleDropboxAuth();
+    } catch (error) {
+      console.error('Dropbox upload error:', error);
+      showToast('Failed to connect to Dropbox', "error");
+    } finally {
+      setCloudLoading(null);
+    }
+  };
+
   // 🔹 Google Drive authentication and file picker
   const handleGoogleDriveAuth = async () => {
     // Check if Google Drive is configured
@@ -642,6 +672,357 @@ https://developers.google.com/drive/api/quickstart/js
     }
   };
 
+  // 🔹 OneDrive integration functions
+  const handleOneDriveAuth = async () => {
+    const hasOneDriveConfig = checkOneDriveConfig();
+    
+    if (!hasOneDriveConfig) {
+      showOneDriveSetupModal();
+      return;
+    }
+    
+    showToast("Requesting OneDrive access...", "info");
+    
+    try {
+      await loadMicrosoftGraph();
+      await initializeOneDrive();
+      await showOneDrivePicker();
+    } catch (error) {
+      if (error.message === 'OneDrive API not configured') {
+        showOneDriveSetupModal();
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  const checkOneDriveConfig = () => {
+    const clientId = import.meta.env.VITE_ONEDRIVE_CLIENT_ID;
+    return clientId && clientId !== 'YOUR_ONEDRIVE_CLIENT_ID';
+  };
+
+  const showOneDriveSetupModal = () => {
+    const setupInstructions = `
+🔧 OneDrive Setup Required
+
+To enable OneDrive integration:
+
+1. Go to Azure Portal (portal.azure.com)
+2. Register a new application in Azure AD
+3. Add Microsoft Graph API permissions
+4. Get your Application (client) ID
+5. Add redirect URI for your domain
+
+Environment Variables:
+VITE_ONEDRIVE_CLIENT_ID=your_client_id
+
+For detailed setup instructions, see:
+https://docs.microsoft.com/en-us/graph/auth-register-app-v2
+    `;
+    
+    showToast("OneDrive not configured - check console for setup instructions", "error");
+    console.log(setupInstructions);
+    
+    if (confirm("Open OneDrive API setup documentation?")) {
+      window.open('https://docs.microsoft.com/en-us/graph/auth-register-app-v2', '_blank');
+    }
+  };
+
+  const loadMicrosoftGraph = () => {
+    return new Promise((resolve, reject) => {
+      if (window.msal) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://alcdn.msauth.net/browser/2.32.2/js/msal-browser.min.js';
+      script.onload = () => {
+        window.msalInstance = new window.msal.PublicClientApplication({
+          auth: {
+            clientId: import.meta.env.VITE_ONEDRIVE_CLIENT_ID,
+            authority: 'https://login.microsoftonline.com/common',
+            redirectUri: window.location.origin
+          }
+        });
+        resolve();
+      };
+      script.onerror = () => reject(new Error('Failed to load Microsoft Graph SDK'));
+      document.head.appendChild(script);
+    });
+  };
+
+  const initializeOneDrive = async () => {
+    const CLIENT_ID = import.meta.env.VITE_ONEDRIVE_CLIENT_ID;
+    
+    if (!CLIENT_ID || CLIENT_ID === 'YOUR_ONEDRIVE_CLIENT_ID') {
+      throw new Error('OneDrive API not configured');
+    }
+    
+    try {
+      const loginRequest = {
+        scopes: ['Files.Read', 'Files.Read.All']
+      };
+      
+      const response = await window.msalInstance.loginPopup(loginRequest);
+      window.oneDriveAccessToken = response.accessToken;
+      showToast("OneDrive access granted!", "success");
+      return response;
+    } catch (error) {
+      console.error('OneDrive initialization error:', error);
+      throw new Error('Failed to initialize OneDrive access');
+    }
+  };
+
+  const showOneDrivePicker = async () => {
+    try {
+      if (!window.oneDriveAccessToken) {
+        throw new Error('No OneDrive access token available');
+      }
+      
+      // First, check if user has OneDrive at all
+      let response;
+      try {
+        response = await fetch('https://graph.microsoft.com/v1.0/me/drive', {
+          headers: {
+            'Authorization': `Bearer ${window.oneDriveAccessToken}`
+          }
+        });
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            showToast("OneDrive is not set up for this Microsoft account. Please set up OneDrive first.", "error");
+            return;
+          }
+          throw new Error(`Failed to access OneDrive: ${response.status}`);
+        }
+      } catch (error) {
+        showToast("Cannot access OneDrive. Please make sure OneDrive is enabled for your account.", "error");
+        return;
+      }
+      
+      // Try to get files from root folder
+      try {
+        response = await fetch('https://graph.microsoft.com/v1.0/me/drive/root/children', {
+          headers: {
+            'Authorization': `Bearer ${window.oneDriveAccessToken}`
+          }
+        });
+        
+        if (!response.ok) {
+          // If root doesn't work, try recent files instead
+          response = await fetch('https://graph.microsoft.com/v1.0/me/drive/recent', {
+            headers: {
+              'Authorization': `Bearer ${window.oneDriveAccessToken}`
+            }
+          });
+        }
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch OneDrive files: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Show available files to user (simplified - in real app you'd show a proper picker)
+        if (data.value && data.value.length > 0) {
+          // Filter for supported file types
+          const supportedFiles = data.value.filter(file => 
+            !file.folder && 
+            file.name && 
+            /\.(pdf|docx|txt|xlsx|xls|csv|json)$/i.test(file.name)
+          );
+          
+          if (supportedFiles.length > 0) {
+            // For now, let user pick first supported file
+            // In a real implementation, show a file picker dialog
+            const firstFile = supportedFiles[0];
+            const confirmMessage = `Found ${supportedFiles.length} supported file(s). Import "${firstFile.name}"?`;
+            
+            if (confirm(confirmMessage)) {
+              await downloadOneDriveFile(firstFile.id, firstFile.name);
+            } else {
+              showToast("File import cancelled", "info");
+            }
+          } else {
+            showToast("No supported files found. Please upload PDF, Word, Excel, or text files to OneDrive.", "info");
+          }
+        } else {
+          showToast("No files found in OneDrive. Please add some files first.", "info");
+        }
+        
+      } catch (fileError) {
+        console.error("Error fetching files:", fileError);
+        showToast("Could not access OneDrive files. Please check your permissions.", "error");
+      }
+      
+    } catch (error) {
+      console.error("OneDrive picker error:", error);
+      showToast("Failed to connect to OneDrive", "error");
+      throw error;
+    }
+  };
+
+  const downloadOneDriveFile = async (fileId, fileName) => {
+    try {
+      if (!window.oneDriveAccessToken) {
+        throw new Error('No OneDrive access token available');
+      }
+
+      const downloadUrl = `https://graph.microsoft.com/v1.0/me/drive/items/${fileId}/content`;
+      
+      const response = await fetch(downloadUrl, {
+        headers: {
+          'Authorization': `Bearer ${window.oneDriveAccessToken}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: blob.type });
+      
+      setFile(file);
+      showToast(`File imported from OneDrive: ${fileName}`, "success");
+    } catch (error) {
+      showToast("Failed to download file from OneDrive", "error");
+      console.error("OneDrive download error:", error);
+      throw error;
+    }
+  };
+
+  // 🔹 Dropbox integration functions
+  const handleDropboxAuth = async () => {
+    const hasDropboxConfig = checkDropboxConfig();
+    
+    if (!hasDropboxConfig) {
+      showDropboxSetupModal();
+      return;
+    }
+    
+    showToast("Requesting Dropbox access...", "info");
+    
+    try {
+      await loadDropboxSDK();
+      await showDropboxPicker();
+    } catch (error) {
+      if (error.message === 'Dropbox API not configured') {
+        showDropboxSetupModal();
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  const checkDropboxConfig = () => {
+    const appKey = import.meta.env.VITE_DROPBOX_APP_KEY;
+    return appKey && appKey !== 'YOUR_DROPBOX_APP_KEY';
+  };
+
+  const showDropboxSetupModal = () => {
+    const setupInstructions = `
+🔧 Dropbox Setup Required
+
+To enable Dropbox integration:
+
+1. Go to Dropbox App Console (dropbox.com/developers/apps)
+2. Create a new app
+3. Choose 'Scoped access' and 'Full Dropbox'
+4. Get your App key
+5. Add your domain to OAuth redirect URIs
+
+Environment Variables:
+VITE_DROPBOX_APP_KEY=your_app_key
+
+For detailed setup instructions, see:
+https://developers.dropbox.com/oauth-guide
+    `;
+    
+    showToast("Dropbox not configured - check console for setup instructions", "error");
+    console.log(setupInstructions);
+    
+    if (confirm("Open Dropbox API setup documentation?")) {
+      window.open('https://developers.dropbox.com/oauth-guide', '_blank');
+    }
+  };
+
+  const loadDropboxSDK = () => {
+    return new Promise((resolve, reject) => {
+      if (window.Dropbox) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/dropbox/dist/Dropbox-sdk.min.js';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load Dropbox SDK'));
+      document.head.appendChild(script);
+    });
+  };
+
+  const showDropboxPicker = async () => {
+    try {
+      // Use Dropbox Chooser (simpler alternative to full OAuth)
+      const script = document.createElement('script');
+      script.src = 'https://www.dropbox.com/static/api/2/dropins.js';
+      script.id = 'dropboxjs';
+      script.setAttribute('data-app-key', import.meta.env.VITE_DROPBOX_APP_KEY);
+      
+      return new Promise((resolve, reject) => {
+        script.onload = () => {
+          window.Dropbox.choose({
+            success: async (files) => {
+              if (files && files.length > 0) {
+                const file = files[0];
+                try {
+                  await downloadDropboxFile(file.link, file.name);
+                  resolve();
+                } catch (error) {
+                  reject(error);
+                }
+              }
+            },
+            cancel: () => {
+              showToast("File selection cancelled", "info");
+              resolve();
+            },
+            linkType: 'direct',
+            multiselect: false,
+            extensions: ['.pdf', '.docx', '.txt', '.xlsx', '.xls', '.csv', '.json']
+          });
+        };
+        script.onerror = () => reject(new Error('Failed to load Dropbox Chooser'));
+        document.head.appendChild(script);
+      });
+    } catch (error) {
+      showToast("Failed to open Dropbox file picker", "error");
+      console.error("Dropbox picker error:", error);
+      throw error;
+    }
+  };
+
+  const downloadDropboxFile = async (fileUrl, fileName) => {
+    try {
+      const response = await fetch(fileUrl);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: blob.type });
+      
+      setFile(file);
+      showToast(`File imported from Dropbox: ${fileName}`, "success");
+    } catch (error) {
+      showToast("Failed to download file from Dropbox", "error");
+      console.error("Dropbox download error:", error);
+      throw error;
+    }
+  };
 
   // 🔹 Send message
   const sendMessage = async () => {
@@ -1182,6 +1563,36 @@ https://developers.google.com/drive/api/quickstart/js
                               <span>Google Drive</span>
                               {cloudLoading === 'google-drive' && (
                                 <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-500"></div>
+                              )}
+                            </button>
+                            
+                            {/* OneDrive Option */}
+                            <button
+                              onClick={handleOneDriveUpload}
+                              disabled={cloudLoading === 'onedrive'}
+                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <svg className="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 11.2A5.09 5.09 0 0 0 14 7.5a6.12 6.12 0 0 0-6 5.1 3.5 3.5 0 0 0 .5 6.9h9.5a2.5 2.5 0 0 0 1.21-4.7z"/>
+                              </svg>
+                              <span>OneDrive</span>
+                              {cloudLoading === 'onedrive' && (
+                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-600"></div>
+                              )}
+                            </button>
+                            
+                            {/* Dropbox Option */}
+                            <button
+                              onClick={handleDropboxUpload}
+                              disabled={cloudLoading === 'dropbox'}
+                              className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <svg className="w-4 h-4 text-blue-700" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.004 3.5L0 7.5l7.004 4L7.004 7.5zm9.992 0L24 7.5l-7.004 4V7.5zM0 16.5l7.004 4L7.004 16.5l7.004-4L24 16.5l-7.004 4-2.004-1.25L12 20.5z"/>
+                              </svg>
+                              <span>Dropbox</span>
+                              {cloudLoading === 'dropbox' && (
+                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-700"></div>
                               )}
                             </button>
                           </div>
