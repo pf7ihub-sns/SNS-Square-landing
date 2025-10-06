@@ -68,7 +68,7 @@ const FileUploadDropdown = ({
         </button>
         
         {/* Dropbox Option */}
-        <button
+        {/* <button
           onClick={onDropboxClick}
           disabled={cloudLoading === 'dropbox'}
           className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -80,7 +80,7 @@ const FileUploadDropdown = ({
           {cloudLoading === 'dropbox' && (
             <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-700"></div>
           )}
-        </button>
+        </button> */}
       </div>
     </div>
   );
