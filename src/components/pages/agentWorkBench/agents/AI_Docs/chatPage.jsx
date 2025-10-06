@@ -801,60 +801,8 @@ https://docs.microsoft.com/en-us/graph/auth-register-app-v2
         return;
       }
       
-      // Try to get files from root folder
-      try {
-        response = await fetch('https://graph.microsoft.com/v1.0/me/drive/root/children', {
-          headers: {
-            'Authorization': `Bearer ${window.oneDriveAccessToken}`
-          }
-        });
-        
-        if (!response.ok) {
-          // If root doesn't work, try recent files instead
-          response = await fetch('https://graph.microsoft.com/v1.0/me/drive/recent', {
-            headers: {
-              'Authorization': `Bearer ${window.oneDriveAccessToken}`
-            }
-          });
-        }
-        
-        if (!response.ok) {
-          throw new Error(`Failed to fetch OneDrive files: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Show available files to user (simplified - in real app you'd show a proper picker)
-        if (data.value && data.value.length > 0) {
-          // Filter for supported file types
-          const supportedFiles = data.value.filter(file => 
-            !file.folder && 
-            file.name && 
-            /\.(pdf|docx|txt|xlsx|xls|csv|json)$/i.test(file.name)
-          );
-          
-          if (supportedFiles.length > 0) {
-            // For now, let user pick first supported file
-            // In a real implementation, show a file picker dialog
-            const firstFile = supportedFiles[0];
-            const confirmMessage = `Found ${supportedFiles.length} supported file(s). Import "${firstFile.name}"?`;
-            
-            if (confirm(confirmMessage)) {
-              await downloadOneDriveFile(firstFile.id, firstFile.name);
-            } else {
-              showToast("File import cancelled", "info");
-            }
-          } else {
-            showToast("No supported files found. Please upload PDF, Word, Excel, or text files to OneDrive.", "info");
-          }
-        } else {
-          showToast("No files found in OneDrive. Please add some files first.", "info");
-        }
-        
-      } catch (fileError) {
-        console.error("Error fetching files:", fileError);
-        showToast("Could not access OneDrive files. Please check your permissions.", "error");
-      }
+      // Start the file browser from root
+      await showOneDriveFileBrowser('root');
       
     } catch (error) {
       console.error("OneDrive picker error:", error);
@@ -862,6 +810,128 @@ https://docs.microsoft.com/en-us/graph/auth-register-app-v2
       throw error;
     }
   };
+
+  const showOneDriveFileBrowser = async (folderId = 'root', folderName = 'OneDrive', breadcrumb = []) => {
+    try {
+      const endpoint = folderId === 'root' 
+        ? 'https://graph.microsoft.com/v1.0/me/drive/root/children'
+        : `https://graph.microsoft.com/v1.0/me/drive/items/${folderId}/children`;
+
+      const response = await fetch(endpoint, {
+        headers: {
+          'Authorization': `Bearer ${window.oneDriveAccessToken}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch OneDrive contents: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.value || data.value.length === 0) {
+        showToast(`No items found in ${folderName}`, "info");
+        return;
+      }
+
+      // Separate folders and files
+      const folders = data.value.filter(item => item.folder).sort((a, b) => a.name.localeCompare(b.name));
+      const files = data.value.filter(item => 
+        !item.folder && 
+        item.name && 
+        /\.(pdf|docx|txt|xlsx|xls|csv|json)$/i.test(item.name) &&
+        !item.name.toLowerCase().includes('getting started') &&
+        !item.name.toLowerCase().includes('onedrive')
+      ).sort((a, b) => a.name.localeCompare(b.name));
+
+      // Create the file browser interface
+      const currentPath = [...breadcrumb, { id: folderId, name: folderName }];
+      const pathDisplay = currentPath.map(p => p.name).join(' > ');
+      
+      let browserContent = `📁 OneDrive File Browser\n\n`;
+      browserContent += `Current Location: ${pathDisplay}\n\n`;
+      
+      let options = [];
+      let optionIndex = 1;
+
+      // Add "Go Up" option if not in root
+      if (folderId !== 'root') {
+        options.push({ type: 'up', text: '📁 .. (Go Up)' });
+        browserContent += `${optionIndex}. 📁 .. (Go Up)\n`;
+        optionIndex++;
+      }
+
+      // Add folders
+      if (folders.length > 0) {
+        browserContent += `\n📂 Folders:\n`;
+        folders.forEach(folder => {
+          options.push({ type: 'folder', item: folder });
+          browserContent += `${optionIndex}. 📁 ${folder.name}\n`;
+          optionIndex++;
+        });
+      }
+
+      // Add files
+      if (files.length > 0) {
+        browserContent += `\n📄 Files:\n`;
+        files.forEach(file => {
+          const size = file.size ? Math.round(file.size / 1024) + ' KB' : 'Unknown size';
+          options.push({ type: 'file', item: file });
+          browserContent += `${optionIndex}. 📄 ${file.name} (${size})\n`;
+          optionIndex++;
+        });
+      }
+
+      if (files.length === 0 && folders.length === 0) {
+        browserContent += `\nNo supported files or folders found in this location.\n`;
+      }
+
+      browserContent += `\nEnter number (1-${options.length}) or press Cancel:`;
+
+      const userChoice = prompt(browserContent);
+
+      if (userChoice === null) {
+        showToast("OneDrive browse cancelled", "info");
+        return;
+      }
+
+      const choiceIndex = parseInt(userChoice) - 1;
+
+      if (isNaN(choiceIndex) || choiceIndex < 0 || choiceIndex >= options.length) {
+        showToast("Invalid selection. Please try again.", "error");
+        return;
+      }
+
+      const selectedOption = options[choiceIndex];
+
+      if (selectedOption.type === 'up') {
+        // Go up one level
+        const parentBreadcrumb = breadcrumb.slice(0, -1);
+        const parentFolderId = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].id : 'root';
+        const parentName = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].name : 'OneDrive';
+        await showOneDriveFileBrowser(parentFolderId, parentName, parentBreadcrumb.slice(0, -1));
+      } else if (selectedOption.type === 'folder') {
+        // Navigate into folder
+        const folder = selectedOption.item;
+        const newBreadcrumb = [...currentPath];
+        await showOneDriveFileBrowser(folder.id, folder.name, newBreadcrumb);
+      } else if (selectedOption.type === 'file') {
+        // Download selected file
+        const file = selectedOption.item;
+        if (confirm(`Import "${file.name}" from OneDrive?`)) {
+          await downloadOneDriveFile(file.id, file.name);
+        } else {
+          showToast("File import cancelled", "info");
+        }
+      }
+
+    } catch (error) {
+      console.error("OneDrive browser error:", error);
+      showToast("Failed to browse OneDrive contents", "error");
+    }
+  };
+
+
 
   const downloadOneDriveFile = async (fileId, fileName) => {
     try {
