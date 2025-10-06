@@ -3516,6 +3516,15 @@ export default {
           "useCases": ["Inbox management", "Customer support", "Internal communications"],
           status: "available"
         },
+        {
+          "id": "renewal-agent",
+          "name": "Renewal Agent",
+          "summary": "Automate subscription renewal notifications and manage subscriptions.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Automated renewal reminders (30/15/7 days)", "Subscription lifecycle tracking", "Dashboard analytics & reporting"],
+          "useCases": ["SaaS subscription management", "Membership renewal automation", "Contract expiration alerts"],
+          status: "available"
+        },
 
       ],
     },

@@ -20,6 +20,7 @@ import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
+import RenewalAgent from "../components/pages/agentWorkBench/agents/renewalAgent";
 export default function AppRoutes() {
   return (
     <Routes>
