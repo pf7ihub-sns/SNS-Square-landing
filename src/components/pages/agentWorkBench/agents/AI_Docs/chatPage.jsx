@@ -467,12 +467,6 @@ function ChatPage() {
     }
   };
 
-
-
-
-
-
-
   // 🔹 OneDrive integration functions
   const handleOneDriveAuth = async () => {
     const hasOneDriveConfig = CloudStorageService.checkOneDriveConfig();
@@ -499,8 +493,6 @@ function ChatPage() {
       }
     }
   };
-
-
 
   const showOneDrivePicker = async () => {
     try {
@@ -604,7 +596,6 @@ function ChatPage() {
   };
 
 
-
   const downloadOneDriveFile = async (fileId, fileName) => {
     try {
       const result = await CloudStorageService.downloadOneDriveFile(fileId, fileName);
@@ -647,8 +638,6 @@ function ChatPage() {
       }
     }
   };
-
-
 
   // 🔹 Send message
   const sendMessage = async () => {
