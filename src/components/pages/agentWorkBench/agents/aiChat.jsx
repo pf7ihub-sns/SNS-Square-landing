@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { AlertCircle, Upload, Send, Bot, User, FileText, X } from "lucide-react";
-
-// Optional: Install and import marked for markdown parsing
-// import { marked } from "marked";
+import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink } from "lucide-react";
 
 const API_BASE = "http://127.0.0.1:8000";
 const personas = ["neutral", "formal", "casual", "technical", "simplified", "friendly"];
@@ -16,6 +13,7 @@ const AiChat = () => {
   const [error, setError] = useState(null);
   const [fileId, setFileId] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState(null);
+  const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const chatEndRef = useRef(null);
   const textareaRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -43,90 +41,80 @@ const AiChat = () => {
     }
   }, [message]);
 
-const formatResponse = (data) => {
-  if (!data) return "No response";
-  if (data.response) {
-    // Parse markdown-like bold syntax (**text**)
-    let formatted = data.response.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  const formatResponse = (data) => {
+    if (!data) return "No response";
+    if (data.response) {
+      let formatted = data.response.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      const lines = formatted.split("\n").filter((line) => line.trim());
+      const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
+      const isBulletList = lines.some((line) => /^\*\s/.test(line.trim()));
 
-    // Split the response into lines and remove empty ones
-    const lines = formatted.split("\n").filter((line) => line.trim());
-
-    // Check for numbered list (e.g., "5. text")
-    const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
-
-    // Check for bullet list (e.g., "* text")
-    const isBulletList = lines.some((line) => /^\*\s/.test(line.trim()));
-
-    if (isNumberedList) {
-      // Format as an ordered list
-      let listContent = "<ol class='list-decimal pl-6 space-y-2'>";
-      lines.forEach((line) => {
-        const trimmedLine = line.trim();
-        if (/^\d+\.\s/.test(trimmedLine)) {
-          const content = trimmedLine.replace(/^\d+\.\s/, "");
-          listContent += `<li>${content}</li>`;
-        } else {
-          listContent += `</ol><p>${trimmedLine}</p><ol class='list-decimal pl-6 space-y-2'>`;
-        }
-      });
-      listContent += "</ol>";
-      listContent = listContent.replace(/<ol class='list-decimal pl-6 space-y-2'><\/ol>/g, "");
-      return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
-    } else if (isBulletList) {
-      // Format as an unordered list
-      let listContent = "<ul class='list-disc pl-6 space-y-2'>";
-      let inList = false;
-      lines.forEach((line) => {
-        const trimmedLine = line.trim();
-        if (/^\*\s/.test(trimmedLine)) {
-          if (!inList) {
-            inList = true;
+      if (isNumberedList) {
+        let listContent = "<ol class='list-decimal pl-6 space-y-2'>";
+        lines.forEach((line) => {
+          const trimmedLine = line.trim();
+          if (/^\d+\.\s/.test(trimmedLine)) {
+            const content = trimmedLine.replace(/^\d+\.\s/, "");
+            listContent += `<li>${content}</li>`;
+          } else {
+            listContent += `</ol><p>${trimmedLine}</p><ol class='list-decimal pl-6 space-y-2'>`;
           }
-          const content = trimmedLine.replace(/^\*\s/, "");
-          listContent += `<li>${content}</li>`;
-        } else {
-          if (inList) {
-            listContent += "</ul>";
-            inList = false;
+        });
+        listContent += "</ol>";
+        listContent = listContent.replace(/<ol class='list-decimal pl-6 space-y-2'><\/ol>/g, "");
+        return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
+      } else if (isBulletList) {
+        let listContent = "<ul class='list-disc pl-6 space-y-2'>";
+        let inList = false;
+        lines.forEach((line) => {
+          const trimmedLine = line.trim();
+          if (/^\*\s/.test(trimmedLine)) {
+            if (!inList) {
+              inList = true;
+            }
+            const content = trimmedLine.replace(/^\*\s/, "");
+            listContent += `<li>${content}</li>`;
+          } else {
+            if (inList) {
+              listContent += "</ul>";
+              inList = false;
+            }
+            listContent += `<p>${trimmedLine}</p>`;
           }
-          listContent += `<p>${trimmedLine}</p>`;
+        });
+        if (inList) {
+          listContent += "</ul>";
         }
-      });
-      if (inList) {
-        listContent += "</ul>";
+        return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
       }
-      return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
+
+      return <div dangerouslySetInnerHTML={{ __html: formatted }} />;
     }
 
-    // Non-list response, just return the formatted text
-    return <div dangerouslySetInnerHTML={{ __html: formatted }} />;
-  }
+    if (data.analytics || data.experience || data.match) {
+      return (
+        <div className="space-y-2">
+          {data.analytics && (
+            <p>
+              <strong className="text-blue-900">📊 Analytics:</strong> {data.analytics}
+            </p>
+          )}
+          {data.experience && (
+            <p>
+              <strong className="text-blue-900">💼 Experience:</strong> {data.experience}
+            </p>
+          )}
+          {data.match && (
+            <p>
+              <strong className="text-blue-900">✅ Match:</strong> {data.match}
+            </p>
+          )}
+        </div>
+      );
+    }
 
-  if (data.analytics || data.experience || data.match) {
-    return (
-      <div className="space-y-2">
-        {data.analytics && (
-          <p>
-            <strong className="text-blue-900">📊 Analytics:</strong> {data.analytics}
-          </p>
-        )}
-        {data.experience && (
-          <p>
-            <strong className="text-blue-900">💼 Experience:</strong> {data.experience}
-          </p>
-        )}
-        {data.match && (
-          <p>
-            <strong className="text-blue-900">✅ Match:</strong> {data.match}
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  return <pre className="text-xs overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>;
-};
+    return <pre className="text-xs overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>;
+  };
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -185,6 +173,7 @@ const formatResponse = (data) => {
           query: userMessage,
           persona,
           file_id: fileId,
+          web_search: webSearchEnabled
         }),
       });
 
@@ -196,7 +185,12 @@ const formatResponse = (data) => {
       const data = await response.json();
       setChatHistory((prev) => [
         ...prev,
-        { role: "assistant", content: formatResponse(data) },
+        { 
+          role: "assistant", 
+          content: formatResponse(data),
+          sources: data.sources || [],
+          searchEnabled: data.search_enabled || false
+        },
       ]);
     } catch (err) {
       setError(err.message || "Chat failed");
@@ -235,7 +229,9 @@ const formatResponse = (data) => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold">AI Chat Assistant</h1>
-                <p className="text-blue-200 text-sm">Powered by advanced AI</p>
+                <p className="text-blue-200 text-sm">
+                  {webSearchEnabled ? "🌐 Web Search Enabled" : "Powered by advanced AI"}
+                </p>
               </div>
             </div>
           </div>
@@ -256,6 +252,20 @@ const formatResponse = (data) => {
               ))}
             </select>
           </div>
+
+          {/* Web Search Toggle */}
+          <label className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+            <input
+              type="checkbox"
+              checked={webSearchEnabled}
+              onChange={(e) => setWebSearchEnabled(e.target.checked)}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <Globe className={`w-4 h-4 ${webSearchEnabled ? 'text-blue-600' : 'text-gray-500'}`} />
+            <span className={`text-sm font-medium ${webSearchEnabled ? 'text-blue-700' : 'text-gray-700'}`}>
+              Web Search
+            </span>
+          </label>
 
           <label className="flex items-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-lg cursor-pointer hover:bg-blue-800 transition-colors text-sm font-medium">
             <Upload className="w-4 h-4" />
@@ -303,49 +313,83 @@ const formatResponse = (data) => {
                 Start a Conversation
               </h2>
               <p className="text-gray-500 max-w-md">
-                Ask me anything! Upload a file or just start typing your question.
+                Ask me anything! {webSearchEnabled && "Web search is enabled for real-time information."} Upload a file or just start typing your question.
               </p>
             </div>
           )}
 
           {chatHistory.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex gap-3 ${
-                msg.role === "user" ? "flex-row-reverse" : ""
-              }`}
-            >
+            <div key={i}>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  msg.role === "assistant"
-                    ? "bg-blue-700 text-white"
-                    : msg.role === "system"
-                    ? "bg-yellow-500 text-white"
-                    : "bg-gray-700 text-white"
+                className={`flex gap-3 ${
+                  msg.role === "user" ? "flex-row-reverse" : ""
                 }`}
               >
-                {msg.role === "assistant" ? (
-                  <Bot className="w-5 h-5" />
-                ) : msg.role === "system" ? (
-                  <FileText className="w-5 h-5" />
-                ) : (
-                  <User className="w-5 h-5" />
-                )}
-              </div>
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    msg.role === "assistant"
+                      ? "bg-blue-700 text-white"
+                      : msg.role === "system"
+                      ? "bg-yellow-500 text-white"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  {msg.role === "assistant" ? (
+                    <Bot className="w-5 h-5" />
+                  ) : msg.role === "system" ? (
+                    <FileText className="w-5 h-5" />
+                  ) : (
+                    <User className="w-5 h-5" />
+                  )}
+                </div>
 
-              <div
-                className={`max-w-[70%] p-4 rounded-2xl shadow-sm ${
-                  msg.role === "assistant"
-                    ? "bg-blue-50 border border-blue-100"
-                    : msg.role === "system"
-                    ? "bg-yellow-50 border border-yellow-200 text-sm italic"
-                    : "bg-gray-700 text-white"
-                }`}
-              >
-                <div className="prose prose-sm max-w-none">
-                  {typeof msg.content === "string" ? msg.content : msg.content}
+                <div
+                  className={`max-w-[70%] p-4 rounded-2xl shadow-sm ${
+                    msg.role === "assistant"
+                      ? "bg-blue-50 border border-blue-100"
+                      : msg.role === "system"
+                      ? "bg-yellow-50 border border-yellow-200 text-sm italic"
+                      : "bg-gray-700 text-white"
+                  }`}
+                >
+                  <div className="prose prose-sm max-w-none">
+                    {typeof msg.content === "string" ? msg.content : msg.content}
+                  </div>
                 </div>
               </div>
+
+              {/* Display sources if available */}
+              {msg.sources && msg.sources.length > 0 && (
+                <div className="ml-11 mt-2 space-y-2">
+                  <div className="text-xs font-semibold text-gray-600 flex items-center gap-1">
+                    <Globe className="w-3 h-3" />
+                    Sources:
+                  </div>
+                  {msg.sources.map((source, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-white border border-gray-200 rounded-lg p-3 text-sm hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1">
+                          <a
+                            href={source.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-blue-700 hover:text-blue-900 flex items-center gap-1"
+                          >
+                            {idx + 1}. {source.title}
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                          <p className="text-gray-600 text-xs mt-1 line-clamp-2">
+                            {source.snippet}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
 
@@ -361,7 +405,9 @@ const formatResponse = (data) => {
                     <div className="w-2 h-2 bg-blue-700 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
                     <div className="w-2 h-2 bg-blue-700 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                   </div>
-                  <span className="text-sm text-gray-600">AI is thinking...</span>
+                  <span className="text-sm text-gray-600">
+                    {webSearchEnabled ? "Searching the web..." : "AI is thinking..."}
+                  </span>
                 </div>
               </div>
             </div>
@@ -397,7 +443,7 @@ const formatResponse = (data) => {
                   }
                 }}
                 className="w-full p-3 pr-12 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Type your message... (Shift + Enter for new line)"
+                placeholder={webSearchEnabled ? "Ask me anything about current events..." : "Type your message... (Shift + Enter for new line)"}
                 rows="1"
                 style={{ maxHeight: "120px" }}
               />
