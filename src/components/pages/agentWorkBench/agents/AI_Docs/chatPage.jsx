@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../../../common/AIDocsSidebar";
+import OneDriveModal from "./OneDriveModal";
 // Using SVG icons as data URIs since PNG files don't exist in public/icons/
 const docIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cline x1='16' y1='13' x2='8' y2='13'/%3E%3Cline x1='16' y1='17' x2='8' y2='17'/%3E%3Cline x1='10' y1='9' x2='8' y2='9'/%3E%3C/svg%3E";
 const jsonIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F59E0B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14,2 14,8 20,8'/%3E%3Cpath d='M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1m4 0a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1'/%3E%3C/svg%3E";
@@ -22,6 +23,8 @@ function ChatPage() {
   const [editContent, setEditContent] = useState("");
   const [uploadDropdownOpen, setUploadDropdownOpen] = useState(false);
   const [cloudLoading, setCloudLoading] = useState(null);
+  const [oneDriveModalOpen, setOneDriveModalOpen] = useState(false);
+  const [oneDriveBrowserData, setOneDriveBrowserData] = useState({ folders: [], files: [], currentPath: [], breadcrumb: [] });
 
   // 🔹 Toast notification functions
   const showToast = (message, type = 'info') => {
@@ -844,18 +847,10 @@ https://docs.microsoft.com/en-us/graph/auth-register-app-v2
         !item.name.toLowerCase().includes('onedrive')
       ).sort((a, b) => a.name.localeCompare(b.name));
 
-      // Store current browser state
-      window.oneDriveBrowserState = {
-        folders,
-        files,
-        folderId,
-        folderName,
-        breadcrumb,
-        currentPath: [...breadcrumb, { id: folderId, name: folderName }]
-      };
-
-      // Create and show the professional file browser modal
-      createOneDriveModal();
+      // Update modal data and show modal
+      const currentPath = [...breadcrumb, { id: folderId, name: folderName }];
+      setOneDriveBrowserData({ folders, files, currentPath, breadcrumb, folderId, folderName });
+      setOneDriveModalOpen(true);
 
     } catch (error) {
       console.error("OneDrive browser error:", error);
@@ -863,172 +858,24 @@ https://docs.microsoft.com/en-us/graph/auth-register-app-v2
     }
   };
 
-  const createOneDriveModal = () => {
-    // Remove existing modal if any
-    const existingModal = document.getElementById('onedrive-modal');
-    if (existingModal) {
-      existingModal.remove();
-    }
+  // OneDrive modal handlers
+  const handleOneDriveNavigateUp = async () => {
+    const { breadcrumb } = oneDriveBrowserData;
+    const parentBreadcrumb = breadcrumb.slice(0, -1);
+    const parentFolderId = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].id : 'root';
+    const parentName = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].name : 'OneDrive';
+    await showOneDriveFileBrowser(parentFolderId, parentName, parentBreadcrumb.slice(0, -1));
+  };
 
-    const { folders, files, currentPath } = window.oneDriveBrowserState;
-    const pathDisplay = currentPath.map(p => p.name).join(' / ');
+  const handleOneDriveNavigateToFolder = async (folderId, folderName) => {
+    const { currentPath } = oneDriveBrowserData;
+    const newBreadcrumb = [...currentPath];
+    await showOneDriveFileBrowser(folderId, folderName, newBreadcrumb);
+  };
 
-    // Create modal HTML
-    const modal = document.createElement('div');
-    modal.id = 'onedrive-modal';
-    modal.innerHTML = `
-      <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-3/4 max-h-screen overflow-hidden">
-          <!-- Header -->
-          <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-blue-50">
-            <div class="flex items-center space-x-3">
-              <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.71 11.2A5.09 5.09 0 0 0 14 7.5a6.12 6.12 0 0 0-6 5.1 3.5 3.5 0 0 0 .5 6.9h9.5a2.5 2.5 0 0 0 1.21-4.7z"/>
-              </svg>
-              <h2 class="text-xl font-semibold text-gray-800">Select from OneDrive</h2>
-            </div>
-            <button onclick="closeOneDriveModal()" class="p-2 hover:bg-gray-200 rounded-full transition-colors">
-              <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
-
-          <!-- Breadcrumb Navigation -->
-          <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
-            <div class="flex items-center space-x-2 text-sm">
-              <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-              </svg>
-              <span class="text-gray-600">${pathDisplay}</span>
-            </div>
-            ${currentPath.length > 1 ? `
-            <button onclick="navigateUp()" class="mt-2 flex items-center space-x-1 px-3 py-1 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-              </svg>
-              <span>Go Up</span>
-            </button>
-            ` : ''}
-          </div>
-
-          <!-- File Browser Content -->
-          <div class="flex-1 overflow-y-auto p-4" style="height: calc(100% - 140px);">
-            <div class="space-y-1">
-              ${folders.length > 0 ? `
-              <div class="mb-4">
-                <h3 class="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                  </svg>
-                  Folders
-                </h3>
-                ${folders.map((folder, index) => `
-                <div onclick="navigateToFolder('${folder.id}', '${folder.name.replace(/'/g, "\\'")}', ${index})" 
-                     class="flex items-center p-3 hover:bg-blue-50 cursor-pointer rounded-lg border border-transparent hover:border-blue-200 transition-all">
-                  <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                  </svg>
-                  <div class="flex-1">
-                    <p class="font-medium text-gray-900">${folder.name}</p>
-                    <p class="text-sm text-gray-500">Folder</p>
-                  </div>
-                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </div>
-                `).join('')}
-              </div>
-              ` : ''}
-
-              ${files.length > 0 ? `
-              <div>
-                <h3 class="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
-                  Files (${files.length})
-                </h3>
-                ${files.map((file, index) => {
-                  const size = file.size ? Math.round(file.size / 1024) + ' KB' : 'Unknown size';
-                  const fileIcon = getFileIcon(file.name);
-                  return `
-                  <div onclick="selectFile('${file.id}', '${file.name.replace(/'/g, "\\'")}', ${index})" 
-                       class="flex items-center p-3 hover:bg-green-50 cursor-pointer rounded-lg border border-transparent hover:border-green-200 transition-all">
-                    ${fileIcon}
-                    <div class="flex-1 ml-3">
-                      <p class="font-medium text-gray-900">${file.name}</p>
-                      <p class="text-sm text-gray-500">${size}</p>
-                    </div>
-                    <button class="px-3 py-1 bg-green-100 text-green-700 rounded-md text-sm hover:bg-green-200 transition-colors">
-                      Select
-                    </button>
-                  </div>
-                  `;
-                }).join('')}
-              </div>
-              ` : ''}
-
-              ${files.length === 0 && folders.length === 0 ? `
-              <div class="text-center py-12">
-                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                </svg>
-                <h3 class="text-lg font-medium text-gray-700 mb-2">No supported files found</h3>
-                <p class="text-gray-500">This folder doesn't contain any PDF, Word, Excel, or text files.</p>
-              </div>
-              ` : ''}
-            </div>
-          </div>
-
-          <!-- Footer -->
-          <div class="flex justify-end space-x-3 p-4 border-t border-gray-200 bg-gray-50">
-            <button onclick="closeOneDriveModal()" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    // Add global functions for modal interaction
-    window.closeOneDriveModal = () => {
-      const modal = document.getElementById('onedrive-modal');
-      if (modal) modal.remove();
-    };
-
-    window.navigateUp = async () => {
-      const { breadcrumb } = window.oneDriveBrowserState;
-      const parentBreadcrumb = breadcrumb.slice(0, -1);
-      const parentFolderId = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].id : 'root';
-      const parentName = parentBreadcrumb.length > 0 ? parentBreadcrumb[parentBreadcrumb.length - 1].name : 'OneDrive';
-      await showOneDriveFileBrowser(parentFolderId, parentName, parentBreadcrumb.slice(0, -1));
-    };
-
-    window.navigateToFolder = async (folderId, folderName) => {
-      const { currentPath } = window.oneDriveBrowserState;
-      const newBreadcrumb = [...currentPath];
-      await showOneDriveFileBrowser(folderId, folderName, newBreadcrumb);
-    };
-
-    window.selectFile = async (fileId, fileName) => {
-      window.closeOneDriveModal();
-      await downloadOneDriveFile(fileId, fileName);
-    };
-
-    window.getFileIcon = (fileName) => {
-      const extension = fileName.split('.').pop().toLowerCase();
-      const iconMap = {
-        'pdf': '<svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3 3h6v14H3V2h9zm0 2H5v14h14V7h-5V4h-2z"/></svg>',
-        'docx': '<svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>',
-        'xlsx': '<svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>',
-        'txt': '<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>',
-        'json': '<svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 01-2 2 2 2 0 012 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 00-2-2H0v-2h1a2 2 0 002-2V5a2 2 0 012-2z"/></svg>'
-      };
-      return iconMap[extension] || '<svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>';
-    };
+  const handleOneDriveSelectFile = async (fileId, fileName) => {
+    setOneDriveModalOpen(false);
+    await downloadOneDriveFile(fileId, fileName);
   };
 
 
@@ -1824,6 +1671,18 @@ https://developers.dropbox.com/oauth-guide
           </div>
         )}
       </div>
+
+      {/* OneDrive Modal */}
+      <OneDriveModal
+        isOpen={oneDriveModalOpen}
+        onClose={() => setOneDriveModalOpen(false)}
+        folders={oneDriveBrowserData.folders}
+        files={oneDriveBrowserData.files}
+        currentPath={oneDriveBrowserData.currentPath}
+        onNavigateUp={handleOneDriveNavigateUp}
+        onNavigateToFolder={handleOneDriveNavigateToFolder}
+        onSelectFile={handleOneDriveSelectFile}
+      />
     </div>
   );
 }
