@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink } from "lucide-react";
+import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink, Plus, Menu, MessageSquare, MoreVertical } from "lucide-react";
+import FileUploadDropdown from './AI_Docs/utils/FileUploadDropdown';
+import OneDriveModal from './AI_Docs/utils/OneDriveModal';
+import { CloudStorageService } from './AI_Docs/utils/CloudStorageService';
 
 const API_BASE = "http://127.0.0.1:8000";
 const personas = ["neutral", "formal", "casual", "technical", "simplified", "friendly"];
@@ -8,12 +11,20 @@ const AiChat = () => {
   const [persona, setPersona] = useState("technical");
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [conversationsList, setConversationsList] = useState([]);
+  const [currentConversationId, setCurrentConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadDropdownOpen, setUploadDropdownOpen] = useState(false);
+  const [cloudLoading, setCloudLoading] = useState(null); // 'google-drive' | 'onedrive' | null
+  const [oneDriveModalOpen, setOneDriveModalOpen] = useState(false);
   const [error, setError] = useState(null);
   const [fileId, setFileId] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null); // { name, size, type }
   const [webSearchEnabled, setWebSearchEnabled] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeMenuId, setActiveMenuId] = useState(null);
   const chatEndRef = useRef(null);
   const textareaRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -29,9 +40,7 @@ const AiChat = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${API_BASE}/ai-chat/reset`, { method: "POST" }).catch((err) => {
-      console.log("Reset failed:", err);
-    });
+    fetchConversations();
   }, []);
 
   useEffect(() => {
@@ -41,20 +50,67 @@ const AiChat = () => {
     }
   }, [message]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (activeMenuId && !event.target.closest('.conversation-menu')) {
+        setActiveMenuId(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [activeMenuId]);
+
+  const fetchConversations = async () => {
+    try {
+      const response = await fetch(`${API_BASE}/ai-chat/conversations`);
+      if (response.ok) {
+        const data = await response.json();
+        setConversationsList(data.conversations || []);
+      }
+    } catch (err) {
+      console.log("Failed to fetch conversations:", err);
+    }
+  };
+
+  const loadConversation = async (conversationId) => {
+    try {
+      // Call the compatibility conversation endpoint which returns messages
+      const response = await fetch(`${API_BASE}/ai-chat/conversation/${conversationId}`);
+      if (!response.ok) throw new Error("Failed to load conversation");
+      const data = await response.json();
+      // Map the messages to the correct format
+      const formattedMessages = (data.messages || []).map(msg => ({
+        // normalize roles: backend may return 'agent' or 'assistant'
+        role: msg.role === "agent" ? "assistant" : (msg.role || "user"),
+        content: msg.content,
+        sources: msg.sources || [],
+        searchEnabled: msg.searchEnabled || msg.search_enabled || false
+      }));
+
+      // Set currentConversationId only after a successful load
+      setCurrentConversationId(conversationId);
+      setChatHistory(formattedMessages);
+    } catch (err) {
+      console.error("Failed to load conversation:", err);
+      setError("Failed to load conversation");
+    }
+  };
+
   const formatResponse = (data) => {
     if (!data) return "No response";
     if (data.response) {
       let formatted = data.response.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      const lines = formatted.split("\n").filter((line) => line.trim());
-      const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
-      const isBulletList = lines.some((line) => /^\*\s/.test(line.trim()));
+      const lines = formatted.split("\\n").filter((line) => line.trim());
+      const isNumberedList = lines.some((line) => /^\\d+\\.\\s/.test(line.trim()));
+      const isBulletList = lines.some((line) => /^\\*\\s/.test(line.trim()));
 
       if (isNumberedList) {
         let listContent = "<ol class='list-decimal pl-6 space-y-2'>";
         lines.forEach((line) => {
           const trimmedLine = line.trim();
-          if (/^\d+\.\s/.test(trimmedLine)) {
-            const content = trimmedLine.replace(/^\d+\.\s/, "");
+          if (/^\\d+\\.\\s/.test(trimmedLine)) {
+            const content = trimmedLine.replace(/^\\d+\\.\\s/, "");
             listContent += `<li>${content}</li>`;
           } else {
             listContent += `</ol><p>${trimmedLine}</p><ol class='list-decimal pl-6 space-y-2'>`;
@@ -68,11 +124,11 @@ const AiChat = () => {
         let inList = false;
         lines.forEach((line) => {
           const trimmedLine = line.trim();
-          if (/^\*\s/.test(trimmedLine)) {
+          if (/^\\*\\s/.test(trimmedLine)) {
             if (!inList) {
               inList = true;
             }
-            const content = trimmedLine.replace(/^\*\s/, "");
+            const content = trimmedLine.replace(/^\\*\\s/, "");
             listContent += `<li>${content}</li>`;
           } else {
             if (inList) {
@@ -90,30 +146,7 @@ const AiChat = () => {
 
       return <div dangerouslySetInnerHTML={{ __html: formatted }} />;
     }
-
-    if (data.analytics || data.experience || data.match) {
-      return (
-        <div className="space-y-2">
-          {data.analytics && (
-            <p>
-              <strong className="text-blue-900">📊 Analytics:</strong> {data.analytics}
-            </p>
-          )}
-          {data.experience && (
-            <p>
-              <strong className="text-blue-900">💼 Experience:</strong> {data.experience}
-            </p>
-          )}
-          {data.match && (
-            <p>
-              <strong className="text-blue-900">✅ Match:</strong> {data.match}
-            </p>
-          )}
-        </div>
-      );
-    }
-
-    return <pre className="text-xs overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>;
+    return data.toString();
   };
 
   const handleFileUpload = async (e) => {
@@ -150,6 +183,38 @@ const AiChat = () => {
     }
   };
 
+  // Upload helper used by local and cloud flows
+  const uploadFileToServer = async (file) => {
+    setUploading(true);
+    setError(null);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const resp = await fetch(`${API_BASE}/ai-chat/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.detail || 'Upload failed');
+      }
+
+      const data = await resp.json();
+      setFileId(data.file_id);
+  setUploadedFileName(file.name);
+  setUploadedFile({ name: file.name, size: file.size, type: file.type });
+  setChatHistory((prev) => [...prev, { role: 'system', content: `File uploaded: ${file.name}` }]);
+      return data;
+    } catch (err) {
+      setError(err.message || 'Upload failed');
+      throw err;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
     if (!message.trim() || loading) return;
@@ -162,19 +227,25 @@ const AiChat = () => {
     setMessage("");
 
     try {
-      const endpoint = chatHistory.length > 0 ? "/chat-follow" : "/chat";
+      const endpoint = currentConversationId ? "/chat" : "/chat";
+      const requestBody = {
+        query: userMessage,
+        persona,
+        file_id: fileId,
+        web_search: webSearchEnabled
+      };
+
+      // If we have a current conversation, include its ID
+      if (currentConversationId) {
+        requestBody.chat_id = currentConversationId;
+      }
 
       const response = await fetch(`${API_BASE}/ai-chat${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          query: userMessage,
-          persona,
-          file_id: fileId,
-          web_search: webSearchEnabled
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -183,6 +254,12 @@ const AiChat = () => {
       }
 
       const data = await response.json();
+
+      // If this is a new conversation, set the current conversation ID (backend returns chat_id or session_id)
+      if (!currentConversationId) {
+        setCurrentConversationId(data.chat_id || data.session_id || null);
+      }
+
       setChatHistory((prev) => [
         ...prev,
         { 
@@ -192,6 +269,9 @@ const AiChat = () => {
           searchEnabled: data.search_enabled || false
         },
       ]);
+      
+      // Refresh the conversations list
+      await fetchConversations();
     } catch (err) {
       setError(err.message || "Chat failed");
       setChatHistory((prev) => prev.slice(0, -1));
@@ -203,263 +283,616 @@ const AiChat = () => {
   const clearFile = () => {
     setFileId(null);
     setUploadedFileName(null);
+    setUploadedFile(null);
   };
 
   const handleNewChat = async () => {
     try {
-      await fetch(`${API_BASE}/ai-chat/reset`, { method: "POST" });
+      setCurrentConversationId(null);
       setChatHistory([]);
       setMessage("");
       setFileId(null);
       setUploadedFileName(null);
       setError(null);
+      setWebSearchEnabled(false);
     } catch (err) {
-      console.log("Reset failed:", err);
+      setError("Failed to start new chat");
+      console.error("New chat failed:", err);
+    }
+  };
+
+  const handleRenameConversation = async (sessionId, newTitle) => {
+    try {
+      // First try the new endpoint
+      const response = await fetch(`${API_BASE}/ai-chat/${sessionId}/rename`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: newTitle }),
+      });
+
+      if (!response.ok) throw new Error("Failed to rename conversation");
+
+      await fetchConversations();
+    } catch (err) {
+      console.error("Rename failed:", err);
+      setError("Failed to rename conversation");
+    }
+  };
+
+  const handleDeleteConversation = async (sessionId) => {
+    try {
+      const response = await fetch(`${API_BASE}/ai-chat/session/${sessionId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete conversation");
+      }
+
+      // If the deleted conversation was the current one, clear the chat
+      if (currentConversationId === sessionId) {
+        setCurrentConversationId(null);
+        setChatHistory([]);
+      }
+
+      await fetchConversations();
+    } catch (err) {
+      console.error("Delete failed:", err);
+      setError("Failed to delete conversation");
+    }
+  };
+
+  // Download helper used by export functions
+  const _downloadBlob = async (response, defaultName) => {
+    const blob = await response.blob();
+    // Try to infer filename from content-disposition
+    const cd = response.headers.get('content-disposition') || '';
+    let filename = defaultName;
+    const match = /filename\*=UTF-8''(.+)$/.exec(cd) || /filename="?([^";]+)"?/.exec(cd);
+    if (match && match[1]) {
+      try {
+        filename = decodeURIComponent(match[1]);
+      } catch (e) {
+        filename = match[1];
+      }
+    }
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const exportConversation = async (fmt) => {
+    if (!currentConversationId) {
+      setError('Open a conversation first to export');
+      return;
+    }
+
+    try {
+      const resp = await fetch(`${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?include_full_text=true`);
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.detail || 'Export failed');
+      }
+      const defaultName = `${currentConversationId}.${fmt === 'text' ? 'txt' : fmt}`;
+      await _downloadBlob(resp, defaultName);
+    } catch (err) {
+      console.error('Export conversation failed', err);
+      setError(err.message || 'Export failed');
+    }
+  };
+
+  const exportMessage = async (fmt, index, content) => {
+    try {
+      let url = `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}`;
+      if (typeof index === 'number') {
+        url += `?message_index=${index}`;
+      } else if (content) {
+        // send message_content as a query param (encoded)
+        url += `?message_content=${encodeURIComponent(content)}`;
+      }
+
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.detail || 'Export message failed');
+      }
+      const ext = fmt === 'text' ? 'txt' : fmt;
+      const defaultName = `${currentConversationId}_message_${index ?? 'export'}.${ext}`;
+      await _downloadBlob(resp, defaultName);
+    } catch (err) {
+      console.error('Export message failed', err);
+      setError(err.message || 'Export message failed');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style={{ height: "75vh" }}>
-        <div className="p-6 bg-gradient-to-r from-blue-800 to-blue-900 text-white rounded-t-2xl">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <Bot className="w-7 h-7" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">AI Chat Assistant</h1>
-                <p className="text-blue-200 text-sm">
-                  {webSearchEnabled ? "🌐 Web Search Enabled" : "Powered by advanced AI"}
-                </p>
-              </div>
+    <div className="container mx-auto px-4 h-screen overflow-hidden">
+      <div className="bg-white rounded-lg shadow-lg flex h-[calc(100vh-6rem)] mt-24 w-full overflow-hidden">
+        {/* Sidebar */}
+  <div className={`${sidebarOpen ? 'w-64' : 'w-0'} bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden h-full` }>
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center gap-2 mb-4">
+              <Bot className="w-6 h-6 text-blue-600" />
+              <span className="font-semibold text-gray-800">AI Chat Bot</span>
             </div>
-          </div>
-        </div>
-
-        <div className="px-6 py-4 border-b bg-gray-50 flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600 font-medium">Persona:</span>
-            <select
-              value={persona}
-              onChange={(e) => setPersona(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-            >
-              {personas.map((p) => (
-                <option key={p} value={p}>
-                  {p.charAt(0).toUpperCase() + p.slice(1)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Web Search Toggle */}
-          <label className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-            <input
-              type="checkbox"
-              checked={webSearchEnabled}
-              onChange={(e) => setWebSearchEnabled(e.target.checked)}
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <Globe className={`w-4 h-4 ${webSearchEnabled ? 'text-blue-600' : 'text-gray-500'}`} />
-            <span className={`text-sm font-medium ${webSearchEnabled ? 'text-blue-700' : 'text-gray-700'}`}>
-              Web Search
-            </span>
-          </label>
-
-          <label className="flex items-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-lg cursor-pointer hover:bg-blue-800 transition-colors text-sm font-medium">
-            <Upload className="w-4 h-4" />
-            {uploading ? "Uploading..." : "Upload File"}
-            <input
-              type="file"
-              accept=".pdf,.docx,.txt"
-              className="hidden"
-              onChange={handleFileUpload}
-              disabled={uploading}
-            />
-          </label>
-
-          {chatHistory.length > 0 && (
+            
             <button
               onClick={handleNewChat}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm font-medium ml-auto"
+              className="w-full flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
             >
-              <X className="w-4 h-4" />
+              <Plus className="w-4 h-4" />
               New Chat
             </button>
-          )}
+          </div>
 
-          {uploadedFileName && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm">
-              <FileText className="w-4 h-4 text-green-600" />
-              <span className="text-green-800">{uploadedFileName}</span>
-              <button
-                onClick={clearFile}
-                className="ml-1 text-green-600 hover:text-green-800"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-        </div>
+          <div className="flex-1 overflow-y-auto p-2 min-h-0">
+            <div className="text-xs font-semibold text-gray-500 px-3 py-2">Chat History</div>
+            <div className="space-y-1">
+              {conversationsList.map((conv) => (
+                <div key={conv.id} className="relative conversation-menu px-2 py-1">
+                  <div className="flex items-center w-full group">
+                    <button
+                      onClick={() => loadConversation(conv.id)}
+                      className={`flex-1 text-left px-2 py-1 rounded text-sm hover:bg-gray-100 transition-colors flex items-center gap-2 ${
+                        currentConversationId === conv.id ? "bg-gray-100" : ""
+                      }`}
+                    >
+                      <span className="truncate">{conv.title}</span>
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMenuId(activeMenuId === conv.id ? null : conv.id);
+                      }}
+                      aria-label="Open conversation menu"
+                      className="p-1 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+                  </div>
 
-        <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50">
-          {chatHistory.length === 0 && (
-            <div className="h-full flex flex-col items-center justify-center text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Bot className="w-10 h-10 text-blue-700" />
-              </div>
-              <h2 className="text-xl font-semibold text-gray-700 mb-2">
-                Start a Conversation
-              </h2>
-              <p className="text-gray-500 max-w-md">
-                Ask me anything! {webSearchEnabled && "Web search is enabled for real-time information."} Upload a file or just start typing your question.
-              </p>
-            </div>
-          )}
-
-          {chatHistory.map((msg, i) => (
-            <div key={i}>
-              <div
-                className={`flex gap-3 ${
-                  msg.role === "user" ? "flex-row-reverse" : ""
-                }`}
-              >
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    msg.role === "assistant"
-                      ? "bg-blue-700 text-white"
-                      : msg.role === "system"
-                      ? "bg-yellow-500 text-white"
-                      : "bg-gray-700 text-white"
-                  }`}
-                >
-                  {msg.role === "assistant" ? (
-                    <Bot className="w-5 h-5" />
-                  ) : msg.role === "system" ? (
-                    <FileText className="w-5 h-5" />
-                  ) : (
-                    <User className="w-5 h-5" />
+                  {activeMenuId === conv.id && (
+                    <div className="absolute right-2 top-8 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const newTitle = prompt('Enter new title:', conv.title);
+                          if (newTitle) {
+                            handleRenameConversation(conv.id, newTitle);
+                          }
+                          setActiveMenuId(null);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors text-base text-blue-600 font-medium"
+                      >
+                        Rename
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (window.confirm('Are you sure you want to delete this conversation?')) {
+                            handleDeleteConversation(conv.id);
+                          }
+                          setActiveMenuId(null);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors text-base text-red-600 font-medium"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-                <div
-                  className={`max-w-[70%] p-4 rounded-2xl shadow-sm ${
-                    msg.role === "assistant"
-                      ? "bg-blue-50 border border-blue-100"
-                      : msg.role === "system"
-                      ? "bg-yellow-50 border border-yellow-200 text-sm italic"
-                      : "bg-gray-700 text-white"
-                  }`}
-                >
-                  <div className="prose prose-sm max-w-none">
-                    {typeof msg.content === "string" ? msg.content : msg.content}
-                  </div>
-                </div>
-              </div>
-
-              {/* Display sources if available */}
-              {msg.sources && msg.sources.length > 0 && (
-                <div className="ml-11 mt-2 space-y-2">
-                  <div className="text-xs font-semibold text-gray-600 flex items-center gap-1">
-                    <Globe className="w-3 h-3" />
-                    Sources:
-                  </div>
-                  {msg.sources.map((source, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-white border border-gray-200 rounded-lg p-3 text-sm hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1">
-                          <a
-                            href={source.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-medium text-blue-700 hover:text-blue-900 flex items-center gap-1"
-                          >
-                            {idx + 1}. {source.title}
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-                          <p className="text-gray-600 text-xs mt-1 line-clamp-2">
-                            {source.snippet}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+        {/* Main Content */}
+  <div className="flex-1 flex flex-col h-full min-w-0">
+          {/* Header */}
+          <div className="bg-white border-b border-gray-200 p-4 flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <Menu className="w-5 h-5 text-gray-600" />
+            </button>
+            
+            <div className="flex-1 text-center">
+              <span className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">
+                AI Chat Bot
+              </span>
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setActiveMenuId(activeMenuId === 'export' ? null : 'export')}
+                className="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-sm font-medium flex items-center gap-2"
+              >
+                Export <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+              </button>
+              {activeMenuId === 'export' && (
+                <div className="absolute right-0 mt-1 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
+                  <button onClick={() => { exportConversation('pdf'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as PDF</button>
+                  <button onClick={() => { exportConversation('docx'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as DOCX</button>
+                  <button onClick={() => { exportConversation('text'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as TXT</button>
                 </div>
               )}
             </div>
-          ))}
+          </div>
 
-          {loading && (
-            <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-blue-700 text-white flex items-center justify-center flex-shrink-0">
-                <Bot className="w-5 h-5" />
-              </div>
-              <div className="bg-blue-50 border border-blue-100 p-4 rounded-2xl shadow-sm">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-blue-700 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                    <div className="w-2 h-2 bg-blue-700 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                    <div className="w-2 h-2 bg-blue-700 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
-                  </div>
-                  <span className="text-sm text-gray-600">
-                    {webSearchEnabled ? "Searching the web..." : "AI is thinking..."}
-                  </span>
+          {/* Chat Area */}
+          <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 min-h-0">
+            <div className="max-w-3xl mx-auto h-full">
+              {chatHistory.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-center py-20">
+                  <Bot className="w-16 h-16 text-blue-600 mb-6" />
+                  <h2 className="text-3xl font-bold text-gray-800 mb-3">
+                    Start a New Chat
+                  </h2>
+                  <p className="text-gray-500 max-w-md mb-8">
+                    Ask me anything! I'm here to help.
+                  </p>
                 </div>
+              ) : (
+                <div className="space-y-6">
+                  {chatHistory.map((msg, i) => (
+                    <div key={i}>
+                      <div className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            msg.role === "assistant"
+                              ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white"
+                              : msg.role === "system"
+                              ? "bg-yellow-500 text-white"
+                              : "bg-gray-700 text-white"
+                          }`}
+                        >
+                          {msg.role === "assistant" ? (
+                            <Bot className="w-5 h-5" />
+                          ) : msg.role === "system" ? (
+                            <FileText className="w-5 h-5" />
+                          ) : (
+                            <User className="w-5 h-5" />
+                          )}
+                        </div>
+
+                        <div
+                          className={`flex-1 ${
+                            msg.role === "assistant"
+                              ? "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm"
+                              : msg.role === "system"
+                              ? "bg-yellow-50 border border-yellow-200 rounded-2xl p-3 text-sm italic"
+                              : "bg-gray-100 rounded-2xl p-4"
+                          }`}
+                        >
+                          <div className="prose prose-sm max-w-none">
+                            {typeof msg.content === "string" ? msg.content : msg.content}
+                          </div>
+                          {msg.role === "assistant" && (
+                            <div className="mt-3 relative inline-block">
+                              <button
+                                onClick={() => setActiveMenuId(activeMenuId === `msg-${i}` ? null : `msg-${i}`)}
+                                className="px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 border border-blue-200 
+                                         text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1.5 transition-colors"
+                              >
+                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6M3 17a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2h-6" />
+                                </svg>
+                                Export
+                                <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                </svg>
+                              </button>
+                              {activeMenuId === `msg-${i}` && (
+                                <div className="absolute left-0 mt-1 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 w-32">
+                                  <button 
+                                    onClick={() => { exportMessage('pdf', i); setActiveMenuId(null); }}
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
+                                  >
+                                    <svg className="w-4 h-4 text-red-500 group-hover:text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M12 2v8h8v12H4V2h8zm0 0v8h8L12 2z"/>
+                                    </svg>
+                                    <span className="text-gray-700 group-hover:text-gray-900">PDF</span>
+                                  </button>
+                                  <button 
+                                    onClick={() => { exportMessage('docx', i); setActiveMenuId(null); }}
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
+                                  >
+                                    <svg className="w-4 h-4 text-blue-500 group-hover:text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/>
+                                    </svg>
+                                    <span className="text-gray-700 group-hover:text-gray-900">DOCX</span>
+                                  </button>
+                                  <button 
+                                    onClick={() => { exportMessage('text', i); setActiveMenuId(null); }}
+                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
+                                  >
+                                    <svg className="w-4 h-4 text-gray-500 group-hover:text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM8 14h8v2H8v-2z"/>
+                                    </svg>
+                                    <span className="text-gray-700 group-hover:text-gray-900">TXT</span>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {msg.sources && msg.sources.length > 0 && (
+                        <div className="ml-12 mt-2 space-y-2">
+                          <div className="text-xs font-semibold text-gray-600 flex items-center gap-1">
+                            <Globe className="w-3 h-3" />
+                            Sources:
+                          </div>
+                          {msg.sources.map((source, idx) => (
+                            <div
+                              key={idx}
+                              className="bg-white border border-gray-200 rounded-lg p-3 text-sm hover:shadow-md transition-shadow"
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1">
+                                  <a
+                                    href={source.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-medium text-blue-700 hover:text-blue-900 flex items-center gap-1"
+                                  >
+                                    {idx + 1}. {source.title}
+                                    <ExternalLink className="w-3 h-3" />
+                                  </a>
+                                  <p className="text-gray-600 text-xs mt-1 line-clamp-2">
+                                    {source.snippet}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {loading && (
+                    <div className="flex gap-4">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0">
+                        <Bot className="w-5 h-5" />
+                      </div>
+                      <div className="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm">
+                        <div className="flex items-center gap-2">
+                          <div className="flex gap-1">
+                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                          </div>
+                          <span className="text-sm text-gray-600">
+                            {webSearchEnabled ? "Searching the web..." : "AI is thinking..."}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </div>
+          </div>
+
+          {error && (
+            <div className="max-w-3xl mx-auto w-full px-6 mb-2">
+              <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2 rounded-lg">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                <span>{error}</span>
+                <button
+                  onClick={() => setError(null)}
+                  className="ml-auto text-red-600 hover:text-red-800"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             </div>
           )}
 
-          <div ref={chatEndRef} />
-        </div>
+          {/* Input Area */}
+          <div className="bg-white border-t border-gray-200 p-4 flex-shrink-0">
+            <div className="max-w-3xl mx-auto">
+              {/* Controls */}
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <select
+                  value={persona}
+                  onChange={(e) => setPersona(e.target.value)}
+                  className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  {personas.map((p) => (
+                    <option key={p} value={p}>
+                      {p.charAt(0).toUpperCase() + p.slice(1)}
+                    </option>
+                  ))}
+                </select>
 
-        {error && (
-          <div className="mx-6 mb-2 p-3 bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2 rounded-lg">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <span>{error}</span>
-            <button
-              onClick={() => setError(null)}
-              className="ml-auto text-red-600 hover:text-red-800"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        )}
+                <label className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={webSearchEnabled}
+                    onChange={(e) => setWebSearchEnabled(e.target.checked)}
+                    className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <Globe className={`w-4 h-4 ${webSearchEnabled ? 'text-blue-600' : 'text-gray-500'}`} />
+                  <span className={`text-sm ${webSearchEnabled ? 'text-blue-700' : 'text-gray-700'}`}>
+                    Web Search
+                  </span>
+                </label>
 
-        <div className="p-4 border-t bg-white">
-          <div className="flex items-end gap-2">
-            <div className="flex-1 relative">
-              <textarea
-                ref={textareaRef}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSend(e);
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setUploadDropdownOpen(!uploadDropdownOpen); }}
+                    className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm"
+                    disabled={uploading}
+                  >
+                    <Upload className="w-5 h-5 text-gray-600" />
+                    <span className="font-medium">{uploading ? 'Uploading...' : 'Upload'}</span>
+                  </button>
+
+                  <FileUploadDropdown
+                    isOpen={uploadDropdownOpen}
+                    onClose={() => setUploadDropdownOpen(false)}
+                    onLocalFileSelect={async (e) => {
+                      const f = e.target.files && e.target.files[0];
+                      if (f) await uploadFileToServer(f);
+                      setUploadDropdownOpen(false);
+                    }}
+                    onGoogleDriveClick={async () => {
+                      try {
+                        setCloudLoading('google-drive');
+                        if (!CloudStorageService.checkGoogleDriveConfig()) {
+                          CloudStorageService.showGoogleDriveSetupModal();
+                          setCloudLoading(null);
+                          return;
+                        }
+
+                        await CloudStorageService.loadGoogleAPIs();
+                        await CloudStorageService.initializeGoogleDrive();
+                        const picked = await CloudStorageService.showGoogleDrivePicker();
+                        if (picked && picked.file) {
+                          await uploadFileToServer(picked.file);
+                        }
+                      } catch (err) {
+                        console.error('Google Drive error', err);
+                        setError(err.message || 'Google Drive upload failed');
+                      } finally {
+                        setCloudLoading(null);
+                        setUploadDropdownOpen(false);
+                      }
+                    }}
+                    onOneDriveClick={async () => {
+                      try {
+                        setCloudLoading('onedrive');
+                        if (!CloudStorageService.checkOneDriveConfig()) {
+                          CloudStorageService.showOneDriveSetupModal();
+                          setCloudLoading(null);
+                          return;
+                        }
+                        await CloudStorageService.loadMicrosoftGraph();
+                        await CloudStorageService.initializeOneDrive();
+                        setOneDriveModalOpen(true);
+                      } catch (err) {
+                        console.error('OneDrive init error', err);
+                        setError(err.message || 'OneDrive initialization failed');
+                        setCloudLoading(null);
+                      } finally {
+                        setUploadDropdownOpen(false);
+                      }
+                    }}
+                    cloudLoading={cloudLoading}
+                    loading={uploading}
+                  />
+
+                  <input type="file" id="hidden-local-upload" accept=".pdf,.docx,.txt,.xlsx,.csv,.json" className="hidden" />
+                </div>
+
+                {uploadedFileName && (
+                  <div className="flex items-center gap-3 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm">
+                    {/* file-type icon */}
+                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white">
+                      {uploadedFile && uploadedFile.type?.includes('pdf') ? (
+                        <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>
+                      ) : uploadedFile && (uploadedFile.type?.includes('word') || uploadedFileName?.endsWith('.doc') || uploadedFileName?.endsWith('.docx')) ? (
+                        <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>
+                      ) : uploadedFile && (uploadedFile.type?.includes('spreadsheet') || uploadedFileName?.endsWith('.xls') || uploadedFileName?.endsWith('.xlsx')) ? (
+                        <svg className="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>
+                      ) : uploadedFile && (uploadedFile.type?.includes('json') || uploadedFileName?.endsWith('.json')) ? (
+                        <svg className="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14v18H5z"/></svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <div className="text-green-800 truncate font-medium">{uploadedFileName}</div>
+                        {uploadedFile && (
+                          <div className="text-xs text-gray-500">
+                            {(uploadedFile.size && Math.round(uploadedFile.size / 1024) + ' KB') || ''}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={clearFile}
+                      className="ml-1 text-green-600 hover:text-green-800"
+                      aria-label="Remove attachment"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+
+              </div>
+
+              {/* OneDrive modal (uses utils/OneDriveModal) */}
+              <OneDriveModal
+                isOpen={oneDriveModalOpen}
+                onClose={() => setOneDriveModalOpen(false)}
+                folders={[]}
+                files={[]}
+                onNavigateUp={() => {}}
+                onNavigateToFolder={() => {}}
+                onSelectFile={async (fileId, fileName) => {
+                  try {
+                    const downloaded = await CloudStorageService.downloadOneDriveFile(fileId, fileName);
+                    if (downloaded && downloaded.file) {
+                      await uploadFileToServer(downloaded.file);
+                    }
+                    setOneDriveModalOpen(false);
+                  } catch (err) {
+                    console.error('OneDrive download error', err);
+                    setError(err.message || 'OneDrive download failed');
                   }
                 }}
-                className="w-full p-3 pr-12 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder={webSearchEnabled ? "Ask me anything about current events..." : "Type your message... (Shift + Enter for new line)"}
-                rows="1"
-                style={{ maxHeight: "120px" }}
               />
+
+              {/* Message Input */}
+              <div className="flex items-end gap-2 bg-gray-100 rounded-2xl p-2">
+                <div className="flex-1 relative">
+                  <textarea
+                    ref={textareaRef}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend(e);
+                      }
+                    }}
+                    className="w-full p-3 bg-transparent border-0 resize-none focus:outline-none placeholder-gray-500"
+                    placeholder="Message"
+                    rows="1"
+                    style={{ maxHeight: "120px" }}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSend}
+                  disabled={loading || !message.trim()}
+                  className={`p-3 rounded-xl text-white transition-all flex items-center justify-center ${
+                    loading || !message.trim()
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </div>
-            <button
-              type="button"
-              onClick={handleSend}
-              disabled={loading || !message.trim()}
-              className={`p-3 rounded-xl text-white transition-all flex items-center justify-center ${
-                loading || !message.trim()
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-700 hover:bg-blue-800 hover:shadow-lg"
-              }`}
-            >
-              <Send className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </div>
