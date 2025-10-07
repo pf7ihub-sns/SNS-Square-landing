@@ -418,21 +418,6 @@ function ChatPage() {
     }
   };
 
-  // 🔹 Handle Dropbox file upload
-  const handleDropboxUpload = async () => {
-    setCloudLoading('dropbox');
-    setUploadDropdownOpen(false);
-
-    try {
-      await handleDropboxAuth();
-    } catch (error) {
-      console.error('Dropbox upload error:', error);
-      showToast('Failed to connect to Dropbox', "error");
-    } finally {
-      setCloudLoading(null);
-    }
-  };
-
   // 🔹 Google Drive authentication and file picker
   const handleGoogleDriveAuth = async () => {
     const hasGoogleConfig = CloudStorageService.checkGoogleDriveConfig();
@@ -604,38 +589,6 @@ function ChatPage() {
     } catch (error) {
       showToast("Failed to download file from OneDrive", "error");
       throw error;
-    }
-  };
-
-  // 🔹 Dropbox integration functions
-  const handleDropboxAuth = async () => {
-    const hasDropboxConfig = CloudStorageService.checkDropboxConfig();
-    
-    if (!hasDropboxConfig) {
-      CloudStorageService.showDropboxSetupModal();
-      showToast("Dropbox not configured - check console for setup instructions", "error");
-      return;
-    }
-    
-    showToast("Requesting Dropbox access...", "info");
-    
-    try {
-      await CloudStorageService.loadDropboxSDK();
-      const result = await CloudStorageService.showDropboxPicker();
-      
-      if (result) {
-        setFile(result.file);
-        showToast(`File imported from Dropbox: ${result.fileName}`, "success");
-      } else {
-        showToast("File selection cancelled", "info");
-      }
-    } catch (error) {
-      if (error.message === 'Dropbox API not configured') {
-        CloudStorageService.showDropboxSetupModal();
-        showToast("Dropbox not configured - check console for setup instructions", "error");
-      } else {
-        throw error;
-      }
     }
   };
 
@@ -1147,7 +1100,6 @@ function ChatPage() {
                         }}
                         onGoogleDriveClick={handleGoogleDriveUpload}
                         onOneDriveClick={handleOneDriveUpload}
-                        onDropboxClick={handleDropboxUpload}
                         cloudLoading={cloudLoading}
                         loading={loading}
                       />
