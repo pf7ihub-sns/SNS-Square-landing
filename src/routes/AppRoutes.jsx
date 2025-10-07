@@ -97,7 +97,19 @@ export default function AppRoutes() {
         </RoleBasedRoute>
       } />
       
-      <Route path="/admin/career" element={
+      <Route path="/admin/jobopenings" element={
+        <RoleBasedRoute allowedRoles={['admin']}>
+          <AdminCareer />
+        </RoleBasedRoute>
+      } />
+      
+      <Route path="/admin/jobopenings/newJob" element={
+        <RoleBasedRoute allowedRoles={['admin']}>
+          <AdminCareer />
+        </RoleBasedRoute>
+      } />
+      
+      <Route path="/admin/jobopenings/applications" element={
         <RoleBasedRoute allowedRoles={['admin']}>
           <AdminCareer />
         </RoleBasedRoute>
