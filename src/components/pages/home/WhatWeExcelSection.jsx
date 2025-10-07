@@ -209,7 +209,7 @@ const WhatWeExcelSection = () => {
         {/* Banner */}
         <RevealOnScroll direction="up" duration={0.8} delay={0.2} distance={30}>
           <div
-            className="relative w-full rounded-md overflow-hidden border border-black/10 bg-cover bg-center h-auto md:h-[420px] lg:h-[515px]"
+            className="relative w-full rounded-md overflow-hidden border border-black/10 bg-cover bg-center h-auto md:h-[420px] lg:h-[515px] xl:h-[600px]"
             style={{ backgroundImage: `url(${activeTab?.image})` }}
           >
             <div className="absolute inset-0 bg-white/20" />
