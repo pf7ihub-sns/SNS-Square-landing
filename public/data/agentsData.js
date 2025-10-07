@@ -2156,6 +2156,15 @@ export default {
               solutions: ["Client onboarding", "Case type identification", "Conflict of interest check", "Document collection", "Case timeline generation", "Task assignment", "Client portal setup", "Progress tracking"],
               useCases: ["Property disputes", "Family law cases", "Consumer disputes", "Contract disputes"],
             },
+              {
+              id: "contract-management-v1",
+              name: "Contract Management V1",
+              summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+              image: "/placeholder.jpg",
+              solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+              useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+              status: "available"
+            },
             {
               id: "civil-law-property-dispute",
               name: "Property & Land Dispute Management",

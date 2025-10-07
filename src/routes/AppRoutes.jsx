@@ -21,6 +21,7 @@ import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPag
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
 import RenewalAgent from "../components/pages/agentWorkBench/agents/renewalAgent";
+import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1/index";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -93,6 +94,7 @@ export default function AppRoutes() {
       
       <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
+      <Route path="/agent-playground/agent/contract-management-v1/*" element={<ContractManagementV1 />} />
       {/* Existing Agent Detail Routes */}
       
       {/* Legacy Agent Details Routes - Protected */}
