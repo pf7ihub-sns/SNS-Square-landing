@@ -66,21 +66,6 @@ const FileUploadDropdown = ({
             <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-600"></div>
           )}
         </button>
-        
-        {/* Dropbox Option */}
-        {/* <button
-          onClick={onDropboxClick}
-          disabled={cloudLoading === 'dropbox'}
-          className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <svg className="w-4 h-4 text-blue-700" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M7.004 3.5L0 7.5l7.004 4L7.004 7.5zm9.992 0L24 7.5l-7.004 4V7.5zM0 16.5l7.004 4L7.004 16.5l7.004-4L24 16.5l-7.004 4-2.004-1.25L12 20.5z"/>
-          </svg>
-          <span>Dropbox</span>
-          {cloudLoading === 'dropbox' && (
-            <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-300 border-t-blue-700"></div>
-          )}
-        </button> */}
       </div>
     </div>
   );
