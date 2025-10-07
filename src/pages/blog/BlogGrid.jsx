@@ -8,11 +8,7 @@ import HorizontalBlogCard from '../../components/common/HorizontalBlogCard';
 import BlackButton from '../../components/common/BlackButton';
 
 // Import blog data
-import supplyChainData from '../../data/Blog/supplyChain.json';
-import itData from '../../data/Blog/it.json';
-import healthCareData from '../../data/Blog/healthCare.json';
-import insuranceData from '../../data/Blog/insurance.json';
-import humanResourceData from '../../data/Blog/humanResource.json';
+import { fetchBlogs } from '../../api/Service/blog';
 
 const BlogGrid = () => {
   const navigate = useNavigate();
@@ -33,96 +29,34 @@ const BlogGrid = () => {
     'Insurance'
   ];
 
-  const blogDataMap = {
-    'Supply Chain': supplyChainData,
-    'Information Technology': itData,
-    'Healthcare': healthCareData,
-    'Human Resource': humanResourceData, 
-    'Insurance': insuranceData
-  };
-
-  // Process blog data and create blog objects
+  // Fetch from backend
   useEffect(() => {
-    const processedBlogs = [];
-    
-    Object.entries(blogDataMap).forEach(([category, data]) => {
-      // Handle array of blog entries
-      if (Array.isArray(data)) {
-        data.forEach((blogEntry, index) => {
-          const blog = {
-            id: `${category.toLowerCase().replace(/\s+/g, '-')}-${index + 1}`,
-            title: blogEntry.title,
-            description: blogEntry.introduction?.context || 
-                         blogEntry.introduction?.overview || 
-                         blogEntry.introduction?.description || 
-                         "Discover the latest insights and innovations in this field.",
-            category: category,
-            date: "Sep 10, 2025",
-            readTime: "5 min read",
-            content: blogEntry,
-            image: blogEntry.image || null,
-            featured: index === 0 // First blog in each category is featured
-          };
-          processedBlogs.push(blog);
-        });
-      } else {
-        // Handle single blog object (fallback for old structure)
-        const blog = {
-          id: `${category.toLowerCase().replace(/\s+/g, '-')}-main`,
-          title: data.title,
-          description: data.introduction?.context || data.introduction?.overview || data.introduction?.description || "Discover the latest insights and innovations in this field.",
-          category: category,
-          date: "Sep 10, 2025",
-          readTime: "5 min read",
-          content: data,
-          image: data.image || null,
-          featured: true
-        };
-        processedBlogs.push(blog);
-
-        // Create additional blog entries based on content sections
-        if (data.key_applications || data.smart_supply_chain?.capabilities) {
-          const applications = data.key_applications || data.smart_supply_chain?.capabilities || [];
-          applications.slice(0, 2).forEach((app, index) => {
-            const appBlog = {
-              id: `${category.toLowerCase().replace(/\s+/g, '-')}-app-${index + 1}`,
-              title: app.application || app.name || `${data.title} - Application ${index + 1}`,
-              description: app.description || app.functions?.join('. ') || "Explore practical applications and use cases.",
-              category: category,
-              date: "Sep 10, 2025",
-              readTime: "3 min read",
-              content: { ...data, focus: app },
-              image: data.image || null
-            };
-            processedBlogs.push(appBlog);
-          });
+    const load = async () => {
+      try {
+        const res = await fetchBlogs();
+        const list = res?.data || [];
+        const mapped = list.map((b, idx) => ({
+          id: b.slug,
+          title: b.title,
+          description: b.introduction?.context || "Discover the latest insights and innovations in this field.",
+          category: b.category || 'General',
+          date: new Date(b.publishedAt || Date.now()).toLocaleDateString(),
+          readTime: '5 min read',
+          content: b,
+          image: b.image || null,
+          featured: idx === 0,
+        }));
+        setAllBlogs(mapped);
+        if (mapped.length > 0) {
+          setFeaturedBlog(mapped[0]);
+          setLatestBlogs(mapped.slice(1, 4));
         }
-
-        // Create blog entry for benefits/insights
-        if (data.benefits || data.key_takeaways) {
-          const benefits = data.benefits || data.key_takeaways || [];
-          const benefitsBlog = {
-            id: `${category.toLowerCase().replace(/\s+/g, '-')}-benefits`,
-            title: `${data.title} - Key Benefits & Insights`,
-            description: Array.isArray(benefits) ? benefits.slice(0, 3).join('. ') : benefits,
-            category: category,
-            date: "Sep 10, 2025",
-            readTime: "4 min read",
-            content: { ...data, focus: 'benefits' },
-            image: data.image || null
-          };
-          processedBlogs.push(benefitsBlog);
-        }
+      } catch (e) {
+        console.error('Failed to fetch blogs', e);
+        setAllBlogs([]);
       }
-    });
-
-    setAllBlogs(processedBlogs);
-    
-    // Set initial featured and latest blogs
-    if (processedBlogs.length > 0) {
-      setFeaturedBlog(processedBlogs[0]);
-      setLatestBlogs(processedBlogs.slice(1, 4));
-    }
+    };
+    load();
   }, []);
 
   // Filter blogs based on category and search term

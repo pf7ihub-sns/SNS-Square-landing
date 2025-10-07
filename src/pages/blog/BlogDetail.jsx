@@ -9,11 +9,7 @@ import { FaWhatsapp, FaLinkedinIn, FaInstagram as FaInsta, FaTimes } from 'react
 import SEO from '../../components/common/SEO';
 
 // Import blog data
-import supplyChainData from '../../data/Blog/supplyChain.json';
-import itData from '../../data/Blog/it.json';
-import healthCareData from '../../data/Blog/healthCare.json';
-import insuranceData from '../../data/Blog/insurance.json';
-import humanResourceData from '../../data/Blog/humanResource.json';
+import { fetchBlogBySlug } from '../../api/Service/blog';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -52,107 +48,30 @@ const BlogDetail = () => {
     }
   ];
 
-  const blogDataMap = {
-    'supply-chain-1': Array.isArray(supplyChainData) ? supplyChainData[0] : supplyChainData,
-    'information-technology-1': Array.isArray(itData) ? itData[0] : itData,
-    'healthcare-1': Array.isArray(healthCareData) ? healthCareData[0] : healthCareData,
-    'human-resource-1': Array.isArray(humanResourceData) ? humanResourceData[0] : humanResourceData,
-    'insurance-1': Array.isArray(insuranceData) ? insuranceData[0] : insuranceData,
-    'supply-chain-main': Array.isArray(supplyChainData) ? supplyChainData[0] : supplyChainData,
-    'information-technology-main': Array.isArray(itData) ? itData[0] : itData,
-    'healthcare-main': Array.isArray(healthCareData) ? healthCareData[0] : healthCareData,
-    'human-resource-main': Array.isArray(humanResourceData) ? humanResourceData[0] : humanResourceData,
-    'insurance-main': Array.isArray(insuranceData) ? insuranceData[0] : insuranceData
-  };
-
-  const findBlogData = useCallback((blogId) => {
-    if (blogDataMap[blogId]) {
-      return {
-        data: blogDataMap[blogId],
-        type: 'main'
-      };
-    }
-
-    const multiBlogMatch = blogId.match(/^(.+)-(\d+)$/);
-    if (multiBlogMatch) {
-      const category = multiBlogMatch[1];
-      const blogIndex = parseInt(multiBlogMatch[2]) - 1;
-
-      const categoryDataMap = {
-        'supply-chain': supplyChainData,
-        'information-technology': itData,
-        'healthcare': healthCareData,
-        'human-resource': humanResourceData,
-        'insurance': insuranceData
-      };
-
-      const dataArray = categoryDataMap[category];
-      if (dataArray && Array.isArray(dataArray) && dataArray[blogIndex]) {
-        return {
-          data: dataArray[blogIndex],
-          type: 'main'
-        };
-      }
-    }
-
-    const appMatch = blogId.match(/^(.+)-app-(\d+)$/);
-    if (appMatch) {
-      const baseId = appMatch[1];
-      const appIndex = parseInt(appMatch[2]) - 1;
-      const baseData = blogDataMap[baseId];
-
-      if (baseData) {
-        const applications = baseData.key_applications || baseData.smart_supply_chain?.capabilities || [];
-        if (applications[appIndex]) {
-          return {
-            data: {
-              ...baseData,
-              focus: applications[appIndex],
-              title: applications[appIndex].application || applications[appIndex].name || `${baseData.title} - Application ${appIndex + 1}`
-            },
-            type: 'app'
-          };
-        }
-      }
-    }
-
-    const benefitsMatch = blogId.match(/^(.+)-benefits$/);
-    if (benefitsMatch) {
-      const baseId = benefitsMatch[1];
-      const baseData = blogDataMap[baseId];
-
-      if (baseData) {
-        return {
-          data: {
-            ...baseData,
-            focus: 'benefits',
-            title: `${baseData.title} - Key Benefits & Insights`
-          },
-          type: 'benefits'
-        };
-      }
-    }
-
-    return null;
-  }, []);
-
   useEffect(() => {
-    const blogId = id || 'supply-chain-1';
-    const blogResult = findBlogData(blogId);
-
-    if (blogResult) {
-      setBlog({
-        id: blogId,
-        title: blogResult.data.title,
-        content: blogResult.data,
-        date: "April 1, 2025",
-        updatedDate: "April 24, 2025",
-        readTime: "7min reading"
-      });
-    } else {
-      setBlog(null);
-    }
-  }, [id, findBlogData]);
+    const load = async () => {
+      try {
+        if (!id) return;
+        const res = await fetchBlogBySlug(id);
+        const b = res?.data;
+        if (b) {
+          setBlog({
+            id: b.slug,
+            title: b.title,
+            content: b,
+            date: new Date(b.publishedAt || Date.now()).toLocaleDateString(),
+            updatedDate: new Date(b.updatedAt || b.publishedAt || Date.now()).toLocaleDateString(),
+            readTime: '7min reading',
+          });
+        } else {
+          setBlog(null);
+        }
+      } catch (e) {
+        setBlog(null);
+      }
+    };
+    load();
+  }, [id]);
 
   useEffect(() => {
     const nonBlogPaths = ['/', '/about-us', '/life-at-sns', '/careers', '/agent-workbench', '/usecase'];
