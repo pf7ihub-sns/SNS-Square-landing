@@ -16,12 +16,12 @@ const AiChat = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadDropdownOpen, setUploadDropdownOpen] = useState(false);
-  const [cloudLoading, setCloudLoading] = useState(null); // 'google-drive' | 'onedrive' | null
+  const [cloudLoading, setCloudLoading] = useState(null); 
   const [oneDriveModalOpen, setOneDriveModalOpen] = useState(false);
   const [error, setError] = useState(null);
   const [fileId, setFileId] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState(null); // { name, size, type }
+  const [uploadedFile, setUploadedFile] = useState(null); 
   const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenuId, setActiveMenuId] = useState(null);
@@ -97,54 +97,198 @@ const AiChat = () => {
     }
   };
 
-  const formatResponse = (data) => {
+  const processResponseForStorage = (response) => {
+    if (!response) return null;
+    
+    const formatted = response
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n/g, "<br/>")
+      .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+    
+    const lines = formatted.split("<br/>").filter((line) => line.trim());
+    const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
+    const isBulletList = lines.some((line) => /^[\*\-]\s/.test(line.trim()));
+    
+    return {
+      html: formatted,
+      indentation: {
+        type: isNumberedList ? 'numbered' : (isBulletList ? 'bullet' : 'paragraph'),
+        lines: lines.map(line => ({
+          text: line,
+          indent: (line.match(/^\s+/) || [""])[0].length
+        }))
+      }
+    };
+};
+
+const formatNumberedList = (lines) => {
+    let html = "<ol class='list-decimal pl-8 space-y-4 my-4'>";
+    let currentIndent = 0;
+    
+    lines.forEach(({ text, indent }) => {
+      while (indent > currentIndent) {
+        html += "<ol class='list-decimal pl-8 space-y-4 mt-2'>";
+        currentIndent++;
+      }
+      while (indent < currentIndent) {
+        html += "</ol>";
+        currentIndent--;
+      }
+      html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
+    });
+    
+    while (currentIndent > 0) {
+      html += "</ol>";
+      currentIndent--;
+    }
+    return html + "</ol>";
+};
+
+const formatBulletList = (lines) => {
+    let html = "<ul class='list-disc pl-8 space-y-4 my-4'>";
+    let currentIndent = 0;
+    
+    lines.forEach(({ text, indent }) => {
+      while (indent > currentIndent) {
+        html += "<ul class='list-disc pl-8 space-y-4 mt-2'>";
+        currentIndent++;
+      }
+      while (indent < currentIndent) {
+        html += "</ul>";
+        currentIndent--;
+      }
+      html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
+    });
+    
+    while (currentIndent > 0) {
+      html += "</ul>";
+      currentIndent--;
+    }
+    return html + "</ul>";
+};
+
+const formatParagraphs = (lines) => {
+    return lines
+      .map(({ text, indent }) => {
+        const padding = "&nbsp;".repeat(indent * 4);
+        return `<p class='my-4 leading-relaxed text-gray-700'>${padding}${text}</p>`;
+      })
+      .join("");
+};
+
+const formatResponse = (data) => {
     if (!data) return "No response";
+    
+    // If this message has stored formatting, use it
+    if (data.isFormatted && data.formattedContent) {
+      const { html, indentation } = data.formattedContent;
+      
+      // Apply stored indentation and formatting
+      if (indentation.type === 'numbered') {
+        return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: formatNumberedList(indentation.lines) }} />;
+      } else if (indentation.type === 'bullet') {
+        return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: formatBulletList(indentation.lines) }} />;
+      } else {
+        return <div className="formatted-response px-4" dangerouslySetInnerHTML={{ __html: formatParagraphs(indentation.lines) }} />;
+      }
+    }
+    
     if (data.response) {
-      let formatted = data.response.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      const lines = formatted.split("\\n").filter((line) => line.trim());
-      const isNumberedList = lines.some((line) => /^\\d+\\.\\s/.test(line.trim()));
-      const isBulletList = lines.some((line) => /^\\*\\s/.test(line.trim()));
+      let formatted = data.response
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n/g, "<br/>")
+        .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"); // Convert tabs to spaces
+      
+      const lines = formatted.split("<br/>").filter((line) => line.trim());
+      const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
+      const isBulletList = lines.some((line) => /^[\*\-]\s/.test(line.trim()));
 
       if (isNumberedList) {
-        let listContent = "<ol class='list-decimal pl-6 space-y-2'>";
+        let listContent = "<ol class='list-decimal pl-8 space-y-4 my-4'>";
+        let previousLevel = 0;
         lines.forEach((line) => {
           const trimmedLine = line.trim();
-          if (/^\\d+\\.\\s/.test(trimmedLine)) {
-            const content = trimmedLine.replace(/^\\d+\\.\\s/, "");
-            listContent += `<li>${content}</li>`;
-          } else {
-            listContent += `</ol><p>${trimmedLine}</p><ol class='list-decimal pl-6 space-y-2'>`;
+          const indentLevel = (line.match(/^\s+/) || [""])[0].length;
+          
+          if (/^\d+\.\s/.test(trimmedLine)) {
+            // Handle indentation for nested lists
+            if (indentLevel > previousLevel) {
+              listContent += "<ol class='list-decimal pl-8 space-y-4 mt-2'>";
+            } else if (indentLevel < previousLevel) {
+              listContent += "</ol>";
+            }
+            const content = trimmedLine.replace(/^\d+\.\s/, "");
+            listContent += `<li class='pl-2 leading-relaxed'>${content}</li>`;
+            previousLevel = indentLevel;
+          } else if (trimmedLine) {
+            // Close any open nested lists
+            while (previousLevel > 0) {
+              listContent += "</ol>";
+              previousLevel--;
+            }
+            listContent += `</ol><p class='my-4 leading-relaxed'>${trimmedLine}</p><ol class='list-decimal pl-8 space-y-4 my-4'>`;
           }
         });
+        // Close any remaining nested lists
+        while (previousLevel > 0) {
+          listContent += "</ol>";
+          previousLevel--;
+        }
         listContent += "</ol>";
-        listContent = listContent.replace(/<ol class='list-decimal pl-6 space-y-2'><\/ol>/g, "");
-        return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
+        listContent = listContent.replace(/<ol class='list-decimal pl-8 space-y-4 my-4'><\/ol>/g, "");
+        return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: listContent }} />;
       } else if (isBulletList) {
-        let listContent = "<ul class='list-disc pl-6 space-y-2'>";
+        let listContent = "<ul class='list-disc pl-8 space-y-4 my-4'>";
         let inList = false;
+        let previousLevel = 0;
+        
         lines.forEach((line) => {
           const trimmedLine = line.trim();
-          if (/^\\*\\s/.test(trimmedLine)) {
+          const indentLevel = (line.match(/^\s+/) || [""])[0].length;
+          
+          if (/^[\*\-]\s/.test(trimmedLine)) {
+            // Handle indentation for nested lists
             if (!inList) {
               inList = true;
+            } else if (indentLevel > previousLevel) {
+              listContent += "<ul class='list-disc pl-8 space-y-4 mt-2'>";
+            } else if (indentLevel < previousLevel) {
+              listContent += "</ul>";
             }
-            const content = trimmedLine.replace(/^\\*\\s/, "");
-            listContent += `<li>${content}</li>`;
-          } else {
+            const content = trimmedLine.replace(/^[\*\-]\s/, "");
+            listContent += `<li class='pl-2 leading-relaxed'>${content}</li>`;
+            previousLevel = indentLevel;
+          } else if (trimmedLine) {
+            // Close any open nested lists
+            while (previousLevel > 0) {
+              listContent += "</ul>";
+              previousLevel--;
+            }
             if (inList) {
               listContent += "</ul>";
               inList = false;
             }
-            listContent += `<p>${trimmedLine}</p>`;
+            listContent += `<p class='my-4 leading-relaxed text-gray-700'>${trimmedLine}</p>`;
           }
         });
+        // Close any remaining nested lists
+        while (previousLevel > 0) {
+          listContent += "</ul>";
+          previousLevel--;
+        }
         if (inList) {
           listContent += "</ul>";
         }
-        return <div dangerouslySetInnerHTML={{ __html: listContent }} />;
+        return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: listContent }} />;
       }
 
-      return <div dangerouslySetInnerHTML={{ __html: formatted }} />;
+      // For regular text, wrap paragraphs and add proper spacing
+      const paragraphs = formatted.split("<br/><br/>").filter(p => p.trim());
+      formatted = paragraphs
+        .map(p => `<p class='my-4 leading-relaxed text-gray-700'>${p.replace(/<br\/>/g, "</p><p class='my-4 leading-relaxed text-gray-700'>")}</p>`)
+        .join("");
+
+      return <div className="formatted-response px-4" dangerouslySetInnerHTML={{ __html: formatted }} />;
     }
     return data.toString();
   };
@@ -174,7 +318,11 @@ const AiChat = () => {
       setUploadedFileName(file.name);
       setChatHistory((prev) => [
         ...prev,
-        { role: "system", content: `File uploaded: ${file.name}` },
+        { 
+          role: "system", 
+          content: `File uploaded: ${file.name}`,
+          isFormatted: false 
+        },
       ]);
     } catch (err) {
       setError(err.message || "File upload failed");
@@ -260,13 +408,19 @@ const AiChat = () => {
         setCurrentConversationId(data.chat_id || data.session_id || null);
       }
 
+      // Store raw response and formatted metadata (do not store rendered JSX)
+      const rawText = data.response || '';
+      const formattedMeta = processResponseForStorage(rawText);
       setChatHistory((prev) => [
         ...prev,
-        { 
-          role: "assistant", 
-          content: formatResponse(data),
+        {
+          role: 'assistant',
+          content: rawText,
+          response: rawText,
+          isFormatted: true,
+          formattedContent: formattedMeta,
           sources: data.sources || [],
-          searchEnabled: data.search_enabled || false
+          searchEnabled: data.search_enabled || false,
         },
       ]);
       
@@ -376,11 +530,35 @@ const AiChat = () => {
     }
 
     try {
-      const resp = await fetch(`${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?include_full_text=true`);
+      // Format the conversation data
+      const messages = chatHistory.map(msg => ({
+        role: msg.role,
+        content: msg.response || msg.content
+      }));
+
+      // Match the backend's GET route
+      const params = new URLSearchParams({
+        include_full_text: 'true',
+        messages: JSON.stringify(messages)
+      });
+
+      const resp = await fetch(
+        `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?${params.toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': fmt === 'text' ? 'text/plain' : 
+                     fmt === 'pdf' ? 'application/pdf' : 
+                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          }
+        }
+      );
+
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
         throw new Error(err.detail || 'Export failed');
       }
+
       const defaultName = `${currentConversationId}.${fmt === 'text' ? 'txt' : fmt}`;
       await _downloadBlob(resp, defaultName);
     } catch (err) {
@@ -391,19 +569,33 @@ const AiChat = () => {
 
   const exportMessage = async (fmt, index, content) => {
     try {
-      let url = `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}`;
-      if (typeof index === 'number') {
-        url += `?message_index=${index}`;
-      } else if (content) {
-        // send message_content as a query param (encoded)
-        url += `?message_content=${encodeURIComponent(content)}`;
-      }
+      // Get the message to export
+      const messageToExport = typeof index === 'number' ? chatHistory[index] : { role: 'assistant', content };
+      
+      // Build query parameters
+      const params = new URLSearchParams({
+        message_index: typeof index === 'number' ? index.toString() : '',
+        message_content: content || messageToExport.content || '',
+        include_full_text: 'true'
+      });
 
-      const resp = await fetch(url);
+      const resp = await fetch(
+        `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?${params.toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': fmt === 'text' ? 'text/plain' : 
+                     fmt === 'pdf' ? 'application/pdf' : 
+                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          }
+        }
+      );
+
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({}));
         throw new Error(err.detail || 'Export message failed');
       }
+
       const ext = fmt === 'text' ? 'txt' : fmt;
       const defaultName = `${currentConversationId}_message_${index ?? 'export'}.${ext}`;
       await _downloadBlob(resp, defaultName);
@@ -514,10 +706,12 @@ const AiChat = () => {
               <button
                 onClick={() => setActiveMenuId(activeMenuId === 'export' ? null : 'export')}
                 className="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-sm font-medium flex items-center gap-2"
+                disabled={!currentConversationId}
+                title={!currentConversationId ? 'Open a conversation to export' : 'Export'}
               >
                 Export <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
               </button>
-              {activeMenuId === 'export' && (
+              {activeMenuId === 'export' && currentConversationId && (
                 <div className="absolute right-0 mt-1 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
                   <button onClick={() => { exportConversation('pdf'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as PDF</button>
                   <button onClick={() => { exportConversation('docx'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as DOCX</button>
@@ -573,7 +767,10 @@ const AiChat = () => {
                           }`}
                         >
                           <div className="prose prose-sm max-w-none">
-                            {typeof msg.content === "string" ? msg.content : msg.content}
+                            {msg.role === 'assistant'
+                              ? formatResponse(msg.response ? msg : { response: msg.content, isFormatted: msg.isFormatted, formattedContent: msg.formattedContent })
+                              : (typeof msg.content === 'string' ? msg.content : msg.content)
+                            }
                           </div>
                           {msg.role === "assistant" && (
                             <div className="mt-3 relative inline-block">
