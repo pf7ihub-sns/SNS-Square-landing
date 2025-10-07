@@ -9,7 +9,7 @@ const items = [
   { href: "/admin/usecase", label: "UseCases", icon: Newspaper },
   { 
     href: "/admin/jobopenings", 
-    label: "Job Openings", 
+    label: "Jobs", 
     icon: UsersRound,
     hasSubmenu: true,
     submenu: [
