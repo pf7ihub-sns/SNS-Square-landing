@@ -3370,6 +3370,14 @@ export default {
           "useCases": ["B2B lead generation", "Account-based marketing", "Sales pipeline growth"],
           status: "available"
         },
+                {
+          "id": "lead-qualification",
+          "name": "Lead Qualification",
+          "summary": "Automatically qualify leads based on engagement and fit.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Lead scoring", "Engagement tracking", "Fit assessment"],
+          "useCases": ["Sales qualification", "Marketing automation", "Customer insights"]
+        },
         {
           "id": "invoice-processing",
           "name": "Invoice Processing",

@@ -65,6 +65,8 @@ import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import LeadQualification from "./agents/leadQualification";
+
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -133,7 +135,8 @@ const AgentRouter = () => {
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor />,
-    "email-support":<EmailSupport/>
+    "email-support":<EmailSupport/>,
+    "lead-qualification":<LeadQualification/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
