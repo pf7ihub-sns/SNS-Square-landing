@@ -73,6 +73,9 @@ const Header = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuthStore();
 
+  // Check if user is admin
+  const isAdmin = user?.role === 'admin' || user?.isAdmin;
+
   // Dropdown content for each navigation item
   const dropdownContent = {
     'agentic-workbench': [
@@ -139,6 +142,13 @@ const Header = () => {
   // Function to navigate to agent workbench
   const handleAgentWorkbenchClick = () => {
     navigate('/media-entertainment');
+    closeMenu();
+  };
+
+  // Function to navigate to CMS portal
+  const handleCmsPortalClick = () => {
+    navigate('/admin');
+    setShowUserMenu(false);
     closeMenu();
   };
 
@@ -385,6 +395,15 @@ const Header = () => {
 
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 fade-in-0 duration-200">
+                  {/* Show CMS Portal only for admin users */}
+                  {isAdmin && (
+                    <button
+                      onClick={handleCmsPortalClick}
+                      className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                    >
+                      CMS Portal
+                    </button>
+                  )}
                   <button
                     onClick={handleAgentWorkbenchClick}
                     className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 transition-colors duration-150"
@@ -483,6 +502,15 @@ const Header = () => {
           </nav>
           {isAuthenticated ? (
             <div className="mt-4 space-y-2 border-t border-gray-200 pt-4">
+              {/* Show CMS Portal only for admin users in mobile menu */}
+              {isAdmin && (
+                <button
+                  onClick={handleCmsPortalClick}
+                  className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                >
+                  CMS Portal
+                </button>
+              )}
               <button
                 onClick={handleAgentWorkbenchClick}
                 className="w-full text-left px-4 py-2 text-small font-normal font-inter text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200"
