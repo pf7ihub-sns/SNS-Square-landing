@@ -115,9 +115,8 @@ const SignupForm = () => {
       if (result.success) {
         setSuccessMessage(result.message || 'Account created successfully!');
         
-        // Redirect to dashboard after successful signup
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/agent-workbench');
         }, 1500);
       } else {
         setApiError(result.error || 'Signup failed. Please try again.');

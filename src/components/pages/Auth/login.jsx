@@ -77,8 +77,15 @@ const LoginForm = () => {
             });
 
             if (result.success) {
-                // Navigate to dashboard or home page on successful login
-                navigate('/agent-workbench');
+                // Get the user role from localStorage after successful login
+                const userRole = localStorage.getItem('role');
+                
+                // Navigate based on user role
+                if (userRole === 'admin') {
+                    navigate('/admin');
+                } else {
+                    navigate('/agent-workbench');
+                }
             } else {
                 setApiError(result.error || 'Login failed. Please try again.');
             }

@@ -32,6 +32,7 @@ import AdminDashboard from "../pages/admin/dashboard";
 import AdminUseCase from "../pages/admin/useCase";
 import AdminBlog from "../pages/admin/blogsPage";
 import AdminCareer from "../pages/admin/jobOpenings";
+import NotFound from "../pages/notFound/index";
 
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
@@ -84,7 +85,7 @@ export default function AppRoutes() {
         </RoleBasedRoute>
       } />
 
-           <Route path="/admin/usecase" element={
+      <Route path="/admin/usecase" element={
         <RoleBasedRoute allowedRoles={['admin']}>
           <AdminUseCase />
         </RoleBasedRoute>
@@ -191,6 +192,9 @@ export default function AppRoutes() {
           <AgentsDetails />
         </ProtectedRoute>
       } />
+
+      {/* 404 Not Found - MUST BE LAST ROUTE */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
