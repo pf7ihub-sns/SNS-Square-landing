@@ -64,6 +64,7 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import AIChat from "./agents/aiChat";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -102,6 +103,8 @@ const AgentRouter = () => {
     "prompt-optimizer": <PromptOptimizer />,
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
+    "ai-chat": <AIChat />,
+    
     "logic-validation-agent": <LogicValidation />,
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
