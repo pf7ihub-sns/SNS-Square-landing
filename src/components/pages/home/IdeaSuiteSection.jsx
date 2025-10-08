@@ -2,48 +2,65 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UseCaseCardNew from "../../common/UseCaseCardNew";
 import { RevealOnScroll } from "../../gsap/reveal-on-scroll";
-
-// Import blog data
-import supplyChainData from "../../../data/Blog/supplyChain.json";
-import itData from "../../../data/Blog/it.json";
-import healthCareData from "../../../data/Blog/healthCare.json";
-import insuranceData from "../../../data/Blog/insurance.json";
+import { fetchBlogs } from "../../../api/Service/blog";
 
 const IdeaSuiteSection = () => {
   const navigate = useNavigate();
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
 
-  const blogDataMap = {
-    'Supply Chain': supplyChainData,
-    'Information Technology': itData,
-    'Healthcare': healthCareData,
-    'Insurance': insuranceData
-  };
-
-  // Process blog data and get first blog from each category
+  // Fetch first blog per category and take top 3
   useEffect(() => {
-    const processedBlogs = [];
-    
-    Object.entries(blogDataMap).forEach(([category, data]) => {
-      if (Array.isArray(data) && data.length > 0) {
-        const blogEntry = data[0]; // Get first blog from each category
-        const blog = {
-          id: `${category.toLowerCase().replace(/\s+/g, '-')}-1`,
-          title: blogEntry.title,
-          description: blogEntry.introduction?.context || 
-                       blogEntry.introduction?.overview || 
-                       blogEntry.introduction?.description || 
-                       "Discover the latest insights and innovations in this field.",
-          category: category,
-          image: blogEntry.image || null,
-          content: blogEntry
-        };
-        processedBlogs.push(blog);
-      }
-    });
+    const load = async () => {
+      try {
+        const res = await fetchBlogs();
+        const list = res?.data || [];
 
-    // Take only the first 3 blogs
-    setFeaturedBlogs(processedBlogs.slice(0, 3));
+        // Desired category order
+        const desiredOrder = [
+          'Supply Chain',
+          'Information Technology',
+          'Healthcare',
+          'Insurance'
+        ];
+
+        // Group by category and pick first per category (already sorted by publishedAt desc in API)
+        const firstByCategory = new Map();
+        for (const b of list) {
+          const cat = b.category || 'General';
+          if (!firstByCategory.has(cat)) {
+            firstByCategory.set(cat, b);
+          }
+        }
+
+        // Build processed blogs in desired order, falling back to any remaining categories
+        const ordered = [];
+        for (const cat of desiredOrder) {
+          if (firstByCategory.has(cat)) ordered.push(firstByCategory.get(cat));
+        }
+        // If less than 3, fill from other categories
+        if (ordered.length < 3) {
+          for (const [cat, b] of firstByCategory.entries()) {
+            if (!desiredOrder.includes(cat)) ordered.push(b);
+            if (ordered.length >= 3) break;
+          }
+        }
+
+        const processedBlogs = ordered.slice(0, 3).map((b) => ({
+          id: b.slug,
+          title: b.title,
+          description: b.introduction?.context || b.introduction?.overview || b.introduction?.description || "Discover the latest insights and innovations in this field.",
+          category: b.category || 'General',
+          image: b.image || null,
+          content: b,
+        }));
+
+        setFeaturedBlogs(processedBlogs);
+      } catch (e) {
+        console.error('Failed to load blogs for Idea Suite', e);
+        setFeaturedBlogs([]);
+      }
+    };
+    load();
   }, []);
 
   const handleBlogClick = (blog) => {
