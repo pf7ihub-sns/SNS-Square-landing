@@ -38,12 +38,14 @@ const BlogGrid = () => {
         const mapped = list.map((b, idx) => ({
           id: b.slug,
           title: b.title,
-          description: b.introduction?.context || "Discover the latest insights and innovations in this field.",
+          description: b.content ? b.content.substring(0, 150) + "..." : 
+                       (b.introduction?.context ? b.introduction.context.substring(0, 150) + "..." : 
+                        "Discover the latest insights and innovations in this field."),
           category: b.category || 'General',
-          date: new Date(b.publishedAt || Date.now()).toLocaleDateString(),
+          date: new Date(b.published_at || b.publishedAt || Date.now()).toLocaleDateString(),
           readTime: '5 min read',
           content: b,
-          image: b.image || null,
+          image: b.feature_image || b.image || null,
           featured: idx === 0,
         }));
         setAllBlogs(mapped);

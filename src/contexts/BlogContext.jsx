@@ -1,4 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import {
+  fetchAllBlogsAdmin,
+  fetchBlogByIdAdmin,
+  createBlog as createBlogAPI,
+  updateBlog as updateBlogAPI,
+  deleteBlog as deleteBlogAPI,
+  publishBlog as publishBlogAPI,
+  unpublishBlog as unpublishBlogAPI,
+  saveBlogAsDraft as saveBlogAsDraftAPI,
+  uploadBlogImage as uploadBlogImageAPI,
+  getBlogStats as getBlogStatsAPI,
+} from '../api/Service/blog'
 
 const BlogContext = createContext()
 
@@ -13,106 +25,190 @@ export const useBlogContext = () => {
 export const BlogProvider = ({ children }) => {
   const [blogs, setBlogs] = useState([])
   const [loading, setLoading] = useState(false)
+  const [stats, setStats] = useState({
+    total: 0,
+    published: 0,
+    draft: 0,
+    unpublished: 0,
+    recent: 0,
+  })
 
-  // Load blogs from localStorage on mount
+  // Load blogs from backend on mount
   useEffect(() => {
-    const savedBlogs = localStorage.getItem('admin_blogs')
-    if (savedBlogs) {
-      try {
-        const parsedBlogs = JSON.parse(savedBlogs)
-        setBlogs(parsedBlogs)
-      } catch (error) {
-        console.error('Error loading blogs:', error)
-      }
-    }
+    fetchBlogs()
+    fetchStats()
   }, [])
 
-  // Save blogs to localStorage whenever blogs change
-  useEffect(() => {
-    localStorage.setItem('admin_blogs', JSON.stringify(blogs))
-  }, [blogs])
-
-  const addBlog = (blogData) => {
-    const newBlog = {
-      ...blogData,
-      id: generateId(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      slug: generateSlug(blogData.title)
+  const fetchBlogs = async (params = {}) => {
+    setLoading(true)
+    try {
+      const response = await fetchAllBlogsAdmin(params)
+      if (response.success) {
+        setBlogs(response.data)
+      }
+    } catch (error) {
+      console.error('Error fetching blogs:', error)
+    } finally {
+      setLoading(false)
     }
-    setBlogs(prev => [newBlog, ...prev])
-    return newBlog
   }
 
-  const updateBlog = (blogId, updatedData) => {
-    setBlogs(prev => prev.map(blog => 
-      blog.id === blogId 
-        ? { ...blog, ...updatedData, updatedAt: new Date().toISOString() }
-        : blog
-    ))
+  const fetchStats = async () => {
+    try {
+      const response = await getBlogStatsAPI()
+      if (response.success) {
+        setStats(response.data)
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error)
+    }
   }
 
-  const deleteBlog = (blogId) => {
-    setBlogs(prev => prev.filter(blog => blog.id !== blogId))
+  const addBlog = async (formData) => {
+    setLoading(true)
+    try {
+      const response = await createBlogAPI(formData)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return response.data
+      }
+    } catch (error) {
+      console.error('Error creating blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const getBlogById = (blogId) => {
-    return blogs.find(blog => blog.id === blogId)
+  const updateBlog = async (blogId, formData) => {
+    setLoading(true)
+    try {
+      const response = await updateBlogAPI(blogId, formData)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return response.data
+      }
+    } catch (error) {
+      console.error('Error updating blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const deleteBlog = async (blogId) => {
+    setLoading(true)
+    try {
+      const response = await deleteBlogAPI(blogId)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return true
+      }
+    } catch (error) {
+      console.error('Error deleting blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getBlogById = async (blogId) => {
+    setLoading(true)
+    try {
+      const response = await fetchBlogByIdAdmin(blogId)
+      if (response.success) {
+        return response.data
+      }
+    } catch (error) {
+      console.error('Error fetching blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
   }
 
   const getBlogBySlug = (slug) => {
     return blogs.find(blog => blog.slug === slug)
   }
 
-  const publishBlog = (blogId) => {
-    updateBlog(blogId, {
-      publishSettings: {
-        status: 'published',
-        publishedAt: new Date().toISOString(),
-        visibility: 'public'
+  const publishBlog = async (blogId) => {
+    setLoading(true)
+    try {
+      const response = await publishBlogAPI(blogId)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return response.data
       }
-    })
+    } catch (error) {
+      console.error('Error publishing blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const draftBlog = (blogId) => {
-    updateBlog(blogId, {
-      publishSettings: {
-        status: 'draft',
-        visibility: 'public'
+  const unpublishBlog = async (blogId) => {
+    setLoading(true)
+    try {
+      const response = await unpublishBlogAPI(blogId)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return response.data
       }
-    })
+    } catch (error) {
+      console.error('Error unpublishing blog:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const draftBlog = async (blogId) => {
+    setLoading(true)
+    try {
+      const response = await saveBlogAsDraftAPI(blogId)
+      if (response.success) {
+        await fetchBlogs()
+        await fetchStats()
+        return response.data
+      }
+    } catch (error) {
+      console.error('Error saving draft:', error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const uploadBlogImage = async (imageFile) => {
+    try {
+      const response = await uploadBlogImageAPI(imageFile)
+      if (response.success) {
+        return response.data.url
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      throw error
+    }
   }
 
   const generateSlug = (title) => {
     return title
       .toLowerCase()
+      .trim()
       .replace(/[^\w\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '')
   }
 
-  const generateId = () => {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2)
-  }
-
   const getStats = () => {
-    const totalBlogs = blogs.length
-    const publishedBlogs = blogs.filter(blog => blog.publishSettings?.status === 'published').length
-    const draftBlogs = blogs.filter(blog => blog.publishSettings?.status === 'draft').length
-    const recentBlogs = blogs.filter(blog => {
-      const createdAt = new Date(blog.createdAt)
-      const oneWeekAgo = new Date()
-      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-      return createdAt > oneWeekAgo
-    }).length
-
-    return {
-      total: totalBlogs,
-      published: publishedBlogs,
-      draft: draftBlogs,
-      recent: recentBlogs
-    }
+    return stats
   }
 
   const value = {
@@ -124,8 +220,12 @@ export const BlogProvider = ({ children }) => {
     getBlogById,
     getBlogBySlug,
     publishBlog,
+    unpublishBlog,
     draftBlog,
+    uploadBlogImage,
+    generateSlug,
     getStats,
+    fetchBlogs,
     setLoading
   }
 

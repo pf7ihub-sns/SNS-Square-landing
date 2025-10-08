@@ -54,47 +54,26 @@ const BlogSidebar = ({
   const handleImageUpload = (e) => {
     const file = e.target.files[0]
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        onNotification('error', 'Image size must be less than 5MB')
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        onNotification('error', 'Image size must be less than 10MB')
         return
       }
 
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const imageData = {
-          file: file,
-          preview: e.target.result,
-          name: file.name,
-          size: file.size,
-          uploadedAt: new Date().toISOString()
-        }
-        
-        onFormDataChange('featuredImage', imageData)
-        onNotification('success', 'Featured image uploaded successfully!')
-      }
-      reader.readAsDataURL(file)
+      // Store the file for upload
+      onFormDataChange('featuredImageFile', file)
+      onFormDataChange('featuredImage', URL.createObjectURL(file))
+      onNotification('success', 'Featured image selected!')
     }
   }
 
   const removeFeaturedImage = () => {
     onFormDataChange('featuredImage', null)
+    onFormDataChange('featuredImageFile', null)
     onNotification('info', 'Featured image removed')
   }
 
-  const handleCategoryChange = (categoryName, isChecked) => {
-    let updatedCategories
-    if (isChecked) {
-      updatedCategories = [...formData.categories, categoryName]
-    } else {
-      updatedCategories = formData.categories.filter(cat => cat !== categoryName)
-    }
-    
-    // Ensure at least one category is selected
-    if (updatedCategories.length === 0) {
-      updatedCategories = ['Uncategorized']
-    }
-    
-    onFormDataChange('categories', updatedCategories)
+  const handleCategoryChange = (categoryName) => {
+    onFormDataChange('category', categoryName)
   }
 
   const addNewCategory = () => {
@@ -115,7 +94,7 @@ const BlogSidebar = ({
     }
 
     setAvailableCategories(prev => [...prev, newCat])
-    onFormDataChange('categories', [...formData.categories, newCategory.trim()])
+    onFormDataChange('category', newCategory.trim())
     setNewCategory('')
     setShowAddCategory(false)
     onNotification('success', `Category "${newCat.name}" added successfully!`)
@@ -127,7 +106,7 @@ const BlogSidebar = ({
       return
     }
 
-    if (formData.categories.includes(categoryName)) {
+    if (formData.category === categoryName) {
       onNotification('error', 'Cannot delete category that is currently selected')
       return
     }
@@ -140,40 +119,27 @@ const BlogSidebar = ({
     if (!newTag.trim()) return
 
     const tagToAdd = newTag.trim()
-    if (formData.tags.includes(tagToAdd)) {
+    if (formData.tags && formData.tags.includes(tagToAdd)) {
       onNotification('error', 'Tag already exists')
       return
     }
 
-    onFormDataChange('tags', [...formData.tags, tagToAdd])
+    onFormDataChange('tags', [...(formData.tags || []), tagToAdd])
     setNewTag('')
     onNotification('success', `Tag "${tagToAdd}" added`)
   }
 
   const removeTag = (tagToRemove) => {
-    onFormDataChange('tags', formData.tags.filter(tag => tag !== tagToRemove))
+    onFormDataChange('tags', (formData.tags || []).filter(tag => tag !== tagToRemove))
   }
 
-  const handleVisibilityChange = (visibility) => {
-    onFormDataChange('publishSettings', {
-      ...formData.publishSettings,
-      visibility
-    })
-    setEditingVisibility(false)
-  }
-
-  const handlePublishDateChange = (publishDate) => {
-    onFormDataChange('publishSettings', {
-      ...formData.publishSettings,
-      publishDate
-    })
-    setEditingPublishDate(false)
-  }
+  // These functions are no longer needed with the new structure
 
   const getStatusIcon = () => {
-    switch (formData.publishSettings.status) {
+    switch (formData.status) {
       case 'published': return <Check size={16} className="text-green-600" />
       case 'draft': return <Edit size={16} className="text-yellow-600" />
+      case 'unpublished': return <Clock size={16} className="text-red-600" />
       default: return <Clock size={16} className="text-gray-600" />
     }
   }
@@ -231,8 +197,8 @@ const BlogSidebar = ({
                 <div className="flex items-center space-x-2">
                   {editingVisibility ? (
                     <select
-                      value={formData.publishSettings.visibility}
-                      onChange={(e) => handleVisibilityChange(e.target.value)}
+                      value="public"
+                      disabled
                       className="text-sm border border-gray-300 rounded px-2 py-1"
                       autoFocus
                     >
@@ -243,8 +209,8 @@ const BlogSidebar = ({
                   ) : (
                     <>
                       <span className="text-blue-600 font-medium capitalize flex items-center">
-                        {formData.publishSettings.visibility === 'public' && <Globe size={14} className="mr-1" />}
-                        {formData.publishSettings.visibility}
+                        <Globe size={14} className="mr-1" />
+                        Public
                       </span>
                       <button 
                         onClick={() => setEditingVisibility(true)}
@@ -266,18 +232,15 @@ const BlogSidebar = ({
                   {editingPublishDate ? (
                     <input
                       type="datetime-local"
-                      value={formData.publishSettings.publishDate === 'immediately' ? '' : formData.publishSettings.publishDate}
-                      onChange={(e) => handlePublishDateChange(e.target.value || 'immediately')}
+                      value=""
+                      disabled
                       className="text-sm border border-gray-300 rounded px-2 py-1"
                       autoFocus
                     />
                   ) : (
                     <>
                       <span className="font-medium">
-                        {formData.publishSettings.publishDate === 'immediately' 
-                          ? 'immediately' 
-                          : new Date(formData.publishSettings.publishDate).toLocaleDateString()
-                        }
+                        immediately
                       </span>
                       <button 
                         onClick={() => setEditingPublishDate(true)}
@@ -295,7 +258,7 @@ const BlogSidebar = ({
               onClick={onPublish}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors"
             >
-              {formData.publishSettings.status === 'published' ? 'Update' : 'Publish'}
+              {formData.status === 'published' ? 'Update' : 'Publish'}
             </button>
           </div>
         )}
@@ -340,7 +303,7 @@ const BlogSidebar = ({
               <div className="space-y-3">
                 <div className="relative">
                   <img 
-                    src={formData.featuredImage.preview} 
+                    src={formData.featuredImage} 
                     alt="Featured" 
                     className="w-full h-40 object-cover rounded-lg border"
                   />
@@ -352,8 +315,8 @@ const BlogSidebar = ({
                   </button>
                 </div>
                 <div className="text-sm text-gray-600">
-                  <p className="font-medium">{formData.featuredImage.name}</p>
-                  <p>{(formData.featuredImage.size / 1024).toFixed(1)} KB</p>
+                  <p className="font-medium">Featured Image</p>
+                  <p>Image selected for upload</p>
                 </div>
                 <button 
                   onClick={() => document.getElementById('featured-image-input').click()}
@@ -405,10 +368,11 @@ const BlogSidebar = ({
                 <div key={category.id} className="flex items-center justify-between group">
                   <label className="flex items-center space-x-2 text-sm flex-1">
                     <input
-                      type="checkbox"
-                      checked={formData.categories.includes(category.name)}
-                      onChange={(e) => handleCategoryChange(category.name, e.target.checked)}
-                      className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      type="radio"
+                      name="category"
+                      checked={formData.category === category.name}
+                      onChange={() => handleCategoryChange(category.name)}
+                      className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     />
                     <span className="text-gray-700">{category.name}</span>
                     <span className="text-gray-400 text-xs">({category.count})</span>
@@ -503,7 +467,7 @@ const BlogSidebar = ({
             
             <p className="text-xs text-gray-500">Separate tags with commas or press Enter</p>
             
-            {formData.tags.length > 0 && (
+            {formData.tags && formData.tags.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-sm font-medium text-gray-700">Current tags:</h4>
                 <div className="flex flex-wrap gap-2">
@@ -542,12 +506,12 @@ const BlogSidebar = ({
             <span>{formData.content ? formData.content.replace(/<[^>]*>/g, '').length : 0}</span>
           </div>
           <div className="flex justify-between">
-            <span>Categories:</span>
-            <span>{formData.categories.length}</span>
+            <span>Category:</span>
+            <span>{formData.category ? 1 : 0}</span>
           </div>
           <div className="flex justify-between">
             <span>Tags:</span>
-            <span>{formData.tags.length}</span>
+            <span>{formData.tags ? formData.tags.length : 0}</span>
           </div>
         </div>
       </div>

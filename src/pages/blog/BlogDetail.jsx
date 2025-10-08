@@ -59,8 +59,8 @@ const BlogDetail = () => {
             id: b.slug,
             title: b.title,
             content: b,
-            date: new Date(b.publishedAt || Date.now()).toLocaleDateString(),
-            updatedDate: new Date(b.updatedAt || b.publishedAt || Date.now()).toLocaleDateString(),
+            date: new Date(b.published_at || b.publishedAt || Date.now()).toLocaleDateString(),
+            updatedDate: new Date(b.updatedAt || b.published_at || b.publishedAt || Date.now()).toLocaleDateString(),
             readTime: '7min reading',
           });
         } else {
@@ -227,6 +227,32 @@ const BlogDetail = () => {
   const { title, content, date, updatedDate, readTime } = blog;
 
   const renderContent = () => {
+    // For new format blogs with HTML content (check if content contains HTML tags)
+    if (content.content && typeof content.content === 'string' && 
+        content.originalFormat === 'new' && 
+        content.content.includes('<')) {
+      return (
+        <div 
+          className="prose prose-lg max-w-none"
+          dangerouslySetInnerHTML={{ __html: content.content }}
+        />
+      );
+    }
+
+    // For new format blogs with plain text content or old format blogs
+    if (content.content && typeof content.content === 'string' && 
+        content.originalFormat === 'new' && 
+        !content.content.includes('<')) {
+      return (
+        <div className="prose prose-lg max-w-none">
+          <p className="text-gray-700 leading-relaxed text-sm md:text-base">
+            {content.content}
+          </p>
+        </div>
+      );
+    }
+
+    // For old format blogs or blogs with structured content
     const sections = [];
 
     if (content.introduction) {
@@ -697,10 +723,10 @@ const BlogDetail = () => {
             </div>
 
             {/* Blog Image - Responsive */}
-            {content.image && (
+            {(content.feature_image || content.image) && (
               <div className="w-full h-48 sm:h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden mb-8 sm:mb-10 lg:mb-12">
                 <img
-                  src={content.image}
+                  src={content.feature_image || content.image}
                   alt={title}
                   className="w-full h-full object-cover"
                 />

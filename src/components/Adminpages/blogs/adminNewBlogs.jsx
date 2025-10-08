@@ -9,31 +9,18 @@ import { Upload, AlertCircle, CheckCircle, Image, FileText, Film, ArrowLeft } fr
 import { useBlogContext } from '../../../contexts/BlogContext'
 
 const AddNewPost = () => {
-  const { addBlog, updateBlog, getBlogById } = useBlogContext()
+  const { addBlog, updateBlog, getBlogById, uploadBlogImage, generateSlug } = useBlogContext()
   const navigate = useNavigate()
   const { blogId } = useParams() // For edit mode
   const isEditMode = !!blogId
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    seoData: {
-      primaryKeyword: '',
-      secondaryKeywords: [],
-      metaTitle: '',
-      metaDescription: '',
-      metaUrl: ''
-    },
-    featuredImage: null,
-    categories: ['Uncategorized'],
+    category: 'Uncategorized',
     tags: [],
-    publishSettings: {
-      visibility: 'public',
-      publishDate: 'immediately',
-      status: 'draft'
-    },
-    author: 'SNS (admin)',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
+    status: 'draft',
+    featuredImage: null,
+    featuredImageFile: null
   })
 
   const [notification, setNotification] = useState({ show: false, type: '', message: '' })
@@ -44,33 +31,48 @@ const AddNewPost = () => {
   // Load existing blog for edit mode
   useEffect(() => {
     if (isEditMode && blogId) {
-      // Load existing blog for editing
-      const existingBlog = getBlogById(blogId)
-      if (existingBlog) {
-        setFormData(existingBlog)
-        showNotification('info', 'Blog loaded for editing')
-      } else {
-        showNotification('error', 'Blog not found')
-        navigate('/admin/blog/all')
+      const loadBlog = async () => {
+        try {
+          const existingBlog = await getBlogById(blogId)
+          if (existingBlog) {
+            setFormData({
+              title: existingBlog.title || existingBlog.slug?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || '',
+              content: existingBlog.content || '',
+              category: existingBlog.category || 'Uncategorized',
+              tags: existingBlog.tags || [],
+              status: existingBlog.status || 'draft',
+              featuredImage: existingBlog.feature_image || null,
+              featuredImageFile: null
+            })
+            showNotification('info', 'Blog loaded for editing')
+          } else {
+            showNotification('error', 'Blog not found')
+            navigate('/admin/blog/all')
+          }
+        } catch (error) {
+          showNotification('error', 'Failed to load blog')
+          navigate('/admin/blog/all')
+        }
       }
+      loadBlog()
     }
-  }, [isEditMode, blogId, getBlogById, navigate])
+  }, [isEditMode, blogId])
 
   // Remove auto-save functionality since we're not using session storage
 
   const updateFormData = (key, value) => {
     setFormData(prev => ({
       ...prev,
-      [key]: value,
-      updatedAt: new Date().toISOString()
+      [key]: value
     }))
   }
 
   const updateSEOData = (seoUpdates) => {
+    // For now, we'll just update the form data with SEO info
+    // This can be extended later if needed
     setFormData(prev => ({
       ...prev,
-      seoData: { ...prev.seoData, ...seoUpdates },
-      updatedAt: new Date().toISOString()
+      ...seoUpdates
     }))
   }
 
@@ -79,32 +81,56 @@ const AddNewPost = () => {
     setTimeout(() => setNotification({ show: false, type: '', message: '' }), 3000)
   }
 
-  const saveDraft = (silent = false) => {
+  const saveDraft = async (silent = false) => {
     try {
-      const draftData = {
-        ...formData,
-        publishSettings: { ...formData.publishSettings, status: 'draft' },
-        updatedAt: new Date().toISOString()
+      // Validation
+      if (!formData.title.trim()) {
+        showNotification('error', 'Title is required')
+        return
+      }
+      if (!formData.content.trim()) {
+        showNotification('error', 'Content is required')
+        return
+      }
+
+      // Prepare FormData
+      const apiFormData = new FormData()
+      apiFormData.append('title', formData.title)
+      apiFormData.append('content', formData.content)
+      apiFormData.append('category', formData.category)
+      apiFormData.append('status', 'draft')
+      
+      // Add tags
+      if (formData.tags && formData.tags.length > 0) {
+        apiFormData.append('tags', formData.tags.join(','))
+      }
+
+      // Add feature image if new file selected
+      if (formData.featuredImageFile) {
+        apiFormData.append('feature_image', formData.featuredImageFile)
       }
       
       if (isEditMode) {
         // Update existing blog
-        updateBlog(blogId, draftData)
+        await updateBlog(blogId, apiFormData)
         if (!silent) {
-          showNotification('success', 'Blog updated successfully!')
+          showNotification('success', 'Draft updated successfully!')
         }
       } else {
-        // For new blogs, we'll implement backend integration later
+        // Create new blog as draft
+        const newBlog = await addBlog(apiFormData)
         if (!silent) {
-          showNotification('success', 'Draft will be saved when backend is integrated!')
+          showNotification('success', 'Draft saved successfully!')
+          // Navigate to edit mode after creating
+          setTimeout(() => {
+            navigate(`/admin/blog/edit/${newBlog._id}`)
+          }, 1500)
         }
       }
-      
-      console.log('Draft data:', draftData)
     } catch (error) {
       console.error('Error saving draft:', error)
       if (!silent) {
-        showNotification('error', 'Failed to save draft')
+        showNotification('error', error.response?.data?.message || 'Failed to save draft')
       }
     }
   }
@@ -115,25 +141,18 @@ const AddNewPost = () => {
       return
     }
     
-    const previewData = {
-      ...formData,
-      publishSettings: { ...formData.publishSettings, status: 'preview' },
-      previewedAt: new Date().toISOString()
-    }
-    
-    showNotification('info', 'Preview functionality will be implemented with backend integration!')
-    
-    console.log('Preview data:', previewData)
+    const slug = generateSlug(formData.title)
+    // Open preview in new tab
+    window.open(`/blog/${slug}`, '_blank')
   }
 
-  const publishPost = () => {
+  const publishPost = async () => {
     // Validation
     const validationErrors = []
     
     if (!formData.title.trim()) validationErrors.push('Title is required')
     if (!formData.content.trim()) validationErrors.push('Content is required')
-    if (formData.categories.length === 0) validationErrors.push('At least one category is required')
-    if (!formData.seoData.primaryKeyword) validationErrors.push('Primary SEO keyword is recommended')
+    if (!formData.category) validationErrors.push('Category is required')
     
     if (validationErrors.length > 0) {
       showNotification('error', `Please fix: ${validationErrors.join(', ')}`)
@@ -141,27 +160,32 @@ const AddNewPost = () => {
     }
 
     try {
-      const publishData = {
-        ...formData,
-        publishSettings: {
-          ...formData.publishSettings,
-          status: 'published',
-          publishedAt: new Date().toISOString()
-        },
-        updatedAt: new Date().toISOString()
+      // Prepare FormData
+      const apiFormData = new FormData()
+      apiFormData.append('title', formData.title)
+      apiFormData.append('content', formData.content)
+      apiFormData.append('category', formData.category)
+      apiFormData.append('status', 'published')
+      
+      // Add tags
+      if (formData.tags && formData.tags.length > 0) {
+        apiFormData.append('tags', formData.tags.join(','))
+      }
+
+      // Add feature image if new file selected
+      if (formData.featuredImageFile) {
+        apiFormData.append('feature_image', formData.featuredImageFile)
       }
 
       if (isEditMode) {
         // Update existing blog
-        updateBlog(blogId, publishData)
+        await updateBlog(blogId, apiFormData)
         showNotification('success', 'Blog updated and published successfully!')
       } else {
-        // Add new blog
-        const newBlog = addBlog(publishData)
+        // Create new blog
+        await addBlog(apiFormData)
         showNotification('success', 'Blog published successfully!')
       }
-      
-      console.log('Published blog data:', publishData)
       
       // Navigate back to all blogs after a delay
       setTimeout(() => {
@@ -170,28 +194,15 @@ const AddNewPost = () => {
       
     } catch (error) {
       console.error('Error publishing blog:', error)
-      showNotification('error', 'Failed to publish blog')
+      showNotification('error', error.response?.data?.message || 'Failed to publish blog')
     }
   }
 
-  const generateSlug = (title) => {
-    return title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '')
-  }
-
-  const generateId = () => {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2)
-  }
-
-  // Enhanced Media Upload Function
+  // Enhanced Media Upload Function - Upload images to backend
   const handleMediaUpload = () => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.accept = 'image/*,video/*,.pdf,.doc,.docx,.txt'
+    input.accept = 'image/*'
     input.multiple = true
     
     input.onchange = async (e) => {
@@ -199,85 +210,46 @@ const AddNewPost = () => {
       
       if (files.length === 0) return
       
-      showNotification('info', `Processing ${files.length} file(s)...`)
-      
-      const uploadPromises = files.map(file => processMediaFile(file))
+      showNotification('info', `Uploading ${files.length} image(s)...`)
       
       try {
-        const processedFiles = await Promise.all(uploadPromises)
-        const validFiles = processedFiles.filter(file => file !== null)
+        const uploadPromises = files.map(async (file) => {
+          try {
+            const imageUrl = await uploadBlogImage(file)
+            return {
+              name: file.name,
+              url: imageUrl,
+              type: file.type
+            }
+          } catch (error) {
+            console.error(`Failed to upload ${file.name}:`, error)
+            return null
+          }
+        })
+        
+        const uploadedFiles = await Promise.all(uploadPromises)
+        const validFiles = uploadedFiles.filter(file => file !== null)
         
         if (validFiles.length > 0) {
-          // Add to media library (will be integrated with backend later)
+          // Add to media library
           const updatedMediaLibrary = [...mediaLibrary, ...validFiles]
           setMediaLibrary(updatedMediaLibrary)
           
-          showNotification('success', `${validFiles.length} file(s) uploaded successfully!`)
+          showNotification('success', `${validFiles.length} image(s) uploaded successfully!`)
           
-          // Auto-insert first image if it's an image
-          if (validFiles[0]?.type.startsWith('image/')) {
+          // Auto-insert first image
+          if (validFiles[0]) {
             insertMediaIntoEditor(validFiles[0])
           }
         }
         
       } catch (error) {
-        console.error('Error processing files:', error)
-        showNotification('error', 'Error uploading files')
+        console.error('Error uploading files:', error)
+        showNotification('error', 'Error uploading images')
       }
     }
     
     input.click()
-  }
-
-  // Process individual media file
-  const processMediaFile = (file) => {
-    return new Promise((resolve, reject) => {
-      // Validate file size (10MB limit)
-      if (file.size > 10 * 1024 * 1024) {
-        showNotification('error', `${file.name} is too large (max 10MB)`)
-        resolve(null)
-        return
-      }
-
-      // Validate file type
-      const allowedTypes = [
-        'image/jpeg', 'image/png', 'image/gif', 'image/webp',
-        'video/mp4', 'video/webm',
-        'application/pdf',
-        'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain'
-      ]
-
-      if (!allowedTypes.includes(file.type)) {
-        showNotification('error', `${file.name} is not a supported file type`)
-        resolve(null)
-        return
-      }
-
-      const reader = new FileReader()
-      
-      reader.onload = (e) => {
-        const mediaFile = {
-          id: generateId(),
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          url: e.target.result,
-          uploadedAt: new Date().toISOString(),
-          alt: '',
-          caption: ''
-        }
-        
-        resolve(mediaFile)
-      }
-      
-      reader.onerror = () => {
-        showNotification('error', `Error reading ${file.name}`)
-        resolve(null)
-      }
-      
-      reader.readAsDataURL(file)
-    })
   }
 
   // Insert media into Tiptap editor
@@ -287,26 +259,11 @@ const AddNewPost = () => {
     const editor = editorRef.current.getEditor()
     if (!editor) return
 
-    if (mediaFile.type.startsWith('image/')) {
-      // Insert image
-      editor.chain().focus().setImage({ 
-        src: mediaFile.url,
-        alt: mediaFile.alt || mediaFile.name,
-        title: mediaFile.caption || mediaFile.name
-      }).run()
-    } else if (mediaFile.type.startsWith('video/')) {
-      // Insert video (as HTML)
-      const videoHTML = `<video controls width="100%" style="max-width: 600px;">
-        <source src="${mediaFile.url}" type="${mediaFile.type}">
-        Your browser does not support the video tag.
-      </video>`
-      
-      editor.chain().focus().insertContent(videoHTML).run()
-    } else {
-      // Insert as link for documents
-      const linkHTML = `<p><a href="${mediaFile.url}" target="_blank" download="${mediaFile.name}">📁 ${mediaFile.name}</a></p>`
-      editor.chain().focus().insertContent(linkHTML).run()
-    }
+    // Insert image
+    editor.chain().focus().setImage({ 
+      src: mediaFile.url,
+      alt: mediaFile.name
+    }).run()
 
     showNotification('success', `${mediaFile.name} inserted into content`)
   }
@@ -378,8 +335,7 @@ const AddNewPost = () => {
                   {isEditMode ? 'Edit Blog Post' : 'Add New Blog Post'}
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">
-                  Status: <span className="font-medium">{formData.publishSettings.status === 'draft' ? 'Draft' : 'Published'}</span> • 
-                  Last updated: {new Date(formData.updatedAt).toLocaleTimeString()}
+                  Status: <span className="font-medium capitalize">{formData.status}</span>
                 </p>
               </div>
             </div>
@@ -509,3 +465,4 @@ const AddNewPost = () => {
 }
 
 export default AddNewPost
+

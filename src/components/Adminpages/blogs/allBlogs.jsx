@@ -14,12 +14,13 @@ import {
   MoreVertical,
   CheckCircle,
   Clock,
-  AlertCircle
+  AlertCircle,
+  XCircle
 } from 'lucide-react'
 import { useBlogContext } from '../../../contexts/BlogContext'
 
 const AllBlogs = () => {
-  const { blogs, deleteBlog, publishBlog, draftBlog, getStats } = useBlogContext()
+  const { blogs, deleteBlog, publishBlog, unpublishBlog, draftBlog, getStats } = useBlogContext()
   const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -35,11 +36,11 @@ const AllBlogs = () => {
   }
 
   const filteredBlogs = blogs.filter(blog => {
-    const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         blog.content.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSearch = blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         blog.slug?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         blog.content?.toLowerCase().includes(searchTerm.toLowerCase())
     
-    const matchesFilter = filterStatus === 'all' || 
-                         blog.publishSettings?.status === filterStatus
+    const matchesFilter = filterStatus === 'all' || blog.status === filterStatus
 
     return matchesSearch && matchesFilter
   })
@@ -53,22 +54,30 @@ const AllBlogs = () => {
     setShowDeleteModal(true)
   }
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (blogToDelete) {
-      deleteBlog(blogToDelete.id)
-      showNotification('success', `Blog "${blogToDelete.title}" deleted successfully`)
-      setShowDeleteModal(false)
-      setBlogToDelete(null)
+      try {
+        await deleteBlog(blogToDelete._id)
+        showNotification('success', `Blog "${blogToDelete.title}" deleted successfully`)
+        setShowDeleteModal(false)
+        setBlogToDelete(null)
+      } catch (error) {
+        showNotification('error', 'Failed to delete blog')
+      }
     }
   }
 
-  const handleStatusChange = (blogId, newStatus) => {
-    if (newStatus === 'published') {
-      publishBlog(blogId)
-      showNotification('success', 'Blog published successfully')
-    } else {
-      draftBlog(blogId)
-      showNotification('success', 'Blog moved to draft')
+  const handleStatusChange = async (blogId, currentStatus) => {
+    try {
+      if (currentStatus === 'published') {
+        await unpublishBlog(blogId)
+        showNotification('success', 'Blog unpublished successfully')
+      } else {
+        await publishBlog(blogId)
+        showNotification('success', 'Blog published successfully')
+      }
+    } catch (error) {
+      showNotification('error', 'Failed to change blog status')
     }
   }
 
@@ -86,6 +95,13 @@ const AllBlogs = () => {
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
             <Clock size={12} className="mr-1" />
             Draft
+          </span>
+        )
+      case 'unpublished':
+        return (
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+            <XCircle size={12} className="mr-1" />
+            Unpublished
           </span>
         )
       default:
@@ -242,6 +258,7 @@ const AllBlogs = () => {
               <option value="all">All Status</option>
               <option value="published">Published</option>
               <option value="draft">Draft</option>
+              <option value="unpublished">Unpublished</option>
             </select>
           </div>
         </div>
@@ -299,12 +316,12 @@ const AllBlogs = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredBlogs.map((blog) => (
-                    <tr key={blog.id} className="hover:bg-gray-50">
+                    <tr key={blog._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          {blog.featuredImage && (
+                          {blog.feature_image && (
                             <img
-                              src={blog.featuredImage}
+                              src={blog.feature_image}
                               alt=""
                               className="h-10 w-10 rounded-lg object-cover mr-3"
                             />
@@ -314,18 +331,18 @@ const AllBlogs = () => {
                               {blog.title}
                             </div>
                             <div className="text-sm text-gray-500">
-                              {blog.categories?.join(', ')}
+                              {blog.category}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(blog.publishSettings?.status)}
+                        {getStatusBadge(blog.status)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <User className="h-4 w-4 text-gray-400 mr-2" />
-                          <span className="text-sm text-gray-900">{blog.author}</span>
+                          <span className="text-sm text-gray-900">Admin</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -344,7 +361,7 @@ const AllBlogs = () => {
                             <Eye size={16} />
                           </button>
                           <button
-                            onClick={() => handleEdit(blog.id)}
+                            onClick={() => handleEdit(blog._id)}
                             className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50"
                             title="Edit"
                           >
@@ -363,10 +380,10 @@ const AllBlogs = () => {
                             </button>
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
                               <button
-                                onClick={() => handleStatusChange(blog.id, blog.publishSettings?.status === 'published' ? 'draft' : 'published')}
+                                onClick={() => handleStatusChange(blog._id, blog.status)}
                                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                               >
-                                {blog.publishSettings?.status === 'published' ? 'Move to Draft' : 'Publish'}
+                                {blog.status === 'published' ? 'Unpublish' : 'Publish'}
                               </button>
                               <button
                                 onClick={() => navigator.clipboard.writeText(window.location.origin + `/blog/${blog.slug}`)}
