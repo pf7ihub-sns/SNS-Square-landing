@@ -181,7 +181,7 @@ const BlogSidebar = ({
   return (
     <div className="w-full space-y-4">
       {/* Publish Section */}
-      <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
+      {/* <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center space-x-2">
             {getStatusIcon()}
@@ -299,7 +299,7 @@ const BlogSidebar = ({
             </button>
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* Featured Image Section */}
       <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
