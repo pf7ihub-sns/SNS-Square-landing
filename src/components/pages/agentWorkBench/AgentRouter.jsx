@@ -65,6 +65,8 @@ import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import AiSheets from "./agents/aiSheets";
+import MeetingNotesGenerator from "./agents/MomHome";
+
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -134,7 +136,9 @@ const AgentRouter = () => {
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor />,
-    "ai-sheets" : <AiSheets/>
+    "ai-sheets" : <AiSheets/>,
+    "meeting-Notes-generator-agent": <MeetingNotesGenerator />,
+
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;

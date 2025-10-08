@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import ReactMarkdown from 'react-markdown';
 import { Paperclip, Download } from 'lucide-react';
@@ -18,7 +18,30 @@ const AiSheets = () => {
   const [activeView, setActiveView] = useState('preview');
   const [showDataDownloadMenu, setShowDataDownloadMenu] = useState(false);
   const [showReportDownloadMenu, setShowReportDownloadMenu] = useState(false);
+  const [visualization, setVisualization] = useState(null);
   const fileInputRef = useRef(null);
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
+
+  useEffect(() => {
+    // Cleanup previous chart instance
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+      chartInstanceRef.current = null;
+    }
+
+    // Render new chart if visualization is available
+    if (visualization && visualization.chart_code && chartRef.current) {
+      try {
+        // Create a function from the chart code
+        const chartFunction = new Function('Chart', visualization.chart_code);
+        chartFunction(window.Chart);
+      } catch (error) {
+        console.error('Error rendering chart:', error);
+        setError('Failed to render visualization.');
+      }
+    }
+  }, [visualization]);
 
   const handleFileUpload = async (e) => {
     const selectedFile = e.target.files[0];
@@ -38,6 +61,7 @@ const AiSheets = () => {
       setSummary('');
       setAnomalies('');
       setInsights('');
+      setVisualization(null);
       setActiveView('preview');
 
       // Read file for preview (up to 50 rows)
@@ -71,6 +95,7 @@ const AiSheets = () => {
       setSummary('');
       setAnomalies('');
       setInsights('');
+      setVisualization(null);
       setActiveView('preview');
     } catch (error) {
       console.error('Error removing file:', error);
@@ -119,6 +144,7 @@ const AiSheets = () => {
     setSummary('');
     setAnomalies('');
     setInsights('');
+    setVisualization(null);
     setQuery('');
     setActiveView('preview');
   };
@@ -150,15 +176,22 @@ const AiSheets = () => {
       console.log('API Response:', data);
       if (data.is_report) {
         setResponse(data.response);
-        setActiveView('response'); // Switch to sidebar view for reports
+        setVisualization(null);
+        setActiveView('response');
+      } else if (data.visualization) {
+        setResponse(data.response);
+        setVisualization(data.visualization);
+        setActiveView('visualization');
       } else {
         setConversation((prev) => [...prev, { user: query, ai: data.response }]);
+        setVisualization(null);
       }
       setQuery('');
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred while processing your query.');
       setResponse('');
+      setVisualization(null);
     } finally {
       setLoading(false);
     }
@@ -503,24 +536,32 @@ const AiSheets = () => {
           }}
         >
           <h3 style={{ margin: 0, color: '#333' }}>
-            {activeView === 'preview' ? 'Data Preview' : 'Analysis Report'}
+            {activeView === 'preview' ? 'Data Preview' : activeView === 'response' ? 'Analysis Report' : 'Visualization'}
           </h3>
           {file && (
             <div style={{ display: 'flex', gap: '10px', position: 'relative' }}>
               <button
-                onClick={() => setActiveView(activeView === 'preview' ? 'response' : 'preview')}
-                disabled={!response && activeView === 'preview'}
+                onClick={() => {
+                  if (activeView === 'preview') {
+                    setActiveView(response ? 'response' : visualization ? 'visualization' : 'preview');
+                  } else if (activeView === 'response') {
+                    setActiveView(visualization ? 'visualization' : 'preview');
+                  } else {
+                    setActiveView('preview');
+                  }
+                }}
+                disabled={!response && !visualization && activeView === 'preview'}
                 style={{
                   padding: '8px 16px',
-                  backgroundColor: response || activeView === 'preview' ? '#1a73e8' : '#ccc',
+                  backgroundColor: response || visualization || activeView === 'preview' ? '#1a73e8' : '#ccc',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '8px',
-                  cursor: response || activeView === 'preview' ? 'pointer' : 'not-allowed',
+                  cursor: response || visualization || activeView === 'preview' ? 'pointer' : 'not-allowed',
                   fontSize: '14px',
                 }}
               >
-                {activeView === 'preview' ? 'View Report' : 'View Data'}
+                {activeView === 'preview' ? (response ? 'View Report' : 'View Visualization') : activeView === 'response' ? (visualization ? 'View Visualization' : 'View Data') : 'View Data'}
               </button>
               {activeView === 'preview' ? (
                 <div style={{ position: 'relative' }}>
@@ -594,7 +635,7 @@ const AiSheets = () => {
                     </div>
                   )}
                 </div>
-              ) : (
+              ) : activeView === 'response' ? (
                 <div style={{ position: 'relative' }}>
                   <button
                     onClick={() => setShowReportDownloadMenu(!showReportDownloadMenu)}
@@ -683,7 +724,7 @@ const AiSheets = () => {
                     </div>
                   )}
                 </div>
-              )}
+              ) : null}
             </div>
           )}
         </div>
@@ -754,8 +795,15 @@ const AiSheets = () => {
                   </tbody>
                 </table>
               </div>
-            ) : (
+            ) : activeView === 'response' ? (
               <ReactMarkdown>{response}</ReactMarkdown>
+            ) : (
+              <div>
+                <canvas id="myChart" style={{ maxHeight: '500px', width: '100%' }}></canvas>
+                {visualization && visualization.explanation && (
+                  <p style={{ marginTop: '10px', color: '#333' }}>{visualization.explanation}</p>
+                )}
+              </div>
             )
           ) : (
             <p style={{ color: '#666', textAlign: 'center' }}>
@@ -782,6 +830,7 @@ const AiSheets = () => {
           text-overflow: ellipsis;
         }
       `}</style>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     </div>
   );
 };

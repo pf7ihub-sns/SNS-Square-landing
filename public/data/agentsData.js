@@ -853,6 +853,16 @@ export default {
               status: "available"
             },
             {
+              id: "meeting-Notes-generator-agent",
+              name: "Meeting Notes Generator Agent",
+              summary: "Generate meeting notes from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
               id: "report-generator-agent",
               name: "Report Generator Agent",
               summary: "Generate reports from various data sources.",
