@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import ReactMarkdown from 'react-markdown';
-import { Paperclip } from 'lucide-react';
+import { Paperclip, Download } from 'lucide-react';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
 
 const AiSheets = () => {
   const [file, setFile] = useState(null);
@@ -15,6 +16,8 @@ const AiSheets = () => {
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState('');
   const [activeView, setActiveView] = useState('preview');
+  const [showDataDownloadMenu, setShowDataDownloadMenu] = useState(false);
+  const [showReportDownloadMenu, setShowReportDownloadMenu] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleFileUpload = async (e) => {
@@ -159,6 +162,110 @@ const AiSheets = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDownloadData = (format) => {
+    if (!dataPreview.length) {
+      setError('No data to download.');
+      return;
+    }
+
+    try {
+      // Sanitize data to handle null/undefined and ensure strings
+      const sanitizedData = dataPreview.map(row =>
+        row.map(cell => (cell == null ? '' : String(cell)))
+      );
+
+      const filename = file ? `${file.name.split('.')[0]}_preview` : 'data_preview';
+
+      if (format === 'csv') {
+        // Convert data to CSV string
+        const csvContent = sanitizedData.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${filename}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else if (format === 'excel') {
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.aoa_to_sheet(sanitizedData);
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([wbout], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${filename}.xlsx`;
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error('Error downloading data:', error);
+      console.error('Data Preview:', JSON.stringify(dataPreview));
+      setError(`Failed to download data as ${format.toUpperCase()}. Please try again.`);
+    }
+    setShowDataDownloadMenu(false);
+  };
+
+  const handleDownloadReport = async (format) => {
+    if (!response) {
+      setError('No report available to download.');
+      return;
+    }
+    const filename = 'analysis_report';
+    try {
+      if (format === 'txt') {
+        const blob = new Blob([response], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${filename}.txt`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else if (format === 'docx') {
+        const doc = new Document({
+          sections: [{
+            properties: {},
+            children: response.split('\n').map(line => 
+              new Paragraph({
+                children: [new TextRun(line)],
+              })
+            ),
+          }],
+        });
+        const blob = await Packer.toBlob(doc);
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${filename}.docx`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else if (format === 'pdf') {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>${filename}</title>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                pre { white-space: pre-wrap; }
+              </style>
+            </head>
+            <body>
+              <pre>${response.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+      }
+    } catch (error) {
+      console.error('Error downloading report:', error);
+      setError('Failed to download report. Please try again.');
+    }
+    setShowReportDownloadMenu(false);
   };
 
   return (
@@ -399,21 +506,185 @@ const AiSheets = () => {
             {activeView === 'preview' ? 'Data Preview' : 'Analysis Report'}
           </h3>
           {file && (
-            <button
-              onClick={() => setActiveView(activeView === 'preview' ? 'response' : 'preview')}
-              disabled={!response && activeView === 'preview'}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: response || activeView === 'preview' ? '#1a73e8' : '#ccc',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: response || activeView === 'preview' ? 'pointer' : 'not-allowed',
-                fontSize: '14px',
-              }}
-            >
-              {activeView === 'preview' ? 'View Report' : 'View Data'}
-            </button>
+            <div style={{ display: 'flex', gap: '10px', position: 'relative' }}>
+              <button
+                onClick={() => setActiveView(activeView === 'preview' ? 'response' : 'preview')}
+                disabled={!response && activeView === 'preview'}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: response || activeView === 'preview' ? '#1a73e8' : '#ccc',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: response || activeView === 'preview' ? 'pointer' : 'not-allowed',
+                  fontSize: '14px',
+                }}
+              >
+                {activeView === 'preview' ? 'View Report' : 'View Data'}
+              </button>
+              {activeView === 'preview' ? (
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setShowDataDownloadMenu(!showDataDownloadMenu)}
+                    disabled={!dataPreview.length}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: dataPreview.length ? '#1a73e8' : '#ccc',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: dataPreview.length ? 'pointer' : 'not-allowed',
+                      fontSize: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                    }}
+                  >
+                    <Download size={16} />
+                    Download Data
+                  </button>
+                  {showDataDownloadMenu && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: 0,
+                        backgroundColor: '#fff',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        zIndex: 10,
+                        minWidth: '100px',
+                      }}
+                    >
+                      <button
+                        onClick={() => handleDownloadData('csv')}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '8px 16px',
+                          backgroundColor: '#fff',
+                          border: 'none',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
+                      >
+                        CSV
+                      </button>
+                      <button
+                        onClick={() => handleDownloadData('excel')}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '8px 16px',
+                          backgroundColor: '#fff',
+                          border: 'none',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
+                      >
+                        Excel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setShowReportDownloadMenu(!showReportDownloadMenu)}
+                    disabled={!response}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: response ? '#1a73e8' : '#ccc',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: response ? 'pointer' : 'not-allowed',
+                      fontSize: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                    }}
+                  >
+                    <Download size={16} />
+                    Download Report
+                  </button>
+                  {showReportDownloadMenu && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        right: 0,
+                        backgroundColor: '#fff',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        zIndex: 10,
+                        minWidth: '100px',
+                      }}
+                    >
+                      <button
+                        onClick={() => handleDownloadReport('pdf')}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '8px 16px',
+                          backgroundColor: '#fff',
+                          border: 'none',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
+                      >
+                        PDF
+                      </button>
+                      <button
+                        onClick={() => handleDownloadReport('docx')}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '8px 16px',
+                          backgroundColor: '#fff',
+                          border: 'none',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
+                      >
+                        DOCX
+                      </button>
+                      <button
+                        onClick={() => handleDownloadReport('txt')}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          padding: '8px 16px',
+                          backgroundColor: '#fff',
+                          border: 'none',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                        }}
+                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
+                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
+                      >
+                        TXT
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           )}
         </div>
         <div style={{ padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}>
