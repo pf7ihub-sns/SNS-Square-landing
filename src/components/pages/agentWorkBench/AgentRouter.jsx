@@ -68,7 +68,7 @@ import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
-
+import EmailSupport from "./agents/CustomerSupportEmailAgent";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -139,6 +139,7 @@ const AgentRouter = () => {
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor /> ,
+    "email-support":<EmailSupport/>,
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
