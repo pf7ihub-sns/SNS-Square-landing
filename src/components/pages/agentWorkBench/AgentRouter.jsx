@@ -141,6 +141,7 @@ const AgentRouter = () => {
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
+    
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
