@@ -6,6 +6,8 @@ import { LuLinkedin } from 'react-icons/lu';
 import { FaInstagram } from 'react-icons/fa6';
 import { RiShareForwardLine } from "react-icons/ri";
 import { FaWhatsapp, FaLinkedinIn, FaInstagram as FaInsta, FaTimes } from 'react-icons/fa';
+import { SiOpenai, SiClaude, SiPerplexity, SiGooglegemini } from 'react-icons/si';
+import { TbSparkles, TbRobot } from 'react-icons/tb';
 import SEO from '../../components/common/SEO';
 
 // Import blog data
@@ -47,6 +49,47 @@ const BlogDetail = () => {
       bgColor: 'bg-purple-50 hover:bg-purple-100'
     }
   ];
+
+  // AI Summary Options
+  const aiSummaryOptions = [
+    {
+      name: 'ChatGPT',
+      icon: <SiOpenai className="w-5 h-5" />,
+      url: `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      bgColor: 'bg-green-50 hover:bg-green-100',
+      textColor: 'text-green-600'
+    },
+    {
+      name: 'Claude',
+      icon: <SiClaude className="w-5 h-5" />,
+      url: `https://claude.ai/chat?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      bgColor: 'bg-orange-50 hover:bg-orange-100',
+      textColor: 'text-orange-600'
+    },
+    {
+      name: 'Grok',
+      icon: <TbSparkles className="w-5 h-5" />,
+      url: `https://x.ai/grok?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      bgColor: 'bg-gray-50 hover:bg-gray-100',
+      textColor: 'text-gray-600'
+    },
+    {
+      name: 'Perplexity',
+      icon: <SiPerplexity className="w-5 h-5" />,
+      url: `https://www.perplexity.ai/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      bgColor: 'bg-blue-50 hover:bg-blue-100',
+      textColor: 'text-blue-600'
+    },
+    {
+      name: 'Google AI',
+      icon: <SiGooglegemini className="w-5 h-5" />,
+      url: `https://gemini.google.com/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      bgColor: 'bg-purple-50 hover:bg-purple-100',
+      textColor: 'text-purple-600'
+    }
+  ];
+
+  // ... (keep all existing useEffect and functions as they are) ...
 
   useEffect(() => {
     const load = async () => {
@@ -225,6 +268,8 @@ const BlogDetail = () => {
   }
 
   const { title, content, date, updatedDate, readTime } = blog;
+
+  // ... (keep all existing renderContent function as it is) ...
 
   const renderContent = () => {
     const sections = [];
@@ -428,7 +473,7 @@ const BlogDetail = () => {
           </div>
         </section>
       );
-            if (content.image3) {
+      if (content.image3) {
         sections.push(
           <div key="image3" className="mb-8 sm:mb-12 rounded-lg overflow-hidden">
             <img
@@ -457,16 +502,17 @@ const BlogDetail = () => {
         section={blog?.category}
         tags={blog?.tags || []}
       />
-      {/* Background gradient effects - Responsive */}
+      
+      {/* Background gradient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-16 sm:top-20 lg:top-24 right-0 w-[400px] sm:w-[600px] lg:w-[800px] h-[300px] sm:h-[450px] lg:h-[600px] bg-blue-300/20 rounded-full blur-3xl opacity-45"></div>
         <div className="absolute top-16 sm:top-20 lg:top-24 left-0 w-[400px] sm:w-[600px] lg:w-[800px] h-[300px] sm:h-[450px] lg:h-[600px] bg-blue-600/20 rounded-full blur-3xl opacity-45"></div>
       </div>
 
-      {/* Main container - Responsive */}
+      {/* Main container */}
       <div className="max-w-[1480px] lg:w-[1000px] xl:w-[1120px] 2xl:w-[1480px] mx-auto">
 
-        {/* Breadcrumb navigation - Responsive */}
+        {/* Breadcrumb navigation */}
         <nav className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-4 sm:py-6 lg:py-8 text-xs sm:text-sm text-gray-500 overflow-x-auto">
           <button
             onClick={() => navigate('/resources')}
@@ -489,11 +535,11 @@ const BlogDetail = () => {
           <span className="text-blue-600 truncate">{title}</span>
         </nav>
 
-        {/* Main layout - Responsive Flex */}
+        {/* Main layout */}
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 px-4 sm:px-6">
           {/* Desktop Sticky Left sidebar */}
           <div className="hidden lg:block lg:w-50 xl:w-60 flex-shrink-0">
-            <div className="sticky top-24  h-fit max-h-[calc(100vh-16rem)] pb-16 overflow-y-auto">
+            <div className="sticky top-24 h-fit max-h-[calc(100vh-16rem)] pb-16 overflow-y-auto">
               <div className="border-r border-gray-200 pr-6">
                 {/* Article metadata */}
                 <div className="space-y-4 pb-6 border-b border-gray-200">
@@ -689,14 +735,49 @@ const BlogDetail = () => {
               </div>
             </div>
 
-            {/* Article header - Responsive */}
+            {/* Article header */}
             <div className="mb-8 sm:mb-10 lg:mb-12 pr-0 xl:pr-16 2xl:pr-24">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                 {title}
               </h2>
+
+              {/* AI Summarize Feature - Below Title */}
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-8 mt-10 mb-10">
+                <div className="mb-4">
+                  <h4 className="font-normal text-gray-900">Summarize this article with AI</h4>
+                  <p className="text-sm text-gray-600 pt-2">Get a quick summary using your preferred AI assistant</p>
+                </div>
+
+                {/* AI Platform Options - Horizontal Layout */}
+                <div className="flex flex-wrap gap-2 sm:gap-3">
+                  {aiSummaryOptions.map((option, index) => (
+                    <a
+                      key={index}
+                      href={option.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all duration-200 hover:shadow-sm group flex-1 sm:flex-none min-w-0"
+                    >
+                      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
+                        <div className={option.textColor}>
+                          {React.cloneElement(option.icon, { className: "w-3 h-3 sm:w-5 sm:h-5" })}
+                        </div>
+                      </div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{option.name}</span>
+                    </a>
+                  ))}
+                </div>
+                
+                {/* <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                  <p className="text-blue-700">
+                    <TbSparkles className="w-3 h-3 inline mr-1" />
+                    <strong>Note:</strong> Clicking will open your chosen AI assistant with a pre-filled prompt to summarize this article.
+                  </p>
+                </div> */}
+              </div>
             </div>
 
-            {/* Blog Image - Responsive */}
+            {/* Blog Image */}
             {content.image && (
               <div className="w-full h-48 sm:h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden mb-8 sm:mb-10 lg:mb-12">
                 <img
@@ -707,7 +788,7 @@ const BlogDetail = () => {
               </div>
             )}
 
-            {/* Article sections - Responsive */}
+            {/* Article sections */}
             <div className="space-y-8 sm:space-y-10 lg:space-y-12 pb-32 sm:pb-48 lg:pb-64">
               {renderContent()}
             </div>
