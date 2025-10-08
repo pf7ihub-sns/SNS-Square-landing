@@ -9,17 +9,33 @@ const App = () => {
   const [docId, setDocId] = useState(null);
   const [reportId, setReportId] = useState(null);
   const [reportContent, setReportContent] = useState('');
+  const [docContent, setDocContent] = useState('');
+  const [docFilename, setDocFilename] = useState('');
   const [prompt, setPrompt] = useState('');
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isDocEdited, setIsDocEdited] = useState(false);
 
   const API_URL = 'http://localhost:8000/document';
+
+  // Fetch document content for preview
+  const fetchDocumentContent = async (docId) => {
+    try {
+      const response = await axios.post(`${API_URL}/get_document_content/`, { doc_id: docId });
+      setDocContent(response.data.text);
+      setDocFilename(response.data.filename);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Error fetching document content');
+    }
+  };
 
   // Handle document upload
   const handleUpload = async () => {
     if (!file) return;
     setIsLoading(true);
+    setIsDocEdited(false);
     const formData = new FormData();
     formData.append('file', file);
     if (prompt) formData.append('prompt', prompt);
@@ -27,34 +43,38 @@ const App = () => {
     try {
       const response = await axios.post(`${API_URL}/upload_document/`, formData);
       setDocId(response.data.doc_id);
-      if (response.data.report_id) {
-        setReportId(response.data.report_id);
-        setReportContent(response.data.report);
-      }
+      setReportId(response.data.report_id);
+      setReportContent(response.data.report);
+      await fetchDocumentContent(response.data.doc_id);
       setError(null);
+      setActiveTab('edit');
     } catch (err) {
-      setError('Error uploading document');
+      setError(err.response?.data?.detail || 'Error uploading document');
     }
     setIsLoading(false);
   };
 
   // Handle paste text
   const handlePasteText = async () => {
-    if (!reportContent) return;
+    if (!docContent.trim()) {
+      setError('Text cannot be empty');
+      return;
+    }
     setIsLoading(true);
     try {
       const response = await axios.post(`${API_URL}/paste_text/`, {
-        text: reportContent,
+        text: docContent,
         prompt: prompt || null,
       });
       setDocId(response.data.doc_id);
-      if (response.data.report_id) {
-        setReportId(response.data.report_id);
-        setReportContent(response.data.report);
-      }
+      setReportId(response.data.report_id);
+      setReportContent(response.data.report);
+      await fetchDocumentContent(response.data.doc_id);
+      setIsDocEdited(false);
       setError(null);
+      setActiveTab('edit');
     } catch (err) {
-      setError('Error processing text');
+      setError(err.response?.data?.detail || 'Error processing text');
     }
     setIsLoading(false);
   };
@@ -72,19 +92,21 @@ const App = () => {
       setReportContent(response.data.report);
       setError(null);
     } catch (err) {
-      setError('Error processing prompt');
+      setError(err.response?.data?.detail || 'Error processing prompt');
     }
     setIsLoading(false);
   };
 
   // Handle chat with report
   const handleChat = async () => {
-    if (!reportId || !chatInput) return;
+    if (!chatInput || (!reportId && !docId && !docContent.trim())) return;
     setChatMessages([...chatMessages, { role: 'user', content: chatInput }]);
     setIsLoading(true);
     try {
       const response = await axios.post(`${API_URL}/chat_with_report/`, {
-        report_id: reportId,
+        report_id: reportId || null,
+        doc_id: docId || null,
+        text: !reportId && !docId ? docContent : null,
         message: chatInput,
       });
       setChatMessages([
@@ -95,7 +117,7 @@ const App = () => {
       setChatInput('');
       setError(null);
     } catch (err) {
-      setError('Error in chat');
+      setError(err.response?.data?.detail || 'Error in chat');
     }
     setIsLoading(false);
   };
@@ -116,12 +138,13 @@ const App = () => {
       ]);
       if (response.data.updated_report_id) {
         setReportId(response.data.updated_report_id);
-        setReportContent(response.data.research);
+        // Append research to current report view for continuity
+        setReportContent((prev) => `${prev}\n\nResearch: ${response.data.research}`);
       }
       setChatInput('');
       setError(null);
     } catch (err) {
-      setError('Error in research');
+      setError(err.response?.data?.detail || 'Error in research');
     }
     setIsLoading(false);
   };
@@ -131,14 +154,60 @@ const App = () => {
     if (!reportId || !reportContent) return;
     setIsLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/edit_report/`, {
+      await axios.post(`${API_URL}/save_report_text/`, {
         report_id: reportId,
-        changes: reportContent,
+        report: reportContent,
       });
-      setReportContent(response.data.updated_report);
       setError(null);
     } catch (err) {
-      setError('Error saving report');
+      setError(err.response?.data?.detail || 'Error saving report');
+    }
+    setIsLoading(false);
+  };
+
+  // Handle document save
+  const handleDocSave = async () => {
+    if (!docId || !docContent.trim()) {
+      setError('Document content cannot be empty');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await axios.post(`${API_URL}/update_document_text/`, {
+        doc_id: docId,
+        text: docContent,
+        regenerate_report: false,
+      });
+      await fetchDocumentContent(docId);
+      setIsDocEdited(false);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Error saving document');
+    }
+    setIsLoading(false);
+  };
+
+  const handleDocSaveAndRegen = async () => {
+    if (!docId || !docContent.trim()) {
+      setError('Document content cannot be empty');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/update_document_text/`, {
+        doc_id: docId,
+        text: docContent,
+        regenerate_report: true,
+      });
+      if (response.data.report_id) {
+        setReportId(response.data.report_id);
+        setReportContent(response.data.report);
+      }
+      await fetchDocumentContent(docId);
+      setIsDocEdited(false);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Error saving and regenerating report');
     }
     setIsLoading(false);
   };
@@ -162,7 +231,7 @@ const App = () => {
       link.remove();
       setError(null);
     } catch (err) {
-      setError('Error exporting file');
+      setError(err.response?.data?.detail || 'Error exporting file');
     }
     setIsLoading(false);
   };
@@ -176,6 +245,12 @@ const App = () => {
     }, 1000);
     return () => clearTimeout(timeout);
   }, [reportContent, reportId]);
+
+  // Track document edits
+  const handleDocContentChange = (e) => {
+    setDocContent(e.target.value);
+    setIsDocEdited(true);
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -204,12 +279,12 @@ const App = () => {
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             className="flex-1 p-2 border rounded-l"
-            placeholder="Ask about the report or research..."
+            placeholder="Ask about the document or research..."
           />
           <button
             onClick={handleChat}
             className="p-2 bg-blue-500 text-white rounded-r"
-            disabled={isLoading}
+            disabled={isLoading || (!reportId && !docId && !docContent.trim())}
           >
             Chat
           </button>
@@ -221,7 +296,6 @@ const App = () => {
             Research
           </button>
         </div>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
 
       {/* Right Side: Document Interface */}
@@ -279,7 +353,7 @@ const App = () => {
             <button
               onClick={handlePasteText}
               className="p-2 bg-blue-500 text-white rounded ml-2"
-              disabled={isLoading}
+              disabled={isLoading || !docContent.trim()}
             >
               Paste Text
             </button>
@@ -308,11 +382,33 @@ const App = () => {
 
         {activeTab === 'edit' && (
           <div className="bg-white p-4 shadow-md rounded flex-1 flex flex-col">
-            <h2 className="text-xl font-bold mb-4">Edit Report</h2>
+            <h2 className="text-xl font-bold mb-4">Edit Document/Report</h2>
+            <h3 className="text-lg font-semibold mb-2">Document Preview: {docFilename}</h3>
+            <textarea
+              value={docContent}
+              onChange={handleDocContentChange}
+              className="flex-1 p-2 border rounded mb-4 font-mono text-sm"
+              placeholder="Document content will appear here..."
+            />
+            <button
+              onClick={handleDocSave}
+              className="p-2 bg-blue-500 text-white rounded mb-4"
+              disabled={isLoading || !isDocEdited || !docContent.trim()}
+            >
+              Save Document
+            </button>
+            <button
+              onClick={handleDocSaveAndRegen}
+              className="p-2 bg-purple-500 text-white rounded mb-4 ml-2"
+              disabled={isLoading || !isDocEdited || !docContent.trim()}
+            >
+              Save & Regenerate Report
+            </button>
+            <h3 className="text-lg font-semibold mb-2">Report</h3>
             <textarea
               value={reportContent}
               onChange={(e) => setReportContent(e.target.value)}
-              className="flex-1 p-2 border rounded mb-4 font-mono"
+              className="flex-1 p-2 border rounded mb-4 font-mono text-sm"
               placeholder="Report content will appear here..."
             />
             <div className="flex">
