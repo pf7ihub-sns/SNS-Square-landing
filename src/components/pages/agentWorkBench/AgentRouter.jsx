@@ -106,8 +106,6 @@ const AgentRouter = () => {
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
     "ai-chat": <AIChat />,
-    
-    "logic-validation-agent": <LogicValidation />,
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
     "schema-generator-agent": <SchemaGenerator />,
@@ -140,6 +138,7 @@ const AgentRouter = () => {
     "Lab-results-extractor": <LabResultsExtractor /> ,
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
+    "email-support":<EmailSupport/>
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
