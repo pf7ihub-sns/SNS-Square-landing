@@ -1,181 +1,347 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+// src/App.jsx
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const App = () => {
-  // Chat state
-  const [chatInput, setChatInput] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
-
-  // Document state
+  const [activeTab, setActiveTab] = useState('upload');
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
+  const [docId, setDocId] = useState(null);
+  const [reportId, setReportId] = useState(null);
+  const [reportContent, setReportContent] = useState('');
+  const [prompt, setPrompt] = useState('');
   const [file, setFile] = useState(null);
-  const [docContent, setDocContent] = useState("");
-  const [filename, setFilename] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Handle chat submit
-  const handleChatSubmit = async (e) => {
-    e.preventDefault();
-    if (!chatInput) return;
+  const API_URL = 'http://localhost:8000/document';
 
-    const newMsg = { sender: "user", text: chatInput };
-    setChatHistory((prev) => [...prev, newMsg]);
-
-    try {
-      const res = await axios.post(
-        "http://localhost:8000/document/chat_with_report",
-        new URLSearchParams({ query: chatInput })
-      );
-      const aiMsg = { sender: "ai", text: res.data.response };
-      setChatHistory((prev) => [...prev, aiMsg]);
-    } catch (err) {
-      console.error(err);
-    }
-    setChatInput("");
-  };
-
-  // Handle file upload
-  const handleFileUpload = async (e) => {
-    const uploadedFile = e.target.files[0];
-    if (!uploadedFile) return;
-
-    setFile(uploadedFile);
-    setFilename(uploadedFile.name);
-
+  // Handle document upload
+  const handleUpload = async () => {
+    if (!file) return;
+    setIsLoading(true);
     const formData = new FormData();
-    formData.append("file", uploadedFile);
+    formData.append('file', file);
+    if (prompt) formData.append('prompt', prompt);
 
     try {
-      const res = await axios.post("http://localhost:8000/document/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await axios.post(`${API_URL}/upload_document/`, formData);
+      setDocId(response.data.doc_id);
+      if (response.data.report_id) {
+        setReportId(response.data.report_id);
+        setReportContent(response.data.report);
+      }
+      setError(null);
+    } catch (err) {
+      setError('Error uploading document');
+    }
+    setIsLoading(false);
+  };
+
+  // Handle paste text
+  const handlePasteText = async () => {
+    if (!reportContent) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/paste_text/`, {
+        text: reportContent,
+        prompt: prompt || null,
       });
-      setDocContent(res.data.summary || "");
+      setDocId(response.data.doc_id);
+      if (response.data.report_id) {
+        setReportId(response.data.report_id);
+        setReportContent(response.data.report);
+      }
+      setError(null);
     } catch (err) {
-      console.error(err);
+      setError('Error processing text');
     }
+    setIsLoading(false);
   };
 
-  // Handle document content change
-  const handleDocChange = (e) => {
-    setDocContent(e.target.value);
-  };
-
-  // Save edited document
-  const saveEditedDoc = async () => {
-    if (!filename) return;
-
+  // Handle document processing prompt
+  const handleProcessPrompt = async () => {
+    if (!docId || !prompt) return;
+    setIsLoading(true);
     try {
-      await axios.post(
-        "http://localhost:8000/document/save_edited_doc",
-        new URLSearchParams({
-          filename,
-          updated_content: docContent,
-          auto_export: true,
-          export_format: "word",
-        })
-      );
-      alert("Document saved successfully!");
+      const response = await axios.post(`${API_URL}/process_prompt/`, {
+        doc_id: docId,
+        prompt,
+      });
+      setReportId(response.data.report_id);
+      setReportContent(response.data.report);
+      setError(null);
     } catch (err) {
-      console.error(err);
-      alert("Error saving document");
+      setError('Error processing prompt');
     }
+    setIsLoading(false);
   };
+
+  // Handle chat with report
+  const handleChat = async () => {
+    if (!reportId || !chatInput) return;
+    setChatMessages([...chatMessages, { role: 'user', content: chatInput }]);
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/chat_with_report/`, {
+        report_id: reportId,
+        message: chatInput,
+      });
+      setChatMessages([
+        ...chatMessages,
+        { role: 'user', content: chatInput },
+        { role: 'ai', content: response.data.response },
+      ]);
+      setChatInput('');
+      setError(null);
+    } catch (err) {
+      setError('Error in chat');
+    }
+    setIsLoading(false);
+  };
+
+  // Handle web research
+  const handleResearch = async () => {
+    if (!chatInput) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/web_research/`, {
+        query: chatInput,
+        report_id: reportId || null,
+      });
+      setChatMessages([
+        ...chatMessages,
+        { role: 'user', content: chatInput },
+        { role: 'ai', content: response.data.research },
+      ]);
+      if (response.data.updated_report_id) {
+        setReportId(response.data.updated_report_id);
+        setReportContent(response.data.research);
+      }
+      setChatInput('');
+      setError(null);
+    } catch (err) {
+      setError('Error in research');
+    }
+    setIsLoading(false);
+  };
+
+  // Handle report edit
+  const handleEdit = async () => {
+    if (!reportId || !reportContent) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`${API_URL}/edit_report/`, {
+        report_id: reportId,
+        changes: reportContent,
+      });
+      setReportContent(response.data.updated_report);
+      setError(null);
+    } catch (err) {
+      setError('Error saving report');
+    }
+    setIsLoading(false);
+  };
+
+  // Handle export
+  const handleExport = async (format) => {
+    if (!reportId) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${API_URL}/export/`,
+        { report_id: reportId, format },
+        { responseType: 'blob' }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `report.${format}`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setError(null);
+    } catch (err) {
+      setError('Error exporting file');
+    }
+    setIsLoading(false);
+  };
+
+  // Auto-save on report content change
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (reportId && reportContent) {
+        handleEdit();
+      }
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [reportContent, reportId]);
 
   return (
-    <div style={{ display: "flex", height: "100vh", fontFamily: "Arial, sans-serif" }}>
-      {/* Left: Chat */}
-      <div
-        style={{
-          width: "40%",
-          borderRight: "1px solid #ccc",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <div style={{ flex: 1, padding: "10px", overflowY: "auto" }}>
-          {chatHistory.map((msg, idx) => (
+    <div className="flex h-screen bg-gray-100">
+      {/* Left Side: Chat Interface */}
+      <div className="w-1/3 p-4 bg-white shadow-md flex flex-col">
+        <h2 className="text-xl font-bold mb-4">Chat</h2>
+        <div className="flex-1 overflow-y-auto mb-4 p-2 border rounded">
+          {chatMessages.map((msg, index) => (
             <div
-              key={idx}
-              style={{
-                textAlign: msg.sender === "user" ? "right" : "left",
-                marginBottom: "10px",
-              }}
+              key={index}
+              className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}
             >
-              <div
-                style={{
-                  display: "inline-block",
-                  padding: "8px 12px",
-                  borderRadius: "12px",
-                  backgroundColor: msg.sender === "user" ? "#4caf50" : "#e0e0e0",
-                  color: msg.sender === "user" ? "white" : "black",
-                  maxWidth: "80%",
-                  wordBreak: "break-word",
-                }}
+              <span
+                className={`inline-block p-2 rounded ${
+                  msg.role === 'user' ? 'bg-blue-100' : 'bg-gray-200'
+                }`}
               >
-                {msg.text}
-              </div>
+                {msg.content}
+              </span>
             </div>
           ))}
         </div>
-        <form
-          style={{ display: "flex", padding: "10px", borderTop: "1px solid #ccc" }}
-          onSubmit={handleChatSubmit}
-        >
+        <div className="flex">
           <input
             type="text"
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
-            placeholder="Ask anything..."
-            style={{ flex: 1, padding: "8px", borderRadius: "6px", border: "1px solid #ccc" }}
+            className="flex-1 p-2 border rounded-l"
+            placeholder="Ask about the report or research..."
           />
           <button
-            type="submit"
-            style={{
-              marginLeft: "8px",
-              padding: "8px 16px",
-              borderRadius: "6px",
-              backgroundColor: "#4caf50",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-            }}
+            onClick={handleChat}
+            className="p-2 bg-blue-500 text-white rounded-r"
+            disabled={isLoading}
           >
-            Send
+            Chat
           </button>
-        </form>
-      </div>
-
-      {/* Right: Document Upload & Edit */}
-      <div style={{ width: "60%", display: "flex", flexDirection: "column" }}>
-        <div style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-          <input type="file" onChange={handleFileUpload} />
-          {filename && <span style={{ marginLeft: "10px" }}>{filename}</span>}
           <button
-            onClick={saveEditedDoc}
-            style={{
-              marginLeft: "10px",
-              padding: "6px 12px",
-              backgroundColor: "#2196f3",
-              color: "white",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
-            }}
+            onClick={handleResearch}
+            className="p-2 bg-green-500 text-white ml-2 rounded"
+            disabled={isLoading}
           >
-            Save
+            Research
           </button>
         </div>
-        <textarea
-          value={docContent}
-          onChange={handleDocChange}
-          style={{
-            flex: 1,
-            padding: "10px",
-            border: "none",
-            resize: "none",
-            fontFamily: "monospace",
-            fontSize: "14px",
-            lineHeight: "1.5",
-          }}
-        />
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
+
+      {/* Right Side: Document Interface */}
+      <div className="w-2/3 p-4 flex flex-col">
+        <div className="flex mb-4">
+          <button
+            onClick={() => setActiveTab('upload')}
+            className={`p-2 ${
+              activeTab === 'upload' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            } rounded-l`}
+          >
+            Upload
+          </button>
+          <button
+            onClick={() => setActiveTab('process')}
+            className={`p-2 ${
+              activeTab === 'process' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            }`}
+          >
+            Process
+          </button>
+          <button
+            onClick={() => setActiveTab('edit')}
+            className={`p-2 ${
+              activeTab === 'edit' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            } rounded-r`}
+          >
+            Edit
+          </button>
+        </div>
+
+        {activeTab === 'upload' && (
+          <div className="bg-white p-4 shadow-md rounded">
+            <h2 className="text-xl font-bold mb-4">Upload Document</h2>
+            <input
+              type="file"
+              accept=".docx,.pdf,.txt,.md"
+              onChange={(e) => setFile(e.target.files[0])}
+              className="mb-4"
+            />
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="w-full p-2 border rounded mb-4"
+              placeholder="Optional: Enter a prompt (e.g., Summarize this document)"
+            />
+            <button
+              onClick={handleUpload}
+              className="p-2 bg-blue-500 text-white rounded"
+              disabled={isLoading}
+            >
+              Upload
+            </button>
+            <button
+              onClick={handlePasteText}
+              className="p-2 bg-blue-500 text-white rounded ml-2"
+              disabled={isLoading}
+            >
+              Paste Text
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'process' && (
+          <div className="bg-white p-4 shadow-md rounded">
+            <h2 className="text-xl font-bold mb-4">Process Document</h2>
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="w-full p-2 border rounded mb-4"
+              placeholder="Enter a prompt (e.g., Summarize Section 3)"
+            />
+            <button
+              onClick={handleProcessPrompt}
+              className="p-2 bg-blue-500 text-white rounded"
+              disabled={isLoading || !docId}
+            >
+              Process
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'edit' && (
+          <div className="bg-white p-4 shadow-md rounded flex-1 flex flex-col">
+            <h2 className="text-xl font-bold mb-4">Edit Report</h2>
+            <textarea
+              value={reportContent}
+              onChange={(e) => setReportContent(e.target.value)}
+              className="flex-1 p-2 border rounded mb-4 font-mono"
+              placeholder="Report content will appear here..."
+            />
+            <div className="flex">
+              <button
+                onClick={() => handleExport('word')}
+                className="p-2 bg-blue-500 text-white rounded mr-2"
+                disabled={isLoading || !reportId}
+              >
+                Export Word
+              </button>
+              <button
+                onClick={() => handleExport('pdf')}
+                className="p-2 bg-blue-500 text-white rounded mr-2"
+                disabled={isLoading || !reportId}
+              >
+                Export PDF
+              </button>
+              <button
+                onClick={() => handleExport('markdown')}
+                className="p-2 bg-blue-500 text-white rounded"
+                disabled={isLoading || !reportId}
+              >
+                Export Markdown
+              </button>
+            </div>
+          </div>
+        )}
+        {isLoading && <p className="text-blue-500 mt-2">Processing...</p>}
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
     </div>
   );
