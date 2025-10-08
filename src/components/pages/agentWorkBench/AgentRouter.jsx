@@ -64,6 +64,9 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
+import ChatPage from "./agents/AI_Docs/chatPage.jsx";
+import AIChat from "./agents/aiChat";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -102,6 +105,8 @@ const AgentRouter = () => {
     "prompt-optimizer": <PromptOptimizer />,
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
+    "ai-chat": <AIChat />,
+    
     "logic-validation-agent": <LogicValidation />,
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
@@ -132,13 +137,13 @@ const AgentRouter = () => {
     "contract-management": <ContractManagement />,
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
-    "Lab-results-extractor": <LabResultsExtractor />,
-    "email-support":<EmailSupport/>
+    "Lab-results-extractor": <LabResultsExtractor /> ,
+    "knowledge-base-agent": <KnowledgeBaseChat /> ,
+    "ai-docs":<ChatPage/> ,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
 };
 
 export default AgentRouter;
-
 

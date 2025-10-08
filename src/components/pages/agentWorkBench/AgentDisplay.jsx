@@ -50,11 +50,8 @@ function AgentDisplay() {
   };
 
   const handleAgentClick = (agent) => {
-    if (agent.path) {
-      navigate(agent.path);
-    } else {
-      navigate("/agent-playground/agent/" + agent.id);
-    }
+    // Always navigate to the specific agent using the agent ID
+    navigate("/agent-playground/agent/" + agent.id);
   };
 
   const handleCategoryChange = (category) => {
