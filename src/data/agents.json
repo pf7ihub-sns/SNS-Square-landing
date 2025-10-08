@@ -125,7 +125,17 @@
       "category": "Foundation Agents",
       "featured": false,
       "path": "/agent-playground/agent/{agentId}"
-    },    
+    },
+    {
+      "id": "Doc-Sentra",
+      "title": "DocSentra",
+      "description": "Doctor Assistant",
+      "icon": "/images/agents/efficiency 1.png",
+      "category": "Foundation Agents",
+      "featured": false,
+      "path": "/agent-playground/agent/{agentId}"
+    },
+
     {
       "id": "csv-to-excel-agent",
       "title": "CSV to Excel Convertor",

@@ -2468,9 +2468,9 @@ export default {
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
             },
             {
-              id: "Appointment-management",
-              name: "Appointment Management",
-              summary: "Book and manage healthcare appointments",
+              id: "Doc-Sentra",
+              name: "DocSentra",
+              summary: "Doctor Assistant",
               image: "/placeholder.jpg",
               solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],

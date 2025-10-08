@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
@@ -65,9 +65,11 @@ import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import AIChat from "./agents/aiChat";
+import DocSentra from "./agents/docSentra";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
+  const location = useLocation();
 
   // Map known agent ids to components
   const agentIdToComponent = {
@@ -104,8 +106,8 @@ const AgentRouter = () => {
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
     "ai-chat": <AIChat />,
-    
-    "logic-validation-agent": <LogicValidation />,
+    "Doc-Sentra": <DocSentra />,
+
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
     "schema-generator-agent": <SchemaGenerator />,
@@ -138,9 +140,21 @@ const AgentRouter = () => {
     "Lab-results-extractor": <LabResultsExtractor /> // New mapping
   };
 
-  return agentIdToComponent[agentId] || <AgentDisplay />;
+  // Lookup case-insensitive
+  const normalized = Object.keys(agentIdToComponent).reduce((acc, k) => {
+    acc[k.toLowerCase()] = agentIdToComponent[k];
+    return acc;
+  }, {});
+
+  const key = (agentId || "").toString();
+  const decoded = decodeURIComponent(key);
+
+  // Special handling for DocSentra with nested routes
+  if (decoded.toLowerCase() === 'doc-sentra' || key.toLowerCase() === 'doc-sentra') {
+    return <DocSentra />;
+  }
+
+  return normalized[decoded.toLowerCase()] || normalized[key.toLowerCase()] || <AgentDisplay />;
 };
 
 export default AgentRouter;
-
-
