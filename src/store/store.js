@@ -66,6 +66,21 @@ export const useAuthStore = create((set, get) => ({
     set({ user: null, token: null, userId: null, isAuthenticated: false });
   },
 
+  // Force logout when token is invalid
+  forceLogout: () => {
+    removeEncryptedItem("token");
+    removeEncryptedItem("userId");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    set({ user: null, token: null, userId: null, isAuthenticated: false });
+    
+    // Redirect to login page
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  },
+
   clearError: () => {
     set({ error: null });
   },

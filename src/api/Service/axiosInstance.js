@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getEncryptedItem } from "../../lib/encryption";
+import { useAuthStore } from "../../store/store";
 
 // Determine API base URL: prefer env, fallback by hostname
 const envBaseUrl = (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_BASE_URL) || null;
@@ -33,7 +34,15 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error)
+  (error) => {
+    // Handle 401 Unauthorized responses
+    if (error.response?.status === 401) {
+      // Use the store's forceLogout method
+      const { forceLogout } = useAuthStore.getState();
+      forceLogout();
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default axiosInstance;
