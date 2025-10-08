@@ -92,6 +92,16 @@ export default {
               useCases: ["KYC", "Document analytics", "Content tagging"],
               description: ["Entity Extraction Tool processes text or uploaded documents to automatically identify and extract key entities such as people, dates, organizations, locations, and money values. It provides summaries, confidence scores, filtering options, and supports exporting results to CSV, Excel, or JSON for easy analysis and integration."],
               status: "available"
+            },
+            {
+              id:"ai-document",
+              name:"AI Document Agent", 
+              summary:"Interact with and extract information from documents using AI.",
+              image:"/images/agents/document 1.png",
+              solutions:["Document Q&A", "Information extraction", "Content summarization"],
+              useCases:["Legal documents", "Research papers", "Business reports"],
+              description:["AI Document Agent allows users to upload various document types (PDF, DOCX, TXT) and interact with them using natural language queries. It extracts key information, generates summaries, and provides insights based on the document content. The agent supports multiple formats and ensures accurate processing for effective document management."],
+              status:"available"
             }
           ]
         },

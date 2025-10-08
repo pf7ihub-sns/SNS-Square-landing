@@ -26,6 +26,25 @@ export const agentCategories = {
                 status: "available"
             },
             {
+                id:"ai-document",
+                name: "AI Document Agent",
+                description: "Interact with and extract information from documents using AI.",
+                image: "../../public/images/icons/squares.png",
+                features: [
+                    "Document Q&A",
+                    "Content extraction",
+                    "Summarization",
+                    "Multi-format support"
+                ],
+                useCases: [
+                    "Legal documents",
+                    "Research papers",
+                    "User manuals",
+                    "Business reports"
+                ],
+                status: "available"
+            },
+            {
                 id: "contract-reviewer",
                 name: "Contract/Document Review Agent",
                 description: "Analyze and review contracts and legal documents for compliance and risk assessment.",
