@@ -3,7 +3,7 @@ import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink,
 import FileUploadDropdown from './AI_Docs/utils/FileUploadDropdown';
 import OneDriveModal from './AI_Docs/utils/OneDriveModal';
 import { CloudStorageService } from './AI_Docs/utils/CloudStorageService';
-
+import backgroundImage from '../../../../../public/images/ai_chat.png';
 const API_BASE = "http://127.0.0.1:8000";
 const personas = ["neutral", "formal", "casual", "technical", "simplified", "friendly"];
 
@@ -16,12 +16,12 @@ const AiChat = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadDropdownOpen, setUploadDropdownOpen] = useState(false);
-  const [cloudLoading, setCloudLoading] = useState(null); 
+  const [cloudLoading, setCloudLoading] = useState(null);
   const [oneDriveModalOpen, setOneDriveModalOpen] = useState(false);
   const [error, setError] = useState(null);
   const [fileId, setFileId] = useState(null);
   const [uploadedFileName, setUploadedFileName] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState(null); 
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenuId, setActiveMenuId] = useState(null);
@@ -99,16 +99,16 @@ const AiChat = () => {
 
   const processResponseForStorage = (response) => {
     if (!response) return null;
-    
+
     const formatted = response
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\n/g, "<br/>")
       .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
-    
+
     const lines = formatted.split("<br/>").filter((line) => line.trim());
     const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
     const isBulletList = lines.some((line) => /^[\*\-]\s/.test(line.trim()));
-    
+
     return {
       html: formatted,
       indentation: {
@@ -119,12 +119,12 @@ const AiChat = () => {
         }))
       }
     };
-};
+  };
 
-const formatNumberedList = (lines) => {
+  const formatNumberedList = (lines) => {
     let html = "<ol class='list-decimal pl-8 space-y-4 my-4'>";
     let currentIndent = 0;
-    
+
     lines.forEach(({ text, indent }) => {
       while (indent > currentIndent) {
         html += "<ol class='list-decimal pl-8 space-y-4 mt-2'>";
@@ -136,18 +136,18 @@ const formatNumberedList = (lines) => {
       }
       html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
     });
-    
+
     while (currentIndent > 0) {
       html += "</ol>";
       currentIndent--;
     }
     return html + "</ol>";
-};
+  };
 
-const formatBulletList = (lines) => {
+  const formatBulletList = (lines) => {
     let html = "<ul class='list-disc pl-8 space-y-4 my-4'>";
     let currentIndent = 0;
-    
+
     lines.forEach(({ text, indent }) => {
       while (indent > currentIndent) {
         html += "<ul class='list-disc pl-8 space-y-4 mt-2'>";
@@ -159,30 +159,30 @@ const formatBulletList = (lines) => {
       }
       html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
     });
-    
+
     while (currentIndent > 0) {
       html += "</ul>";
       currentIndent--;
     }
     return html + "</ul>";
-};
+  };
 
-const formatParagraphs = (lines) => {
+  const formatParagraphs = (lines) => {
     return lines
       .map(({ text, indent }) => {
         const padding = "&nbsp;".repeat(indent * 4);
         return `<p class='my-4 leading-relaxed text-gray-700'>${padding}${text}</p>`;
       })
       .join("");
-};
+  };
 
-const formatResponse = (data) => {
+  const formatResponse = (data) => {
     if (!data) return "No response";
-    
+
     // If this message has stored formatting, use it
     if (data.isFormatted && data.formattedContent) {
       const { html, indentation } = data.formattedContent;
-      
+
       // Apply stored indentation and formatting
       if (indentation.type === 'numbered') {
         return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: formatNumberedList(indentation.lines) }} />;
@@ -192,13 +192,13 @@ const formatResponse = (data) => {
         return <div className="formatted-response px-4" dangerouslySetInnerHTML={{ __html: formatParagraphs(indentation.lines) }} />;
       }
     }
-    
+
     if (data.response) {
       let formatted = data.response
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\n/g, "<br/>")
         .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"); // Convert tabs to spaces
-      
+
       const lines = formatted.split("<br/>").filter((line) => line.trim());
       const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
       const isBulletList = lines.some((line) => /^[\*\-]\s/.test(line.trim()));
@@ -209,7 +209,7 @@ const formatResponse = (data) => {
         lines.forEach((line) => {
           const trimmedLine = line.trim();
           const indentLevel = (line.match(/^\s+/) || [""])[0].length;
-          
+
           if (/^\d+\.\s/.test(trimmedLine)) {
             // Handle indentation for nested lists
             if (indentLevel > previousLevel) {
@@ -241,11 +241,11 @@ const formatResponse = (data) => {
         let listContent = "<ul class='list-disc pl-8 space-y-4 my-4'>";
         let inList = false;
         let previousLevel = 0;
-        
+
         lines.forEach((line) => {
           const trimmedLine = line.trim();
           const indentLevel = (line.match(/^\s+/) || [""])[0].length;
-          
+
           if (/^[\*\-]\s/.test(trimmedLine)) {
             // Handle indentation for nested lists
             if (!inList) {
@@ -318,10 +318,10 @@ const formatResponse = (data) => {
       setUploadedFileName(file.name);
       setChatHistory((prev) => [
         ...prev,
-        { 
-          role: "system", 
+        {
+          role: "system",
           content: `File uploaded: ${file.name}`,
-          isFormatted: false 
+          isFormatted: false
         },
       ]);
     } catch (err) {
@@ -351,9 +351,9 @@ const formatResponse = (data) => {
 
       const data = await resp.json();
       setFileId(data.file_id);
-  setUploadedFileName(file.name);
-  setUploadedFile({ name: file.name, size: file.size, type: file.type });
-  setChatHistory((prev) => [...prev, { role: 'system', content: `File uploaded: ${file.name}` }]);
+      setUploadedFileName(file.name);
+      setUploadedFile({ name: file.name, size: file.size, type: file.type });
+      setChatHistory((prev) => [...prev, { role: 'system', content: `File uploaded: ${file.name}` }]);
       return data;
     } catch (err) {
       setError(err.message || 'Upload failed');
@@ -423,7 +423,7 @@ const formatResponse = (data) => {
           searchEnabled: data.search_enabled || false,
         },
       ]);
-      
+
       // Refresh the conversations list
       await fetchConversations();
     } catch (err) {
@@ -498,124 +498,17 @@ const formatResponse = (data) => {
     }
   };
 
-  // Download helper used by export functions
-  const _downloadBlob = async (response, defaultName) => {
-    const blob = await response.blob();
-    // Try to infer filename from content-disposition
-    const cd = response.headers.get('content-disposition') || '';
-    let filename = defaultName;
-    const match = /filename\*=UTF-8''(.+)$/.exec(cd) || /filename="?([^";]+)"?/.exec(cd);
-    if (match && match[1]) {
-      try {
-        filename = decodeURIComponent(match[1]);
-      } catch (e) {
-        filename = match[1];
-      }
-    }
-
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  };
-
-  const exportConversation = async (fmt) => {
-    if (!currentConversationId) {
-      setError('Open a conversation first to export');
-      return;
-    }
-
-    try {
-      // Format the conversation data
-      const messages = chatHistory.map(msg => ({
-        role: msg.role,
-        content: msg.response || msg.content
-      }));
-
-      // Match the backend's GET route
-      const params = new URLSearchParams({
-        include_full_text: 'true',
-        messages: JSON.stringify(messages)
-      });
-
-      const resp = await fetch(
-        `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?${params.toString()}`,
-        {
-          method: 'GET',
-          headers: {
-            'Accept': fmt === 'text' ? 'text/plain' : 
-                     fmt === 'pdf' ? 'application/pdf' : 
-                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-          }
-        }
-      );
-
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({}));
-        throw new Error(err.detail || 'Export failed');
-      }
-
-      const defaultName = `${currentConversationId}.${fmt === 'text' ? 'txt' : fmt}`;
-      await _downloadBlob(resp, defaultName);
-    } catch (err) {
-      console.error('Export conversation failed', err);
-      setError(err.message || 'Export failed');
-    }
-  };
-
-  const exportMessage = async (fmt, index, content) => {
-    try {
-      // Get the message to export
-      const messageToExport = typeof index === 'number' ? chatHistory[index] : { role: 'assistant', content };
-      
-      // Build query parameters
-      const params = new URLSearchParams({
-        message_index: typeof index === 'number' ? index.toString() : '',
-        message_content: content || messageToExport.content || '',
-        include_full_text: 'true'
-      });
-
-      const resp = await fetch(
-        `${API_BASE}/ai-chat/export/${fmt}/${currentConversationId}?${params.toString()}`,
-        {
-          method: 'GET',
-          headers: {
-            'Accept': fmt === 'text' ? 'text/plain' : 
-                     fmt === 'pdf' ? 'application/pdf' : 
-                     'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-          }
-        }
-      );
-
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({}));
-        throw new Error(err.detail || 'Export message failed');
-      }
-
-      const ext = fmt === 'text' ? 'txt' : fmt;
-      const defaultName = `${currentConversationId}_message_${index ?? 'export'}.${ext}`;
-      await _downloadBlob(resp, defaultName);
-    } catch (err) {
-      console.error('Export message failed', err);
-      setError(err.message || 'Export message failed');
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 h-screen overflow-hidden">
       <div className="bg-white rounded-lg shadow-lg flex h-[calc(100vh-6rem)] mt-24 w-full overflow-hidden">
         {/* Sidebar */}
-  <div className={`${sidebarOpen ? 'w-64' : 'w-0'} bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden h-full` }>
+        <div className={`${sidebarOpen ? 'w-64' : 'w-0'} bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden h-full`}>
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center gap-2 mb-4">
               <Bot className="w-6 h-6 text-blue-600" />
               <span className="font-semibold text-gray-800">AI Chat Bot</span>
             </div>
-            
+
             <button
               onClick={handleNewChat}
               className="w-full flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
@@ -633,9 +526,8 @@ const formatResponse = (data) => {
                   <div className="flex items-center w-full group">
                     <button
                       onClick={() => loadConversation(conv.id)}
-                      className={`flex-1 text-left px-2 py-1 rounded text-sm hover:bg-gray-100 transition-colors flex items-center gap-2 ${
-                        currentConversationId === conv.id ? "bg-gray-100" : ""
-                      }`}
+                      className={`flex-1 text-left px-2 py-1 rounded text-sm hover:bg-gray-100 transition-colors flex items-center gap-2 ${currentConversationId === conv.id ? "bg-gray-100" : ""
+                        }`}
                     >
                       <span className="truncate">{conv.title}</span>
                     </button>
@@ -687,66 +579,61 @@ const formatResponse = (data) => {
         </div>
 
         {/* Main Content */}
-  <div className="flex-1 flex flex-col h-full min-w-0">
+        <div className="flex-1 flex flex-col h-full min-w-0">
           {/* Header */}
-          <div className="bg-white border-b border-gray-200 p-4 flex items-center gap-4">
+          <div className="bg-white border-b border-gray-200 p-2 flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <Menu className="w-5 h-5 text-gray-600" />
             </button>
-            
-            <div className="flex-1 text-center">
-              <span className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full">
-                AI Chat Bot
-              </span>
-            </div>
-            <div className="relative">
-              <button
-                onClick={() => setActiveMenuId(activeMenuId === 'export' ? null : 'export')}
-                className="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-sm font-medium flex items-center gap-2"
-                disabled={!currentConversationId}
-                title={!currentConversationId ? 'Open a conversation to export' : 'Export'}
-              >
-                Export <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
-              </button>
-              {activeMenuId === 'export' && currentConversationId && (
-                <div className="absolute right-0 mt-1 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
-                  <button onClick={() => { exportConversation('pdf'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as PDF</button>
-                  <button onClick={() => { exportConversation('docx'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as DOCX</button>
-                  <button onClick={() => { exportConversation('text'); setActiveMenuId(null); }} className="w-full px-4 py-2 text-left hover:bg-gray-100 text-sm">Export as TXT</button>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* Chat Area */}
-          <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 min-h-0">
+          <div
+            ref={chatContainerRef}
+            className="flex-1 overflow-y-auto p-4 min-h-0 relative"
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: '60%',  // or '60%', '50%' - adjust as needed
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundAttachment: 'fixed'
+            }}
+          >
             <div className="max-w-3xl mx-auto h-full">
               {chatHistory.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-20">
-                  <Bot className="w-16 h-16 text-blue-600 mb-6" />
-                  <h2 className="text-3xl font-bold text-gray-800 mb-3">
+                <div className="h-full flex flex-col items-center justify-center text-center py-0">
+                  {/* AI Chat Bot Badge */}
+                  <div className="mb-5">
+                    <span className="px-4 py-2 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full border border-blue-100">
+                      AI Chat Bot
+                    </span>
+                  </div>
+
+                  {/* Main Heading */}
+                  <h2 className="text-5xl font-bold text-gray-900 mb-2 leading-tight">
                     Start a New Chat
                   </h2>
-                  <p className="text-gray-500 max-w-md mb-8">
+
+                  {/* Subtitle */}
+                  <p className="text-gray-600 text-base max-w-lg">
                     Ask me anything! I'm here to help.
                   </p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {chatHistory.map((msg, i) => (
                     <div key={i}>
                       <div className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
                         <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            msg.role === "assistant"
-                              ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white"
-                              : msg.role === "system"
+                          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === "assistant"
+                            ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white"
+                            : msg.role === "system"
                               ? "bg-yellow-500 text-white"
                               : "bg-gray-700 text-white"
-                          }`}
+                            }`}
                         >
                           {msg.role === "assistant" ? (
                             <Bot className="w-5 h-5" />
@@ -758,13 +645,12 @@ const formatResponse = (data) => {
                         </div>
 
                         <div
-                          className={`flex-1 ${
-                            msg.role === "assistant"
-                              ? "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm"
-                              : msg.role === "system"
+                          className={`flex-1 ${msg.role === "assistant"
+                            ? "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm"
+                            : msg.role === "system"
                               ? "bg-yellow-50 border border-yellow-200 rounded-2xl p-3 text-sm italic"
                               : "bg-gray-100 rounded-2xl p-4"
-                          }`}
+                            }`}
                         >
                           <div className="prose prose-sm max-w-none">
                             {msg.role === 'assistant'
@@ -772,54 +658,6 @@ const formatResponse = (data) => {
                               : (typeof msg.content === 'string' ? msg.content : msg.content)
                             }
                           </div>
-                          {msg.role === "assistant" && (
-                            <div className="mt-3 relative inline-block">
-                              <button
-                                onClick={() => setActiveMenuId(activeMenuId === `msg-${i}` ? null : `msg-${i}`)}
-                                className="px-2.5 py-1 rounded-md bg-blue-50 hover:bg-blue-100 border border-blue-200 
-                                         text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1.5 transition-colors"
-                              >
-                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                  <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6M3 17a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2h-6" />
-                                </svg>
-                                Export
-                                <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                                </svg>
-                              </button>
-                              {activeMenuId === `msg-${i}` && (
-                                <div className="absolute left-0 mt-1 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 w-32">
-                                  <button 
-                                    onClick={() => { exportMessage('pdf', i); setActiveMenuId(null); }}
-                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
-                                  >
-                                    <svg className="w-4 h-4 text-red-500 group-hover:text-red-600" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M12 2v8h8v12H4V2h8zm0 0v8h8L12 2z"/>
-                                    </svg>
-                                    <span className="text-gray-700 group-hover:text-gray-900">PDF</span>
-                                  </button>
-                                  <button 
-                                    onClick={() => { exportMessage('docx', i); setActiveMenuId(null); }}
-                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
-                                  >
-                                    <svg className="w-4 h-4 text-blue-500 group-hover:text-blue-600" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/>
-                                    </svg>
-                                    <span className="text-gray-700 group-hover:text-gray-900">DOCX</span>
-                                  </button>
-                                  <button 
-                                    onClick={() => { exportMessage('text', i); setActiveMenuId(null); }}
-                                    className="w-full px-3 py-2 text-left hover:bg-gray-50 text-sm flex items-center gap-2 group"
-                                  >
-                                    <svg className="w-4 h-4 text-gray-500 group-hover:text-gray-600" viewBox="0 0 24 24" fill="currentColor">
-                                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zM8 14h8v2H8v-2z"/>
-                                    </svg>
-                                    <span className="text-gray-700 group-hover:text-gray-900">TXT</span>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          )}
                         </div>
                       </div>
 
@@ -898,142 +736,46 @@ const formatResponse = (data) => {
           )}
 
           {/* Input Area */}
-          <div className="bg-white border-t border-gray-200 p-4 flex-shrink-0">
+          <div className="bg-transparent border-t-0 p-4 flex-shrink-0">
             <div className="max-w-3xl mx-auto">
-              {/* Controls */}
-              <div className="flex items-center gap-2 mb-3 flex-wrap">
-                <select
-                  value={persona}
-                  onChange={(e) => setPersona(e.target.value)}
-                  className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                >
-                  {personas.map((p) => (
-                    <option key={p} value={p}>
-                      {p.charAt(0).toUpperCase() + p.slice(1)}
-                    </option>
-                  ))}
-                </select>
+              {/* Uploaded File Display - Keep this above input */}
+              {uploadedFileName && (
+                <div className="flex items-center gap-3 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm mb-3">
+                  {/* file-type icon */}
+                  <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white">
+                    {uploadedFile && uploadedFile.type?.includes('pdf') ? (
+                      <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /></svg>
+                    ) : uploadedFile && (uploadedFile.type?.includes('word') || uploadedFileName?.endsWith('.doc') || uploadedFileName?.endsWith('.docx')) ? (
+                      <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" /></svg>
+                    ) : uploadedFile && (uploadedFile.type?.includes('spreadsheet') || uploadedFileName?.endsWith('.xls') || uploadedFileName?.endsWith('.xlsx')) ? (
+                      <svg className="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" /></svg>
+                    ) : uploadedFile && (uploadedFile.type?.includes('json') || uploadedFileName?.endsWith('.json')) ? (
+                      <svg className="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14v18H5z" /></svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /></svg>
+                    )}
+                  </div>
 
-                <label className="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={webSearchEnabled}
-                    onChange={(e) => setWebSearchEnabled(e.target.checked)}
-                    className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <Globe className={`w-4 h-4 ${webSearchEnabled ? 'text-blue-600' : 'text-gray-500'}`} />
-                  <span className={`text-sm ${webSearchEnabled ? 'text-blue-700' : 'text-gray-700'}`}>
-                    Web Search
-                  </span>
-                </label>
-
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); setUploadDropdownOpen(!uploadDropdownOpen); }}
-                    className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm"
-                    disabled={uploading}
-                  >
-                    <Upload className="w-5 h-5 text-gray-600" />
-                    <span className="font-medium">{uploading ? 'Uploading...' : 'Upload'}</span>
-                  </button>
-
-                  <FileUploadDropdown
-                    isOpen={uploadDropdownOpen}
-                    onClose={() => setUploadDropdownOpen(false)}
-                    onLocalFileSelect={async (e) => {
-                      const f = e.target.files && e.target.files[0];
-                      if (f) await uploadFileToServer(f);
-                      setUploadDropdownOpen(false);
-                    }}
-                    onGoogleDriveClick={async () => {
-                      try {
-                        setCloudLoading('google-drive');
-                        if (!CloudStorageService.checkGoogleDriveConfig()) {
-                          CloudStorageService.showGoogleDriveSetupModal();
-                          setCloudLoading(null);
-                          return;
-                        }
-
-                        await CloudStorageService.loadGoogleAPIs();
-                        await CloudStorageService.initializeGoogleDrive();
-                        const picked = await CloudStorageService.showGoogleDrivePicker();
-                        if (picked && picked.file) {
-                          await uploadFileToServer(picked.file);
-                        }
-                      } catch (err) {
-                        console.error('Google Drive error', err);
-                        setError(err.message || 'Google Drive upload failed');
-                      } finally {
-                        setCloudLoading(null);
-                        setUploadDropdownOpen(false);
-                      }
-                    }}
-                    onOneDriveClick={async () => {
-                      try {
-                        setCloudLoading('onedrive');
-                        if (!CloudStorageService.checkOneDriveConfig()) {
-                          CloudStorageService.showOneDriveSetupModal();
-                          setCloudLoading(null);
-                          return;
-                        }
-                        await CloudStorageService.loadMicrosoftGraph();
-                        await CloudStorageService.initializeOneDrive();
-                        setOneDriveModalOpen(true);
-                      } catch (err) {
-                        console.error('OneDrive init error', err);
-                        setError(err.message || 'OneDrive initialization failed');
-                        setCloudLoading(null);
-                      } finally {
-                        setUploadDropdownOpen(false);
-                      }
-                    }}
-                    cloudLoading={cloudLoading}
-                    loading={uploading}
-                  />
-
-                  <input type="file" id="hidden-local-upload" accept=".pdf,.docx,.txt,.xlsx,.csv,.json" className="hidden" />
-                </div>
-
-                {uploadedFileName && (
-                  <div className="flex items-center gap-3 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm">
-                    {/* file-type icon */}
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white">
-                      {uploadedFile && uploadedFile.type?.includes('pdf') ? (
-                        <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>
-                      ) : uploadedFile && (uploadedFile.type?.includes('word') || uploadedFileName?.endsWith('.doc') || uploadedFileName?.endsWith('.docx')) ? (
-                        <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>
-                      ) : uploadedFile && (uploadedFile.type?.includes('spreadsheet') || uploadedFileName?.endsWith('.xls') || uploadedFileName?.endsWith('.xlsx')) ? (
-                        <svg className="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>
-                      ) : uploadedFile && (uploadedFile.type?.includes('json') || uploadedFileName?.endsWith('.json')) ? (
-                        <svg className="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14v18H5z"/></svg>
-                      ) : (
-                        <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <div className="text-green-800 truncate font-medium">{uploadedFileName}</div>
+                      {uploadedFile && (
+                        <div className="text-xs text-gray-500">
+                          {(uploadedFile.size && Math.round(uploadedFile.size / 1024) + ' KB') || ''}
+                        </div>
                       )}
                     </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="text-green-800 truncate font-medium">{uploadedFileName}</div>
-                        {uploadedFile && (
-                          <div className="text-xs text-gray-500">
-                            {(uploadedFile.size && Math.round(uploadedFile.size / 1024) + ' KB') || ''}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={clearFile}
-                      className="ml-1 text-green-600 hover:text-green-800"
-                      aria-label="Remove attachment"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
                   </div>
-                )}
 
-              </div>
+                  <button
+                    onClick={clearFile}
+                    className="ml-1 text-green-600 hover:text-green-800"
+                    aria-label="Remove attachment"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
 
               {/* OneDrive modal (uses utils/OneDriveModal) */}
               <OneDriveModal
@@ -1041,8 +783,8 @@ const formatResponse = (data) => {
                 onClose={() => setOneDriveModalOpen(false)}
                 folders={[]}
                 files={[]}
-                onNavigateUp={() => {}}
-                onNavigateToFolder={() => {}}
+                onNavigateUp={() => { }}
+                onNavigateToFolder={() => { }}
                 onSelectFile={async (fileId, fileName) => {
                   try {
                     const downloaded = await CloudStorageService.downloadOneDriveFile(fileId, fileName);
@@ -1057,8 +799,25 @@ const formatResponse = (data) => {
                 }}
               />
 
-              {/* Message Input */}
-              <div className="flex items-end gap-2 bg-gray-100 rounded-2xl p-2">
+              {/* Message Input - Updated with everything inside */}
+              <div className="flex items-center gap-3 bg-white rounded-full px-4 py-3 shadow-lg border border-gray-200">
+                {/* Persona Dropdown */}
+                <select
+                  value={persona}
+                  onChange={(e) => setPersona(e.target.value)}
+                  className="px-2 py-1 border-0 rounded-lg text-sm focus:outline-none bg-transparent text-blue-600 font-medium cursor-pointer"
+                >
+                  {personas.map((p) => (
+                    <option key={p} value={p}>
+                      {p.charAt(0).toUpperCase() + p.slice(1)}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Divider */}
+                <div className="h-6 w-px bg-gray-300"></div>
+
+                {/* Textarea */}
                 <div className="flex-1 relative">
                   <textarea
                     ref={textareaRef}
@@ -1070,24 +829,110 @@ const formatResponse = (data) => {
                         handleSend(e);
                       }
                     }}
-                    className="w-full p-3 bg-transparent border-0 resize-none focus:outline-none placeholder-gray-500"
+                    className="w-full px-2 py-1 bg-transparent border-0 resize-none focus:outline-none placeholder-gray-400 text-gray-700"
                     placeholder="Message"
                     rows="1"
                     style={{ maxHeight: "120px" }}
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={handleSend}
-                  disabled={loading || !message.trim()}
-                  className={`p-3 rounded-xl text-white transition-all flex items-center justify-center ${
-                    loading || !message.trim()
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
-                  }`}
-                >
-                  <Send className="w-5 h-5" />
-                </button>
+
+                {/* Right Side Icons */}
+                <div className="flex items-center gap-1">
+                  {/* Web Search Toggle */}
+                  <button
+                    type="button"
+                    onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+                    className={`p-2 rounded-full transition-colors ${webSearchEnabled
+                        ? 'text-blue-600 bg-blue-50'
+                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                      }`}
+                    title="Web Search"
+                  >
+                    <Globe className="w-5 h-5" />
+                  </button>
+
+                  {/* Upload Button with Dropdown */}
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setUploadDropdownOpen(!uploadDropdownOpen); }}
+                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
+                      disabled={uploading}
+                      title="Upload File"
+                    >
+                      <Upload className="w-5 h-5" />
+                    </button>
+
+                    <FileUploadDropdown
+                      isOpen={uploadDropdownOpen}
+                      onClose={() => setUploadDropdownOpen(false)}
+                      onLocalFileSelect={async (e) => {
+                        const f = e.target.files && e.target.files[0];
+                        if (f) await uploadFileToServer(f);
+                        setUploadDropdownOpen(false);
+                      }}
+                      onGoogleDriveClick={async () => {
+                        try {
+                          setCloudLoading('google-drive');
+                          if (!CloudStorageService.checkGoogleDriveConfig()) {
+                            CloudStorageService.showGoogleDriveSetupModal();
+                            setCloudLoading(null);
+                            return;
+                          }
+
+                          await CloudStorageService.loadGoogleAPIs();
+                          await CloudStorageService.initializeGoogleDrive();
+                          const picked = await CloudStorageService.showGoogleDrivePicker();
+                          if (picked && picked.file) {
+                            await uploadFileToServer(picked.file);
+                          }
+                        } catch (err) {
+                          console.error('Google Drive error', err);
+                          setError(err.message || 'Google Drive upload failed');
+                        } finally {
+                          setCloudLoading(null);
+                          setUploadDropdownOpen(false);
+                        }
+                      }}
+                      onOneDriveClick={async () => {
+                        try {
+                          setCloudLoading('onedrive');
+                          if (!CloudStorageService.checkOneDriveConfig()) {
+                            CloudStorageService.showOneDriveSetupModal();
+                            setCloudLoading(null);
+                            return;
+                          }
+                          await CloudStorageService.loadMicrosoftGraph();
+                          await CloudStorageService.initializeOneDrive();
+                          setOneDriveModalOpen(true);
+                        } catch (err) {
+                          console.error('OneDrive init error', err);
+                          setError(err.message || 'OneDrive initialization failed');
+                          setCloudLoading(null);
+                        } finally {
+                          setUploadDropdownOpen(false);
+                        }
+                      }}
+                      cloudLoading={cloudLoading}
+                      loading={uploading}
+                    />
+
+                    <input type="file" id="hidden-local-upload" accept=".pdf,.docx,.txt,.xlsx,.csv,.json" className="hidden" />
+                  </div>
+
+                  {/* Send Button */}
+                  <button
+                    type="button"
+                    onClick={handleSend}
+                    disabled={loading || !message.trim()}
+                    className={`p-2 rounded-full transition-all flex items-center justify-center ${loading || !message.trim()
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "text-blue-600 hover:bg-blue-50"
+                      }`}
+                  >
+                    <Send className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>

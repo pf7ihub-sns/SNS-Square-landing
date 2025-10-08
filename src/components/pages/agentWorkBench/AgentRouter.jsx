@@ -67,6 +67,7 @@ import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
+import AIDocument from "./agents/aiDocument.jsx";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -140,6 +141,7 @@ const AgentRouter = () => {
     "Lab-results-extractor": <LabResultsExtractor /> ,
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
+    "ai-document":<AIDocument/> ,
   };
 
   return agentIdToComponent[agentId] || <AgentDisplay />;
