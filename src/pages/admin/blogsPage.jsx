@@ -1,12 +1,13 @@
 import React from 'react'
-import AdminBlogs from '../../components/Adminpages/adminBlogs'
+import AdminBlogs from '../../components/Adminpages/blogs/adminNewBlogs'
+import { BlogProvider } from '../../contexts/BlogContext'
 
-const blogsPage = () => {
+const BlogsPage = () => {
   return (
-    <div>
+    <BlogProvider>
       <AdminBlogs />
-    </div>
+    </BlogProvider>
   )
 }
 
-export default blogsPage
+export default BlogsPage

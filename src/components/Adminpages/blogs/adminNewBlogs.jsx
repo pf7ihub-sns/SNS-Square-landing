@@ -1,12 +1,18 @@
 // Adminpages/blogs/addNewPost.jsx
 import React, { useState, useEffect, useRef } from 'react'
-import FreeRichTextEditor from '../common/FreeRichTextEditor'
-import BlogSEOAnalyzer from '../common/BlogSEOAnalyzer'
-import BlogSidebar from '../common/BlogSidebar'
-import MediaLibrary from '../common/MediaLibrary'
-import { Upload, AlertCircle, CheckCircle, Image, FileText, Film } from 'lucide-react'
+import { useNavigate, useParams } from 'react-router-dom'
+import FreeRichTextEditor from '../../common/FreeRichTextEditor'
+import BlogSEOAnalyzer from '../../common/BlogSEOAnalyzer'
+import BlogSidebar from '../../common/BlogSidebar'
+import MediaLibrary from '../../common/MediaLibrary'
+import { Upload, AlertCircle, CheckCircle, Image, FileText, Film, ArrowLeft } from 'lucide-react'
+import { useBlogContext } from '../../../contexts/BlogContext'
 
 const AddNewPost = () => {
+  const { addBlog, updateBlog, getBlogById } = useBlogContext()
+  const navigate = useNavigate()
+  const { blogId } = useParams() // For edit mode
+  const isEditMode = !!blogId
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -35,51 +41,29 @@ const AddNewPost = () => {
   const [mediaLibrary, setMediaLibrary] = useState([])
   const editorRef = useRef(null)
 
-  // Load draft from session storage on component mount
+  // Load existing blog for edit mode
   useEffect(() => {
-    const savedDraft = sessionStorage.getItem('blog_draft')
-    const savedMedia = sessionStorage.getItem('media_library')
-    
-    if (savedDraft) {
-      try {
-        const parsedDraft = JSON.parse(savedDraft)
-        setFormData(parsedDraft)
-        showNotification('info', 'Draft loaded from previous session')
-      } catch (error) {
-        console.error('Error loading draft:', error)
+    if (isEditMode && blogId) {
+      // Load existing blog for editing
+      const existingBlog = getBlogById(blogId)
+      if (existingBlog) {
+        setFormData(existingBlog)
+        showNotification('info', 'Blog loaded for editing')
+      } else {
+        showNotification('error', 'Blog not found')
+        navigate('/admin/blog/all')
       }
     }
+  }, [isEditMode, blogId, getBlogById, navigate])
 
-    if (savedMedia) {
-      try {
-        const parsedMedia = JSON.parse(savedMedia)
-        setMediaLibrary(parsedMedia)
-      } catch (error) {
-        console.error('Error loading media library:', error)
-      }
-    }
-  }, [])
-
-  // Auto-save draft every 30 seconds
-  useEffect(() => {
-    const autoSaveInterval = setInterval(() => {
-      if (formData.title || formData.content) {
-        saveDraft(true) // Silent save
-      }
-    }, 30000)
-
-    return () => clearInterval(autoSaveInterval)
-  }, [formData])
+  // Remove auto-save functionality since we're not using session storage
 
   const updateFormData = (key, value) => {
-    setFormData(prev => {
-      const updated = { ...prev, [key]: value, updatedAt: new Date().toISOString() }
-      
-      // Auto-save to session storage
-      sessionStorage.setItem('blog_draft', JSON.stringify(updated))
-      
-      return updated
-    })
+    setFormData(prev => ({
+      ...prev,
+      [key]: value,
+      updatedAt: new Date().toISOString()
+    }))
   }
 
   const updateSEOData = (seoUpdates) => {
@@ -103,13 +87,20 @@ const AddNewPost = () => {
         updatedAt: new Date().toISOString()
       }
       
-      sessionStorage.setItem('blog_draft', JSON.stringify(draftData))
-      
-      if (!silent) {
-        showNotification('success', 'Draft saved successfully!')
+      if (isEditMode) {
+        // Update existing blog
+        updateBlog(blogId, draftData)
+        if (!silent) {
+          showNotification('success', 'Blog updated successfully!')
+        }
+      } else {
+        // For new blogs, we'll implement backend integration later
+        if (!silent) {
+          showNotification('success', 'Draft will be saved when backend is integrated!')
+        }
       }
       
-      console.log('Draft saved:', draftData)
+      console.log('Draft data:', draftData)
     } catch (error) {
       console.error('Error saving draft:', error)
       if (!silent) {
@@ -130,11 +121,7 @@ const AddNewPost = () => {
       previewedAt: new Date().toISOString()
     }
     
-    sessionStorage.setItem('blog_preview', JSON.stringify(previewData))
-    showNotification('info', 'Preview generated! Opening preview window...')
-    
-    // Open preview in new tab/window
-    window.open('/blog/preview', '_blank')
+    showNotification('info', 'Preview functionality will be implemented with backend integration!')
     
     console.log('Preview data:', previewData)
   }
@@ -161,52 +148,29 @@ const AddNewPost = () => {
           status: 'published',
           publishedAt: new Date().toISOString()
         },
-        slug: generateSlug(formData.title),
-        id: generateId(),
         updatedAt: new Date().toISOString()
       }
 
-      // Store in session storage for backend processing
-      sessionStorage.setItem('blog_published', JSON.stringify(publishData))
+      if (isEditMode) {
+        // Update existing blog
+        updateBlog(blogId, publishData)
+        showNotification('success', 'Blog updated and published successfully!')
+      } else {
+        // Add new blog
+        const newBlog = addBlog(publishData)
+        showNotification('success', 'Blog published successfully!')
+      }
       
-      // Clear draft
-      sessionStorage.removeItem('blog_draft')
+      console.log('Published blog data:', publishData)
       
-      showNotification('success', 'Post published successfully!')
-      
-      console.log('Published post data:', publishData)
-      
-      // Reset form or redirect
+      // Navigate back to all blogs after a delay
       setTimeout(() => {
-        if (confirm('Post published! Do you want to create another post?')) {
-          setFormData({
-            title: '',
-            content: '',
-            seoData: {
-              primaryKeyword: '',
-              secondaryKeywords: [],
-              metaTitle: '',
-              metaDescription: '',
-              metaUrl: ''
-            },
-            featuredImage: null,
-            categories: ['Uncategorized'],
-            tags: [],
-            publishSettings: {
-              visibility: 'public',
-              publishDate: 'immediately',
-              status: 'draft'
-            },
-            author: 'SNS (admin)',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          })
-        }
+        navigate('/admin/blog/all')
       }, 2000)
       
     } catch (error) {
-      console.error('Error publishing post:', error)
-      showNotification('error', 'Failed to publish post')
+      console.error('Error publishing blog:', error)
+      showNotification('error', 'Failed to publish blog')
     }
   }
 
@@ -244,10 +208,9 @@ const AddNewPost = () => {
         const validFiles = processedFiles.filter(file => file !== null)
         
         if (validFiles.length > 0) {
-          // Add to media library
+          // Add to media library (will be integrated with backend later)
           const updatedMediaLibrary = [...mediaLibrary, ...validFiles]
           setMediaLibrary(updatedMediaLibrary)
-          sessionStorage.setItem('media_library', JSON.stringify(updatedMediaLibrary))
           
           showNotification('success', `${validFiles.length} file(s) uploaded successfully!`)
           
@@ -387,99 +350,147 @@ const AddNewPost = () => {
       )}
 
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 p-6 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Add Blog Post</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              {formData.publishSettings.status === 'draft' ? 'Draft' : 'Published'} • 
-              Last saved: {new Date(formData.updatedAt).toLocaleTimeString()}
-            </p>
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center text-sm text-gray-500 mb-4">
+            <span>Admin</span>
+            <span className="mx-2">/</span>
+            <span>Blog Management</span>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 font-medium">
+              {isEditMode ? 'Edit Blog Post' : 'Add New Blog Post'}
+            </span>
           </div>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => saveDraft()}
-              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Save Draft
-            </button>
-            <button
-              onClick={previewPost}
-              className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Preview
-            </button>
-            <button
-              onClick={publishPost}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Publish
-            </button>
+          
+          {/* Header Content */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => navigate('/admin/blog/all')}
+                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+              >
+                <ArrowLeft size={20} className="mr-2" />
+                Back to All Blogs
+              </button>
+              <div className="border-l border-gray-300 pl-4">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {isEditMode ? 'Edit Blog Post' : 'Add New Blog Post'}
+                </h1>
+                <p className="text-sm text-gray-500 mt-1">
+                  Status: <span className="font-medium">{formData.publishSettings.status === 'draft' ? 'Draft' : 'Published'}</span> • 
+                  Last updated: {new Date(formData.updatedAt).toLocaleTimeString()}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => saveDraft()}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+              >
+                {isEditMode ? 'Save Changes' : 'Save Draft'}
+              </button>
+              <button
+                onClick={previewPost}
+                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+              >
+                Preview
+              </button>
+              <button
+                onClick={publishPost}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+              >
+                {isEditMode ? 'Update & Publish' : 'Publish'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Title */}
-            <div>
+            <div className="bg-white p-6 rounded-lg border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Blog Title *
+              </label>
               <input
                 type="text"
-                placeholder="Add title"
-                className="w-full p-4 text-xl font-medium border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your blog title here..."
+                className="w-full p-4 text-xl font-medium border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 value={formData.title}
                 onChange={(e) => updateFormData('title', e.target.value)}
                 autoFocus
               />
               {formData.title && (
-                <p className="mt-2 text-sm text-gray-500">
-                  Slug: {generateSlug(formData.title)}
+                <p className="mt-3 text-sm text-gray-500 bg-gray-50 p-2 rounded">
+                  <span className="font-medium">URL Slug:</span> /{generateSlug(formData.title)}
                 </p>
               )}
             </div>
 
-            {/* Enhanced Add Media Section */}
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={handleMediaUpload}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Upload size={16} />
-                <span>Add Media</span>
-              </button>
-              
-              <button 
-                onClick={openMediaLibrary}
-                className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <Image size={16} />
-                <span>Media Library ({mediaLibrary.length})</span>
-              </button>
+            {/* Media Upload Section */}
+            <div className="bg-white p-6 rounded-lg border border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Media & Assets</h3>
+              <div className="flex flex-wrap items-center gap-3">
+                <button 
+                  onClick={handleMediaUpload}
+                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                >
+                  <Upload size={16} />
+                  <span>Upload Media</span>
+                </button>
+                
+                <button 
+                  onClick={openMediaLibrary}
+                  className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <Image size={16} />
+                  <span>Media Library ({mediaLibrary.length})</span>
+                </button>
 
-              {mediaLibrary.length > 0 && (
-                <div className="text-sm text-gray-500">
-                  Recent uploads: {mediaLibrary.slice(-3).map(file => file.name).join(', ')}
-                </div>
-              )}
+                {mediaLibrary.length > 0 && (
+                  <div className="text-sm text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                    <FileText size={14} className="inline mr-1" />
+                    Latest: {mediaLibrary.slice(-3).map(file => file.name.split('.')[0]).join(', ')}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Rich Text Editor with Ref */}
-            <FreeRichTextEditor
-              ref={editorRef}
-              content={formData.content}
-              onChange={(content) => updateFormData('content', content)}
-              placeholder="Tell your story..."
-            />
+            {/* Content Editor */}
+            <div className="bg-white rounded-lg border border-gray-200">
+              <div className="p-4 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900">Blog Content *</h3>
+                <p className="text-sm text-gray-500 mt-1">Write your blog content using the rich text editor below</p>
+              </div>
+              <div className="p-6">
+                <FreeRichTextEditor
+                  ref={editorRef}
+                  content={formData.content}
+                  onChange={(content) => updateFormData('content', content)}
+                  placeholder="Start writing your blog content here..."
+                />
+              </div>
+            </div>
 
             {/* SEO Analyzer */}
-            <BlogSEOAnalyzer
-              content={formData.content}
-              title={formData.title}
-              onTitleChange={(title) => updateFormData('title', title)}
-              onSEODataChange={updateSEOData}
-            />
+            <div className="bg-white rounded-lg border border-gray-200">
+              <div className="p-4 border-b border-gray-200">
+                <h3 className="text-lg font-medium text-gray-900">SEO Optimization</h3>
+                <p className="text-sm text-gray-500 mt-1">Optimize your blog for search engines</p>
+              </div>
+              <div className="p-6">
+                <BlogSEOAnalyzer
+                  content={formData.content}
+                  title={formData.title}
+                  onTitleChange={(title) => updateFormData('title', title)}
+                  onSEODataChange={updateSEOData}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Sidebar */}

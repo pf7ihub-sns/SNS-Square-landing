@@ -1,11 +1,20 @@
-import { Home, MessageSquare, Newspaper, UsersRound, Globe, ChevronDown, ChevronRight, Plus, FileText, Users } from "lucide-react"
+import { Home, MessageSquare, Newspaper, UsersRound, Globe, ChevronDown, ChevronRight, Plus, FileText, Users, List } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import { useState } from "react"
 
 // Navigation items data
 const items = [
   { href: "/admin", label: "Dashboard", icon: Home },
-  { href: "/admin/blog", label: "Blogs", icon: MessageSquare },
+  { 
+    href: "/admin/blog", 
+    label: "Blogs", 
+    icon: MessageSquare,
+    hasSubmenu: true,
+    submenu: [
+      { href: "/admin/blog/all", label: "All Blogs", icon: List },
+      { href: "/admin/blog/new", label: "Add Blog", icon: Plus },
+    ]
+  },
   { href: "/admin/usecase", label: "UseCases", icon: Newspaper },
   { 
     href: "/admin/jobopenings", 
@@ -23,7 +32,8 @@ const items = [
 export function Sidebar() {
   const location = useLocation()
   const [expandedMenus, setExpandedMenus] = useState({
-    "/admin/jobopenings": true // Keep job openings expanded by default
+    "/admin/jobopenings": true, // Keep job openings expanded by default
+    "/admin/blog": true // Keep blogs expanded by default
   })
 
   const toggleMenu = (href) => {
@@ -50,11 +60,6 @@ export function Sidebar() {
             alt="SNS Square Logo"
             className="w-[60px] h-[42px] sm:w-[80px] sm:h-[55px] md:w-[96px] md:h-[66px]"
           />
-          {/* <div className="leading-tight">
-            <div className="text-sm tracking-widest font-semibold">SNS</div>
-            <div className="text-sm tracking-widest font-semibold">SQUARE</div>
-            <div className="text-xs opacity-80">Redesigning Business</div>
-          </div> */}
         </div>
       </div>
 
