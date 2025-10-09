@@ -373,110 +373,121 @@ const DoctorVisit = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-screen">
-        Loading...
+      <div className="flex items-center justify-center h-screen bg-white">
+        <p className="text-slate-600">Loading...</p>
       </div>
     );
   if (error)
     return (
-      <div className="flex items-center justify-center h-screen text-red-600">
+      <div className="flex items-center justify-center h-screen bg-white text-red-600">
         {error}
       </div>
     );
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-manrope">
       {/* Left Panel - Patient Info */}
       <div
         className={`bg-white transition-all duration-300 ease-in-out flex-shrink-0 ${
           leftPanelOpen ? "w-80" : "w-0"
-        } overflow-hidden border-r border-gray-200`}
+        } overflow-hidden border-r border-slate-200`}
       >
-  <div className="p-6 pt-27 overflow-y-auto h-full">
-          <div className="bg-blue-50 rounded-lg py-2 px-4 mb-4 flex items-center justify-center">
-            <h2 className="text-xl font-bold text-blue-700">General Details</h2>
+        <div className="p-6 pt-32 overflow-y-auto h-full">
+          <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6">
+            <h2 className="text-base font-bold text-blue-600">Personal Information</h2>
           </div>
 
           <div className="flex items-center mb-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-              <User className="w-6 h-6 text-blue-600" />
+            <div className="w-14 h-14 bg-blue-600 rounded-lg flex items-center justify-center mr-4 text-white font-bold text-xl">
+              {patient.full_name?.charAt(0) || "H"}
             </div>
             <div>
-              <h2 className="text-xl font-semibold">{patient.full_name}</h2>
-              <p className="text-gray-600 text-sm">ID: {patient.patient_id}</p>
+              <h2 className="text-lg font-semibold text-slate-900">{patient.full_name}</h2>
+              <p className="text-slate-500 text-sm">ID: {patient.patient_id}</p>
               {currentVisit && (
-                <p className="text-gray-600 text-sm">
+                <p className="text-slate-500 text-sm">
                   Visit: {currentVisit.visit_number}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="space-y-4 mb-6">
             <div>
-              <p className="text-sm text-gray-500">Age / DOB</p>
-              <p className="font-medium">{patient.age} years</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs text-slate-500 mb-1">Age / DOB</p>
+              <p className="font-medium text-slate-900 text-sm">{patient.age} years</p>
+              <p className="text-xs text-slate-600">
                 {new Date(patient.dob).toLocaleDateString()}
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Gender</p>
-              <p className="font-medium">{patient.gender}</p>
+              <p className="text-xs text-slate-500 mb-1">Gender</p>
+              <p className="font-medium text-slate-900 text-sm">{patient.gender}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Marital Status</p>
-              <p className="font-medium">{patient.marital_status}</p>
+              <p className="text-xs text-slate-500 mb-1">Marital Status</p>
+              <p className="font-medium text-slate-900 text-sm">{patient.marital_status}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Blood Group</p>
-              <p className="font-medium">{patient.blood_group}</p>
+              <p className="text-xs text-slate-500 mb-1">Blood Group</p>
+              <p className="font-medium text-slate-900 text-sm">{patient.blood_group}</p>
             </div>
-            <div className="col-span-2">
-              <p className="text-sm text-gray-500">Occupation</p>
-              <p className="font-medium">{patient.occupation}</p>
+            <div>
+              <p className="text-xs text-slate-500 mb-1">Occupation</p>
+              <p className="font-medium text-slate-900 text-sm">{patient.occupation}</p>
             </div>
           </div>
 
-          <div className="mb-6">
-            <h3 className="font-medium text-gray-700 mb-3">Contact Details</h3>
-            <div className="flex items-center mb-2">
-              <Phone className="w-4 h-4 text-gray-400 mr-2" />
-              <p className="font-medium">{patient.mobile_number}</p>
-            </div>
-            {patient.alternate_number && (
-              <div className="flex items-center mb-2">
-                <Phone className="w-4 h-4 text-gray-400 mr-2" />
-                <p className="font-medium">{patient.alternate_number}</p>
+          <div className="mb-6 pb-6 border-b border-slate-200">
+            <h3 className="font-semibold text-slate-700 mb-3 text-sm">Contact Information</h3>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Phone className="w-4 h-4 text-slate-400 mr-2" />
+                <p className="text-slate-900 text-sm">{patient.mobile_number}</p>
               </div>
-            )}
-            <div className="mt-2">
-              <p className="text-sm text-gray-500">
-                {patient.address_line_1}, {patient.city}, {patient.district},{" "}
-                {patient.state} - {patient.pin_code}
-              </p>
+              {patient.alternate_number && (
+                <div className="flex items-center">
+                  <Phone className="w-4 h-4 text-slate-400 mr-2" />
+                  <p className="text-slate-900 text-sm">{patient.alternate_number}</p>
+                </div>
+              )}
+              <div className="mt-2">
+                <p className="text-xs text-slate-600">
+                  {patient.address_line_1}, {patient.city}, {patient.district},{" "}
+                  {patient.state} - {patient.pin_code}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="mb-6">
-            <p className="text-sm text-gray-500">Aadhaar Number</p>
-            <p className="font-medium">{patient.aadhaar_number}</p>
-            <p className="text-sm text-gray-500 mt-1">
-              ID Verified: {patient.id_verified ? "Yes" : "No"}
-            </p>
-            <p className="text-sm text-gray-500">
-              Consent Taken: {patient.consent_taken ? "Yes" : "No"}
-            </p>
+          <div className="mb-6 pb-6 border-b border-slate-200">
+            <div className="space-y-2">
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Aadhaar Number</p>
+                <p className="font-medium text-slate-900 text-sm">{patient.aadhaar_number}</p>
+              </div>
+              <div className="flex items-center gap-4 mt-2">
+                <div className="flex items-center">
+                  <span className="text-xs text-slate-500">ID Verified:</span>
+                  <span className="ml-1 text-xs text-green-600 font-medium">{patient.id_verified ? "Yes" : "No"}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-xs text-slate-500">Consent Taken:</span>
+                  <span className="ml-1 text-xs text-green-600 font-medium">{patient.consent_taken ? "Yes" : "No"}</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="mb-6 p-3 bg-red-50 rounded-lg">
-            <p className="text-sm text-red-600 font-medium flex items-center">
-              <Shield className="w-4 h-4 mr-1" /> EMERGENCY
+          <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+            <p className="text-xs text-red-700 font-semibold flex items-center mb-2">
+              <Shield className="w-4 h-4 mr-1" /> Emergency
             </p>
-            <p className="font-medium mt-1">
-              {patient.emergency_name} ({patient.emergency_relation})
+            <p className="font-medium text-slate-900 text-sm mb-1">
+              {patient.emergency_name}
             </p>
-            <p className="text-sm">{patient.emergency_phone}</p>
+            <p className="text-xs text-slate-600">({patient.emergency_relation})</p>
+            <p className="text-sm text-slate-900 mt-1">{patient.emergency_phone}</p>
           </div>
         </div>
       </div>
@@ -484,27 +495,27 @@ const DoctorVisit = () => {
       {/* Left Panel Toggle */}
       <button
         onClick={() => setLeftPanelOpen(!leftPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-r-lg shadow-lg hover:bg-gray-50 transition-all duration-200 z-20 p-2"
+        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-r-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
         style={{ left: leftPanelOpen ? "20rem" : "0" }}
       >
         {leftPanelOpen ? (
-          <ChevronLeft className="w-5 h-5 text-gray-600" />
+          <ChevronLeft className="w-5 h-5 text-slate-600" />
         ) : (
-          <ChevronRight className="w-5 h-5 text-gray-600" />
+          <ChevronRight className="w-5 h-5 text-slate-600" />
         )}
       </button>
 
       {/* Middle Panel - AI Chat & Questions */}
-      <div className="flex-1 flex flex-col p-4 overflow-hidden min-w-0">
-        <div className="bg-blue-50 rounded-lg py-2 px-4 mb-4 flex items-center justify-center">
-          <h2 className="text-2xl font-bold text-blue-700">
+      <div className="flex-1 flex flex-col p-6 overflow-hidden min-w-0 pt-32">
+        <div className="bg-white rounded-lg py-3 px-4 mb-4 border border-slate-200">
+          <h2 className="text-xl font-bold text-slate-900 text-center">
             Docsentra AI Consulting
           </h2>
         </div>
 
         {/* Chat Area */}
-  <div className="bg-white rounded-lg shadow-sm flex-1 flex flex-col p-4 pt-22 min-h-0">
-          <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+        <div className="bg-white rounded-lg shadow-sm flex-1 flex flex-col p-6 min-h-0 border border-slate-200">
+          <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
             {messages.map((m, idx) => (
               <div
                 key={idx}
@@ -513,15 +524,15 @@ const DoctorVisit = () => {
                 }`}
               >
                 {m.sender === "ai" && (
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                    🤖
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 text-white font-bold">
+                    AI
                   </div>
                 )}
                 <div
-                  className={`p-3 rounded-lg max-w-md ${
+                  className={`p-3 rounded-lg max-w-md text-sm ${
                     m.sender === "user"
-                      ? "bg-gray-100"
-                      : "bg-blue-600 text-white"
+                      ? "bg-blue-600 text-white"
+                      : "bg-slate-100 text-slate-900"
                   }`}
                 >
                   {m.text}
@@ -532,17 +543,17 @@ const DoctorVisit = () => {
 
           {/* Suggested Questions Panel - Above Input */}
           {suggestedQuestions.length > 0 && (
-            <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+            <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
                   <MessageCircle className="w-5 h-5 text-blue-600 mr-2" />
-                  <h3 className="text-sm font-semibold text-gray-800">
+                  <h3 className="text-sm font-semibold text-slate-800">
                     AI Suggested Questions
                   </h3>
                 </div>
                 <button
                   onClick={finishConsultation}
-                  className="text-xs bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition-colors"
+                  className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition-colors font-medium"
                 >
                   Finish Guidance
                 </button>
@@ -552,12 +563,12 @@ const DoctorVisit = () => {
                 {suggestedQuestions.map((question, index) => (
                   <div
                     key={index}
-                    className={`p-3 rounded-lg border transition-all ${
+                    className={`p-3 rounded-lg border transition-all text-sm ${
                       questionStates[index]?.status === "answered"
-                        ? "bg-green-100 border-green-400"
+                        ? "bg-green-50 border-green-300"
                         : questionStates[index]?.status === "asked"
-                        ? "bg-blue-100 border-blue-400"
-                        : "bg-white border-gray-200 hover:border-blue-300 cursor-pointer"
+                        ? "bg-blue-50 border-blue-300"
+                        : "bg-white border-slate-200 hover:border-blue-400 cursor-pointer"
                     }`}
                     onClick={() => {
                       if (questionStates[index]?.status === "pending") {
@@ -566,29 +577,31 @@ const DoctorVisit = () => {
                     }}
                   >
                     <div className="flex items-start justify-between">
-                      <p className="text-sm text-gray-800 flex-1 pr-2">
+                      <p className="text-slate-800 flex-1 pr-2">
                         {question}
                       </p>
                       <span
-                        className={`text-xs px-2 py-0.5 rounded flex-shrink-0 ${
+                        className={`text-xs px-2 py-1 rounded flex-shrink-0 font-semibold ${
                           questionStates[index]?.priority === "HIGH"
-                            ? "bg-red-500 text-white"
+                            ? "bg-red-100 text-red-700"
                             : questionStates[index]?.priority === "MEDIUM"
-                            ? "bg-yellow-500 text-white"
-                            : "bg-gray-400 text-white"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-slate-100 text-slate-600"
                         }`}
                       >
                         {questionStates[index]?.priority}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs text-gray-600">
-                        {questionStates[index]?.status === "answered" &&
-                          "✓ Answered"}
-                        {questionStates[index]?.status === "asked" &&
-                          "⏳ Awaiting answer"}
-                      </span>
-                    </div>
+                    {(questionStates[index]?.status === "answered" || questionStates[index]?.status === "asked") && (
+                      <div className="flex items-center mt-2">
+                        <span className="text-xs text-slate-600">
+                          {questionStates[index]?.status === "answered" &&
+                            "✓ Answered"}
+                          {questionStates[index]?.status === "asked" &&
+                            "⏳ Awaiting answer"}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -597,16 +610,16 @@ const DoctorVisit = () => {
 
           {/* Answer Mode Banner */}
           {isAnsweringQuestion && activeQuestionIndex !== null && (
-            <div className="mb-2 p-2 bg-blue-100 border border-blue-300 rounded-lg flex items-center justify-between">
-              <div className="flex items-center">
-                <MessageCircle className="w-4 h-4 text-blue-600 mr-2" />
+            <div className="mb-3 p-3 bg-blue-50 border border-blue-300 rounded-lg flex items-center justify-between">
+              <div className="flex items-center flex-1">
+                <MessageCircle className="w-4 h-4 text-blue-600 mr-2 flex-shrink-0" />
                 <span className="text-sm text-blue-800 font-medium">
                   Answering: {suggestedQuestions[activeQuestionIndex]}
                 </span>
               </div>
               <button
                 onClick={cancelAnswering}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-800 text-sm font-medium ml-2"
               >
                 Cancel
               </button>
@@ -614,7 +627,7 @@ const DoctorVisit = () => {
           )}
 
           {/* Input Area */}
-          <div className="flex space-x-2 border-t pt-4">
+          <div className="flex gap-3 border-t border-slate-200 pt-4">
             <input
               type="text"
               value={inputMessage}
@@ -622,14 +635,14 @@ const DoctorVisit = () => {
               placeholder={
                 isAnsweringQuestion
                   ? "Type patient's answer..."
-                  : "Type a message..."
+                  : "Message"
               }
-              className="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white text-slate-900 placeholder-slate-400 text-sm"
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
             <button
               onClick={handleSendMessage}
-              className="w-12 h-12 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
+              className="px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors shadow-sm"
             >
               <Send className="w-5 h-5" />
             </button>
@@ -640,13 +653,13 @@ const DoctorVisit = () => {
       {/* Right Panel Toggle */}
       <button
         onClick={() => setRightPanelOpen(!rightPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-gray-300 rounded-l-lg shadow-lg hover:bg-gray-50 transition-all duration-200 z-20 p-2"
+        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-l-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
         style={{ right: rightPanelOpen ? "24rem" : "0" }}
       >
         {rightPanelOpen ? (
-          <ChevronRight className="w-5 h-5 text-gray-600" />
+          <ChevronRight className="w-5 h-5 text-slate-600" />
         ) : (
-          <ChevronLeft className="w-5 h-5 text-gray-600" />
+          <ChevronLeft className="w-5 h-5 text-slate-600" />
         )}
       </button>
 
@@ -654,13 +667,13 @@ const DoctorVisit = () => {
       <div
         className={`bg-white transition-all duration-300 ease-in-out flex-shrink-0 ${
           rightPanelOpen ? "w-96" : "w-0"
-        } overflow-hidden border-l border-gray-200`}
+        } overflow-hidden border-l border-slate-200`}
       >
-  <div className="p-6 pt-27 h-full overflow-y-auto">
-          <div className="bg-blue-50 rounded-lg py-2 px-4 mb-4 flex items-center justify-center">
-            <h2 className="text-xl font-bold text-blue-700 flex items-center">
-              <Calendar className="w-5 h-5 mr-2 text-blue-600" />
-              All Visits
+        <div className="p-6 pt-32 h-full overflow-y-auto">
+          <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6 flex items-center justify-center">
+            <h2 className="text-base font-bold text-blue-600 flex items-center">
+              <Calendar className="w-5 h-5 mr-2" />
+              All Visit
             </h2>
           </div>
 
@@ -670,94 +683,112 @@ const DoctorVisit = () => {
               .map((visit) => (
                 <div
                   key={visit.visit_id}
-                  className={`mb-4 p-4 border rounded-xl shadow-sm transition-all ${
+                  className={`mb-4 p-4 border rounded-lg transition-all text-sm ${
                     visit.visit_id === currentVisit?.visit_id
-                      ? "bg-blue-100 border-blue-500"
-                      : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                      ? "bg-blue-50 border-blue-300"
+                      : "bg-white border-slate-200 hover:bg-slate-50"
                   }`}
                 >
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="font-semibold text-gray-700">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="font-semibold text-blue-600 text-sm">
                       {new Date(visit.visit_date).toLocaleDateString()}
                     </p>
                     {visit.visit_id === currentVisit?.visit_id && (
-                      <span className="text-sm text-blue-600 font-medium">
-                        Current Visit
+                      <span className="text-xs text-blue-600 font-medium bg-blue-100 px-2 py-0.5 rounded">
+                        Current
                       </span>
                     )}
                   </div>
 
-                  <p className="text-gray-600 mb-1">
-                    <span className="font-medium">Reason:</span>{" "}
-                    {visit.reason_for_visit || "Not specified"}
-                  </p>
-                  {visit.chief_complaints && (
-                    <p className="text-gray-600 mb-1">
-                      <span className="font-medium">Chief Complaints:</span>{" "}
-                      {visit.chief_complaints}
-                    </p>
-                  )}
-
-                  {visit.symptoms?.length > 0 && (
-                    <p className="text-gray-600 mb-1">
-                      <span className="font-medium">Symptoms:</span>{" "}
-                      {visit.symptoms.join(", ")}
-                    </p>
-                  )}
-
-                  {visit.latest_vitals && (
-                    <div className="text-gray-700 text-sm mt-2 bg-gray-100 p-2 rounded-lg">
-                      <p>
-                        <span className="font-medium">BP:</span>{" "}
-                        {visit.latest_vitals.bloodPressure}
-                      </p>
-                      <p>
-                        <span className="font-medium">Pulse:</span>{" "}
-                        {visit.latest_vitals.pulseRate}
-                      </p>
-                      <p>
-                        <span className="font-medium">Temp:</span>{" "}
-                        {visit.latest_vitals.temperature}°F
-                      </p>
-                      <p>
-                        <span className="font-medium">SPO2:</span>{" "}
-                        {visit.latest_vitals.spo2}
-                      </p>
-                      <p>
-                        <span className="font-medium">Weight:</span>{" "}
-                        {visit.latest_vitals.weight} kg
-                      </p>
-                      <p>
-                        <span className="font-medium">Height:</span>{" "}
-                        {visit.latest_vitals.height} cm
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-slate-500 mb-0.5">Reason:</p>
+                      <p className="text-slate-900 text-sm">
+                        {visit.reason_for_visit || "Not specified"}
                       </p>
                     </div>
-                  )}
 
-                  {visit.chronic_conditions_list?.length > 0 && (
-                    <p className="text-gray-600 mt-2 text-sm">
-                      <span className="font-medium">Chronic Conditions:</span>{" "}
-                      {visit.chronic_conditions_list.join(", ")}
-                    </p>
-                  )}
+                    {visit.chief_complaints && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-0.5">Chief Complaints:</p>
+                        <p className="text-slate-900 text-sm">
+                          {visit.chief_complaints}
+                        </p>
+                      </div>
+                    )}
 
-                  {visit.doctor_notes && (
-                    <p className="text-gray-600 mt-2 text-sm">
-                      <span className="font-medium">Doctor Notes:</span>{" "}
-                      {visit.doctor_notes}
-                    </p>
-                  )}
+                    {visit.symptoms?.length > 0 && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-0.5">Symptoms:</p>
+                        <p className="text-slate-900 text-sm">
+                          {visit.symptoms.join(", ")}
+                        </p>
+                      </div>
+                    )}
 
-                  {visit.visit_summary && (
-                    <p className="text-gray-600 mt-2 text-sm">
-                      <span className="font-medium">Summary:</span>{" "}
-                      {visit.visit_summary.replace(/\*\*/g, "")}
-                    </p>
-                  )}
+                    {visit.latest_vitals && (
+                      <div className="mt-3 p-3 bg-slate-50 rounded-md border border-slate-200">
+                        <p className="text-xs text-slate-500 mb-2 font-medium">Vitals:</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="text-slate-500">BP:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.bloodPressure}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Pulse:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.pulseRate}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Temp:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.temperature}°F</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">SPO2:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.spo2}</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Weight:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.weight} kg</span>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Height:</span>
+                            <span className="ml-1 text-slate-900">{visit.latest_vitals.height} cm</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {visit.chronic_conditions_list?.length > 0 && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-0.5">Chronic Conditions:</p>
+                        <p className="text-slate-900 text-sm">
+                          {visit.chronic_conditions_list.join(", ")}
+                        </p>
+                      </div>
+                    )}
+
+                    {visit.doctor_notes && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-0.5">Doctor Notes:</p>
+                        <p className="text-slate-900 text-sm">
+                          {visit.doctor_notes}
+                        </p>
+                      </div>
+                    )}
+
+                    {visit.visit_summary && (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-0.5">Summary:</p>
+                        <p className="text-slate-900 text-sm">
+                          {visit.visit_summary.replace(/\*\*/g, "")}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))
           ) : (
-            <div className="text-center text-gray-500 mt-10">
+            <div className="text-center text-slate-500 mt-10 text-sm">
               No visits available
             </div>
           )}
