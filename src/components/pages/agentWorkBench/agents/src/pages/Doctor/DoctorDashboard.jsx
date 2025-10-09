@@ -86,7 +86,7 @@ export default function DoctorDashboard() {
       {/* Main Content */}
       <main className="px-6 py-6">
         {/* Main Container Box - Contains Welcome + Patients */}
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-lg">
           {/* Welcome Section */}
           <div className="p-6 border-b border-slate-200">
             <div className="flex justify-between items-start">
