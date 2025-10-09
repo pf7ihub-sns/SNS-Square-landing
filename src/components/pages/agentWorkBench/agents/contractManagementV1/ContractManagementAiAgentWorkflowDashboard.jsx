@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import FeedbackTrackingPanel from '../contractManagementV1/feedbackTrackingPanel';
 
 const ContractManagementAiAgentWorkflowDashboard = () => {
   const [documents, setDocuments] = useState([])
@@ -343,6 +344,78 @@ const ContractManagementAiAgentWorkflowDashboard = () => {
             ))}
           </div>
         )}
+
+        {/* Expert Feedback Section */}
+        <div style={{ marginTop: "2rem" }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "1.5rem"
+          }}>
+            <span style={{ fontSize: "20px", marginRight: "8px" }}>👨‍💼</span>
+            <h4 style={{
+              color: "#064EE3",
+              fontSize: "18px",
+              fontWeight: "700",
+              margin: 0
+            }}>
+              Expert Feedback
+            </h4>
+          </div>
+
+          {/* Display Experts */}
+          {document.experts && document.experts.length > 0 ? (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "1rem",
+              marginBottom: "2rem"
+            }}>
+              {document.experts.map((expert, idx) => {
+                const statusColor = expert.status === "Responded"
+                  ? { bg: "#dcfce7", color: "#16a34a" }
+                  : { bg: "#fef3c7", color: "#d97706" };
+
+                return (
+                  <div key={idx} style={{
+                    background: "#f8fbff",
+                    padding: "1.5rem",
+                    borderRadius: "12px",
+                    border: "1px solid #e6f0ff"
+                  }}>
+                    <h5 style={{ margin: "0 0 0.5rem 0", color: "#064EE3" }}>{expert.expert_type}</h5>
+                    <div style={{ fontSize: "14px", color: "#666", marginBottom: "0.5rem" }}>{expert.email}</div>
+                    <div style={{
+                      padding: "0.5rem 0.75rem",
+                      background: statusColor.bg,
+                      color: statusColor.color,
+                      borderRadius: "50px",
+                      display: "inline-block",
+                      fontSize: "12px",
+                      fontWeight: "600"
+                    }}>
+                      {expert.status}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div style={{
+              padding: "1.5rem",
+              background: "#f8fbff",
+              borderRadius: "12px",
+              textAlign: "center",
+              color: "#666",
+              marginBottom: "2rem",
+              border: "1px solid #e6f0ff"
+            }}>
+              No experts have been assigned to this contract.
+            </div>
+          )}
+
+          <FeedbackTrackingPanel documentId={document._id} />
+        </div>
 
         {/* Back Button */}
         <div style={{ textAlign: "center", marginTop: "3rem" }}>

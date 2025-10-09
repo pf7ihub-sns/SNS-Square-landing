@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import ExpertRecommendationPanel from '../contractManagementV1/expertRecommendationPanel';
+import FeedbackTrackingPanel from '../contractManagementV1/feedbackTrackingPanel';
 
 const ContractManagementAiAgentWorkflow = () => {
   const [file, setFile] = useState(null)
@@ -9,6 +11,48 @@ const ContractManagementAiAgentWorkflow = () => {
   const [documentId, setDocumentId] = useState(null)
   const [error, setError] = useState(null)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [showExpertsPanel, setShowExpertsPanel] = useState(false);
+  const [showFeedbackPanel, setShowFeedbackPanel] = useState(false);
+  const [expertsResult, setExpertsResult] = useState(null);
+
+  {result && !result.error && !showExpertsPanel && !showFeedbackPanel && (
+    <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+      <button
+        onClick={() => setShowExpertsPanel(true)}
+        style={{
+          padding: "0.75rem 2rem",
+          borderRadius: "50px",
+          border: "none",
+          background: "#064EE3",
+          color: "#fff",
+          fontWeight: 600,
+          cursor: "pointer",
+          fontSize: "16px"
+        }}
+      >
+        Continue to Expert Recommendations
+      </button>
+    </div>
+  )}
+  
+  {showExpertsPanel && !showFeedbackPanel && (
+    <ExpertRecommendationPanel 
+      contractData={result}
+      documentId={documentId}
+      onExpertsSelected={(expertsResult) => {
+        setExpertsResult(expertsResult);
+        setShowExpertsPanel(false);
+        setShowFeedbackPanel(true);
+      }}
+      onBack={() => setShowExpertsPanel(false)}
+    />
+  )}
+  
+  {showFeedbackPanel && (
+    <FeedbackTrackingPanel 
+      documentId={documentId}
+    />
+  )}
 
   // ==================== EXPORT FUNCTIONS (NEW) ====================
   const exportToJSON = (data) => {
