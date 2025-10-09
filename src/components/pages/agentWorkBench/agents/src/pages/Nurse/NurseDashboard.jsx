@@ -156,7 +156,7 @@ export default function NurseDashboard() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Left Side - Welcome Text */}
             <div className="flex-1">
-              <h2 className="text-[24px] lg:text-[24px] font-bold text-gray-900 mb-3 tracking-tight">
+              <h2 className="text-[24px] lg:text-[24px] font-bold text-gray-900 mb-1 tracking-tight">
                 Welcome, {user.name || "Swetha"}!
               </h2>
               <p className="text-base lg:text-[18px] font-medium text-gray-600">Manage patient registration and records</p>
@@ -182,8 +182,8 @@ export default function NurseDashboard() {
         </div>
 
         {/* Card 2: Search and Filter Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8 mb-6">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+        <div className="bg-white rounded-xl  border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
             {/* Left Side - Section Info */}
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Search and Filter Patients</h3>
@@ -193,13 +193,14 @@ export default function NurseDashboard() {
             {/* Right Side - Search Bar, Sort and Filter Buttons */}
             <div className="flex items-center gap-3 lg:w-auto w-full">
               <div className="flex-1 relative lg:min-w-[400px]">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-600" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search by patient name or ID..."
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400 transition-all duration-200"
+                  placeholder="Search"
+                  style={{ backgroundColor: '#F3F7FF' }}
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-blue-600 transition-all duration-200"
                 />
               </div>
               
@@ -208,7 +209,7 @@ export default function NurseDashboard() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
+                  className="appearance-none pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
                 >
                   <option value="name">Name (A-Z)</option>
                   <option value="age">Age</option>
@@ -227,11 +228,17 @@ export default function NurseDashboard() {
               </button>
             </div>
           </div>
+
+          {/* Divider Line */}
+          <div className="border-t border-gray-200 mb-8"></div>
+
+          {/* Patients List Section - Inside Card 2 */}
+          <PatientList patients={filteredPatients} loading={loading} error={error} />
         </div>
 
         {/* Filter Modal Popup */}
         {isFilterOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fadeIn">
               {/* Modal Header */}
               <div className="flex items-center justify-between mb-6">
@@ -293,12 +300,10 @@ export default function NurseDashboard() {
                   Apply Filters
                 </button>
               </div>
+              
             </div>
           </div>
         )}
-
-        {/* Patients List Section - No Card Wrapper */}
-        <PatientList patients={filteredPatients} loading={loading} error={error} />
       </div>
     </div>
   );

@@ -49,50 +49,49 @@ export default function PatientList({ patients, loading, error }) {
                 key={patient.patient_id}
                 to={`../patient-profile/${patient.patient_id}`}
                 relative="path"
-                className="rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group border border-blue-200"
+                className="rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group border border-gray-200"
                 style={{ 
-                  backgroundColor: '#A4C3FF1A', // Light blue with 10% opacity
+                  backgroundColor: '#E8F0FF',
                   animationDelay: `${index * 50}ms` 
                 }}
                 aria-label={`View profile for ${patient.full_name}`}
               >
-                <div className="mb-5">
-                  {/* Patient ID Badge */}
-                  <div className="inline-flex items-center bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full mb-3">
+                {/* Patient ID and Age */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-blue-600 font-bold text-sm">
                     {patient.patient_id}
-                  </div>
-                  
-                  {/* Age Badge */}
-                  <div className="inline-flex items-center bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full mb-4 ml-2">
-                    Age {patient.age}
-                  </div>
-                  
-                  {/* Patient Name */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight truncate">
-                    {patient.full_name}
-                  </h3>
-                  
-                  {/* Patient Details */}
-                  <div className="space-y-2">
-                    <div className="flex items-center text-sm">
-                      <span className="text-gray-700 w-24">Gender:</span>
-                      <span className="text-gray-900 font-bold">{patient.gender}</span>
-                    </div>
-                    <div className="flex items-center text-sm">
-                      <span className="text-gray-700 w-24">Registered:</span>
-                      <span className="text-gray-900 font-bold">
-                        {new Date(patient.registration_timestamp).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric', 
-                          year: 'numeric' 
-                        })}
-                      </span>
-                    </div>
-                  </div>
+                  </span>
+                  <span className="text-gray-900 font-semibold text-sm">
+                    Age: {patient.age}
+                  </span>
+                </div>
+                
+                {/* Patient Name */}
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {patient.full_name}
+                </h3>
+                
+                {/* Gender and Registered in same line */}
+                <div className="flex items-center text-sm text-gray-600 mb-6">
+                  <span className="flex items-center">
+                    <span className="font-medium">Gender:</span>
+                    <span className="ml-1 font-semibold text-gray-900">{patient.gender}</span>
+                  </span>
+                  <span className="mx-2">•</span>
+                  <span className="flex items-center">
+                    <span className="font-medium">Registered:</span>
+                    <span className="ml-1 font-semibold text-gray-900">
+                      {new Date(patient.registration_timestamp).toLocaleDateString('en-US', { 
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                      })}
+                    </span>
+                  </span>
                 </div>
                 
                 {/* View Profile Button */}
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform group-hover:scale-105">
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
                   View Profile
                 </button>
               </Link>
