@@ -31,18 +31,20 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
     };
 
     return (
-        <div className="flex items-center justify-center mt-6 space-x-2">
+        <div className="flex items-center justify-center mt-8 space-x-2 flex-wrap gap-y-2">
             {/* Previous Button */}
             <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-                className={`p-2 rounded-md ${currentPage === 1
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                    currentPage === 1
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-blue-100 text-[#005566] hover:bg-blue-200 hover:text-[#003049]"
-                    } transition-all duration-200`}
+                        : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 shadow-sm hover:shadow"
+                }`}
                 aria-label="Previous page"
             >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">Back</span>
             </button>
 
             {/* Page Numbers */}
@@ -50,10 +52,11 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
                 <button
                     key={page}
                     onClick={() => onPageChange(page)}
-                    className={`px-4 py-1.5 rounded-md text-sm font-medium ${page === currentPage
-                            ? "bg-[#005566] text-white"
-                            : "bg-blue-50 text-[#005566] hover:bg-blue-100 hover:text-[#003049]"
-                        } transition-all duration-200`}
+                    className={`px-4 py-2.5 rounded-lg font-semibold transition-all duration-200 min-w-[44px] ${
+                        page === currentPage
+                            ? "bg-blue-600 text-white shadow-md transform scale-110"
+                            : "bg-white border border-gray-300 text-gray-700 hover:bg-blue-50 hover:border-blue-300 shadow-sm hover:shadow"
+                    }`}
                     aria-label={`Page ${page}`}
                 >
                     {page}
@@ -64,13 +67,15 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
             <button
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
-                className={`p-2 rounded-md ${currentPage === totalPages
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                    currentPage === totalPages
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-blue-100 text-[#005566] hover:bg-blue-200 hover:text-[#003049]"
-                    } transition-all duration-200`}
+                        : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 shadow-sm hover:shadow"
+                }`}
                 aria-label="Next page"
             >
-                <ChevronRight className="w-5 h-5" />
+                <span className="hidden sm:inline">Next</span>
+                <ChevronRight className="w-4 h-4" />
             </button>
         </div>
     );
