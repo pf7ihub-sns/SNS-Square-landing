@@ -99,7 +99,7 @@ export default function NurseDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("../login/nurse");
+    navigate("/agent-playground/agent/Doc-Sentra/");
   };
 
   const clearFilters = () => {
