@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { LogOut, UserPlus, Users, Search, Filter, ChevronLeft } from "lucide-react";
+import { LogOut, UserPlus, Users, Search, Filter, ChevronLeft, ArrowUpDown, X } from "lucide-react";
 import PatientList from "../components/PatientList";
 
 export default function NurseDashboard() {
@@ -17,6 +17,7 @@ export default function NurseDashboard() {
   const [genderFilter, setGenderFilter] = useState("");
   const [ageFilter, setAgeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name"); // name, age, date
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Redirect to login if no user or incorrect role
   useEffect(() => {
@@ -108,6 +109,10 @@ export default function NurseDashboard() {
     setSortBy("name");
   };
 
+  const applyFilters = () => {
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20">
       {/* Top Navigation Header */}
@@ -146,101 +151,154 @@ export default function NurseDashboard() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
-        {/* Welcome Section */}
-        <div className="mb-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3 tracking-tight">
-            Welcome, {user.name || "Swetha"}!
-          </h2>
-          <p className="text-base lg:text-lg text-gray-600">Manage patient registration and records</p>
-        </div>
-
-        {/* Search and Filter Section */}
-        <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6 lg:p-8 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Search and Filter Patients</h3>
-          
-          {/* Search Bar and Filter Button */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by patient name or ID..."
-                className="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400 transition-all duration-200 shadow-sm"
-              />
+        {/* Card 1: Welcome Section */}
+        <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            {/* Left Side - Welcome Text */}
+            <div className="flex-1">
+              <h2 className="text-[24px] lg:text-[24px] font-bold text-gray-900 mb-3 tracking-tight">
+                Welcome, {user.name || "Swetha"}!
+              </h2>
+              <p className="text-base lg:text-[18px] font-medium text-gray-600">Manage patient registration and records</p>
             </div>
-            <button 
-              onClick={clearFilters}
-              className="flex items-center justify-center space-x-2 px-5 py-3.5 border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm font-medium text-gray-700"
-            >
-              <Filter className="w-5 h-5 text-gray-600" />
-              <span>Filter</span>
-            </button>
-          </div>
 
-          {/* Filter Dropdowns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Age Group</label>
-              <select
-                value={ageFilter}
-                onChange={(e) => setAgeFilter(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm bg-white text-gray-900 font-medium"
+            {/* Right Side - Action Buttons */}
+            <div className="flex items-center gap-3 lg:flex-shrink-0">
+              <button
+                onClick={handleLogout}
+                className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
               >
-                <option value="all">Age Id</option>
-                <option value="0">Children (0-17)</option>
-                <option value="1">Adults (18-64)</option>
-                <option value="2">Seniors (65+)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
-              <select
-                value={genderFilter}
-                onChange={(e) => setGenderFilter(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm bg-white text-gray-900 font-medium"
+                Logout
+              </button>
+              <button
+                onClick={() => navigate("../new-patient", { relative: "path" })}
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg  transition-all duration-200 transform"
               >
-                <option value="">Age Id</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+                <span>New Patient</span>
+              </button>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm bg-white text-gray-900 font-medium"
-              >
-                <option value="name">Name (A-Z)</option>
-                <option value="age">Age (Newest)</option>
-                <option value="date">Registration Date</option>
-              </select>
             </div>
-          </div>
-
-          {/* Results Info */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-600">
-              A descriptive body text comes here
-            </p>
-            {(searchTerm || genderFilter || ageFilter !== "all") && (
-              <span className="text-xs text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full">
-                Filters Active
-              </span>
-            )}
           </div>
         </div>
 
-        {/* Patients List Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:p-8">
-          {/* Patients List with PatientList Component */}
-          <PatientList patients={filteredPatients} loading={loading} error={error} />
+        {/* Card 2: Search and Filter Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            {/* Left Side - Section Info */}
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Search and Filter Patients</h3>
+              <p className="text-sm text-gray-600">A descriptive body text comes here</p>
+            </div>
+
+            {/* Right Side - Search Bar, Sort and Filter Buttons */}
+            <div className="flex items-center gap-3 lg:w-auto w-full">
+              <div className="flex-1 relative lg:min-w-[400px]">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search by patient name or ID..."
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400 transition-all duration-200"
+                />
+              </div>
+              
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="appearance-none pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
+                >
+                  <option value="name">Name (A-Z)</option>
+                  <option value="age">Age</option>
+                  <option value="date">Date</option>
+                </select>
+                <ArrowUpDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+              </div>
+
+              {/* Filter Button */}
+              <button 
+                onClick={() => setIsFilterOpen(true)}
+                className="flex items-center justify-center space-x-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium text-gray-700 whitespace-nowrap"
+              >
+                <Filter className="w-4 h-4 text-gray-600" />
+                <span>Filter</span>
+              </button>
+            </div>
+          </div>
         </div>
+
+        {/* Filter Modal Popup */}
+        {isFilterOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fadeIn">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Filters</h3>
+                <button
+                  onClick={() => setIsFilterOpen(false)}
+                  className="p-1 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                  aria-label="Close filter"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+
+              {/* Filter Options */}
+              <div className="space-y-5">
+                {/* Gender Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-3">Gender</label>
+                  <select
+                    value={genderFilter}
+                    onChange={(e) => setGenderFilter(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium"
+                  >
+                    <option value="">Age Id (Lower/Lower)</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Age Group Filter */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-3">Age Group</label>
+                  <select
+                    value={ageFilter}
+                    onChange={(e) => setAgeFilter(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium"
+                  >
+                    <option value="all">Adults</option>
+                    <option value="0">Children (0-17)</option>
+                    <option value="1">Adults (18-64)</option>
+                    <option value="2">Seniors (65+)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="flex items-center gap-3 mt-6">
+                <button
+                  onClick={clearFilters}
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium text-gray-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={applyFilters}
+                  className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 font-semibold"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Patients List Section - No Card Wrapper */}
+        <PatientList patients={filteredPatients} loading={loading} error={error} />
       </div>
     </div>
   );

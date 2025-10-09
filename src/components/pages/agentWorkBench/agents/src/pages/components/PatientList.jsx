@@ -49,18 +49,21 @@ export default function PatientList({ patients, loading, error }) {
                 key={patient.patient_id}
                 to={`../patient-profile/${patient.patient_id}`}
                 relative="path"
-                className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 group"
+                className="rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group border border-blue-200"
+                style={{ 
+                  backgroundColor: '#A4C3FF1A', // Light blue with 10% opacity
+                  animationDelay: `${index * 50}ms` 
+                }}
                 aria-label={`View profile for ${patient.full_name}`}
-                style={{ animationDelay: `${index * 50}ms` }}
               >
                 <div className="mb-5">
                   {/* Patient ID Badge */}
-                  <div className="inline-flex items-center bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
-                    PA{patient.patient_id}
+                  <div className="inline-flex items-center bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full mb-3">
+                    {patient.patient_id}
                   </div>
                   
                   {/* Age Badge */}
-                  <div className="inline-flex items-center bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full mb-4 ml-2">
+                  <div className="inline-flex items-center bg-white text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full mb-4 ml-2">
                     Age {patient.age}
                   </div>
                   
@@ -72,12 +75,12 @@ export default function PatientList({ patients, loading, error }) {
                   {/* Patient Details */}
                   <div className="space-y-2">
                     <div className="flex items-center text-sm">
-                      <span className="text-gray-600 w-24">Gender:</span>
-                      <span className="text-gray-900 font-semibold">{patient.gender}</span>
+                      <span className="text-gray-700 w-24">Gender:</span>
+                      <span className="text-gray-900 font-bold">{patient.gender}</span>
                     </div>
                     <div className="flex items-center text-sm">
-                      <span className="text-gray-600 w-24">Registered:</span>
-                      <span className="text-gray-900 font-semibold">
+                      <span className="text-gray-700 w-24">Registered:</span>
+                      <span className="text-gray-900 font-bold">
                         {new Date(patient.registration_timestamp).toLocaleDateString('en-US', { 
                           month: 'short', 
                           day: 'numeric', 
