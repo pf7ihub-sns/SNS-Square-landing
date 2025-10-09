@@ -426,7 +426,7 @@ export default function TripPlanningSystem() {
             <button
               onClick={handleQuickPlan}
               disabled={isLoading}
-              className="w-full bg-white/20 hover:bg-white/30 text-white font-medium py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/30"
+              className="w-full bg-gradient-to-r from-[#064EE3] to-[#3D76EC] hover:from-[#0540D4] hover:to-[#356AE5] text-white font-medium py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-white/30"
             >
               {currentMode === 'planning' ? '🗺️ Plan My Trip' : '✨ Get Recommendations'}
             </button>

@@ -64,8 +64,13 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
+import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
-import DocSentra from "./agents/docSentra";
+import AIDocument from "./agents/aiDocument.jsx";
+import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
+import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -137,7 +142,14 @@ const AgentRouter = () => {
     "contract-management": <ContractManagement />,
     "email-triage": <EmailTriage />,
     "Lead-Genearation": <LeadGeneration />,
-    "Lab-results-extractor": <LabResultsExtractor /> // New mapping
+    "Lab-results-extractor": <LabResultsExtractor /> ,
+    "email-support":<EmailSupport/>,
+    "knowledge-base-agent": <KnowledgeBaseChat /> ,
+    "ai-docs":<ChatPage/> ,
+    "ai-document":<AIDocument/> ,
+    "speech-to-text-mom":<SpeechtoTextMom/>,
+    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>
+    
   };
 
   // Lookup case-insensitive
@@ -158,3 +170,4 @@ const AgentRouter = () => {
 };
 
 export default AgentRouter;
+

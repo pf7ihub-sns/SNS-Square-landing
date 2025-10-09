@@ -19,12 +19,12 @@ function InputSourceCard() {
       const maxSize = 10 * 1024 * 1024; // 10MB
 
       if (selectedFile.size > maxSize) {
-        setError('File size exceeds 10MB limit. Please choose a smaller file.');
+        setError("File size exceeds 10MB limit. Please choose a smaller file.");
         return;
       }
 
       setFile(selectedFile);
-      setTextInput(""); // Clear text input when file is selected
+      setTextInput("");
       setError(null);
     }
   };
@@ -32,7 +32,7 @@ function InputSourceCard() {
   const handleTextChange = (e) => {
     setTextInput(e.target.value);
     if (e.target.value.trim()) {
-      setFile(null); // Clear file when text is entered
+      setFile(null);
     }
   };
 
@@ -50,7 +50,7 @@ function InputSourceCard() {
     e.preventDefault();
 
     if (!textInput.trim() && !file) {
-      setError('Please provide either text input or select a file');
+      setError("Please provide either text input or select a file");
       return;
     }
 
@@ -66,22 +66,28 @@ function InputSourceCard() {
       formData.append('enable_refinement', enableRefinement.toString());
 
       if (textInput.trim()) {
-        formData.append('content', textInput);
+        formData.append("content", textInput);
       } else if (file) {
-        formData.append('file', file);
+        formData.append("file", file);
       }
 
-      const response = await axios.post('http://127.0.0.1:8000/faq_agent/faq', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        timeout: 120000, // 2 minutes timeout for large files
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/faq_agent/faq",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          timeout: 120000,
+        }
+      );
 
       setResult(response.data);
     } catch (err) {
-      console.error('FAQ generation error:', err);
-      setError(err.response?.data?.detail || err.message || 'An error occurred while generating FAQs');
+      console.error("FAQ generation error:", err);
+      setError(
+        err.response?.data?.detail ||
+          err.message ||
+          "An error occurred while generating FAQs"
+      );
     } finally {
       setLoading(false);
     }

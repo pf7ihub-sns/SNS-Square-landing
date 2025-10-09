@@ -92,6 +92,16 @@ export default {
               useCases: ["KYC", "Document analytics", "Content tagging"],
               description: ["Entity Extraction Tool processes text or uploaded documents to automatically identify and extract key entities such as people, dates, organizations, locations, and money values. It provides summaries, confidence scores, filtering options, and supports exporting results to CSV, Excel, or JSON for easy analysis and integration."],
               status: "available"
+            },
+            {
+              id:"ai-document",
+              name:"AI Document Agent", 
+              summary:"Interact with and extract information from documents using AI.",
+              image:"/images/agents/document 1.png",
+              solutions:["Document Q&A", "Information extraction", "Content summarization"],
+              useCases:["Legal documents", "Research papers", "Business reports"],
+              description:["AI Document Agent allows users to upload various document types (PDF, DOCX, TXT) and interact with them using natural language queries. It extracts key information, generates summaries, and provides insights based on the document content. The agent supports multiple formats and ensures accurate processing for effective document management."],
+              status:"available"
             }
           ]
         },
@@ -856,6 +866,26 @@ export default {
               id: "mom-generator-agent",
               name: "MoM Generator Agent",
               summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
+              id: "speech-to-text-mom",
+              name: "Speech to Text MOMAgent",
+              summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
+              id: "live-speech-to-text-mom",
+              name: "Live Speech to Text MOMAgent",
+              summary: "Live Generate Minutes of Meeting (MoM) documents from discussions.",
               image: "/placeholder.jpg",
               solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
               useCases: ["Team meetings", "Project updates", "Client calls"],
@@ -3520,6 +3550,15 @@ export default {
         {
           "id": "email-triage",
           "name": "Email Triage",
+          "summary": "Automate email sorting, prioritization, and response generation.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Email classification", "Priority tagging", "Response drafting"],
+          "useCases": ["Inbox management", "Customer support", "Internal communications"],
+          status: "available"
+        },
+        {
+          "id": "email-support",
+          "name": "Customer Support Email Responder Agent",
           "summary": "Automate email sorting, prioritization, and response generation.",
           "image": "/placeholder.jpg",
           "solutions": ["Email classification", "Priority tagging", "Response drafting"],
