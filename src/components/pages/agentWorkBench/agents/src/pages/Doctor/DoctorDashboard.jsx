@@ -44,7 +44,7 @@ export default function DoctorDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("../login/doctor");
+    navigate("agent-playground/agent/Doc-Sentra/");
   };
 
   const totalPages = Math.ceil(patients.length / itemsPerPage);
