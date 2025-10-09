@@ -69,6 +69,8 @@ import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
+import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";
 const AgentRouter = () => {
   const { agentId } = useParams();
 
@@ -141,6 +143,8 @@ const AgentRouter = () => {
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
+    "speech-to-text-mom":<SpeechtoTextMom/>,
+    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>
     
   };
 
