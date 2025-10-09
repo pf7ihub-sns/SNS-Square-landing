@@ -37,11 +37,11 @@ const BlogSidebar = ({
 
   // Default categories (you can load these from your backend)
   const [availableCategories, setAvailableCategories] = useState([
-    { id: 1, name: 'Uncategorized', count: 0 },
-    { id: 2, name: 'Technology', count: 5 },
-    { id: 3, name: 'Design', count: 3 },
-    { id: 4, name: 'Business', count: 7 },
-    { id: 5, name: 'Development', count: 12 }
+    { id: 1, name: 'Information Technology'},
+    { id: 2, name: 'Supply Chain'},
+    { id: 3, name: 'Healthcare'},
+    { id: 4, name: 'Human Resource'},
+    { id: 5, name: 'Insurance'},
   ])
 
   const toggleSection = (section) => {
@@ -267,7 +267,7 @@ const BlogSidebar = ({
       {/* Featured Image Section */}
       <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">Featured Image</h3>
+          <h4 className="font-medium text-gray-700">Featured Image</h4>
           <button 
             onClick={() => toggleSection('featuredImage')}
             className="text-gray-500 hover:text-gray-700"
@@ -340,7 +340,7 @@ const BlogSidebar = ({
       {/* Categories Section */}
       <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">Categories</h3>
+          <h4 className="font-medium text-gray-700">Categories</h4>
           <button 
             onClick={() => toggleSection('categories')}
             className="text-gray-500 hover:text-gray-700"
@@ -355,11 +355,8 @@ const BlogSidebar = ({
         {expandedSections.categories && (
           <div className="p-4">
             <div className="flex space-x-4 text-sm mb-4">
-              <button className="text-blue-600 font-medium border-b-2 border-blue-600 pb-1">
+              <button className="font-medium ">
                 All Categories
-              </button>
-              <button className="text-gray-500 hover:text-gray-700">
-                Most Used
               </button>
             </div>
             
@@ -375,7 +372,6 @@ const BlogSidebar = ({
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     />
                     <span className="text-gray-700">{category.name}</span>
-                    <span className="text-gray-400 text-xs">({category.count})</span>
                   </label>
                   {category.name !== 'Uncategorized' && (
                     <button
@@ -433,7 +429,7 @@ const BlogSidebar = ({
       {/* Tags Section */}
       <div className="bg-white border border-gray-300 rounded-lg shadow-sm">
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h3 className="font-semibold text-gray-900">Tags</h3>
+          <h4 className="font-medium text-gray-700">Tags</h4>
           <button 
             onClick={() => toggleSection('tags')}
             className="text-gray-500 hover:text-gray-700"
@@ -486,17 +482,14 @@ const BlogSidebar = ({
               </div>
             )}
             
-            <button className="text-blue-600 hover:text-blue-700 text-sm">
-              Choose from the most used tags
-            </button>
           </div>
         )}
       </div>
 
       {/* Post Statistics */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <h4 className="font-medium text-gray-700 mb-2">Post Statistics</h4>
-        <div className="space-y-1 text-sm text-gray-600">
+        <h4 className="font-medium text-gray-700">Post Statistics</h4>
+        <div className="space-y-1 text-sm text-gray-600 mt-4">
           <div className="flex justify-between">
             <span>Word count:</span>
             <span>{formData.content ? formData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0).length : 0}</span>

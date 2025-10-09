@@ -1,5 +1,5 @@
 // common/FreeRichTextEditor.jsx
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
@@ -7,6 +7,7 @@ import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import CharacterCount from '@tiptap/extension-character-count'
 import Placeholder from '@tiptap/extension-placeholder'
+import { Extension } from '@tiptap/core'
 import { 
   Bold, 
   Italic, 
@@ -27,6 +28,34 @@ import {
   Minimize
 } from 'lucide-react'
 
+// Custom extension to handle heading behavior
+const HeadingBehavior = Extension.create({
+  name: 'headingBehavior',
+  
+  addKeyboardShortcuts() {
+    return {
+      'Enter': ({ editor }) => {
+        const { state } = editor
+        const { selection } = state
+        const { $from } = selection
+        
+        // Check if we're in a heading
+        if ($from.parent.type.name.startsWith('heading')) {
+          // If at the end of a heading, create a new paragraph
+          if ($from.parentOffset === $from.parent.content.size) {
+            return editor.chain().focus().splitBlock().setParagraph().run()
+          }
+          // If in the middle of a heading, allow normal split
+          return editor.chain().focus().splitBlock().run()
+        }
+        
+        // Default behavior for non-headings
+        return false
+      }
+    }
+  }
+})
+
 const FreeRichTextEditor = forwardRef(({ 
   content, 
   onChange, 
@@ -35,14 +64,16 @@ const FreeRichTextEditor = forwardRef(({
 }, ref) => {
   const [activeView, setActiveView] = useState('visual')
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [currentFormat, setCurrentFormat] = useState('paragraph')
   
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3],
+          levels: [2, 3, 4, 5, 6],
         },
       }),
+      HeadingBehavior,
       Image.configure({
         inline: false,
         allowBase64: true,
@@ -78,6 +109,10 @@ const FreeRichTextEditor = forwardRef(({
     content: content || '',
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML())
+      updateCurrentFormat(editor)
+    },
+    onSelectionUpdate: ({ editor }) => {
+      updateCurrentFormat(editor)
     },
     editorProps: {
       attributes: {
@@ -89,6 +124,32 @@ const FreeRichTextEditor = forwardRef(({
       preserveWhitespace: 'full',
     },
   })
+
+  // Function to update current format based on cursor position
+  const updateCurrentFormat = (editor) => {
+    if (!editor) return
+    
+    if (editor.isActive('heading', { level: 2 })) {
+      setCurrentFormat('h2')
+    } else if (editor.isActive('heading', { level: 3 })) {
+      setCurrentFormat('h3')
+    } else if (editor.isActive('heading', { level: 4 })) {
+      setCurrentFormat('h4')
+    } else if (editor.isActive('heading', { level: 5 })) {
+      setCurrentFormat('h5')
+    } else if (editor.isActive('heading', { level: 6 })) {
+      setCurrentFormat('h6')
+    } else {
+      setCurrentFormat('paragraph')
+    }
+  }
+
+  // Initialize current format when editor is ready
+  useEffect(() => {
+    if (editor) {
+      updateCurrentFormat(editor)
+    }
+  }, [editor])
 
   // Expose editor instance through ref
   useImperativeHandle(ref, () => ({
@@ -245,21 +306,24 @@ const FreeRichTextEditor = forwardRef(({
               <select 
                 className="mr-3 p-2 border border-gray-300 rounded-md text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 onChange={(e) => {
-                  if (e.target.value === 'h1') editor.chain().focus().toggleHeading({ level: 1 }).run()
-                  else if (e.target.value === 'h2') editor.chain().focus().toggleHeading({ level: 2 }).run()
+                  if (e.target.value === 'h2') editor.chain().focus().toggleHeading({ level: 2 }).run()
                   else if (e.target.value === 'h3') editor.chain().focus().toggleHeading({ level: 3 }).run()
+                  else if (e.target.value === 'h4') editor.chain().focus().toggleHeading({ level: 4 }).run()
+                  else if (e.target.value === 'h5') editor.chain().focus().toggleHeading({ level: 5 }).run()
+                  else if (e.target.value === 'h6') editor.chain().focus().toggleHeading({ level: 6 }).run()
                   else editor.chain().focus().setParagraph().run()
+                  
+                  // Update the current format state
+                  setCurrentFormat(e.target.value)
                 }}
-                value={
-                  editor.isActive('heading', { level: 1 }) ? 'h1' :
-                  editor.isActive('heading', { level: 2 }) ? 'h2' :
-                  editor.isActive('heading', { level: 3 }) ? 'h3' : 'paragraph'
-                }
+                value={currentFormat}
               >
                 <option value="paragraph">Paragraph</option>
-                <option value="h1">Heading 1</option>
                 <option value="h2">Heading 2</option>
                 <option value="h3">Heading 3</option>
+                <option value="h4">Heading 4</option>
+                <option value="h5">Heading 5</option>
+                <option value="h6">Heading 6</option>
               </select>
 
               {/* Undo/Redo */}
@@ -519,19 +583,45 @@ const FreeRichTextEditor = forwardRef(({
         }
         
         .tiptap-editor .ProseMirror h2 {
-          font-size: 1.75em;
+          font-size: 1.875em;
+          font-weight: 700;
+          margin: 1.5em 0 0.75em 0;
+          line-height: 1.2;
+          color: #111827;
+        }
+        
+        .tiptap-editor .ProseMirror h3 {
+          font-size: 1.5em;
           font-weight: 600;
           margin: 1.25em 0 0.625em 0;
           line-height: 1.3;
           color: #1f2937;
         }
         
-        .tiptap-editor .ProseMirror h3 {
-          font-size: 1.375em;
+        .tiptap-editor .ProseMirror h4 {
+          font-size: 1.25em;
           font-weight: 600;
           margin: 1em 0 0.5em 0;
           line-height: 1.4;
           color: #374151;
+        }
+        
+        .tiptap-editor .ProseMirror h5 {
+          font-size: 1.125em;
+          font-weight: 600;
+          margin: 1em 0 0.5em 0;
+          line-height: 1.4;
+          color: #374151;
+        }
+        
+        .tiptap-editor .ProseMirror h6 {
+          font-size: 1em;
+          font-weight: 600;
+          margin: 1em 0 0.5em 0;
+          line-height: 1.4;
+          color: #4b5563;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
         
         .tiptap-editor .ProseMirror ul, 

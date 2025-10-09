@@ -51,43 +51,98 @@ const BlogDetail = () => {
   ];
 
   // AI Summary Options
+  const promptText = `Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`;
+  
   const aiSummaryOptions = [
     {
       name: 'ChatGPT',
       icon: <SiOpenai className="w-5 h-5" />,
-      url: `https://chatgpt.com/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
-      bgColor: 'bg-green-50 hover:bg-green-100',
-      textColor: 'text-green-600'
+      url: `https://chatgpt.com/?q=${encodeURIComponent(promptText)}`,
+      bgColor: 'bg-green-100 hover:bg-green-100',
+      textColor: 'text-green-600',
+      supportsUrlPrefill: true
+    },
+      {
+      name: 'Perplexity',
+      icon: <SiPerplexity className="w-5 h-5" />,
+      url: `https://www.perplexity.ai/?q=${encodeURIComponent(promptText)}`,
+      bgColor: 'bg-blue-100 hover:bg-blue-100',
+      textColor: 'text-blue-600',
+      supportsUrlPrefill: true
     },
     {
       name: 'Claude',
       icon: <SiClaude className="w-5 h-5" />,
-      url: `https://claude.ai/chat?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      url: `https://claude.ai/chat`,
       bgColor: 'bg-orange-50 hover:bg-orange-100',
-      textColor: 'text-orange-600'
+      textColor: 'text-orange-600',
+      supportsUrlPrefill: false,
+      fallbackAction: () => {
+        navigator.clipboard.writeText(promptText).then(() => {
+          window.open('https://claude.ai/chat', '_blank');
+          // Show a toast notification instead of alert
+          showToast('Prompt copied! Paste it in Claude and press Enter.');
+        });
+      }
     },
     {
       name: 'Grok',
       icon: <TbSparkles className="w-5 h-5" />,
-      url: `https://x.ai/grok?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      url: `https://x.com/i/grok`,
       bgColor: 'bg-gray-50 hover:bg-gray-100',
-      textColor: 'text-gray-600'
+      textColor: 'text-gray-600',
+      supportsUrlPrefill: false,
+      fallbackAction: () => {
+        navigator.clipboard.writeText(promptText).then(() => {
+          window.open('https://x.com/i/grok', '_blank');
+          showToast('Prompt copied! Paste it in Grok and press Enter.');
+        });
+      }
     },
+  
     {
-      name: 'Perplexity',
-      icon: <SiPerplexity className="w-5 h-5" />,
-      url: `https://www.perplexity.ai/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
-      bgColor: 'bg-blue-50 hover:bg-blue-100',
-      textColor: 'text-blue-600'
-    },
-    {
-      name: 'Google AI',
+      name: 'Gemini',
       icon: <SiGooglegemini className="w-5 h-5" />,
-      url: `https://gemini.google.com/?q=${encodeURIComponent(`Summarize this article in 100 words. Include 3–5 key takeaways that capture the main insights or actionable points. Keep the tone concise, clear, and informative.: ${currentUrl}`)}`,
+      url: `https://gemini.google.com/`,
       bgColor: 'bg-purple-50 hover:bg-purple-100',
-      textColor: 'text-purple-600'
+      textColor: 'text-purple-600',
+      supportsUrlPrefill: false,
+      fallbackAction: () => {
+        navigator.clipboard.writeText(promptText).then(() => {
+          window.open('https://gemini.google.com/', '_blank');
+          showToast('Prompt copied! Paste it in Gemini and press Enter.');
+        });
+      }
     }
   ];
+
+  // Toast notification function
+  const showToast = (message) => {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300';
+    toast.innerHTML = `
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span class="text-sm font-medium">${message}</span>
+      </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remove toast after 4 seconds
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, 20px)';
+      setTimeout(() => {
+        if (document.body.contains(toast)) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 4000);
+  };
 
   // ... (keep all existing useEffect and functions as they are) ...
 
@@ -777,29 +832,44 @@ const BlogDetail = () => {
                 {/* AI Platform Options - Horizontal Layout */}
                 <div className="flex flex-wrap gap-2 sm:gap-3">
                   {aiSummaryOptions.map((option, index) => (
-                    <a
-                      key={index}
-                      href={option.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all duration-200 hover:shadow-sm group flex-1 sm:flex-none min-w-0"
-                    >
-                      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
-                        <div className={option.textColor}>
-                          {React.cloneElement(option.icon, { className: "w-3 h-3 sm:w-5 sm:h-5" })}
+                    option.supportsUrlPrefill ? (
+                      <a
+                        key={index}
+                        href={option.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all duration-200 hover:shadow-sm group flex-1 sm:flex-none min-w-0"
+                      >
+                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
+                          <div className={option.textColor}>
+                            {React.cloneElement(option.icon, { className: "w-3 h-3 sm:w-5 sm:h-5" })}
+                          </div>
                         </div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{option.name}</span>
-                    </a>
+                        <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{option.name}</span>
+                      </a>
+                    ) : (
+                      <button
+                        key={index}
+                        onClick={option.fallbackAction}
+                        className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition-all duration-200 hover:shadow-sm group flex-1 sm:flex-none min-w-0"
+                      >
+                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-200 flex-shrink-0`}>
+                          <div className={option.textColor}>
+                            {React.cloneElement(option.icon, { className: "w-3 h-3 sm:w-5 sm:h-5" })}
+                          </div>
+                        </div>
+                        <span className="text-xs sm:text-sm font-medium text-gray-800 truncate">{option.name}</span>
+                      </button>
+                    )
                   ))}
                 </div>
                 
-                {/* <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                  <p className="text-blue-700">
-                    <TbSparkles className="w-3 h-3 inline mr-1" />
-                    <strong>Note:</strong> Clicking will open your chosen AI assistant with a pre-filled prompt to summarize this article.
-                  </p>
-                </div> */}
+                <div className="mt-4 p-3 rounded-lg border border-blue-100">
+                  <div className="text-gray-700">
+                    {/* <TbSparkles className="w-3 h-3" /> */}
+                    <h4 className='text-small'>How it works: ChatGPT & Perplexity will open with the prompt pre-filled. For Claude, Grok & Gemini, the prompt will be copied to your clipboard - just paste and press Enter!</h4>
+                </div>
+                </div>
               </div>
             </div>
 

@@ -555,7 +555,7 @@ const BlogSEOAnalyzer = ({ content, title, onTitleChange }) => {
       {/* Header */}
       <div className="p-4 border-b border-gray-300 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Professional SEO Analyzer</h3>
+          <h4 className="text-sm font-medium text-gray-700">Professional SEO Analyzer</h4>
           <div className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(seoData.score)} bg-white border`}>
             {seoData.score}/100
           </div>
@@ -566,7 +566,7 @@ const BlogSEOAnalyzer = ({ content, title, onTitleChange }) => {
         {/* Enhanced Preview Section with Editing */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h4 className="font-medium text-gray-900">Search Preview</h4>
+            <h5 className="text-sm font-medium text-gray-700">Search Preview</h5>
             {!editMode.snippet ? (
               <button 
                 onClick={startEditingSnippet}
