@@ -2166,6 +2166,15 @@ export default {
               status: "available"
             },
             {
+              id: "contract-management-system",
+              name: "Contract Management System",
+              summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+              image: "/placeholder.jpg",
+              solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+              useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+              status: "available"
+            },
+            {
               id: "civil-law-property-dispute",
               name: "Property & Land Dispute Management",
               summary: "Streamline dispute intake, title verification, evidence collection, and court filings.",

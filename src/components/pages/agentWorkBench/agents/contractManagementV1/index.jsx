@@ -1,17 +1,27 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ContractManagementAiAgentWorkflow from './contractManagementAiAgentWorkflow';
 import ContractManagementAiAgentWorkflowDashboard from './ContractManagementAiAgentWorkflowDashboard';
 import ApprovalResult from './approvalResult';
 
 const ContractManagementV1 = () => {
-  return (
-    <Routes>
-      <Route index element={<ContractManagementAiAgentWorkflow />} />
-      <Route path="dashboard" element={<ContractManagementAiAgentWorkflowDashboard />} />
-      <Route path="approval-result" element={<ApprovalResult />} />
-    </Routes>
-  );
+  const location = useLocation();
+  
+  // Extract the sub-path from the current location
+  const path = location.pathname.replace('/agent-playground/agent/contract-management-v1', '') || '/';
+  
+  // Render different components based on the current path
+  switch (path) {
+    case '/':
+    case '':
+      return <ContractManagementAiAgentWorkflow />;
+    case '/dashboard':
+      return <ContractManagementAiAgentWorkflowDashboard />;
+    case '/approval-result':
+      return <ApprovalResult />;
+    default:
+      return <ContractManagementAiAgentWorkflow />;
+  }
 };
 
 export default ContractManagementV1;
