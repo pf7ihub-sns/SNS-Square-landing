@@ -119,88 +119,89 @@ export default function DoctorDashboard() {
               </p>
             </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 bg-slate-50">
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    S.no
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Phone
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Age
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Gender
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Scheduled Time
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Visit Date
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white">
-                {paginatedPatients.length > 0 ? (
-                  paginatedPatients.map((p, index) => (
-                    <tr
-                      key={p.appointment_id}
-                      className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
-                    >
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {startIndex + index + 1}
-                      </td>
-                      <td className="px-4 py-3 text-slate-900 text-xs font-medium">
-                        {p.name || "Unknown"}
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {p.phone || "-"}
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {p.age || "-"}
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {p.gender || "-"}
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {formatDateTime(p.scheduled_time)}
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {formatDateTime(p.visit_date)}
-                      </td>
-                      <td className="px-4 py-3">
-                        <button
-                          onClick={() => handleViewPatient(p.patient_id, p.visit_id)}
-                          className="text-blue-600 hover:text-blue-700 font-medium text-xs transition-colors"
-                        >
-                          Consult
-                        </button>
-                      </td>
+            {/* Table or Empty State */}
+            {patients.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-200 bg-slate-50">
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        S.no
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Phone
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Age
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Gender
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Scheduled Time
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Visit Date
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600">
+                        Action
+                      </th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="8"
-                      className="text-center py-12 text-slate-500 text-sm"
-                    >
-                      No patients assigned
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  </thead>
+                  <tbody className="bg-white">
+                    {paginatedPatients.map((p, index) => (
+                      <tr
+                        key={p.appointment_id}
+                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                      >
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {startIndex + index + 1}
+                        </td>
+                        <td className="px-4 py-3 text-slate-900 text-xs font-medium">
+                          {p.name || "Unknown"}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {p.phone || "-"}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {p.age || "-"}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {p.gender || "-"}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {formatDateTime(p.scheduled_time)}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {formatDateTime(p.visit_date)}
+                        </td>
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => handleViewPatient(p.patient_id, p.visit_id)}
+                            className="text-blue-600 hover:text-blue-700 font-medium text-xs transition-colors"
+                          >
+                            Consult
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">No Patients yet!</h3>
+                <p className="text-sm text-slate-500">Patient will appear here when they arrive</p>
+              </div>
+            )}
 
           {/* Pagination */}
           {patients.length > 0 && (
