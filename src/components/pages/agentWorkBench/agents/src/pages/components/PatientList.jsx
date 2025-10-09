@@ -49,38 +49,44 @@ export default function PatientList({ patients, loading, error }) {
                 key={patient.patient_id}
                 to={`../patient-profile/${patient.patient_id}`}
                 relative="path"
-                className="rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group border border-gray-200"
+                className="rounded-xl p-4  transition-all duration-300  group border"
                 style={{ 
-                  backgroundColor: '#E8F0FF',
+                  backgroundColor: '#F3F7FF',
+                  borderColor: '#A4C3FF',
                   animationDelay: `${index * 50}ms` 
                 }}
                 aria-label={`View profile for ${patient.full_name}`}
               >
                 {/* Patient ID and Age */}
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-blue-600 font-bold text-sm">
-                    {patient.patient_id}
-                  </span>
-                  <span className="text-gray-900 font-semibold text-sm">
-                    Age: {patient.age}
-                  </span>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="bg-white px-2.5 py-1.5 rounded-md">
+                    <span className="text-blue-600 font-bold text-xs">
+                      {patient.patient_id}
+                    </span>
+                  </div>
+                  <div className="bg-white px-2.5 py-1.5 rounded-md">
+                    <span className="text-gray-900 font-semibold text-xs">
+                      Age: {patient.age}
+                    </span>
+                  </div>
                 </div>
                 
                 {/* Patient Name */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
                   {patient.full_name}
                 </h3>
                 
                 {/* Gender and Registered in same line */}
-                <div className="flex items-center text-sm text-gray-600 mb-6">
+                <div className="flex items-center text-base text-gray-600 mb-4">
                   <span className="flex items-center">
-                    <span className="font-medium">Gender:</span>
-                    <span className="ml-1 font-semibold text-gray-900">{patient.gender}</span>
+                    <span className="mx-1.5">•</span>
+                    <span className="font-regular">Gender:</span>
+                    <span className="ml-1 font-medium text-gray-900">{patient.gender}</span>
                   </span>
-                  <span className="mx-2">•</span>
+                  <span className="mx-1.5">•</span>
                   <span className="flex items-center">
-                    <span className="font-medium">Registered:</span>
-                    <span className="ml-1 font-semibold text-gray-900">
+                    <span className="font-regular">Registered:</span>
+                    <span className="ml-1 font-medium text-gray-900">
                       {new Date(patient.registration_timestamp).toLocaleDateString('en-US', { 
                         day: '2-digit',
                         month: '2-digit',
@@ -91,7 +97,7 @@ export default function PatientList({ patients, loading, error }) {
                 </div>
                 
                 {/* View Profile Button */}
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-sm">
                   View Profile
                 </button>
               </Link>

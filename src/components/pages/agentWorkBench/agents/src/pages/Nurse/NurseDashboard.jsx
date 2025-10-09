@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { LogOut, UserPlus, Users, Search, Filter, ChevronLeft, ArrowUpDown, X } from "lucide-react";
+import { LogOut, UserPlus, Users, Search, Filter, ChevronLeft, ChevronDown, X, ArrowDownAZ } from "lucide-react";
 import PatientList from "../components/PatientList";
 
 export default function NurseDashboard() {
@@ -150,7 +150,7 @@ export default function NurseDashboard() {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
+      <div className="mx-auto px-6 lg:px-8 py-8 lg:py-12" style={{ maxWidth: '89rem' }}>
         {/* Card 1: Welcome Section */}
         <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -209,13 +209,13 @@ export default function NurseDashboard() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="appearance-none pl-3 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
+                  className="appearance-none pl-3 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
                 >
                   <option value="name">Name (A-Z)</option>
                   <option value="age">Age</option>
                   <option value="date">Date</option>
                 </select>
-                <ArrowUpDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+                <ArrowDownAZ className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
               </div>
 
               {/* Filter Button */}
@@ -255,33 +255,39 @@ export default function NurseDashboard() {
               {/* Filter Options */}
               <div className="space-y-5">
                 {/* Gender Filter */}
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-semibold text-gray-900 mb-3">Gender</label>
                   <select
                     value={genderFilter}
                     onChange={(e) => setGenderFilter(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium appearance-none"
                   >
-                    <option value="">Age Id (Lower/Lower)</option>
+                    <option value="">All</option> 
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
+                  <div className="absolute right-3 top-[calc(50%+12px)] -translate-y-1/2 rounded-md p-1.5 pointer-events-none flex items-center justify-center" style={{ backgroundColor: '#EFEFEF' }}>
+                    <ChevronDown className="w-5 h-5" style={{ color: '#555E67' }} />
+                  </div>
                 </div>
 
                 {/* Age Group Filter */}
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-semibold text-gray-900 mb-3">Age Group</label>
                   <select
                     value={ageFilter}
                     onChange={(e) => setAgeFilter(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium appearance-none"
                   >
                     <option value="all">Adults</option>
                     <option value="0">Children (0-17)</option>
                     <option value="1">Adults (18-64)</option>
                     <option value="2">Seniors (65+)</option>
                   </select>
+                  <div className="absolute right-3 top-[calc(50%+12px)] -translate-y-1/2 rounded-md p-1.5 pointer-events-none flex items-center justify-center" style={{ backgroundColor: '#EFEFEF' }}>
+                    <ChevronDown className="w-5 h-5" style={{ color: '#555E67' }} />
+                  </div>
                 </div>
               </div>
 
