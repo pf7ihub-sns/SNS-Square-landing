@@ -79,7 +79,7 @@ const AdminDashboard = () => {
       title: 'AI in Modern Web Development',
       time: '2 hours ago',
       status: 'published',
-      user: 'Marcus',
+      
       details: '156 views, 12 comments',
       priority: 'high'
     },
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
       title: 'Senior React Developer',
       time: '4 hours ago',
       status: 'active',
-      user: 'Marcus',
+
       details: '23 applications received',
       priority: 'medium'
     },
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
       title: 'E-commerce Platform Solution',
       time: '1 day ago',
       status: 'published',
-      user: 'Marcus',
+
       details: '89 downloads this week',
       priority: 'low'
     },
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
       title: 'Future of Frontend Development',
       time: '2 days ago',
       status: 'draft',
-      user: 'Marcus',
+
       details: 'Ready for review',
       priority: 'medium'
     },
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
       title: 'Mobile App Development',
       time: '1 week ago',
       status: 'published',
-      user: 'Marcus',
+
       details: '245 views, 34 shares',
       priority: 'low'
     },
@@ -264,10 +264,10 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      {/* <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Left side - Navigation */}
+
             <div className="flex items-center space-x-6">
               <div className="text-sm text-gray-500">
                 <span>Dashboard</span>
@@ -276,8 +276,6 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-
-            {/* Center - Search */}
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -290,7 +288,6 @@ const AdminDashboard = () => {
             </div>
 
 
-            {/* Right side - User menu */}
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <Bell className="w-5 h-5 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors" />
@@ -307,7 +304,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
       {/* Main Content */}
@@ -340,14 +337,14 @@ const AdminDashboard = () => {
             </div>
             <div className="flex space-x-3">
               <Link
-                to="/admin/blogs/new"
+                to="/admin/blog/new"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>New Blog</span>
               </Link>
               <Link
-                to="/admin/jobs/new"
+                to="/admin/jobopenings/newJob"
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
               >
                 <Plus className="w-4 h-4" />
@@ -378,19 +375,19 @@ const AdminDashboard = () => {
 
 
         {/* Main Content Section - Content Management (Left) + Recent Activity (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Content Management Cards - Left Side (Stacked Vertically) */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Content Management</h3>
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">Content Management</h3>
                 <p className="text-sm text-gray-500">Manage all your content from here</p>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-3">
                 {/* Blog Management Card */}
-                <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                         <FileText className="w-5 h-5 text-blue-600" />
@@ -408,30 +405,30 @@ const AdminDashboard = () => {
                     </Link>
                   </div>
                   
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-3">
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">Total Blogs</span>
-                      <span className="text-xl font-bold text-gray-900">{cmsStats.blogs.total}</span>
+                      <span className="text-lg font-bold text-gray-900">{cmsStats.blogs.total}</span>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2">
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <CheckCircle className="w-4 h-4 text-green-600 mr-1" />
-                          <span className="text-base font-bold text-green-600">{cmsStats.blogs.published}</span>
+                          <CheckCircle className="w-3 h-3 text-green-600 mr-1" />
+                          <span className="text-sm font-bold text-green-600">{cmsStats.blogs.published}</span>
                         </div>
                         <p className="text-xs text-gray-500">Published</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <Clock className="w-4 h-4 text-yellow-600 mr-1" />
-                          <span className="text-base font-bold text-yellow-600">{cmsStats.blogs.drafts}</span>
+                          <Clock className="w-3 h-3 text-yellow-600 mr-1" />
+                          <span className="text-sm font-bold text-yellow-600">{cmsStats.blogs.drafts}</span>
                         </div>
                         <p className="text-xs text-gray-500">Drafts</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <Eye className="w-4 h-4 text-blue-600 mr-1" />
-                          <span className="text-base font-bold text-blue-600">{cmsStats.blogs.views.toLocaleString()}</span>
+                          <Eye className="w-3 h-3 text-blue-600 mr-1" />
+                          <span className="text-sm font-bold text-blue-600">{cmsStats.blogs.views.toLocaleString()}</span>
                         </div>
                         <p className="text-xs text-gray-500">Views</p>
                       </div>
@@ -439,7 +436,7 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Link
-                    to="/admin/blogs/new"
+                    to="/admin/blog/new"
                     className="w-full bg-blue-50 text-blue-600 hover:bg-blue-100 py-2 px-4 rounded-lg text-sm font-medium text-center block transition-colors"
                   >
                     Create New Blog
@@ -447,8 +444,8 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Job Openings Card */}
-                <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                         <Briefcase className="w-5 h-5 text-green-600" />
@@ -466,30 +463,30 @@ const AdminDashboard = () => {
                     </Link>
                   </div>
                   
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-3">
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">Total Jobs</span>
-                      <span className="text-xl font-bold text-gray-900">{cmsStats.jobs.total}</span>
+                      <span className="text-lg font-bold text-gray-900">{cmsStats.jobs.total}</span>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2">
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <CheckCircle className="w-4 h-4 text-green-600 mr-1" />
-                          <span className="text-base font-bold text-green-600">{cmsStats.jobs.active}</span>
+                          <CheckCircle className="w-3 h-3 text-green-600 mr-1" />
+                          <span className="text-sm font-bold text-green-600">{cmsStats.jobs.active}</span>
                         </div>
                         <p className="text-xs text-gray-500">Active</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <XCircle className="w-4 h-4 text-gray-600 mr-1" />
-                          <span className="text-base font-bold text-gray-600">{cmsStats.jobs.closed}</span>
+                          <XCircle className="w-3 h-3 text-gray-600 mr-1" />
+                          <span className="text-sm font-bold text-gray-600">{cmsStats.jobs.closed}</span>
                         </div>
                         <p className="text-xs text-gray-500">Closed</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <Users className="w-4 h-4 text-blue-600 mr-1" />
-                          <span className="text-base font-bold text-blue-600">{cmsStats.jobs.applications}</span>
+                          <Users className="w-3 h-3 text-blue-600 mr-1" />
+                          <span className="text-sm font-bold text-blue-600">{cmsStats.jobs.applications}</span>
                         </div>
                         <p className="text-xs text-gray-500">Applications</p>
                       </div>
@@ -497,7 +494,7 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Link
-                    to="/admin/jobs/new"
+                    to="/admin/jobopenings/newJob"
                     className="w-full bg-green-50 text-green-600 hover:bg-green-100 py-2 px-4 rounded-lg text-sm font-medium text-center block transition-colors"
                   >
                     Post New Job
@@ -505,8 +502,8 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Use Cases Card */}
-                <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                         <Target className="w-5 h-5 text-purple-600" />
@@ -524,30 +521,30 @@ const AdminDashboard = () => {
                     </Link>
                   </div>
                   
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-3">
+                  <div className="mb-3">
+                    <div className="flex justify-between items-center mb-2">
                       <span className="text-sm text-gray-600">Total Cases</span>
-                      <span className="text-xl font-bold text-gray-900">{cmsStats.useCases.total}</span>
+                      <span className="text-lg font-bold text-gray-900">{cmsStats.useCases.total}</span>
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2">
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <CheckCircle className="w-4 h-4 text-green-600 mr-1" />
-                          <span className="text-base font-bold text-green-600">{cmsStats.useCases.published}</span>
+                          <CheckCircle className="w-3 h-3 text-green-600 mr-1" />
+                          <span className="text-sm font-bold text-green-600">{cmsStats.useCases.published}</span>
                         </div>
                         <p className="text-xs text-gray-500">Published</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <Clock className="w-4 h-4 text-yellow-600 mr-1" />
-                          <span className="text-base font-bold text-yellow-600">{cmsStats.useCases.drafts}</span>
+                          <Clock className="w-3 h-3 text-yellow-600 mr-1" />
+                          <span className="text-sm font-bold text-yellow-600">{cmsStats.useCases.drafts}</span>
                         </div>
                         <p className="text-xs text-gray-500">Drafts</p>
                       </div>
                       <div className="text-center">
                         <div className="flex items-center justify-center mb-1">
-                          <BarChart3 className="w-4 h-4 text-blue-600 mr-1" />
-                          <span className="text-base font-bold text-blue-600">{cmsStats.useCases.downloads}</span>
+                          <BarChart3 className="w-3 h-3 text-blue-600 mr-1" />
+                          <span className="text-sm font-bold text-blue-600">{cmsStats.useCases.downloads}</span>
                         </div>
                         <p className="text-xs text-gray-500">Downloads</p>
                       </div>
@@ -555,7 +552,7 @@ const AdminDashboard = () => {
                   </div>
                   
                   <Link
-                    to="/admin/usecases/new"
+                    to="/admin/usecase"
                     className="w-full bg-purple-50 text-purple-600 hover:bg-purple-100 py-2 px-4 rounded-lg text-sm font-medium text-center block transition-colors"
                   >
                     Add Use Case
@@ -632,7 +629,7 @@ const AdminDashboard = () => {
                         <p className="text-xs text-gray-500">{activity.details}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className="text-xs text-gray-400">{activity.time}</span>
-                          <span className="text-xs text-gray-500">by {activity.user}</span>
+
                         </div>
                       </div>
                     </div>
@@ -641,7 +638,7 @@ const AdminDashboard = () => {
               </div>
 
               {/* Performance Insights */}
-              <div className="mb-6 pt-4 border-t border-gray-200">
+              <div className="mb-1 pt-4 border-t border-gray-200">
                 <p className="text-sm font-medium text-gray-700 mb-3">Performance Insights</p>
                 <div className="space-y-3">
                   {performanceMetrics.map((metric, index) => (
@@ -661,7 +658,7 @@ const AdminDashboard = () => {
               </div>
 
               {/* Quick Actions */}
-              <div className="pt-4 border-t border-gray-200">
+              {/* <div className="pt-4 border-t border-gray-200">
                 <p className="text-sm font-medium text-gray-700 mb-3">Quick Actions</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Link
@@ -679,7 +676,7 @@ const AdminDashboard = () => {
                     <span>View All</span>
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
