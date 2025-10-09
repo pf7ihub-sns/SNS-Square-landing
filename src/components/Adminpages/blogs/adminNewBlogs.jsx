@@ -141,9 +141,24 @@ const AddNewPost = () => {
       return
     }
     
-    const slug = generateSlug(formData.title)
-    // Open preview in new tab
-    window.open(`/blog/${slug}`, '_blank')
+    if (!formData.content) {
+      showNotification('error', 'Please add content before previewing')
+      return
+    }
+    
+    // Store the blog data in sessionStorage for preview
+    const previewData = {
+      ...formData,
+      slug: generateSlug(formData.title),
+      status: 'preview',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+    
+    sessionStorage.setItem('blog_preview_data', JSON.stringify(previewData))
+    
+    // Open preview in new tab with a special preview route
+    window.open(`/admin/blog/preview`, '_blank')
   }
 
   const publishPost = async () => {

@@ -34,6 +34,7 @@ import AdminBlog from "../pages/admin/blogsPage";
 import AdminCareer from "../pages/admin/jobOpenings";
 import NotFound from "../pages/notFound/index";
 import AllBlogsPage from "../pages/admin/allBlogsPage";
+import BlogPreview from "../components/Adminpages/blogs/BlogPreview";
 
 export default function AppRoutes() {
   const { pathname, hash } = useLocation();
@@ -101,6 +102,12 @@ export default function AppRoutes() {
       <Route path="/admin/blog/edit/:blogId" element={
         <RoleBasedRoute allowedRoles={['admin']}>
           <AdminBlog />
+        </RoleBasedRoute>
+      } />
+
+      <Route path="/admin/blog/preview" element={
+        <RoleBasedRoute allowedRoles={['admin']}>
+          <BlogPreview />
         </RoleBasedRoute>
       } />
 

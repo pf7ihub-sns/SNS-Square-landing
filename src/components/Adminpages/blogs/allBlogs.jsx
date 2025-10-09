@@ -354,7 +354,7 @@ const AllBlogs = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => window.open(`/blog/preview/${blog.slug}`, '_blank')}
+                            onClick={() => window.open(`/resources/blog/${blog.slug}`, '_blank')}
                             className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
                             title="Preview"
                           >
