@@ -184,40 +184,34 @@ export default function DoctorDashboard() {
       </div>
 
       {/* Main Content */}
-      <main className="px-6 py-6">
-        {/* Main Container Box - Contains Welcome + Patients */}
-        <div className="bg-white border border-slate-200 rounded-lg">
-          {/* Welcome Section */}
-          <div className="p-8 border-b border-slate-200">
-            <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-                  Welcome, {user.name || "Doctor"}!
-                </h1>
-                <p className="text-base text-slate-500">
-                  Let's provide the best care for your patients today.
-                </p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 border border-slate-300 hover:bg-slate-100 text-slate-700 py-2.5 px-5 rounded-lg transition-all duration-200 text-base font-medium shadow-sm hover:shadow"
-              >
-                <LogOut className="w-5 h-5" />
-                Logout
-              </button>
+      <main className="mx-auto px-6 lg:px-8 py-8 lg:py-12" style={{ maxWidth: '89rem' }}>
+        {/* Card 1: Welcome Section */}
+        <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            {/* Left Side - Welcome Text */}
+            <div className="flex-1">
+              <h2 className="text-2xl font-semibold text-slate-900 mb-2">
+                Welcome, {user.name || "Doctor"}!
+              </h2>
+              <p className="text-base text-slate-500 font-regular">Let's provide the best care for your patients today.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Patients Section */}
+        <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+            {/* Left Side - Section Info */}
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Your Patients <span className="text-blue-600 text-base ml-2">Total: {patients.length}</span>
+              </h3>
+              <p className="text-sm text-gray-600">Here's the list of patients scheduled for your consultation today.</p>
             </div>
           </div>
 
-          {/* Patients Section */}
-          <div className="p-8">
-            <div className="mb-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-2">
-                Your Patients <span className="text-blue-600 text-base ml-2">Total: {patients.length}</span>
-              </h2>
-              <p className="text-sm text-slate-500">
-                Here's the list of patients scheduled for your consultation today.
-              </p>
-            </div>
+          {/* Divider Line */}
+          <div className="border-t border-gray-200 mb-8"></div>
 
             {/* Table or Empty State */}
             {patients.length > 0 ? (
@@ -225,28 +219,28 @@ export default function DoctorDashboard() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-slate-200 bg-slate-50">
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         S.no
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Name
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Phone
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Age
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Gender
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Scheduled Time
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Visit Date
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-semibold text-slate-600">
+                      <th className="px-4 py-3 text-left text-[17px] font-semibold text-slate-1000">
                         Action
                       </th>
                     </tr>
@@ -257,25 +251,25 @@ export default function DoctorDashboard() {
                         key={p.appointment_id}
                         className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
                       >
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-1000 text-[16px] font-regular">
                           {startIndex + index + 1}
                         </td>
-                        <td className="px-4 py-3 text-slate-900 text-sm font-medium">
+                        <td className="px-4 py-3 text-slate-900 text-[16px] font-medium">
                           {p.name || "Unknown"}
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-700 text-[16px] font-regular">
                           {p.phone || "-"}
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-700 text-[16px] font-regular">
                           {p.age || "-"}
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-700 text-[16px] font-regular">
                           {p.gender || "-"}
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-700 text-[16px] font-regular">
                           {formatTime(p.scheduled_time)}
                         </td>
-                        <td className="px-4 py-3 text-slate-700 text-sm">
+                        <td className="px-4 py-3 text-slate-700 text-[16px] font-regular">
                           {formatDate(p.visit_date)}
                         </td>
                         <td className="px-4 py-3">
@@ -337,6 +331,15 @@ export default function DoctorDashboard() {
               </button>
             </div>
           )}
+
+          {/* Logout Button - Below Pagination */}
+          <div className="mt-8 pt-6 border-t border-slate-200 flex justify-left">
+            <button
+              onClick={handleLogout}
+              className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </main>
