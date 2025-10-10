@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { SquareChevronLeft } from 'lucide-react';
+import { FaCheckCircle } from 'react-icons/fa';
 import moment from "moment";
 
 // --- Sub-components for repeatable elements ---
@@ -130,6 +131,7 @@ const PatientProfile = () => {
   const [error, setError] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showAddVisitModal, setShowAddVisitModal] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [newVisitData, setNewVisitData] = useState({
     visitDate: moment().format("YYYY-MM-DD"),
@@ -411,15 +413,25 @@ const PatientProfile = () => {
       await axios.post(`${API_BASE_URL}/patients/${patientId}/visits`, newVisitData, {
         headers: { Authorization: token ? `Bearer ${token}` : "" },
       });
-      alert("New checkup history added successfully!");
+      
+      // Show success popup
       setShowAddVisitModal(false);
+      setShowSuccessPopup(true);
+      
+      // Reset form data
       setNewVisitData({
         visitDate: moment().format("YYYY-MM-DD"),
         reasonForVisit: "",
         doctorNotes: "",
         vitals: {}, labResults: [], prescriptions: [], lifestyleSuggestions: ""
       });
-      fetchPatientData();
+      
+      // Hide popup after 3 seconds and refresh data
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        fetchPatientData();
+      }, 3000);
+      
     } catch (err) {
       console.error("Add Visit Error:", err);
       setError(err.response?.data?.detail || "Failed to add checkup history");
@@ -1135,6 +1147,20 @@ const PatientProfile = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl animate-fade-in">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaCheckCircle className="text-green-500 text-5xl" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Success!</h3>
+            <p className="text-gray-600">New checkup history added successfully.</p>
+            <p className="text-sm text-gray-500 mt-2">Refreshing data...</p>
           </div>
         </div>
       )}

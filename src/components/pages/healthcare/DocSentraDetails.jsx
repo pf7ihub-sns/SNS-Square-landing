@@ -193,7 +193,8 @@ const DocSentraDetails = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-xl text-[#6E757E] mb-10 max-w-2xl mx-auto leading-relaxed px-4"
           >
-            {docSentraData.summary}
+            AI-driven healthcare automation platform with clinical intelligence<br />
+            enhancing patient care, diagnosis accuracy, and operational efficiency.
           </motion.p>
 
           <motion.button
