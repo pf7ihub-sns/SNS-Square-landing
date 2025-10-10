@@ -175,5 +175,3 @@ const IdeaSuiteSection = () => {
 };
 
 export default IdeaSuiteSection;
-
-
