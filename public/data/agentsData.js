@@ -873,6 +873,26 @@ export default {
               status: "available"
             },
             {
+              id: "speech-to-text-mom",
+              name: "Speech to Text MOMAgent",
+              summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
+              id: "live-speech-to-text-mom",
+              name: "Live Speech to Text MOMAgent",
+              summary: "Live Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
               id: "report-generator-agent",
               name: "Report Generator Agent",
               summary: "Generate reports from various data sources.",
@@ -2478,9 +2498,9 @@ export default {
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
             },
             {
-              id: "Appointment-management",
-              name: "Appointment Management",
-              summary: "Book and manage healthcare appointments",
+              id: "Doc-Sentra",
+              name: "DocSentra",
+              summary: "Doctor Assistant",
               image: "/placeholder.jpg",
               solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],

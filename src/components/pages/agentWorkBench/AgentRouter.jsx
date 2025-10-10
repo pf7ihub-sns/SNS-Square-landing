@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import MultiLanguageChat from "./agents/multiLanguageBot";
 import IdeaRefinementUI from "./agents/ideaRefinement";
 import AgentDisplay from "./AgentDisplay";
@@ -69,8 +69,13 @@ import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
+import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
+import AiSheets from "./agents/aiSheets";
+
 const AgentRouter = () => {
   const { agentId } = useParams();
+  const location = useLocation();
 
   // Map known agent ids to components
   const agentIdToComponent = {
@@ -107,8 +112,8 @@ const AgentRouter = () => {
     "content-validation-agent": <ContentValidation />,
     "general-chat": <GeneralChat />,
     "ai-chat": <AIChat />,
-    
-    "logic-validation-agent": <LogicValidation />,
+    "Doc-Sentra": <DocSentra />,
+
     "data-generation-agent": <DataGeneration />,
     "data-profiling-agent": <DataProfiling />,
     "schema-generator-agent": <SchemaGenerator />,
@@ -143,9 +148,27 @@ const AgentRouter = () => {
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
+    "speech-to-text-mom":<SpeechtoTextMom/>,
+    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>,
+    "ai-sheets" : <AiSheets/>,
+    
   };
 
-  return agentIdToComponent[agentId] || <AgentDisplay />;
+  // Lookup case-insensitive
+  const normalized = Object.keys(agentIdToComponent).reduce((acc, k) => {
+    acc[k.toLowerCase()] = agentIdToComponent[k];
+    return acc;
+  }, {});
+
+  const key = (agentId || "").toString();
+  const decoded = decodeURIComponent(key);
+
+  // Special handling for DocSentra with nested routes
+  if (decoded.toLowerCase() === 'doc-sentra' || key.toLowerCase() === 'doc-sentra') {
+    return <DocSentra />;
+  }
+
+  return normalized[decoded.toLowerCase()] || normalized[key.toLowerCase()] || <AgentDisplay />;
 };
 
 export default AgentRouter;

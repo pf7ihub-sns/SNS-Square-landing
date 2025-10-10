@@ -16,10 +16,14 @@ import AgentDisplay from "../components/pages/agentWorkBench/AgentDisplay";
 import AgentRouter from "../components/pages/agentWorkBench/AgentRouter";
 import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
+import DocSentra from "../components/pages/agentWorkBench/agents/docSentra";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
+// import MomLiveSpeechToText from "../components/pages/agentWorkBench/agents/MomLiveSpeechToText";
+import EnhancedLiveTranscription from "../components/pages/agentWorkBench/agents/EnhancedLiveTranscription";
+import SpeechToTxtAgent from "../components/pages/agentWorkBench/agents/SpeechToTxtAgent";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -30,7 +34,9 @@ export default function AppRoutes() {
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
       <Route path="/agent-details/:agentId" element={<AgentDetailsModelPage />} />
-      
+
+      <Route path="/live-speech-to-text" element={<EnhancedLiveTranscription />} />
+      <Route path="/speech_to_txt_agent" element={<SpeechToTxtAgent />} />
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
         <ProtectedRoute>
@@ -89,6 +95,7 @@ export default function AppRoutes() {
       <Route path="/agent-playground" element={<AgentPlayGround />} />
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
+      <Route path="/agent-playground/agent/:agentId/*" element={<AgentRouter />} />
       
       <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
@@ -105,6 +112,8 @@ export default function AppRoutes() {
           <AgentsDetails />
         </ProtectedRoute>
       } />
+      {/* Global DocSentra nurse new-patient route */}
+      <Route path="/nurse/new-patient/*" element={<DocSentra />} />
     </Routes>
   );
 }
