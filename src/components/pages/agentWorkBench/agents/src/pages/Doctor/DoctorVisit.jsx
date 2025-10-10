@@ -723,7 +723,7 @@ const DoctorVisit = () => {
           <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6 flex items-center justify-center">
             <h2 className="text-base font-bold text-blue-600 flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
-              All Visit
+              All Visits
             </h2>
           </div>
 

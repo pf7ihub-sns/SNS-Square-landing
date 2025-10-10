@@ -116,7 +116,7 @@ export default function NurseDashboard() {
   return (
     <div className="min-h-screen bg-slate-50 font-manrope pt-20">
       {/* Back Navigation */}
-      <div className="px-6 pt-8 pb-2">
+      <div className="px-6 pt-6 pb-1">
         <button 
           onClick={() => window.location.href = 'http://localhost:5173/agent-playground/agent/Doc-Sentra'}
           className="flex items-center gap-2 text-slate-700 hover:text-slate-900 px-3 py-2"
@@ -129,7 +129,7 @@ export default function NurseDashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto px-6 lg:px-8 py-8 lg:py-12" style={{ maxWidth: '89rem' }}>
+      <div className="mx-auto px-6 lg:px-8 py-2 lg:py-3" style={{ maxWidth: '89rem' }}>
         {/* Card 1: Welcome Section */}
         <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">

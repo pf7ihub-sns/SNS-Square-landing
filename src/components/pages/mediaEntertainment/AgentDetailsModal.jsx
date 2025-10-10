@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../../../store/store';
 import agentsData from '../../../../public/data/agentsDataView';
 import Right from "../../../../public/images/rightclick.png";
+import DocSentraDetails from '../healthcare/DocSentraDetails';
 
 const AgentDetailsPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,12 @@ const AgentDetailsPage = () => {
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/', { replace: true });
+      return;
+    }
+
+    // Handle DocSentra specifically
+    if (agentId === 'Doc-Sentra') {
+      setIsLoading(false);
       return;
     }
 
@@ -91,6 +98,11 @@ const AgentDetailsPage = () => {
   };
 
   const otherAgents = getOtherAgents();
+
+  // Handle DocSentra specifically
+  if (agentId === 'Doc-Sentra') {
+    return <DocSentraDetails />;
+  }
 
   if (isLoading) {
     return (
