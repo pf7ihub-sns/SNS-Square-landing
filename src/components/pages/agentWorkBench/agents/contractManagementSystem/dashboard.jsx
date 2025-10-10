@@ -189,7 +189,7 @@ const Dashboard = () => {
           <div className="flex gap-3">
             <button 
               onClick={() => navigate('/agent-playground/agent/contract-management-system/create')}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <FileText size={16} />
               Create New Contract

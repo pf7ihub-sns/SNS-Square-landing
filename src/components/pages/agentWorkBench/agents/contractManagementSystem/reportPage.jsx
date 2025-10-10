@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ReportPage = () => {
+const ReportPage = ({ reportId }) => {
   const navigate = useNavigate();
-  const { reportId } = useParams();
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/';
   
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
