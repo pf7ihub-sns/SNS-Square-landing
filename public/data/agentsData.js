@@ -92,6 +92,16 @@ export default {
               useCases: ["KYC", "Document analytics", "Content tagging"],
               description: ["Entity Extraction Tool processes text or uploaded documents to automatically identify and extract key entities such as people, dates, organizations, locations, and money values. It provides summaries, confidence scores, filtering options, and supports exporting results to CSV, Excel, or JSON for easy analysis and integration."],
               status: "available"
+            },
+            {
+              id:"ai-document",
+              name:"AI Document Agent", 
+              summary:"Interact with and extract information from documents using AI.",
+              image:"/images/agents/document 1.png",
+              solutions:["Document Q&A", "Information extraction", "Content summarization"],
+              useCases:["Legal documents", "Research papers", "Business reports"],
+              description:["AI Document Agent allows users to upload various document types (PDF, DOCX, TXT) and interact with them using natural language queries. It extracts key information, generates summaries, and provides insights based on the document content. The agent supports multiple formats and ensures accurate processing for effective document management."],
+              status:"available"
             }
           ]
         },
@@ -265,6 +275,16 @@ export default {
             {
               id: "general-chat",
               name: "General Chat Support Agent",
+              summary: "Provide instant customer support with context-aware responses.",
+              image: "/placeholder.jpg",
+              solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
+              useCases: ["E-commerce support", "Technical assistance", "Product inquiries"],
+              description: ["General Chat Application lets users interact with an AI virtual assistant in real-time. It maintains a persistent chat history, visually differentiates user and AI messages, and provides a smooth, scrollable chat interface. Users can send messages, view AI responses instantly, and clear the conversation when needed."],
+              status: "available"
+            },
+            {
+              id: "ai-chat",
+              name: "AI Chat Support Agent",
               summary: "Provide instant customer support with context-aware responses.",
               image: "/placeholder.jpg",
               solutions: ["Real-time messaging", "Context preservation", "Escalation routing"],
@@ -846,6 +866,26 @@ export default {
               id: "mom-generator-agent",
               name: "MoM Generator Agent",
               summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
+              id: "speech-to-text-mom",
+              name: "Speech to Text MOMAgent",
+              summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              image: "/placeholder.jpg",
+              solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
+              useCases: ["Team meetings", "Project updates", "Client calls"],
+              description: ["Meeting Notes Generator transforms your meeting transcripts or uploaded files into structured notes. It captures key details like meeting title, date, participants, agenda, discussion summary, decisions, and action items."],
+              status: "available"
+            },
+            {
+              id: "live-speech-to-text-mom",
+              name: "Live Speech to Text MOMAgent",
+              summary: "Live Generate Minutes of Meeting (MoM) documents from discussions.",
               image: "/placeholder.jpg",
               solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
               useCases: ["Team meetings", "Project updates", "Client calls"],
@@ -2476,11 +2516,11 @@ export default {
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
             },
             {
-              id: "Appointment-management",
-              name: "Appointment Management",
-              summary: "Book and manage healthcare appointments",
+              id: "Doc-Sentra",
+              name: "DocSentra",
+              summary: " AI-driven healthcare automation platform integrating clinical intelligence, conversational AI, and smart workflow management to enhance patient care, diagnosis accuracy, and operational efficiency.",
               image: "/placeholder.jpg",
-              solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
+              solutions: ["Doctor Assistant","Patient Management","Medical Documentation","Prescription Management","Clinical Decision Support","Health Record Management"],
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
               status: "available"
             },
@@ -3535,12 +3575,12 @@ export default {
           status: "available"
         },
         {
-          "id": "renewal-agent",
-          "name": "Renewal Agent",
-          "summary": "Automate subscription renewal notifications and manage subscriptions.",
+          "id": "email-support",
+          "name": "Customer Support Email Responder Agent",
+          "summary": "Automate email sorting, prioritization, and response generation.",
           "image": "/placeholder.jpg",
-          "solutions": ["Automated renewal reminders (30/15/7 days)", "Subscription lifecycle tracking", "Dashboard analytics & reporting"],
-          "useCases": ["SaaS subscription management", "Membership renewal automation", "Contract expiration alerts"],
+          "solutions": ["Email classification", "Priority tagging", "Response drafting"],
+          "useCases": ["Inbox management", "Customer support", "Internal communications"],
           status: "available"
         },
 

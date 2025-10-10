@@ -37,12 +37,8 @@ function AgentPlayGround() {
   };
 
   const handleAgentClick = (agent) => {
-    if (agent.path) {
-      navigate("/agent-playground/agent/" + agent.id);
-    } else {
-      // Fallback to default route if no path is specified
-      navigate("/agent-playground/agent/" + agent.id);
-    }
+    // Always navigate to the specific agent using the agent ID
+    navigate("/agent-playground/agent/" + agent.id);
   };
 
   return (
