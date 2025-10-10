@@ -3363,7 +3363,7 @@ export default {
       agents: [
         {
           "id": "Lead-Genearation",
-          "name": "Lead Generation",
+          "name": "Lead Management",
           "summary": "Sales Lead Generation - Find and qualify high-potential prospects automatically.",
           "image": "/placeholder.jpg",
           "solutions": ["Prospect identification", "Lead scoring", "Outreach automation", "Engagement tracking"],
