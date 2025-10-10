@@ -1,13 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
-import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink, Plus, Menu, MessageSquare, MoreVertical } from "lucide-react";
+import { AlertCircle, Upload, Send, Bot, User, FileText, X, Globe, ExternalLink, Plus, Menu, MessageSquare, MoreVertical, SquareChevronLeft } from "lucide-react";
 import FileUploadDropdown from './AI_Docs/utils/FileUploadDropdown';
 import OneDriveModal from './AI_Docs/utils/OneDriveModal';
 import { CloudStorageService } from './AI_Docs/utils/CloudStorageService';
 import backgroundImage from '../../../../../public/images/ai_chat.png';
+
 const API_BASE = "http://127.0.0.1:8000";
 const personas = ["neutral", "formal", "casual", "technical", "simplified", "friendly"];
 
 const AiChat = () => {
+  const navigate = useNavigate();
   const [persona, setPersona] = useState("technical");
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -25,9 +28,16 @@ const AiChat = () => {
   const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenuId, setActiveMenuId] = useState(null);
+
+  // Rename Modal States
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
+  const [renameConversationId, setRenameConversationId] = useState(null);
+  const [renameValue, setRenameValue] = useState("");
+
   const chatEndRef = useRef(null);
   const textareaRef = useRef(null);
   const chatContainerRef = useRef(null);
+  const renameInputRef = useRef(null);
 
   useEffect(() => {
     if (chatHistory.length > 0 && chatContainerRef.current) {
@@ -61,6 +71,16 @@ const AiChat = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [activeMenuId]);
 
+  // Focus input when rename modal opens
+  useEffect(() => {
+    if (renameModalOpen && renameInputRef.current) {
+      setTimeout(() => {
+        renameInputRef.current.focus();
+        renameInputRef.current.select();
+      }, 100);
+    }
+  }, [renameModalOpen]);
+
   const fetchConversations = async () => {
     try {
       const response = await fetch(`${API_BASE}/ai-chat/conversations`);
@@ -75,20 +95,16 @@ const AiChat = () => {
 
   const loadConversation = async (conversationId) => {
     try {
-      // Call the compatibility conversation endpoint which returns messages
       const response = await fetch(`${API_BASE}/ai-chat/conversation/${conversationId}`);
       if (!response.ok) throw new Error("Failed to load conversation");
       const data = await response.json();
-      // Map the messages to the correct format
       const formattedMessages = (data.messages || []).map(msg => ({
-        // normalize roles: backend may return 'agent' or 'assistant'
         role: msg.role === "agent" ? "assistant" : (msg.role || "user"),
         content: msg.content,
         sources: msg.sources || [],
         searchEnabled: msg.searchEnabled || msg.search_enabled || false
       }));
 
-      // Set currentConversationId only after a successful load
       setCurrentConversationId(conversationId);
       setChatHistory(formattedMessages);
     } catch (err) {
@@ -179,11 +195,9 @@ const AiChat = () => {
   const formatResponse = (data) => {
     if (!data) return "No response";
 
-    // If this message has stored formatting, use it
     if (data.isFormatted && data.formattedContent) {
       const { html, indentation } = data.formattedContent;
 
-      // Apply stored indentation and formatting
       if (indentation.type === 'numbered') {
         return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: formatNumberedList(indentation.lines) }} />;
       } else if (indentation.type === 'bullet') {
@@ -197,7 +211,7 @@ const AiChat = () => {
       let formatted = data.response
         .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
         .replace(/\n/g, "<br/>")
-        .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"); // Convert tabs to spaces
+        .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
 
       const lines = formatted.split("<br/>").filter((line) => line.trim());
       const isNumberedList = lines.some((line) => /^\d+\.\s/.test(line.trim()));
@@ -211,7 +225,6 @@ const AiChat = () => {
           const indentLevel = (line.match(/^\s+/) || [""])[0].length;
 
           if (/^\d+\.\s/.test(trimmedLine)) {
-            // Handle indentation for nested lists
             if (indentLevel > previousLevel) {
               listContent += "<ol class='list-decimal pl-8 space-y-4 mt-2'>";
             } else if (indentLevel < previousLevel) {
@@ -221,7 +234,6 @@ const AiChat = () => {
             listContent += `<li class='pl-2 leading-relaxed'>${content}</li>`;
             previousLevel = indentLevel;
           } else if (trimmedLine) {
-            // Close any open nested lists
             while (previousLevel > 0) {
               listContent += "</ol>";
               previousLevel--;
@@ -229,7 +241,6 @@ const AiChat = () => {
             listContent += `</ol><p class='my-4 leading-relaxed'>${trimmedLine}</p><ol class='list-decimal pl-8 space-y-4 my-4'>`;
           }
         });
-        // Close any remaining nested lists
         while (previousLevel > 0) {
           listContent += "</ol>";
           previousLevel--;
@@ -247,7 +258,6 @@ const AiChat = () => {
           const indentLevel = (line.match(/^\s+/) || [""])[0].length;
 
           if (/^[\*\-]\s/.test(trimmedLine)) {
-            // Handle indentation for nested lists
             if (!inList) {
               inList = true;
             } else if (indentLevel > previousLevel) {
@@ -259,7 +269,6 @@ const AiChat = () => {
             listContent += `<li class='pl-2 leading-relaxed'>${content}</li>`;
             previousLevel = indentLevel;
           } else if (trimmedLine) {
-            // Close any open nested lists
             while (previousLevel > 0) {
               listContent += "</ul>";
               previousLevel--;
@@ -271,7 +280,6 @@ const AiChat = () => {
             listContent += `<p class='my-4 leading-relaxed text-gray-700'>${trimmedLine}</p>`;
           }
         });
-        // Close any remaining nested lists
         while (previousLevel > 0) {
           listContent += "</ul>";
           previousLevel--;
@@ -282,7 +290,6 @@ const AiChat = () => {
         return <div className="formatted-response" dangerouslySetInnerHTML={{ __html: listContent }} />;
       }
 
-      // For regular text, wrap paragraphs and add proper spacing
       const paragraphs = formatted.split("<br/><br/>").filter(p => p.trim());
       formatted = paragraphs
         .map(p => `<p class='my-4 leading-relaxed text-gray-700'>${p.replace(/<br\/>/g, "</p><p class='my-4 leading-relaxed text-gray-700'>")}</p>`)
@@ -293,45 +300,6 @@ const AiChat = () => {
     return data.toString();
   };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-    setError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch(`${API_BASE}/ai-chat/upload`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "File upload failed");
-      }
-
-      const data = await response.json();
-      setFileId(data.file_id);
-      setUploadedFileName(file.name);
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          role: "system",
-          content: `File uploaded: ${file.name}`,
-          isFormatted: false
-        },
-      ]);
-    } catch (err) {
-      setError(err.message || "File upload failed");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  // Upload helper used by local and cloud flows
   const uploadFileToServer = async (file) => {
     setUploading(true);
     setError(null);
@@ -375,7 +343,7 @@ const AiChat = () => {
     setMessage("");
 
     try {
-      const endpoint = currentConversationId ? "/chat" : "/chat";
+      const endpoint = "/chat";
       const requestBody = {
         query: userMessage,
         persona,
@@ -383,7 +351,6 @@ const AiChat = () => {
         web_search: webSearchEnabled
       };
 
-      // If we have a current conversation, include its ID
       if (currentConversationId) {
         requestBody.chat_id = currentConversationId;
       }
@@ -403,12 +370,10 @@ const AiChat = () => {
 
       const data = await response.json();
 
-      // If this is a new conversation, set the current conversation ID (backend returns chat_id or session_id)
       if (!currentConversationId) {
         setCurrentConversationId(data.chat_id || data.session_id || null);
       }
 
-      // Store raw response and formatted metadata (do not store rendered JSX)
       const rawText = data.response || '';
       const formattedMeta = processResponseForStorage(rawText);
       setChatHistory((prev) => [
@@ -424,7 +389,6 @@ const AiChat = () => {
         },
       ]);
 
-      // Refresh the conversations list
       await fetchConversations();
     } catch (err) {
       setError(err.message || "Chat failed");
@@ -455,20 +419,33 @@ const AiChat = () => {
     }
   };
 
-  const handleRenameConversation = async (sessionId, newTitle) => {
+  // Open rename modal
+  const openRenameModal = (sessionId, currentTitle) => {
+    setRenameConversationId(sessionId);
+    setRenameValue(currentTitle);
+    setRenameModalOpen(true);
+    setActiveMenuId(null);
+  };
+
+  // Handle rename submit
+  const handleRenameSubmit = async () => {
+    if (!renameValue.trim()) return;
+
     try {
-      // First try the new endpoint
-      const response = await fetch(`${API_BASE}/ai-chat/${sessionId}/rename`, {
+      const response = await fetch(`${API_BASE}/ai-chat/${renameConversationId}/rename`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title: newTitle }),
+        body: JSON.stringify({ title: renameValue.trim() }),
       });
 
       if (!response.ok) throw new Error("Failed to rename conversation");
 
       await fetchConversations();
+      setRenameModalOpen(false);
+      setRenameConversationId(null);
+      setRenameValue("");
     } catch (err) {
       console.error("Rename failed:", err);
       setError("Failed to rename conversation");
@@ -485,7 +462,6 @@ const AiChat = () => {
         throw new Error("Failed to delete conversation");
       }
 
-      // If the deleted conversation was the current one, clear the chat
       if (currentConversationId === sessionId) {
         setCurrentConversationId(null);
         setChatHistory([]);
@@ -502,24 +478,32 @@ const AiChat = () => {
     <div className="container mx-auto px-4 h-screen overflow-hidden">
       <div className="bg-white rounded-lg shadow-lg flex h-[calc(100vh-6rem)] mt-24 w-full overflow-hidden">
         {/* Sidebar */}
-        <div className={`${sidebarOpen ? 'w-64' : 'w-0'} bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden h-full`}>
-          <div className="p-4 border-b border-gray-200">
+        <div className={`${sidebarOpen ? 'w-64' : 'w-0'} bg-white-50 flex flex-col transition-all duration-300 overflow-hidden h-full`}>
+          <div className="p-4">
             <div className="flex items-center gap-2 mb-4">
-              <Bot className="w-6 h-6 text-blue-600" />
-              <span className="font-semibold text-gray-800">AI Chat Bot</span>
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 p-2 rounded-lg transition"
+              >
+                <SquareChevronLeft className="w-6 h-6 text-blue-600" />
+              </button>
+              <span className="font-semibold text-lg text-gray-800">AI Chat Bot</span>
             </div>
 
             <button
               onClick={handleNewChat}
-              className="w-full flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              className="w-full flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#064EE3] to-[#3D76EC] 
+             text-white rounded-lg hover:from-[#3D76EC] hover:to-[#064EE3] 
+             transition-all duration-300 shadow-md hover:shadow-lg 
+             text-sm font-semibold"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-5 h-5" />
               New Chat
             </button>
           </div>
 
           <div className="flex-1 overflow-y-auto p-2 min-h-0">
-            <div className="text-xs font-semibold text-gray-500 px-3 py-2">Chat History</div>
+            <div className="text-xs font-semibold text-[#5F5F60] px-3 py-2">Chat History</div>
             <div className="space-y-1">
               {conversationsList.map((conv) => (
                 <div key={conv.id} className="relative conversation-menu px-2 py-1">
@@ -544,15 +528,11 @@ const AiChat = () => {
                   </div>
 
                   {activeMenuId === conv.id && (
-                    <div className="absolute right-2 top-8 bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
+                    <div className="absolute right-2 top-8  bg-white shadow-lg rounded-md border border-gray-200 py-1 z-50 min-w-[140px]">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          const newTitle = prompt('Enter new title:', conv.title);
-                          if (newTitle) {
-                            handleRenameConversation(conv.id, newTitle);
-                          }
-                          setActiveMenuId(null);
+                          openRenameModal(conv.id, conv.title);
                         }}
                         className="w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors text-base text-blue-600 font-medium"
                       >
@@ -579,9 +559,9 @@ const AiChat = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col h-full min-w-0">
+        <div className="flex-1 flex flex-col h-full min-w-0 border-1 border-[#B6B9BE] rounded-xl shadow-xl mt-1 overflow-hidden">
           {/* Header */}
-          <div className="bg-white border-b border-gray-200 p-2 flex items-center gap-4">
+          <div className="rounded-lg p-2 flex items-center gap-4 mt-1">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -596,7 +576,7 @@ const AiChat = () => {
             className="flex-1 overflow-y-auto p-4 min-h-0 relative"
             style={{
               backgroundImage: `url(${backgroundImage})`,
-              backgroundSize: '60%',  // or '60%', '50%' - adjust as needed
+              backgroundSize: '60%',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               backgroundAttachment: 'fixed'
@@ -605,19 +585,16 @@ const AiChat = () => {
             <div className="max-w-3xl mx-auto h-full">
               {chatHistory.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center py-0">
-                  {/* AI Chat Bot Badge */}
                   <div className="mb-5">
-                    <span className="px-4 py-2 bg-blue-50 text-blue-600 text-sm font-semibold rounded-full border border-blue-100">
+                    <span className="px-4 py-2 text-[#155DFC] text-sm font-semibold rounded-full border border-[#155DFC]">
                       AI Chat Bot
                     </span>
                   </div>
 
-                  {/* Main Heading */}
                   <h2 className="text-5xl font-bold text-gray-900 mb-2 leading-tight">
                     Start a New Chat
                   </h2>
 
-                  {/* Subtitle */}
                   <p className="text-gray-600 text-base max-w-lg">
                     Ask me anything! I'm here to help.
                   </p>
@@ -629,9 +606,9 @@ const AiChat = () => {
                       <div className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
                         <div
                           className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === "assistant"
-                            ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white"
+                            ? "bg-[#155DFC] text-white"
                             : msg.role === "system"
-                              ? "bg-yellow-500 text-white"
+                              ? "bg-[#1357E5] text-white"
                               : "bg-gray-700 text-white"
                             }`}
                         >
@@ -648,7 +625,7 @@ const AiChat = () => {
                           className={`flex-1 ${msg.role === "assistant"
                             ? "bg-white border border-gray-200 rounded-2xl p-4 shadow-sm"
                             : msg.role === "system"
-                              ? "bg-yellow-50 border border-yellow-200 rounded-2xl p-3 text-sm italic"
+                              ? "bg-white border border-[#1357E5]/50 rounded-2xl p-3 text-sm italic"
                               : "bg-gray-100 rounded-2xl p-4"
                             }`}
                         >
@@ -697,7 +674,7 @@ const AiChat = () => {
 
                   {loading && (
                     <div className="flex gap-4">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#1357E5] text-white flex items-center justify-center flex-shrink-0">
                         <Bot className="w-5 h-5" />
                       </div>
                       <div className="bg-white border border-gray-200 p-4 rounded-2xl shadow-sm">
@@ -708,7 +685,7 @@ const AiChat = () => {
                             <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                           </div>
                           <span className="text-sm text-gray-600">
-                            {webSearchEnabled ? "Searching the web..." : "AI is thinking..."}
+                            {webSearchEnabled ? "Searching the web..." : "Thinking..."}
                           </span>
                         </div>
                       </div>
@@ -736,48 +713,8 @@ const AiChat = () => {
           )}
 
           {/* Input Area */}
-          <div className="bg-transparent border-t-0 p-4 flex-shrink-0">
+          <div className="bg-transparent border-t-0 p-4 flex-shrink-0 mb-35">
             <div className="max-w-3xl mx-auto">
-              {/* Uploaded File Display - Keep this above input */}
-              {uploadedFileName && (
-                <div className="flex items-center gap-3 px-3 py-2 bg-green-50 border border-green-200 rounded-lg text-sm mb-3">
-                  {/* file-type icon */}
-                  <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white">
-                    {uploadedFile && uploadedFile.type?.includes('pdf') ? (
-                      <svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /></svg>
-                    ) : uploadedFile && (uploadedFile.type?.includes('word') || uploadedFileName?.endsWith('.doc') || uploadedFileName?.endsWith('.docx')) ? (
-                      <svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" /></svg>
-                    ) : uploadedFile && (uploadedFile.type?.includes('spreadsheet') || uploadedFileName?.endsWith('.xls') || uploadedFileName?.endsWith('.xlsx')) ? (
-                      <svg className="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" /></svg>
-                    ) : uploadedFile && (uploadedFile.type?.includes('json') || uploadedFileName?.endsWith('.json')) ? (
-                      <svg className="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14v18H5z" /></svg>
-                    ) : (
-                      <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /></svg>
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <div className="text-green-800 truncate font-medium">{uploadedFileName}</div>
-                      {uploadedFile && (
-                        <div className="text-xs text-gray-500">
-                          {(uploadedFile.size && Math.round(uploadedFile.size / 1024) + ' KB') || ''}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={clearFile}
-                    className="ml-1 text-green-600 hover:text-green-800"
-                    aria-label="Remove attachment"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-
-              {/* OneDrive modal (uses utils/OneDriveModal) */}
               <OneDriveModal
                 isOpen={oneDriveModalOpen}
                 onClose={() => setOneDriveModalOpen(false)}
@@ -799,7 +736,7 @@ const AiChat = () => {
                 }}
               />
 
-              {/* Message Input - Updated with everything inside */}
+              {/* Message Input - with inline file display */}
               <div className="flex items-center gap-3 bg-white rounded-full px-4 py-3 shadow-lg border border-gray-200">
                 {/* Persona Dropdown */}
                 <select
@@ -817,8 +754,33 @@ const AiChat = () => {
                 {/* Divider */}
                 <div className="h-6 w-px bg-gray-300"></div>
 
-                {/* Textarea */}
-                <div className="flex-1 relative">
+                {/* Textarea Container with File Chip Inside */}
+                <div className="flex-1 relative flex items-start gap-2 py-1">
+                  {/* Uploaded File Chip - INSIDE the input area */}
+                  {uploadedFileName && (
+                    <div className="flex items-center gap-2 px-2 py-1 bg-blue-50 border border-blue-200 rounded-full text-xs flex-shrink-0">
+                      {/* File Icon */}
+                      <div className="flex items-center justify-center w-4 h-4">
+                        <FileText className="w-4 h-4 text-blue-600" />
+                      </div>
+
+                      {/* File Name */}
+                      <span className="text-blue-700 font-medium max-w-[120px] truncate">
+                        {uploadedFileName}
+                      </span>
+
+                      {/* Remove Button */}
+                      <button
+                        onClick={clearFile}
+                        className="text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-full p-0.5"
+                        aria-label="Remove attachment"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Textarea */}
                   <textarea
                     ref={textareaRef}
                     value={message}
@@ -829,10 +791,10 @@ const AiChat = () => {
                         handleSend(e);
                       }
                     }}
-                    className="w-full px-2 py-1 bg-transparent border-0 resize-none focus:outline-none placeholder-gray-400 text-gray-700"
+                    className="flex-1 px-2 py-1 bg-transparent border-0 resize-none focus:outline-none placeholder-gray-400 text-gray-700"
                     placeholder="Message"
                     rows="1"
-                    style={{ maxHeight: "120px" }}
+                    style={{ maxHeight: "120px", minHeight: "24px" }}
                   />
                 </div>
 
@@ -843,8 +805,8 @@ const AiChat = () => {
                     type="button"
                     onClick={() => setWebSearchEnabled(!webSearchEnabled)}
                     className={`p-2 rounded-full transition-colors ${webSearchEnabled
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
                       }`}
                     title="Web Search"
                   >
@@ -926,8 +888,8 @@ const AiChat = () => {
                     onClick={handleSend}
                     disabled={loading || !message.trim()}
                     className={`p-2 rounded-full transition-all flex items-center justify-center ${loading || !message.trim()
-                        ? "text-gray-400 cursor-not-allowed"
-                        : "text-blue-600 hover:bg-blue-50"
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-blue-600 hover:bg-blue-50"
                       }`}
                   >
                     <Send className="w-5 h-5" />
@@ -938,6 +900,63 @@ const AiChat = () => {
           </div>
         </div>
       </div>
+
+      {/* Rename Modal */}
+      {renameModalOpen && (
+        <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-[9999]">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            {/* Modal Header */}
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Rename</h3>
+            </div>
+
+            {/* Modal Body */}
+            <div className="px-6 py-4">
+              <input
+                ref={renameInputRef}
+                type="text"
+                value={renameValue}
+                onChange={(e) => setRenameValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleRenameSubmit();
+                  } else if (e.key === 'Escape') {
+                    setRenameModalOpen(false);
+                    setRenameValue("");
+                    setRenameConversationId(null);
+                  }
+                }}
+                className="w-full px-3 py-2 border border-[#155DFC]/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter new title"
+              />
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-gray-200 flex justify-center gap-3">
+              <button
+                onClick={() => {
+                  setRenameModalOpen(false);
+                  setRenameValue("");
+                  setRenameConversationId(null);
+                }}
+                className="flex-1 px-6 py-2.5 text-base font-semibold text-[#155DFC] bg-white border border-[#155DFC]/50 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRenameSubmit}
+                disabled={!renameValue.trim()}
+                className={`flex-1 px-6 py-2.5 text-base font-semibold rounded-lg transition-colors ${!renameValue.trim()
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-[#155DFC] text-white hover:bg-[#0051D5]'
+                  }`}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

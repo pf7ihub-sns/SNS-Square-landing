@@ -318,7 +318,7 @@ const App = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 mt-32">
       {/* Left Side: Chat Interface */}
       <div className="w-1/3 p-4 bg-white shadow-md flex flex-col">
         <h2 className="text-xl font-bold mb-4">Chat</h2>
