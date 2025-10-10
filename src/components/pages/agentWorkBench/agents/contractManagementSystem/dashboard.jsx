@@ -188,7 +188,7 @@ const Dashboard = () => {
           </div>
           <div className="flex gap-3">
             <button 
-              onClick={() => navigate('/agent-playground/agent/contract-management-system/create')}
+              onClick={() => navigate('/agent-playground/agent/contract-management-system/chatbot')}
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <FileText size={16} />
