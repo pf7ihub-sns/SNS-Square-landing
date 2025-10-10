@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { LogOut, UserPlus, Users, Search, Filter } from "lucide-react";
+import { LogOut, UserPlus, Users, Search, Filter, ChevronLeft, ChevronDown, X, ArrowDownAZ } from "lucide-react";
 import PatientList from "../components/PatientList";
 
 export default function NurseDashboard() {
@@ -17,6 +17,7 @@ export default function NurseDashboard() {
   const [genderFilter, setGenderFilter] = useState("");
   const [ageFilter, setAgeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name"); // name, age, date
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Redirect to login if no user or incorrect role
   useEffect(() => {
@@ -108,148 +109,207 @@ export default function NurseDashboard() {
     setSortBy("name");
   };
 
+  const applyFilters = () => {
+    setIsFilterOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Fixed Sidebar */}
-  <div className="w-80 bg-white shadow-xl border-r border-gray-200 fixed left-0 top-0 h-full z-30">
-  <div className="p-6 pt-29">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-[#669BBC] rounded-xl mb-3">
-              <Users className="w-6 h-6 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20">
+      {/* Top Navigation Header */}
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-3">
+              <button 
+                onClick={() => navigate(-1)} 
+                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                aria-label="Go back"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <h1 className="text-xl font-bold text-gray-900 tracking-tight">Docsentra</h1>
             </div>
-            <h1 className="text-xl font-bold text-gray-900 mb-2">Nurse Dashboard</h1>
-            <p className="text-sm text-gray-600">Manage patient records</p>
-          </div>
-          <div className="space-y-3">
-            <button
-              onClick={() => navigate("../new-patient", { relative: "path" })}
-              className="w-full flex items-center p-4 rounded-xl bg-blue-50 border-2 border-blue-200 shadow-sm hover:bg-blue-100 transition-all duration-200 cursor-pointer"
-            >
-              <UserPlus className="w-5 h-5 text-[#003049] mr-3" />
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-sm text-[#003049]">New Patient</div>
-                <div className="text-xs text-gray-500 mt-1">Register a new patient</div>
-              </div>
-            </button>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => navigate("../new-patient", { relative: "path" })}
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">+ New Patient</span>
+                <span className="sm:hidden">+</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2.5 text-gray-700 hover:text-gray-900 font-medium hover:bg-gray-100 rounded-lg transition-all duration-200"
+              >
+                Contact Us
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
-  {/* Main Content */}
-  <div className="flex-1 ml-80 p-8 pt-40">
-        <header className="bg-gradient-to-r from-[#003049] to-[#669BBC] rounded-2xl shadow-lg p-6 mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Welcome, {user.name || "Nurse"}!</h1>
-              <p className="text-blue-100 text-sm mt-1">Manage patient registrations and records</p>
+      {/* Main Content */}
+      <div className="mx-auto px-6 lg:px-8 py-8 lg:py-12" style={{ maxWidth: '89rem' }}>
+        {/* Card 1: Welcome Section */}
+        <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            {/* Left Side - Welcome Text */}
+            <div className="flex-1">
+              <h2 className="text-[24px] lg:text-[24px] font-bold text-gray-900 mb-1 tracking-tight">
+                Welcome, {user.name || "Swetha"}!
+              </h2>
+              <p className="text-base lg:text-[18px] font-medium text-gray-600">Manage patient registration and records</p>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-xl transition-all duration-200 animate-pop"
-            >
-              <LogOut className="w-5 h-5" />
-              <span>Logout</span>
-            </button>
+
+            {/* Right Side - Action Buttons */}
+            <div className="flex items-center gap-3 lg:flex-shrink-0">
+              <button
+                onClick={handleLogout}
+                className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
+              >
+                Logout
+              </button>
+              <button
+                onClick={() => navigate("../new-patient", { relative: "path" })}
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg  transition-all duration-200 transform"
+              >
+                <span>New Patient</span>
+              </button>
+
+            </div>
           </div>
-        </header>
+        </div>
 
-        <main className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-          {/* Search and Filter Section */}
-          <div className="mb-6">
-            <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
-              <h3 className="text-lg font-medium text-[#003049] mb-4 flex items-center">
-                <Search className="w-5 h-5 mr-2" />
-                Search & Filter Patients
-              </h3>
+        {/* Card 2: Search and Filter Section */}
+        <div className="bg-white rounded-xl  border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+            {/* Left Side - Section Info */}
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Search and Filter Patients</h3>
+              <p className="text-sm text-gray-600">A descriptive body text comes here</p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Search Input */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <Search className="w-4 h-4 mr-2 text-gray-500" />
-                    Search by Name or ID
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Search patients..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                    />
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  </div>
-                </div>
+            {/* Right Side - Search Bar, Sort and Filter Buttons */}
+            <div className="flex items-center gap-3 lg:w-auto w-full">
+              <div className="flex-1 relative lg:min-w-[400px]">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-600" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search"
+                  style={{ backgroundColor: '#F3F7FF' }}
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-blue-600 transition-all duration-200"
+                />
+              </div>
+              
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="appearance-none pl-3 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium transition-all duration-200 cursor-pointer hover:border-gray-400"
+                >
+                  <option value="name">Name (A-Z)</option>
+                  <option value="age">Age</option>
+                  <option value="date">Date</option>
+                </select>
+                <ArrowDownAZ className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
+              </div>
 
+              {/* Filter Button */}
+              <button 
+                onClick={() => setIsFilterOpen(true)}
+                className="flex items-center justify-center space-x-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium text-gray-700 whitespace-nowrap"
+              >
+                <Filter className="w-4 h-4 text-gray-600" />
+                <span>Filter</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Divider Line */}
+          <div className="border-t border-gray-200 mb-8"></div>
+
+          {/* Patients List Section - Inside Card 2 */}
+          <PatientList patients={filteredPatients} loading={loading} error={error} />
+        </div>
+
+        {/* Filter Modal Popup */}
+        {isFilterOpen && (
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fadeIn">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900">Filters</h3>
+                <button
+                  onClick={() => setIsFilterOpen(false)}
+                  className="p-1 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                  aria-label="Close filter"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+
+              {/* Filter Options */}
+              <div className="space-y-5">
                 {/* Gender Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <div className="relative">
+                  <label className="block text-sm font-semibold text-gray-900 mb-3">Gender</label>
                   <select
                     value={genderFilter}
                     onChange={(e) => setGenderFilter(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium appearance-none"
                   >
-                    <option value="">All Genders</option>
+                    <option value="">All</option> 
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
+                  <div className="absolute right-3 top-[calc(50%+12px)] -translate-y-1/2 rounded-md p-1.5 pointer-events-none flex items-center justify-center" style={{ backgroundColor: '#EFEFEF' }}>
+                    <ChevronDown className="w-5 h-5" style={{ color: '#555E67' }} />
+                  </div>
                 </div>
 
-                {/* Age Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Age Group</label>
+                {/* Age Group Filter */}
+                <div className="relative">
+                  <label className="block text-sm font-semibold text-gray-900 mb-3">Age Group</label>
                   <select
                     value={ageFilter}
                     onChange={(e) => setAgeFilter(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-gray-900 font-medium appearance-none"
                   >
-                    <option value="all">All Ages</option>
+                    <option value="all">Adults</option>
                     <option value="0">Children (0-17)</option>
                     <option value="1">Adults (18-64)</option>
                     <option value="2">Seniors (65+)</option>
                   </select>
+                  <div className="absolute right-3 top-[calc(50%+12px)] -translate-y-1/2 rounded-md p-1.5 pointer-events-none flex items-center justify-center" style={{ backgroundColor: '#EFEFEF' }}>
+                    <ChevronDown className="w-5 h-5" style={{ color: '#555E67' }} />
+                  </div>
                 </div>
               </div>
 
-              {/* Sort Options */}
-              <div className="mt-4 flex items-center space-x-4">
-                <label className="text-sm font-medium text-gray-700">Sort by:</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              {/* Modal Footer */}
+              <div className="flex items-center gap-3 mt-6">
+                <button
+                  onClick={clearFilters}
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 font-medium text-gray-700"
                 >
-                  <option value="name">Name (A-Z)</option>
-                  <option value="age">Age (Newest)</option>
-                  <option value="date">Registration Date (Newest)</option>
-                </select>
-
-                {/* Clear Filters Button */}
-                {(searchTerm || genderFilter || ageFilter !== "all" || sortBy !== "name") && (
-                  <button
-                    onClick={clearFilters}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-200 text-sm font-medium"
-                  >
-                    Clear Filters
-                  </button>
-                )}
+                  Cancel
+                </button>
+                <button
+                  onClick={applyFilters}
+                  className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 font-semibold"
+                >
+                  Apply Filters
+                </button>
               </div>
-
-              {/* Results Count */}
-              <div className="mt-3 text-sm text-gray-600">
-                Showing {filteredPatients.length} of {patients.length} patients
-              </div>
+              
             </div>
           </div>
-
-          {/* Patients Section */}
-          <h3 className="text-lg font-medium text-[#003049] mb-4 flex items-center">
-            <Users className="w-5 h-5 mr-2" />
-            All Patients ({filteredPatients.length})
-          </h3>
-          <PatientList patients={filteredPatients} loading={loading} error={error} />
-        </main>
+        )}
       </div>
     </div>
   );
