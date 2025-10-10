@@ -771,6 +771,256 @@ export default {
                                 ]
                             }
                         },
+                        {
+                            id: "live-speech-to-text-mom",
+                            name: "Live Speech-to-Text Meeting Minutes Generator",
+                            summary: "An AI-powered live meeting assistant that transcribes speech in real time, identifies participants, captures decisions, and auto-generates structured Meeting Minutes with AI insights.",
+                            image: "/placeholder.jpg",
+                            heading: "Live Speech-to-Text Meeting Minutes Generator – Turn conversations into actionable insights instantly.",
+                            status: "available",
+                            whatItIs: {
+                                title: "Transforming Meetings into Structured Intelligence",
+                                description: "The Live Speech-to-Text Meeting Minutes Generator captures spoken conversations during meetings, transcribes them in real time, and uses AI analysis to generate structured Meeting Minutes. It identifies participants, action items, decisions, and risks while maintaining accurate, timestamped records. The agent combines advanced speech recognition, noise reduction, and multi-model AI analysis to deliver complete, shareable summaries of every meeting."
+                            },
+                            features: [
+                                "Real-time speech-to-text transcription with automatic restart handling",
+                                "Multi-format audio recording (WebM, WAV, OGG) using MediaRecorder API",
+                                "Live audio visualization with animated waveform monitoring",
+                                "Noise reduction via spectral gating algorithms for clear speech capture",
+                                "Multi-model AI pipeline: Groq Whisper for transcription + Google Gemini for analysis",
+                                "Automatic participant detection and role extraction",
+                                "Action item tracking with priority, deadlines, and assignees",
+                                "Decision and rationale recording with contextual impact tagging",
+                                "Risk identification with severity and resolution tracking",
+                                "Follow-up planning with scheduling and pending item mapping",
+                                "Key topic extraction and summarization of discussion themes"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Empower organizations to streamline communication, documentation, and decision-making with real-time meeting intelligence.",
+                                cases: [
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Corporate Meetings",
+                                        description: "Generate detailed MoM with decisions, action items, and next steps automatically."
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Healthcare Teams",
+                                        description: "Transcribe medical board meetings or case reviews while tracking follow-up actions."
+                                    },
+                                    {
+                                        icon: "/icons/Legal.svg",
+                                        title: "Legal & Compliance",
+                                        description: "Capture accurate transcripts of discussions, hearings, and negotiation sessions."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Research & Academia",
+                                        description: "Record and summarize research group discussions or academic panels."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Project Management",
+                                        description: "Automatically generate task lists, decisions, and meeting logs for agile teams."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Transform your meeting culture with automated documentation, increased accountability, and AI-driven insights.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduces manual note-taking and transcription time by over 80%"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Improves decision traceability and task accountability"
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enhances collaboration by sharing AI-generated MoMs instantly"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Builds a searchable knowledge base from every recorded conversation"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Integrates seamlessly with project management and communication tools"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "Microphone input → AI Speech Recognition → AI Meeting Analysis → Structured MoM Output. Built for real-time transcription, semantic understanding, and actionable insights.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "Audio Capture (Microphone/Stream)", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Speech Recognition (Groq Whisper)", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "AI Analysis (Google Gemini)", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Entity & Topic Extraction", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Structured MoM Output (PDF/JSON/DOCX)", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Integrated pipeline for live transcription, analysis, and structured MoM generation.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Web Speech + Whisper-based transcription engine",
+                                            "MediaRecorder API for multi-format audio capture",
+                                            "Spectral gating for noise suppression",
+                                            "AI Meeting Analyzer for participant, task, and topic extraction",
+                                            "Frontend MoM visualization and export interface",
+                                            "Error handling, latency tracking, and storage management"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Securely processes and structures meeting data for immediate use and archival.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Live audio, uploaded recordings",
+                                            "Processing: Speech recognition + AI meeting analysis + structured MoM generation",
+                                            "Output: Downloadable transcripts, task summaries, and decision logs"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            id: "speech-to-text-mom",
+                            name: "Speech to Text MOMAgent",
+                            summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+                            image: "/placeholder.jpg",
+                            heading: "Audio-Based Meeting Minutes Generator – Transform recorded meetings into professional, structured documentation instantly.",
+                            status: "available",
+                            whatItIs: {
+                                title: "Converting Audio Recordings into Actionable Intelligence",
+                                description: "The Audio-Based Meeting Minutes Generator processes pre-recorded audio files from meetings, transcribes them using advanced AI models, and generates comprehensive, structured Minutes of Meeting. It leverages OpenAI Whisper for accurate speech-to-text conversion and Google Gemini for intelligent content analysis, identifying participants, extracting action items, capturing decisions, and highlighting risks. The system provides editable outputs in multiple formats (PDF, DOCX, JSON) for seamless integration into workflow systems."
+                            },
+                            features: [
+                                "Multi-format audio file support (MP3, WAV, MP4) with drag-and-drop upload interface",
+                                "Advanced speech-to-text transcription using OpenAI Whisper base model",
+                                "AI-powered meeting analysis using Google Gemini 2.0 Flash for content extraction",
+                                "Automatic participant identification and role extraction from conversations",
+                                "Intelligent task extraction with assignee detection and deadline parsing",
+                                "Decision tracking with participant attribution and contextual rationale",
+                                "Risk and blocker identification with severity analysis",
+                                "Data point and metrics extraction for quantitative insights",
+                                "Real-time editable transcript and MoM sections with inline editing capability",
+                                "Multi-format export (PDF, DOCX) with professional document formatting",
+                                "File size validation (up to 50MB) and audio format verification"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Enable organizations to automate meeting documentation, improve accountability, and extract maximum value from recorded conversations.",
+                                cases: [
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Executive Meetings",
+                                        description: "Convert board meetings and executive sessions into formal MoM with decisions, action items, and strategic insights."
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Healthcare Consultations",
+                                        description: "Document medical team discussions, case reviews, and treatment planning sessions with accuracy."
+                                    },
+                                    {
+                                        icon: "/icons/Legal.svg",
+                                        title: "Legal Proceedings",
+                                        description: "Transcribe depositions, client meetings, and internal deliberations with structured documentation."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Academic Research",
+                                        description: "Process research group meetings, symposiums, and academic discussions into structured notes."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Agile Team Standups",
+                                        description: "Generate sprint retrospectives, planning sessions, and daily standup summaries automatically."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Revolutionize your meeting documentation workflow with AI-driven transcription, analysis, and professional formatting.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Eliminates 90%+ of manual transcription and note-taking effort"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Ensures accurate attribution of decisions and action items"
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enables instant sharing of professional MoM documents in multiple formats"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Creates searchable archives of all meeting discussions and outcomes"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Supports compliance and audit requirements with detailed documentation"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "Audio Upload → Whisper Transcription → Gemini Analysis → Structured MoM Export. Built for accurate transcription, semantic understanding, and professional documentation.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "Audio File Upload (MP3/WAV/MP4)", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Speech Recognition (OpenAI Whisper)", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "AI Analysis (Google Gemini 2.0)", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Entity & Topic Extraction", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Structured MoM Output (PDF/DOCX/JSON)", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Integrated pipeline combining Whisper transcription, LangChain orchestration, and Gemini analysis for comprehensive MoM generation.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "OpenAI Whisper base model for multi-language transcription",
+                                            "LangChain framework for AI agent orchestration and prompt engineering",
+                                            "Google Gemini 2.0 Flash for intelligent content analysis",
+                                            "FPDF and python-docx for professional document generation",
+                                            "React frontend with real-time editing and drag-and-drop upload",
+                                            "Pydub for audio format conversion and preprocessing"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Securely processes and structures meeting data for immediate use and archival with automatic cleanup.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Audio files (MP3, WAV, MP4) up to 50MB via upload or drag-and-drop",
+                                            "Processing: Whisper transcription + LangChain agents + Gemini analysis + JSON structuring",
+                                            "Output: Editable transcripts, structured MoM, and downloadable PDF/DOCX formats"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+
+
 
                     ]
                 }
