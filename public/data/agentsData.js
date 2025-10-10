@@ -2196,6 +2196,24 @@ export default {
               solutions: ["Client onboarding", "Case type identification", "Conflict of interest check", "Document collection", "Case timeline generation", "Task assignment", "Client portal setup", "Progress tracking"],
               useCases: ["Property disputes", "Family law cases", "Consumer disputes", "Contract disputes"],
             },
+              {
+              id: "contract-management-v1",
+              name: "Contract Management V1",
+              summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+              image: "/placeholder.jpg",
+              solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+              useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+              status: "available"
+            },
+            {
+              id: "contract-management-system",
+              name: "Contract Management System",
+              summary: "Handle intake, indexing, version control, secure storage, audit logging, and sharing.",
+              image: "/placeholder.jpg",
+              solutions: ["Document intake", "Metadata tagging", "Indexing", "Version control", "Secure storage", "Retrieval", "Audit logging", "Document sharing", "Access control", "Archival"],
+              useCases: ["Legal document organization", "Case file management", "Knowledge sharing"],
+              status: "available"
+            },
             {
               id: "civil-law-property-dispute",
               name: "Property & Land Dispute Management",
@@ -3563,6 +3581,15 @@ export default {
           "image": "/placeholder.jpg",
           "solutions": ["Email classification", "Priority tagging", "Response drafting"],
           "useCases": ["Inbox management", "Customer support", "Internal communications"],
+          status: "available"
+        },
+        {
+          "id": "renewal-agent",
+          "name": "Renewal Agent",
+          "summary": "Automate subscription renewal notifications and manage subscriptions.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Automated renewal reminders (30/15/7 days)", "Subscription lifecycle tracking", "Dashboard analytics & reporting"],
+          "useCases": ["SaaS subscription management", "Membership renewal automation", "Contract expiration alerts"],
           status: "available"
         },
 

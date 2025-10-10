@@ -64,6 +64,8 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import RenewalAgent from "./agents/renewalAgent";
+import ContractManagementSystem from "./agents/contractManagementSystem"; 
 import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
@@ -151,7 +153,7 @@ const AgentRouter = () => {
     "speech-to-text-mom":<SpeechtoTextMom/>,
     "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>,
     "ai-sheets" : <AiSheets/>,
-    
+    "contract-management-system": <ContractManagementSystem />,
   };
 
   // Lookup case-insensitive
