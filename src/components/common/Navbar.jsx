@@ -99,6 +99,7 @@ const Header = () => {
     ],
     'about-us': [
       { label: 'Life at SNS Square', href: '/life-at-sns' },
+      { label: 'About SNS Square', href: '/about-us' },
     ],
   };
 
@@ -377,7 +378,7 @@ const Header = () => {
               className="flex items-center cursor-pointer"
             >
               <span className="text-small font-normal font-inter cursor-pointer transition-colors duration-300 text-black hover:text-blue-600">
-                About Us
+                Who we are
               </span>
               <AnimatedArrow
                 isHovered={hoveredDropdown === 'about-us'}
@@ -554,7 +555,7 @@ const Header = () => {
             {/* About Us Section */}
             <div className="space-y-1">
               <div className="text-small font-normal font-inter text-gray-700 px-3 py-2">
-                About Us
+                Who we are
               </div>
               <div className="ml-4 space-y-1">
                 <NavLink to="/life-at-sns" className={({ isActive }) =>
@@ -567,7 +568,7 @@ const Header = () => {
                   `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
                    ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
                 } onClick={handleNavClick}>
-                  About Us
+                  About SNS Square
                 </NavLink>
               </div>
             </div>
