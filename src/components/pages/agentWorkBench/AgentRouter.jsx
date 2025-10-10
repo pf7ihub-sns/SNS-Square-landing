@@ -71,6 +71,7 @@ import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
 import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
 import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
+import AiSheets from "./agents/aiSheets";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -148,7 +149,8 @@ const AgentRouter = () => {
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
     "speech-to-text-mom":<SpeechtoTextMom/>,
-    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>
+    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>,
+    "ai-sheets" : <AiSheets/>,
     
   };
 
