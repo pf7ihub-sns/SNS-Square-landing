@@ -160,7 +160,7 @@ const AIsuggestion = () => {
                   AI Clinical Recommendations
                 </h1>
                 <p className="text-slate-600 text-sm mt-1">
-                  {patientName} - Visit ID: {visitId}
+                  {patientName}
                 </p>
               </div>
               <div className="flex space-x-3">
