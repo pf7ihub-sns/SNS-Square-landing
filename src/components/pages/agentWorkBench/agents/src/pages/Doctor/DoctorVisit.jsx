@@ -4,13 +4,14 @@ import {
   Phone,
   User,
   Shield,
-  ChevronLeft,
-  ChevronRight,
   Calendar,
   Send,
   MessageCircle,
   X,
   ArrowLeft,
+  Loader2,
+  Sparkles,
+  CheckCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -374,8 +375,65 @@ const DoctorVisit = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
-        <p className="text-slate-600">Loading...</p>
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        {/* Enhanced Patient Data Loader */}
+        <div className="relative">
+          {/* Outer rotating ring */}
+          <div className="w-32 h-32 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin"></div>
+          
+          {/* Inner pulsing circle */}
+          <div className="absolute inset-4 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-pulse shadow-lg">
+            <User className="w-8 h-8 text-white animate-bounce" />
+          </div>
+          
+          {/* Floating particles */}
+          <div className="absolute -top-2 -left-2 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+          <div className="absolute -top-1 -right-3 w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping delay-75"></div>
+          <div className="absolute -bottom-3 -left-1 w-1 h-1 bg-blue-300 rounded-full animate-ping delay-150"></div>
+          <div className="absolute -bottom-2 -right-2 w-2 h-2 bg-blue-600 rounded-full animate-ping delay-300"></div>
+        </div>
+        
+        {/* Professional loading text */}
+        <div className="mt-8 text-center">
+          <h3 className="text-2xl font-semibold text-slate-800 mb-2 animate-pulse">
+            Loading Patient Data
+          </h3>
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce delay-75"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce delay-150"></div>
+            </div>
+          </div>
+          <p className="text-slate-600 text-lg font-medium mb-2">
+            Preparing Consultation Interface
+          </p>
+          <p className="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
+            Fetching patient records, medical history, and setting up the consultation workspace
+          </p>
+        </div>
+        
+        {/* Progress steps */}
+        <div className="mt-12 flex items-center space-x-8">
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mb-2">
+              <CheckCircle className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xs text-slate-600 font-medium">Authentication</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mb-2 animate-pulse">
+              <Loader2 className="w-4 h-4 text-white animate-spin" />
+            </div>
+            <span className="text-xs text-slate-600 font-medium">Patient Data</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center mb-2">
+              <span className="w-2 h-2 bg-slate-500 rounded-full"></span>
+            </div>
+            <span className="text-xs text-slate-400 font-medium">Interface Ready</span>
+          </div>
+        </div>
       </div>
     );
   if (error)
@@ -504,18 +562,7 @@ const DoctorVisit = () => {
         </div>
       </div>
 
-      {/* Left Panel Toggle */}
-      <button
-        onClick={() => setLeftPanelOpen(!leftPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-r-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
-        style={{ left: leftPanelOpen ? "20rem" : "0" }}
-      >
-        {leftPanelOpen ? (
-          <ChevronLeft className="w-5 h-5 text-slate-600" />
-        ) : (
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        )}
-      </button>
+
 
       {/* Middle Panel - AI Chat & Questions */}
       <div className="flex-1 flex flex-col p-6 overflow-hidden min-w-0 pt-32">
@@ -664,17 +711,7 @@ const DoctorVisit = () => {
       </div>
 
       {/* Right Panel Toggle */}
-      <button
-        onClick={() => setRightPanelOpen(!rightPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-l-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
-        style={{ right: rightPanelOpen ? "24rem" : "0" }}
-      >
-        {rightPanelOpen ? (
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        ) : (
-          <ChevronLeft className="w-5 h-5 text-slate-600" />
-        )}
-      </button>
+
 
       {/* Right Panel - Visit Details */}
       <div
