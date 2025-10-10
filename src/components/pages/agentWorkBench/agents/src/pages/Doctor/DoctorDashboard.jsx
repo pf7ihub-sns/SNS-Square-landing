@@ -69,6 +69,17 @@ export default function DoctorDashboard() {
     if (!dateStr) return "-";
     const d = new Date(dateStr);
     if (isNaN(d.getTime())) return "-";
+    
+    // For UTC dates (ending with Z), use UTC date
+    if (dateStr.includes('Z')) {
+      return d.toLocaleDateString('en-US', { 
+        timeZone: 'UTC',
+        month: 'numeric',
+        day: 'numeric', 
+        year: 'numeric' 
+      });
+    }
+    
     return d.toLocaleDateString();
   };
 
@@ -92,14 +103,26 @@ export default function DoctorDashboard() {
   const formatTime = (timeStr) => {
     if (!timeStr) return "Not scheduled";
     
-    // If it's a time-only string like "14:30"
-    if (timeStr.includes(":") && timeStr.length <= 8) {
-      return timeStr;
+    // Parse the datetime string and extract time
+    const d = new Date(timeStr);
+    if (isNaN(d.getTime())) return "Invalid time";
+    
+    // For UTC times (ending with Z), we want to show the actual UTC time, not local time
+    if (timeStr.includes('Z')) {
+      // Extract hours and minutes from UTC time
+      const hours = d.getUTCHours();
+      const minutes = d.getUTCMinutes();
+      
+      // Format in 12-hour format
+      const hour12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      
+      return `${hour12}:${formattedMinutes} ${ampm}`;
     }
     
-    const d = new Date(timeStr);
-    if (isNaN(d.getTime())) return timeStr;
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    // For non-UTC times, use local time
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
   };
 
   // Professional Consultation Loading Screen
@@ -276,7 +299,7 @@ export default function DoctorDashboard() {
                           {formatTime(p.scheduled_time)}
                         </td>
                         <td className="px-4 py-3 text-slate-700 text-sm">
-                          {formatDate(p.visit_date)}
+                          {formatDate(p.scheduled_time)}
                         </td>
                         <td className="px-4 py-3">
                           <button
