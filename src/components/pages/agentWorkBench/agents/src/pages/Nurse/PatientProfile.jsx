@@ -1060,8 +1060,14 @@ const PatientProfile = () => {
 
       {/* Add Visit Modal */}
       {showAddVisitModal && (
-        <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex justify-center items-center z-50 p-4 pt-32">
-          <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 bg-black/80 bg-opacity-50 flex justify-center items-center z-50 p-4 pt-32"
+          onClick={() => setShowAddVisitModal(false)}
+        >
+          <div 
+            className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="sticky top-0 bg-white border-b border-[#E2E8F0] p-6 z-10">
               <h2 className="text-xl font-bold text-[#1E293B]">Add New Checkup History</h2>
             </div>
