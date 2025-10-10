@@ -1017,7 +1017,7 @@ export const agentCategories = {
                     "Social campaigns"
                 ],
                 status: "available"
-            }
+            },
         ]
     }
 };

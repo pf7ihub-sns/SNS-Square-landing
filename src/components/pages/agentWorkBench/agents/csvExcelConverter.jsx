@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { ArrowLeft } from 'lucide-react';
 function CsvExcelConverter() {
   const [file, setFile] = useState(null);
   const [targetFormat, setTargetFormat] = useState("excel");
@@ -45,12 +45,18 @@ function CsvExcelConverter() {
   return (
     <div className="min-h-screen pt-44 bg-gradient-to-br from-gray-50 to-gray-100 p-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-extrabold text-blue-700 mb-6 text-center">
-          CSV ↔ Excel Converter
-          <span className="block text-sm font-normal text-gray-500 mt-1">
-            Convert .csv and .xlsx files with one click
-          </span>
-        </h1>
+        <div className="relative">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white text-center mb-6 p-3 sm:p-4 rounded-lg mx-8 sm:mx-12 lg:mx-0" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            CSV ↔ Excel Converter
+          </h1>
+          <button
+            onClick={() => window.location.href = '/media-entertainment'}
+            className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md"
+          >
+            <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+            <span>Back</span>
+          </button>
+        </div>
         {error && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-red-700">
             {error}
@@ -85,27 +91,25 @@ function CsvExcelConverter() {
               <button
                 type="button"
                 onClick={() => setTargetFormat("excel")}
-                className={`px-4 py-2 text-sm font-medium ${
-                  targetFormat === "excel"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                }`}
+                className={`px-4 py-2 text-sm font-medium ${targetFormat === "excel"
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  }`}
                 aria-pressed={targetFormat === "excel"}
               >
                 Convert to Excel (.xlsx)
               </button>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setTargetFormat("csv")}
-                className={`px-4 py-2 text-sm font-medium border-l border-gray-200 ${
-                  targetFormat === "csv"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                }`}
+                className={`px-4 py-2 text-sm font-medium border-l border-gray-200 ${targetFormat === "csv"
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  }`}
                 aria-pressed={targetFormat === "csv"}
               >
                 Convert to CSV (.csv)
-              </button>
+              </button> */}
             </div>
           </div>
           <div className="flex items-center justify-between">

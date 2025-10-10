@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ArrowLeft } from 'lucide-react';
 
 function DocumentSummarizerAgent() {
   const [file, setFile] = useState(null);
@@ -60,11 +61,22 @@ function DocumentSummarizerAgent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8 mt-18" style={{ backgroundColor: '#F9FAFB' }}>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
+        <div className="relative">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white text-center mb-6 p-3 sm:p-4 rounded-lg mx-8 sm:mx-12 lg:mx-0" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            Document Summarizer Agent
+          </h1>
+          <button
+            onClick={() => window.location.href = '/media-entertainment'}
+            className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-4 lg:right-4 flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+          >
+            <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+            <span>Back</span>
+          </button>
+        </div>
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Document Summarizer Agent</h1>
           <p className="text-gray-600">
             Upload documents and get AI-powered Summaries. Supports PDF, DOCX, and TXT files.
           </p>
@@ -72,7 +84,6 @@ function DocumentSummarizerAgent() {
 
         {/* Main Card */}
         <div className="bg-white rounded-2xl shadow-lg p-8">
-
           {/* File Upload */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">

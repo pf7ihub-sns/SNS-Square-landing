@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function MultiLanguageChat() {
   const [messages, setMessages] = useState([]);
@@ -111,52 +112,61 @@ export default function MultiLanguageChat() {
       e.preventDefault();
       handleSend();
     }
-  };    
+  };
 
   const currentLanguage = languages.find(lang => lang.code === selectedLanguage) || languages[0];
 
   return (
     <div className="min-h-screen bg-[#F2F6FE] flex items-center justify-center p-4 pt-44">
       <div className="w-full max-w-4xl h-[90vh] bg-white shadow-2xl rounded-3xl border border-gray-200 flex flex-col overflow-hidden">
-        
+
         {/* Header */}
         <div className="bg-gradient-to-r from-[#064EE3] to-[#3D76EC] px-6 py-4 text-white relative">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <circle cx="15.5" cy="8.5" r="1.5"/>
-                  <path d="M8.5 13.5c1.5 2 2.5 2.5 3.5 2.5s2-0.5 3.5-2.5"/>
-                </svg>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold">AI Language Assistant</h1>
-                <div className="flex items-center space-x-2 text-sm text-blue-100">
-                  <span className="flex items-center space-x-1">
-                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    <span>Online</span>
-                  </span>
-                  <span>•</span>
-                  <span className="flex items-center space-x-1">
-                    <span>{currentLanguage.flag}</span>
-                    <span>{currentLanguage.name}</span>
-                  </span>
+          <div className="relative">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <circle cx="15.5" cy="8.5" r="1.5" />
+                    <path d="M8.5 13.5c1.5 2 2.5 2.5 3.5 2.5s2-0.5 3.5-2.5" />
+                  </svg>
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold">AI Language Assistant</h1>
+                  <div className="flex items-center space-x-2 text-sm text-blue-100">
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                      <span>Online</span>
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center space-x-1">
+                      <span>{currentLanguage.flag}</span>
+                      <span>{currentLanguage.name}</span>
+                    </span>
+                  </div>
                 </div>
               </div>
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={() => window.location.href = '/media-entertainment'}
+                  className="flex items-center gap-1 sm:gap-2 text-white font-medium hover:text-blue-200 transition-colors text-sm sm:text-base p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+                >
+                  <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
+                  <span>Back</span>
+                </button>
+                <button
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30 transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30 transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
-              </svg>
-            </button>
           </div>
-          
           {/* Settings Panel */}
           {showSettings && (
             <div className="absolute top-full left-0 right-0 bg-white rounded-b-2xl shadow-xl border-t border-gray-200 p-6 z-10 text-gray-800">
@@ -186,17 +196,6 @@ export default function MultiLanguageChat() {
                   </select>
                 </div>
               </div>
-              {/* <div className="mt-6 flex justify-end">
-                <button
-                  onClick={handleExportChat}
-                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white rounded-xl hover:from-[#0540D4] hover:to-[#356AE5] transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                  </svg>
-                  <span>Export Chat</span>
-                </button>
-              </div> */}
             </div>
           )}
         </div>
@@ -210,7 +209,7 @@ export default function MultiLanguageChat() {
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
               <div className="w-20 h-20 bg-gradient-to-br from-[#064EE3]/10 to-[#3D76EC]/10 rounded-full flex items-center justify-center mb-6">
                 <svg className="w-10 h-10 text-[#064EE3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">Welcome to AI Language Assistant</h3>
@@ -226,24 +225,21 @@ export default function MultiLanguageChat() {
               >
                 <div className={`flex items-end space-x-3 max-w-2xl ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                   {/* Avatar */}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 shadow-lg ${
-                    message.role === 'user' 
-                      ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC]' 
-                      : 'bg-gradient-to-br from-gray-600 to-gray-700'
-                  }`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 shadow-lg ${message.role === 'user'
+                    ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC]'
+                    : 'bg-gradient-to-br from-gray-600 to-gray-700'
+                    }`}>
                     {message.role === 'user' ? (name ? name[0].toUpperCase() : 'U') : 'AI'}
                   </div>
-                  
+
                   {/* Message bubble */}
-                  <div className={`px-5 py-4 rounded-3xl shadow-lg ${
-                    message.role === 'user'
-                      ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC] text-white rounded-br-lg'
-                      : 'bg-white border border-gray-200 text-gray-800 rounded-bl-lg'
-                  }`}>
-                    <p className="leading-relaxed">{message.content}</p>
-                    <div className={`flex items-center space-x-2 text-xs mt-2 ${
-                      message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
+                  <div className={`px-5 py-4 rounded-3xl shadow-lg ${message.role === 'user'
+                    ? 'bg-gradient-to-br from-[#064EE3] to-[#3D76EC] text-white rounded-br-lg'
+                    : 'bg-white border border-gray-200 text-gray-800 rounded-bl-lg'
                     }`}>
+                    <p className="leading-relaxed">{message.content}</p>
+                    <div className={`flex items-center space-x-2 text-xs mt-2 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
+                      }`}>
                       <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
                       <span>•</span>
                       <span className="flex items-center space-x-1">
@@ -251,21 +247,21 @@ export default function MultiLanguageChat() {
                         <span>{languages.find((lang) => lang.code === message.language)?.name}</span>
                       </span>
                     </div>
-                    
+
                     {/* Quick Reply Buttons */}
                     {message.role === 'assistant' && messages[index + 1]?.role !== 'user' && (
                       <div className="mt-4 flex flex-wrap gap-2">
                         {(message.content.includes('suggestions')
                           ? JSON.parse(message.content.split('suggestions: ')[1] || '[]')
                           : []).map((suggestion, i) => (
-                          <button
-                            key={i}
-                            onClick={() => handleQuickReply(suggestion)}
-                            className="px-3 py-1 bg-[#F2F6FE] text-[#064EE3] rounded-full hover:bg-blue-100 text-sm font-medium transition-colors border border-blue-200"
-                          >
-                            {suggestion}
-                          </button>
-                        ))}
+                            <button
+                              key={i}
+                              onClick={() => handleQuickReply(suggestion)}
+                              className="px-3 py-1 bg-[#F2F6FE] text-[#064EE3] rounded-full hover:bg-blue-100 text-sm font-medium transition-colors border border-blue-200"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
                       </div>
                     )}
                   </div>
@@ -273,7 +269,7 @@ export default function MultiLanguageChat() {
               </div>
             ))
           )}
-          
+
           {/* Loading indicator */}
           {isLoading && (
             <div className="flex justify-start">
@@ -291,13 +287,13 @@ export default function MultiLanguageChat() {
               </div>
             </div>
           )}
-          
+
           {/* Error message */}
           {error && (
             <div className="flex justify-center">
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl flex items-center space-x-2">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
                 <span>{error}</span>
               </div>
@@ -322,7 +318,7 @@ export default function MultiLanguageChat() {
                 {currentLanguage.flag}
               </div>
             </div>
-            
+
             <button
               onClick={() => handleSend()}
               disabled={isLoading || !input.trim()}
@@ -330,16 +326,16 @@ export default function MultiLanguageChat() {
             >
               {isLoading ? (
                 <svg className="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               ) : (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               )}
             </button>
           </div>
-          
+
           <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
             <span className="flex items-center space-x-1">
               <kbd className="px-2 py-1 bg-gray-100 rounded border">Enter</kbd>

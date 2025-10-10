@@ -18,6 +18,11 @@ import MediaEntertainment from "../pages/mediaEntertainment";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
+import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
+import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
+import RenewalAgent from "../components/pages/agentWorkBench/agents/renewalAgent";
+import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1/index";
+import ContractManagementSystem from "../components/pages/agentWorkBench/agents/contractManagementSystem/index";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -27,6 +32,7 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/agent-details/:agentId" element={<AgentDetailsModelPage />} />
       
       {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
@@ -87,7 +93,10 @@ export default function AppRoutes() {
       <Route path="/agent-playground/agent" element={<AgentDisplay />} />
       <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
       
+      <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
+      <Route path="/agent-playground/agent/contract-management-v1/*" element={<ContractManagementV1 />} />
+      <Route path="/agent-playground/agent/contract-management-system/*" element={<ContractManagementSystem />} />
       {/* Existing Agent Detail Routes */}
       
       {/* Legacy Agent Details Routes - Protected */}

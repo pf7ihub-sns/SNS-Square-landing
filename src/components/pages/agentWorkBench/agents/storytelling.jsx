@@ -1,175 +1,220 @@
-import { useState } from "react";
-import axios from "axios";
 
-function StorylineGenerator() {
-  const [storyIdea, setStoryIdea] = useState("");
+import React, { useState } from 'react';
+import axios from 'axios';
+import { ArrowLeft } from 'lucide-react';
+
+const API_BASE = "http://127.0.0.1:8000";
+
+const StorylineGenerator = () => {
+  const [storyIdea, setStoryIdea] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   // Function to format markdown-like text
   const formatStoryline = (text) => {
-    if (!text) return "";
+    if (!text) return '';
 
     return text
       .split('\n')
       .map((line, index) => {
-        // Handle bold text (**text**)
         line = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
-        // Handle italic text (*text*)
         line = line.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
 
-        // Handle main section headers (like **Strengths:**)
         if (line.trim().match(/^\*\*.*?:\*\*$/)) {
-          return `<h3 class="text-xl font-bold text-blue-800 mt-6 mb-3 border-b-2 border-blue-200 pb-2">${line.replace(/\*\*/g, '')}</h3>`;
+          return `<h3 class="text-base font-semibold text-blue-800 mt-4 mb-2 border-l-3 border-blue-500 pl-2">${line.replace(/\*\*/g, '')}</h3>`;
         }
 
-        // Handle bullet points (* item)
         if (line.trim().startsWith('*')) {
           const content = line.trim().substring(1).trim();
-          // Check if it's a sub-bullet (starts with additional formatting)
-          if (content.startsWith('*') || content.startsWith('-')) {
-            return `<li class="ml-8 mb-1 text-gray-600">${content.substring(1).trim()}</li>`;
-          }
-          return `<li class="ml-4 mb-2 flex items-start"><span class="text-blue-500 mr-2 mt-1">•</span><span>${content}</span></li>`;
+          return `<li class="ml-4 mb-1 flex items-start text-sm"><span class="text-blue-500 mr-1 mt-0.5">•</span><span class="text-gray-700">${content}</span></li>`;
         }
 
-        // Handle regular paragraphs
         if (line.trim()) {
-          return `<p class="mb-3 leading-relaxed text-gray-800">${line}</p>`;
+          return `<p class="mb-2 text-gray-800 leading-relaxed text-sm">${line}</p>`;
         }
-        return '<div class="mb-2"></div>';
+        return '<div class="mb-1"></div>';
       })
       .join('');
   };
 
+  const simulateProgress = () => {
+    setLoadingProgress(0);
+    const interval = setInterval(() => {
+      setLoadingProgress((prev) => {
+        if (prev >= 90) {
+          clearInterval(interval);
+          return 90;
+        }
+        return prev + Math.random() * 15;
+      });
+    }, 200);
+    return interval;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!storyIdea.trim()) {
       setError('Please enter a story idea or theme');
       return;
     }
-    
+
     setLoading(true);
     setError(null);
     setResult(null);
-    
+
+    const progressInterval = simulateProgress();
+
     try {
-      const response = await axios.post('http://127.0.0.1:8000/storyline_generator/storyline', {
-        text: storyIdea
+      const response = await axios.post(`${API_BASE}/storyline_generator/storyline`, {
+        text: storyIdea,
       });
-      
-      setResult(response.data);
+
+      clearInterval(progressInterval);
+      setLoadingProgress(100);
+
+      setTimeout(() => {
+        setResult(response.data);
+        setLoading(false);
+        setLoadingProgress(0);
+      }, 500);
     } catch (err) {
-      console.error('Storyline generation error:', err);
+      clearInterval(progressInterval);
       setError(err.response?.data?.detail || err.message || 'An error occurred while generating the storyline');
-    } finally {
       setLoading(false);
+      setLoadingProgress(0);
     }
   };
 
+  const copyToClipboard = () => {
+    if (result?.storyline) {
+      navigator.clipboard.writeText(result.storyline);
+    }
+  };
+
+  const generateAnother = () => {
+    setResult(null);
+    setError(null);
+    setStoryIdea('');
+  };
+
   return (
-    <div className="bg-white min-h-screen">
-      {/* Header */}
-      <header className="w-full bg-white shadow-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-blue-700">SNS Square</h1>
-          <nav className="flex space-x-6">
-            <a href="/" className="text-gray-700 hover:text-blue-600">Home</a>
-            <a href="/agent-workbench" className="text-blue-600 font-semibold">Agent Workbench</a>
-            <a href="/usecase" className="text-gray-700 hover:text-blue-600">Use Case</a>
-            <a href="/life" className="text-gray-700 hover:text-blue-600">Life at SNS Square</a>
-            <a href="/about" className="text-gray-700 hover:text-blue-600">About Us</a>
-          </nav>
-          <button className="bg-black text-white px-4 py-2 rounded-full">
-            Contact Us
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4" style={{ backgroundColor: '#F9FAFB' }}>
+      <div className="w-full max-w-5xl mt-17">
+        {/* Header */}
+        <div className="relative">
+          <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+            Storyline Generator
+          </h1>
+          <button
+            onClick={() => window.location.href = '/media-entertainment'}
+            className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
           </button>
         </div>
-      </header>
 
-      {/* Main Card */}
-      <main className="flex justify-center px-4 py-16">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-2xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg border border-blue-200"
-        >
-        {/* Active Agent Badge */}
-        <span className="inline-block px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full mb-6">
-          Active Agent
-        </span>
-
-        {/* Title */}
-        <div className="flex items-center mb-6">
-          <span className="text-3xl mr-2">🎬</span>
-          <h2 className="text-2xl font-bold text-blue-700">
-            Storyline Generator
-          </h2>
+        {/* Instructions */}
+        <div className="text-center mb-4 text-gray-700">
+          <p className="mb-2">Transform your creative ideas into compelling storylines with AI power.</p>
+          <p className="text-sm">Enter a story idea or theme to generate a storyline.</p>
         </div>
 
-        {/* Textarea */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Enter your story idea or theme
-          </label>
-          <textarea
-            value={storyIdea}
-            onChange={(e) => setStoryIdea(e.target.value)}
-            placeholder="E.g., A time traveler stuck in the past, a love story in space, etc."
-            rows={5}
-            className="w-full px-4 py-3 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-        </div>
-
-        {/* Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition disabled:cursor-not-allowed"
-        >
-          {loading ? 'Generating Storyline...' : 'Generate Storyline'}
-        </button>
-        </form>
-
-        {/* Result Section */}
-        {loading && (
-          <div className="mt-6 text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-              <span className="text-blue-700">Generating storyline...</span>
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Input Section */}
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
+            <div className="mb-6">
+              <label htmlFor="storyIdea" className="block text-sm font-medium text-gray-700 mb-2">
+                What's your story idea? ✨
+              </label>
+              <textarea
+                id="storyIdea"
+                value={storyIdea}
+                onChange={(e) => setStoryIdea(e.target.value)}
+                placeholder="A mysterious time traveler gets stuck in medieval times and must find a way home..."
+                rows={4}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-sm"
+                maxLength={1000}
+              />
+              <p className="text-xs text-gray-400 mt-1 text-right">{storyIdea.length}/1000</p>
             </div>
+            <button
+              onClick={handleSubmit}
+              disabled={loading || !storyIdea.trim()}
+              className={`w-full py-2 px-4 rounded-md text-white font-medium transition-colors ${loading || !storyIdea.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 hover:bg-blue-800'}`}
+              style={{ backgroundColor: loading || !storyIdea.trim() ? '#9CA3AF' : '#1E3A8A' }}
+            >
+              {loading ? 'Crafting Story...' : 'Generate Storyline'}
+            </button>
+            {loading && (
+              <div className="mt-4 text-center">
+                <div className="w-full bg-gray-200 rounded-full h-2 mb-2 overflow-hidden">
+                  <div
+                    className="bg-blue-500 h-2 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${loadingProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-xs text-gray-500">{Math.round(loadingProgress)}% Complete</p>
+              </div>
+            )}
+            {error && (
+              <div className="mt-4 p-2 bg-red-50 text-red-700 rounded-lg text-sm">
+                {error} <button onClick={() => setError(null)} className="ml-2 text-red-600 underline text-xs">Try again</button>
+              </div>
+            )}
           </div>
-        )}
 
-        {error && (
-          <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <div className="flex items-center">
-              <span className="text-red-500 mr-2">⚠️</span>
-              <span className="text-red-700">{error}</span>
-            </div>
-          </div>
-        )}
-
-        {result && result.storyline && (
-          <div className="mt-8 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-            <div className="flex items-center mb-4">
-              <span className="text-2xl mr-2">📖</span>
-              <h3 className="text-xl font-bold text-gray-800">Generated Storyline</h3>
-            </div>
-            <div className="prose max-w-none">
-              <div className="bg-gray-50 p-6 rounded-lg border-l-4 border-blue-500">
+          {/* Output Section */}
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+            {result && result.storyline ? (
+              <div className="w-full h-96 overflow-y-auto space-y-4">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                  Your Storyline
+                </h2>
                 <div
-                  className="text-gray-700 leading-relaxed"
+                  className="prose prose-sm max-w-none text-gray-800"
                   dangerouslySetInnerHTML={{ __html: formatStoryline(result.storyline) }}
                 />
+                <div className="flex gap-2 mt-4 pt-2 border-t border-gray-200">
+                  <button
+                    onClick={copyToClipboard}
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                    title="Copy to Clipboard"
+                  >
+                    Copy
+                  </button>
+                  <button
+                    onClick={generateAnother}
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    New Story
+                  </button>
+                  <button
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Refine
+                  </button>
+                  <button
+                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Share
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : !loading && !error ? (
+              <div className="w-full h-96 flex items-center justify-center text-gray-500">
+                Your generated story will appear here
+              </div>
+            ) : null}
           </div>
-        )}
-      </main>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default StorylineGenerator;

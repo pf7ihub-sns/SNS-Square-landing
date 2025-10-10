@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 const AutomatedLinter = () => {
   const [activeTab, setActiveTab] = useState('code');
@@ -217,13 +218,22 @@ const AutomatedLinter = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
       <div className="max-w-7xl mx-auto pt-44">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Automated Linter
-          </h1>
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-4">
+          <div className="relative">
+            <h1 className="text-3xl font-semibold text-white text-center mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1E3A8A', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+              Automated Linter
+            </h1>
+            <button
+              onClick={() => window.location.href = '/media-entertainment'}
+              className="absolute top-4 right-4 flex items-center gap-2 text-white font-medium hover:text-blue-200 transition-colors p-2 hover:bg-white-50 hover:bg-opacity-10 rounded-md z-10"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span>Back</span>
+            </button>
+          </div>
           <p className="text-gray-600">
             Analyze your code for quality issues, style violations, and potential improvements
           </p>
@@ -238,11 +248,10 @@ const AutomatedLinter = () => {
             <div className="flex mb-4 border-b">
               <button
                 onClick={() => setActiveTab('code')}
-                className={`px-4 py-2 font-medium ${
-                  activeTab === 'code'
+                className={`px-4 py-2 font-medium ${activeTab === 'code'
                     ? 'text-blue-600 border-b-2 border-blue-600'
                     : 'text-gray-500 hover:text-gray-700'
-                }`}
+                  }`}
               >
                 <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -251,11 +260,10 @@ const AutomatedLinter = () => {
               </button>
               <button
                 onClick={() => setActiveTab('file')}
-                className={`px-4 py-2 font-medium ml-4 ${
-                  activeTab === 'file'
+                className={`px-4 py-2 font-medium ml-4 ${activeTab === 'file'
                     ? 'text-blue-600 border-b-2 border-blue-600'
                     : 'text-gray-500 hover:text-gray-700'
-                }`}
+                  }`}
               >
                 <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -499,11 +507,10 @@ const AutomatedLinter = () => {
                                   {issue.type.replace('-', ' ')}
                                 </span>
                                 <div className="flex items-center gap-2">
-                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    issue.severity === 'error' ? 'bg-red-100 text-red-700' :
-                                    issue.severity === 'warning' ? 'bg-yellow-100 text-yellow-700' :
-                                    'bg-blue-100 text-blue-700'
-                                  }`}>
+                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${issue.severity === 'error' ? 'bg-red-100 text-red-700' :
+                                      issue.severity === 'warning' ? 'bg-yellow-100 text-yellow-700' :
+                                        'bg-blue-100 text-blue-700'
+                                    }`}>
                                     {issue.severity}
                                   </span>
                                   {issue.line > 0 && (
@@ -547,11 +554,10 @@ const AutomatedLinter = () => {
                                       {issue.codeSnippet.split('\n').map((line, idx) => (
                                         <div
                                           key={idx}
-                                          className={`${
-                                            line.includes('→')
+                                          className={`${line.includes('→')
                                               ? 'bg-red-900 bg-opacity-50 text-red-200 font-bold border-l-2 border-red-500 pl-2'
                                               : 'text-gray-300'
-                                          }`}
+                                            }`}
                                         >
                                           {line}
                                         </div>
