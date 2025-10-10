@@ -114,69 +114,41 @@ export default function NurseDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50/20">
-      {/* Top Navigation Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => navigate(-1)} 
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
-                aria-label="Go back"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <h1 className="text-xl font-bold text-gray-900 tracking-tight">Docsentra</h1>
-            </div>
-            <div className="flex items-center space-x-3">
-              <button
-                onClick={() => navigate("../new-patient", { relative: "path" })}
-                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
-              >
-                <UserPlus className="w-4 h-4" />
-                <span className="hidden sm:inline">+ New Patient</span>
-                <span className="sm:hidden">+</span>
-              </button>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2.5 text-gray-700 hover:text-gray-900 font-medium hover:bg-gray-100 rounded-lg transition-all duration-200"
-              >
-                Contact Us
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-slate-50 font-manrope pt-20">
+      {/* Back Navigation */}
+      <div className="px-6 pt-6 pb-1">
+        <button 
+          onClick={() => window.location.href = 'http://localhost:5173/agent-playground/agent/Doc-Sentra'}
+          className="flex items-center gap-2 text-slate-700 hover:text-slate-900 px-3 py-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="font-medium text-base">Back to Home</span>
+        </button>
+      </div>
 
       {/* Main Content */}
-      <div className="mx-auto px-6 lg:px-8 py-8 lg:py-12" style={{ maxWidth: '89rem' }}>
+      <div className="mx-auto px-6 lg:px-8 py-2 lg:py-3" style={{ maxWidth: '89rem' }}>
         {/* Card 1: Welcome Section */}
         <div className="bg-white rounded-xl border-1 border-[#B6B9BE] p-6 lg:p-8 mb-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             {/* Left Side - Welcome Text */}
             <div className="flex-1">
-              <h2 className="text-[24px] lg:text-[24px] font-bold text-gray-900 mb-1 tracking-tight">
+              <h2 className="text-2xl font-semibold text-slate-900 mb-2">
                 Welcome, {user.name || "Swetha"}!
               </h2>
-              <p className="text-base lg:text-[18px] font-medium text-gray-600">Manage patient registration and records</p>
+              <p className="text-base text-slate-500 font-regular">Manage patient registration and records</p>
             </div>
 
-            {/* Right Side - Action Buttons */}
+            {/* Right Side - Action Button */}
             <div className="flex items-center gap-3 lg:flex-shrink-0">
-              <button
-                onClick={handleLogout}
-                className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
-              >
-                Logout
-              </button>
               <button
                 onClick={() => navigate("../new-patient", { relative: "path" })}
                 className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg  transition-all duration-200 transform"
               >
                 <span>New Patient</span>
               </button>
-
             </div>
           </div>
         </div>
@@ -234,6 +206,16 @@ export default function NurseDashboard() {
 
           {/* Patients List Section - Inside Card 2 */}
           <PatientList patients={filteredPatients} loading={loading} error={error} />
+          
+          {/* Logout Button - Below Pagination */}
+          <div className="mt-8 pt-6 border-t border-gray-200 flex justify-left">
+            <button
+              onClick={handleLogout}
+              className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Filter Modal Popup */}
