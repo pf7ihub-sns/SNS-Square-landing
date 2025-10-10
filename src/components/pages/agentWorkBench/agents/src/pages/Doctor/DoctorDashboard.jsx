@@ -24,7 +24,6 @@ export default function DoctorDashboard() {
     try {
       const res = await fetch(`${API_BASE_URL}/patient-list/${user.id}`);
       const data = await res.json();
-      console.log("Received patients data:", data);
       setPatients(data.scheduled_appointments || []); // Updated key
     } catch (error) {
       console.error("Error fetching patients:", error);
@@ -66,10 +65,41 @@ export default function DoctorDashboard() {
     navigate(`../doctor/visit/${patient_id}/${visit_id}`);
   };
 
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "-";
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "-";
+    return d.toLocaleDateString();
+  };
+
   const formatDateTime = (dateStr) => {
     if (!dateStr) return "-";
     const d = new Date(dateStr);
-    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    if (isNaN(d.getTime())) return "-";
+    
+    // Check if the time is midnight (00:00:00), which indicates date-only data
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    const seconds = d.getSeconds();
+    
+    if (hours === 0 && minutes === 0 && seconds === 0) {
+      return d.toLocaleDateString();
+    } else {
+      return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
+  };
+
+  const formatTime = (timeStr) => {
+    if (!timeStr) return "Not scheduled";
+    
+    // If it's a time-only string like "14:30"
+    if (timeStr.includes(":") && timeStr.length <= 8) {
+      return timeStr;
+    }
+    
+    const d = new Date(timeStr);
+    if (isNaN(d.getTime())) return timeStr;
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   // Professional Consultation Loading Screen
@@ -243,10 +273,10 @@ export default function DoctorDashboard() {
                           {p.gender || "-"}
                         </td>
                         <td className="px-4 py-3 text-slate-700 text-sm">
-                          {formatDateTime(p.scheduled_time)}
+                          {formatTime(p.scheduled_time)}
                         </td>
                         <td className="px-4 py-3 text-slate-700 text-sm">
-                          {formatDateTime(p.visit_date)}
+                          {formatDate(p.visit_date)}
                         </td>
                         <td className="px-4 py-3">
                           <button
