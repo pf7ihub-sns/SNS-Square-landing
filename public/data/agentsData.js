@@ -3421,12 +3421,20 @@ export default {
       agents: [
         {
           "id": "Lead-Genearation",
-          "name": "Lead Generation",
+          "name": "Lead Management",
           "summary": "Sales Lead Generation - Find and qualify high-potential prospects automatically.",
           "image": "/placeholder.jpg",
           "solutions": ["Prospect identification", "Lead scoring", "Outreach automation", "Engagement tracking"],
           "useCases": ["B2B lead generation", "Account-based marketing", "Sales pipeline growth"],
           status: "available"
+        },
+                {
+          "id": "lead-qualification",
+          "name": "Lead Qualification",
+          "summary": "Automatically qualify leads based on engagement and fit.",
+          "image": "/placeholder.jpg",
+          "solutions": ["Lead scoring", "Engagement tracking", "Fit assessment"],
+          "useCases": ["Sales qualification", "Marketing automation", "Customer insights"]
         },
         {
           "id": "invoice-processing",

@@ -71,6 +71,8 @@ import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import LeadQualification from "./agents/leadQualification";
+
 import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
 import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
 import AiSheets from "./agents/aiSheets";
@@ -147,6 +149,7 @@ const AgentRouter = () => {
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor /> ,
     "email-support":<EmailSupport/>,
+    "lead-qualification":<LeadQualification/>,
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
