@@ -21,6 +21,7 @@ import {
   FileText,
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
   RotateCcw,
 } from "lucide-react"
 
@@ -156,6 +157,14 @@ function NewPatientRegistration() {
     }
   }
 
+  const goToStep = (stepNum) => {
+    // Allow navigation to current step or any previous step
+    // But not to future steps (user must complete current step first)
+    if (stepNum <= currentStep) {
+      setCurrentStep(stepNum)
+    }
+  }
+
   const validateCurrentStep = () => {
     switch (currentStep) {
       case 1:
@@ -239,7 +248,7 @@ function NewPatientRegistration() {
   }
   const relationOptions = ["", "Parent", "Spouse", "Child", "Sibling", "Other"]
   const insuranceProviderOptions = ["", "Ayushman Bharat", "Star Health", "Max Bupa", "HDFC ERGO", "Others"]
-  const maritalStatusOptions = ["", "Single", "Married", "Divorced", "Widowed"]
+  const maritalStatusOptions = ["", "Single", "Married", "Divorced", "Widowed",]
 
   const getStepTitle = () => {
     switch (currentStep) {
@@ -296,9 +305,8 @@ function NewPatientRegistration() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="full_name" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <User className="w-4 h-4 mr-2 text-blue-600" />
-            Full Name *
+          <label htmlFor="full_name" className="text-sm font-medium text-gray-700">
+            Full Name
           </label>
           <input
             type="text"
@@ -307,15 +315,15 @@ function NewPatientRegistration() {
             value={formData.full_name}
             onChange={handleChange}
             required
-            placeholder="Enter patient's full name"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            placeholder="Enter full name"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="gender" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <User className="w-4 h-4 mr-2 text-blue-600" />
-            Gender *
+        <div className="space-y-2 relative">
+          <label htmlFor="gender" className="text-sm font-medium text-gray-700">
+            Gender
           </label>
           <select
             id="gender"
@@ -323,20 +331,23 @@ function NewPatientRegistration() {
             value={formData.gender}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {genderOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select Gender"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="dob" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Calendar className="w-4 h-4 mr-2 text-blue-600" />
-            Date of Birth *
+          <label htmlFor="dob" className="text-sm font-medium text-gray-700">
+            Date of Birth
           </label>
           <input
             type="date"
@@ -345,14 +356,14 @@ function NewPatientRegistration() {
             value={formData.dob}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="age" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-            Age (Auto-calculated)
+          <label htmlFor="age" className="text-sm font-medium text-gray-700">
+            Age (Auto Calculated)
           </label>
           <input
             type="number"
@@ -361,14 +372,14 @@ function NewPatientRegistration() {
             value={formData.age}
             readOnly
             placeholder="Age will be calculated from DOB"
-            className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-600"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="marital_status" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Heart className="w-4 h-4 mr-2 text-blue-600" />
-            Marital Status *
+        <div className="space-y-2 relative">
+          <label htmlFor="marital_status" className="text-sm font-medium text-gray-700">
+            Marital Status
           </label>
           <select
             id="marital_status"
@@ -376,20 +387,23 @@ function NewPatientRegistration() {
             value={formData.marital_status}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {maritalStatusOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select Marital Status"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="blood_group" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Heart className="w-4 h-4 mr-2 text-red-500" />
-            Blood Group *
+        <div className="space-y-2 relative">
+          <label htmlFor="blood_group" className="text-sm font-medium text-gray-700">
+            Blood Group
           </label>
           <select
             id="blood_group"
@@ -397,21 +411,24 @@ function NewPatientRegistration() {
             value={formData.blood_group}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {bloodGroupOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select Blood Group"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="occupation" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-          <Briefcase className="w-4 h-4 mr-2 text-blue-600" />
-          Occupation *
+        <label htmlFor="occupation" className="text-sm font-medium text-gray-700">
+          Occupation
         </label>
         <input
           type="text"
@@ -421,7 +438,8 @@ function NewPatientRegistration() {
           onChange={handleChange}
           required
           placeholder="Enter occupation"
-          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+          style={{ backgroundColor: '#F9F9F9' }}
+          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
         />
       </div>
     </div>
@@ -431,9 +449,8 @@ function NewPatientRegistration() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="mobile_number" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Phone className="w-4 h-4 mr-2 text-blue-600" />
-            Mobile Number *
+          <label htmlFor="mobile_number" className="text-sm font-medium text-gray-700">
+            Mobile Number
           </label>
           <input
             type="tel"
@@ -445,13 +462,13 @@ function NewPatientRegistration() {
             pattern="[0-9]{10}"
             maxLength="10"
             placeholder="Enter 10-digit mobile number"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="alternate_number" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Phone className="w-4 h-4 mr-2 text-gray-400" />
+          <label htmlFor="alternate_number" className="text-sm font-medium text-gray-700">
             Alternate Phone Number
           </label>
           <input
@@ -463,7 +480,8 @@ function NewPatientRegistration() {
             pattern="[0-9]{10}"
             maxLength="10"
             placeholder="Enter alternate 10-digit number (optional)"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
       </div>
@@ -474,9 +492,8 @@ function NewPatientRegistration() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-6">
         <div className="space-y-2">
-          <label htmlFor="address_line_1" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Home className="w-4 h-4 mr-2 text-blue-600" />
-            Address Line 1 *
+          <label htmlFor="address_line_1" className="text-sm font-medium text-gray-700">
+            Address Line 1
           </label>
           <input
             type="text"
@@ -486,13 +503,13 @@ function NewPatientRegistration() {
             onChange={handleChange}
             required
             placeholder="House No., Street Name"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="address_line_2" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Home className="w-4 h-4 mr-2 text-gray-400" />
+          <label htmlFor="address_line_2" className="text-sm font-medium text-gray-700">
             Address Line 2
           </label>
           <input
@@ -502,16 +519,16 @@ function NewPatientRegistration() {
             value={formData.address_line_2}
             onChange={handleChange}
             placeholder="Apartment, Landmark (optional)"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="city" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-            City *
+          <label htmlFor="city" className="text-sm font-medium text-gray-700">
+            City
           </label>
           <input
             type="text"
@@ -521,14 +538,14 @@ function NewPatientRegistration() {
             onChange={handleChange}
             required
             placeholder="Enter city"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="state" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-            State *
+        <div className="space-y-2 relative">
+          <label htmlFor="state" className="text-sm font-medium text-gray-700">
+            State
           </label>
           <select
             id="state"
@@ -536,20 +553,23 @@ function NewPatientRegistration() {
             value={formData.state}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {stateOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select State"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="district" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-            District *
+        <div className="space-y-2 relative">
+          <label htmlFor="district" className="text-sm font-medium text-gray-700">
+            District
           </label>
           <select
             id="district"
@@ -557,20 +577,23 @@ function NewPatientRegistration() {
             value={formData.district}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {districtOptions[formData.state || ""].map((option) => (
               <option key={option} value={option}>
-                {option || "Select District"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="pin_code" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-            Pin Code *
+          <label htmlFor="pin_code" className="text-sm font-medium text-gray-700">
+            Pin Code
           </label>
           <input
             type="text"
@@ -582,7 +605,8 @@ function NewPatientRegistration() {
             pattern="[0-9]{6}"
             maxLength="6"
             placeholder="Enter 6-digit pin code"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
       </div>
@@ -593,9 +617,8 @@ function NewPatientRegistration() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="emergency_name" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <User className="w-4 h-4 mr-2 text-red-500" />
-            Name *
+          <label htmlFor="emergency_name" className="text-sm font-medium text-gray-700">
+            Name
           </label>
           <input
             type="text"
@@ -605,14 +628,14 @@ function NewPatientRegistration() {
             onChange={handleChange}
             required
             placeholder="Enter emergency contact name"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="emergency_relation" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Heart className="w-4 h-4 mr-2 text-red-500" />
-            Relation *
+        <div className="space-y-2 relative">
+          <label htmlFor="emergency_relation" className="text-sm font-medium text-gray-700">
+            Relation
           </label>
           <select
             id="emergency_relation"
@@ -620,20 +643,23 @@ function NewPatientRegistration() {
             value={formData.emergency_relation}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {relationOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select Relation"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="emergency_phone" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Phone className="w-4 h-4 mr-2 text-red-500" />
-            Phone Number *
+          <label htmlFor="emergency_phone" className="text-sm font-medium text-gray-700">
+            Phone Number
           </label>
           <input
             type="tel"
@@ -645,7 +671,8 @@ function NewPatientRegistration() {
             pattern="[0-9]{10}"
             maxLength="10"
             placeholder="Enter 10-digit phone number"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
       </div>
@@ -656,9 +683,8 @@ function NewPatientRegistration() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="aadhaar_number" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <CreditCard className="w-4 h-4 mr-2 text-blue-600" />
-            Aadhaar Number *
+          <label htmlFor="aadhaar_number" className="text-sm font-medium text-gray-700">
+            Aadhaar Number
           </label>
           <input
             type="text"
@@ -670,13 +696,13 @@ function NewPatientRegistration() {
             placeholder="XXXX-XXXX-XXXX"
             pattern="[0-9]{4}-?[0-9]{4}-?[0-9]{4}"
             maxLength="14"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="abha_id" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Shield className="w-4 h-4 mr-2 text-green-600" />
+          <label htmlFor="abha_id" className="text-sm font-medium text-gray-700">
             ABHA ID
           </label>
           <input
@@ -686,13 +712,13 @@ function NewPatientRegistration() {
             value={formData.abha_id}
             onChange={handleChange}
             placeholder="Enter ABHA ID (if available)"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="insurance_provider" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <Shield className="w-4 h-4 mr-2 text-blue-600" />
+        <div className="space-y-2 relative">
+          <label htmlFor="insurance_provider" className="text-sm font-medium text-gray-700">
             Insurance Provider
           </label>
           <select
@@ -700,19 +726,22 @@ function NewPatientRegistration() {
             name="insurance_provider"
             value={formData.insurance_provider}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 appearance-none"
           >
             {insuranceProviderOptions.map((option) => (
               <option key={option} value={option}>
-                {option || "Select Insurance Provider"}
+                {option || "Select any one"}
               </option>
             ))}
           </select>
+          <div className="absolute right-3 top-[42px] pointer-events-none">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="policy_number" className="flex items-center text-sm font-semibold text-gray-700 mb-2">
-            <FileText className="w-4 h-4 mr-2 text-blue-600" />
+          <label htmlFor="policy_number" className="text-sm font-medium text-gray-700">
             Policy Number
           </label>
           <input
@@ -722,15 +751,15 @@ function NewPatientRegistration() {
             value={formData.policy_number}
             onChange={handleChange}
             placeholder="Enter policy number (optional)"
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm"
+            style={{ backgroundColor: '#F9F9F9' }}
+            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
           />
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 space-y-4">
+      <div className="border border-gray-200 rounded-xl p-6 space-y-4" style={{ backgroundColor: '#F9F9F9' }}>
         <div className="flex items-center mb-4">
-          <UserCheck className="w-6 h-6 text-blue-600 mr-3" />
-          <h3 className="text-lg font-bold text-gray-800">Verification & Consent</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Verification & Consent</h3>
         </div>
 
         <div className="space-y-4">
@@ -744,8 +773,8 @@ function NewPatientRegistration() {
               className="mt-1 h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
             />
             <div className="flex-1">
-              <span className="text-gray-800 font-medium group-hover:text-blue-700 transition-colors">
-                Identity Verification Completed *
+              <span className="text-gray-800 font-medium">
+                Identity Verification Completed
               </span>
               <p className="text-sm text-gray-600 mt-1">
                 I have verified the patient's identity documents and confirmed their authenticity
@@ -763,8 +792,8 @@ function NewPatientRegistration() {
               className="mt-1 h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
             />
             <div className="flex-1">
-              <span className="text-gray-800 font-medium group-hover:text-blue-700 transition-colors">
-                Patient Consent Obtained *
+              <span className="text-gray-800 font-medium">
+                Patient Consent Obtained
               </span>
               <p className="text-sm text-gray-600 mt-1">
                 Patient has provided informed consent for data collection, storage, and medical treatment
@@ -794,105 +823,90 @@ function NewPatientRegistration() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Fixed Left Sidebar */}
-      <div className="w-80 bg-white shadow-xl border-r border-gray-200 fixed left-0 top-0 h-full ">
-        <div className="p-6 pt-27">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-[#669BBC] rounded-xl mb-3">
-              <User className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-xl font-bold text-gray-900 mb-2">Patient Registration</h1>
-            <p className="text-sm text-gray-600">Complete all steps to register</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Navigation Header */}
+      <header className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+          <div className="flex items-center">
+            <button
+              onClick={() => navigate("../nurse-dashboard", { relative: "path" })}
+              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 mr-3"
+              aria-label="Go back"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <h1 className="text-xl font-bold text-gray-900 tracking-tight">Docsentra</h1>
           </div>
-
-          {/* Step Navigation */}
-          <div className="space-y-3">
-            {[1, 2, 3, 4, 5].map((step) => {
-              const isCompleted = step < currentStep
-              const isCurrent = step === currentStep
-              const isUpcoming = step > currentStep
-
-              return (
-                <div
-                  key={step}
-                  className={`flex items-center p-4 rounded-xl transition-all duration-200 cursor-pointer ${isCurrent
-                    ? "bg-blue-50 border-2 border-blue-200 shadow-sm"
-                    : isCompleted
-                      ? "bg-green-50 border border-green-200"
-                      : "bg-gray-50 border border-gray-200 hover:bg-gray-100"
-                    }`}
-                  onClick={() => {
-                    if (step <= currentStep) {
-                      setCurrentStep(step)
-                    }
-                  }}
-                >
-                  <div
-                    className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold mr-3 ${isCompleted
-                      ? "bg-green-500 text-white"
-                      : isCurrent
-                        ? "bg-[#669BBC] text-white"
-                        : "bg-gray-300 text-gray-600"
-                      }`}
-                  >
-                    {isCompleted ? <Check className="w-4 h-4" /> : step}
-                  </div>
-                  <div className="flex-1">
-                    <div
-                      className={`font-semibold text-sm ${isCurrent ? "text-[#003049]" : isCompleted ? "text-green-700" : "text-gray-600"}`}
-                    >
-                      {step === 1 && "Patient Identity"}
-                      {step === 2 && "Contact Info"}
-                      {step === 3 && "Address"}
-                      {step === 4 && "Emergency Contact"}
-                      {step === 5 && "Verification"}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {step === 1 && "Basic information"}
-                      {step === 2 && "Phone numbers"}
-                      {step === 3 && "Location details"}
-                      {step === 4 && "Emergency person"}
-                      {step === 5 && "Documents & consent"}
-                    </div>
-                  </div>
-                  {isCurrent && <ChevronRight className="w-4 h-4 text-blue-600" />}
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mt-8">
-            <div className="flex justify-between text-sm text-gray-600 mb-2">
-              <span>Progress</span>
-              <span>{Math.round((currentStep / totalSteps) * 100)}%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-              />
-            </div>
-          </div>
-
-          {/* Reset Button */}
-          <button
-            type="button"
-            onClick={handleReset}
-            className="w-full mt-6 flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 text-sm font-medium"
-            disabled={isLoading}
-          >
-            <RotateCcw className="w-4 h-4 mr-2" />
-            Reset Form
-          </button>
         </div>
-      </div>
+      </header>
 
-      {/* Main Content Area */}
-      <div className="flex-1 ml-80">
-        <div className="p-8 pt-26">
+      {/* Main Content */}
+      <div className="mx-auto px-6 lg:px-8 py-8 lg:py-14" style={{ maxWidth: '89rem' }}>
+        {/* Card 1: Horizontal Navigation Tabs */}
+        <div className="bg-white rounded-xl border border-[#B6B9BE] p-6 mb-6">
+          <div className="flex items-center justify-between px-4">
+            {[
+              { num: 1, title: "Patient Identity", subtitle: "Basic Information" },
+              { num: 2, title: "Contact Info", subtitle: "Phone numbers" },
+              { num: 3, title: "Address", subtitle: "Location details" },
+              { num: 4, title: "Emergency Contact", subtitle: "Emergency person" },
+              { num: 5, title: "Verification", subtitle: "Documents & Consent" }
+            ].map((step, index) => (
+              <div key={step.num} className="flex items-center">
+                {/* Step Circle and Labels */}
+                <div className="flex flex-col items-left">
+                  <div className="flex items-center mb-2">
+                    <button
+                      type="button"
+                      onClick={() => goToStep(step.num)}
+                      disabled={step.num > currentStep}
+                      className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold text-base transition-all duration-300 ${
+                        currentStep === step.num
+                          ? "bg-blue-600 text-white"
+                          : currentStep > step.num
+                          ? "bg-blue-600 text-white cursor-pointer hover:scale-110"
+                          : "bg-[#E8E8E8] text-gray-400 cursor-not-allowed"
+                      } ${step.num <= currentStep ? "hover:shadow-lg" : ""}`}
+                    >
+                      {currentStep > step.num ? <Check className="w-5 h-5" /> : step.num}
+                    </button>
+                    
+                    {/* Progress Line */}
+                    {index < 4 && (
+                      <div className="relative" style={{ width: '200px', marginLeft: '12px' }}>
+                        <div className="h-2 bg-gray-300 w-full rounded-full"></div>
+                        <div 
+                          className={`absolute top-0 left-0 h-2 rounded-full transition-all duration-300 ${
+                            currentStep > step.num ? "bg-blue-600 w-full" : "bg-gray-300 w-0"
+                          }`}
+                        ></div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Labels */}
+                  <div className="text-left">
+                    <p className={`text-[16px] font-semibold mb-0.5 whitespace-nowrap ${
+                      currentStep === step.num ? "text-gray-900" : "text-gray-400"
+                    }`}>
+                      {step.title}
+                    </p>
+                    <p className="text-[10px] text-gray-400 whitespace-nowrap">{step.subtitle}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Card 2: Form Content */}
+        <div className="bg-white rounded-xl  border border-[#B6B9BE] p-8">
+          <div className="mb-8">
+          {/* Step Header */}
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{getStepTitle()}</h2>
+            <p className="text-gray-600 text-sm">{getStepDescription()}</p>
+          </div>
+
           {/* Error and Success Messages */}
           {error && (
             <div className="mb-6">
@@ -926,72 +940,55 @@ function NewPatientRegistration() {
           )}
 
           {/* Form Content */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200">
-            {/* Step Header */}
-            <div className=" px-8 py-6 rounded-t-2xl">
-              <div className="flex items-center text-white">
-                <div className="mr-4 p-2 bg-[#669BBC] rounded-xl">{getStepIcon()}</div>
-                <div>
-                  <h2 className="text-2xl font-bold text-[#000000]">{getStepTitle()}</h2>
-                  <p className="text-[#8E8E8E] text-sm mt-1">{getStepDescription()}</p>
-                </div>
-              </div>
-            </div>
+          <form onSubmit={handleSubmit}>
+            {/* Step Content */}
+            <div className="mb-8">{renderCurrentStep()}</div>
 
-            <form onSubmit={handleSubmit} className="p-8">
-              {/* Step Content */}
-              <div className="mb-8">{renderCurrentStep()}</div>
+            {/* Navigation Buttons */}
+            <div className="flex justify-end items-center pt-6 gap-3">
+              {currentStep > 1 && (
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-200 font-semibold"
+                  disabled={isLoading}
+                >
+                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  Previous
+                </button>
+              )}
 
-              {/* Navigation Buttons */}
-              <div className="flex justify-between items-center pt-6 border-t border-gray-200">
-                <div>
-                  {currentStep > 1 && (
-                    <button
-                      type="button"
-                      onClick={prevStep}
-                      className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all duration-200 font-semibold shadow-sm"
-                      disabled={isLoading}
-                    >
-                      <ChevronLeft className="w-4 h-4 mr-2" />
-                      Previous
-                    </button>
-                  )}
-                </div>
-
-                <div>
-                  {currentStep < totalSteps ? (
-                    <button
-                      type="button"
-                      onClick={nextStep}
-                      disabled={!validateCurrentStep() || isLoading}
-                      className="inline-flex items-center px-8 py-3 bg-[#003049] text-white rounded-xl hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-semibold shadow-sm"
-                    >
-                      Next Step
-                      <ChevronRight className="w-4 h-4 ml-2" />
-                    </button>
+              {currentStep < totalSteps ? (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!validateCurrentStep() || isLoading}
+                  className="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-semibold"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={!validateCurrentStep() || isLoading}
+                  className="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-bold"
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                      Registering...
+                    </>
                   ) : (
-                    <button
-                      type="submit"
-                      disabled={!validateCurrentStep() || isLoading}
-                      className="inline-flex items-center px-8 py-3 bg-[#003049] text-white rounded-xl hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 font-bold shadow-sm"
-                    >
-                      {isLoading ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-                          Registering...
-                        </>
-                      ) : (
-                        <>
-                          <CheckCircle className="w-4 h-4 mr-2" />
-                          Register Patient
-                        </>
-                      )}
-                    </button>
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      Register Patient
+                    </>
                   )}
-                </div>
-              </div>
-            </form>
-          </div>
+                </button>
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </div>
