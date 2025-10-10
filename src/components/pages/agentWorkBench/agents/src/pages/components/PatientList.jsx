@@ -1,12 +1,12 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { User, Hash, Calendar, ArrowRight } from "lucide-react";
+import { User, Hash, Calendar, ArrowRight, Users } from "lucide-react";
 import Pagination from "../components/Pagination";
 
 export default function PatientList({ patients, loading, error }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 4;
+  const cardsPerPage = 6;
 
   // Calculate paginated patients
   const totalPages = Math.ceil(patients.length / cardsPerPage);
@@ -17,64 +17,89 @@ export default function PatientList({ patients, loading, error }) {
   return (
     <div>
       {loading ? (
-        <div className="flex items-center justify-center py-6">
-          <div className="animate-spin rounded-full h-6 w-6 border-2 border-[#005566] border-t-transparent mr-2"></div>
-          <p className="text-gray-500 text-sm font-medium">Loading patients...</p>
+        <div className="flex flex-col justify-center items-center py-16">
+          <div className="animate-spin rounded-full h-14 w-14 border-4 border-blue-200 border-t-blue-600 mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading patients...</p>
         </div>
       ) : error ? (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4 shadow-sm" role="alert">
-          <p className="text-red-700 font-semibold">Error: {error}</p>
+        <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 shadow-sm" role="alert">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-semibold text-red-800">Error loading patients</h3>
+              <p className="text-sm text-red-700 mt-1">{error}</p>
+            </div>
+          </div>
         </div>
       ) : patients.length === 0 ? (
-        <p className="text-gray-500 text-sm font-medium">No patients found.</p>
+        <div className="bg-white border-2 border-dashed border-gray-300 rounded-xl p-16 text-center">
+          <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">No patients found</h3>
+          <p className="text-gray-600">Try adjusting your search or filter criteria</p>
+        </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {paginatedPatients.map((patient) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mb-10">
+            {paginatedPatients.map((patient, index) => (
               <Link
                 key={patient.patient_id}
                 to={`../patient-profile/${patient.patient_id}`}
                 relative="path"
-                className="bg-white p-5 rounded-xl shadow-md hover:shadow-lg hover:border-blue-300 transition-all duration-200 border border-gray-200 animate-pop group"
+                className="rounded-xl p-4  transition-all duration-300  group border"
+                style={{ 
+                  backgroundColor: '#F3F7FF',
+                  borderColor: '#A4C3FF',
+                  animationDelay: `${index * 50}ms` 
+                }}
                 aria-label={`View profile for ${patient.full_name}`}
               >
-                {/* Header */}
-                <div className="bg-blue-50 rounded-t-md p-3 -m-5 mb-3">
-                  <h4 className="text-base font-semibold text-[#005566] truncate">{patient.full_name}</h4>
-                  <p className="text-xs text-gray-500 mt-1">Patient Profile</p>
-                </div>
-
-                {/* Patient Details */}
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <Hash className="w-4 h-4 text-[#005566]" />
-                    <p className="text-sm text-gray-600">
-                      ID: <span className="bg-blue-100 border border-gray-300 text-[#005566] px-2 py-0.5 rounded-md text-xs">{patient.patient_id}</span>
-                    </p>
+                {/* Patient ID and Age */}
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="bg-white px-2.5 py-1.5 rounded-md">
+                    <span className="text-blue-600 font-bold text-xs">
+                      {patient.patient_id}
+                    </span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <User className="w-4 h-4 text-[#005566]" />
-                    <p className="text-sm text-gray-600">Gender: {patient.gender}</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <User className="w-4 h-4 text-[#005566]" />
-                    <p className="text-sm text-gray-600">Age: {patient.age}</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="w-4 h-4 text-[#005566]" />
-                    <p className="text-sm text-gray-600">
-                      Registered: {new Date(patient.registration_timestamp).toLocaleDateString()}
-                    </p>
+                  <div className="bg-white px-2.5 py-1.5 rounded-md">
+                    <span className="text-gray-900 font-semibold text-xs">
+                      Age: {patient.age}
+                    </span>
                   </div>
                 </div>
-
+                
+                {/* Patient Name */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {patient.full_name}
+                </h3>
+                
+                {/* Gender and Registered in same line */}
+                <div className="flex items-center text-base text-gray-600 mb-4">
+                  <span className="flex items-center">
+                    <span className="mx-1.5">•</span>
+                    <span className="font-regular">Gender:</span>
+                    <span className="ml-1 font-medium text-gray-900">{patient.gender}</span>
+                  </span>
+                  <span className="mx-1.5">•</span>
+                  <span className="flex items-center">
+                    <span className="font-regular">Registered:</span>
+                    <span className="ml-1 font-medium text-gray-900">
+                      {new Date(patient.registration_timestamp).toLocaleDateString('en-US', { 
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                      })}
+                    </span>
+                  </span>
+                </div>
+                
                 {/* View Profile Button */}
-                <div className="mt-4 flex justify-center">
-                  <button className="inline-flex items-center space-x-1 text-sm font-medium text-[#005566] bg-blue-100 px-4 py-1.5 rounded-md hover:bg-blue-200 hover:text-[#003049] transition-all duration-200 group-hover:underline">
-                    <span>View Profile</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-sm">
+                  View Profile
+                </button>
               </Link>
             ))}
           </div>

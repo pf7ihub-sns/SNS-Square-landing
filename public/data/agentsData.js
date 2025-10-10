@@ -2500,9 +2500,9 @@ export default {
             {
               id: "Doc-Sentra",
               name: "DocSentra",
-              summary: "Doctor Assistant",
+              summary: " AI-driven healthcare automation platform integrating clinical intelligence, conversational AI, and smart workflow management to enhance patient care, diagnosis accuracy, and operational efficiency.",
               image: "/placeholder.jpg",
-              solutions: ["Operational planning", "Resource allocation", "Staff coordination", "Process optimization", "Performance monitoring", "Quality assurance", "Efficiency analysis", "Problem resolution", "Continuous improvement"],
+              solutions: ["Doctor Assistant","Patient Management","Medical Documentation","Prescription Management","Clinical Decision Support","Health Record Management"],
               useCases: ["Hospital operations", "Clinic workflow optimization", "Process improvement initiatives"],
               status: "available"
             },

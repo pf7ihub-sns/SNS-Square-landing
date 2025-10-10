@@ -4,12 +4,14 @@ import {
   Phone,
   User,
   Shield,
-  ChevronLeft,
-  ChevronRight,
   Calendar,
   Send,
   MessageCircle,
   X,
+  ArrowLeft,
+  Loader2,
+  Sparkles,
+  CheckCircle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -373,8 +375,65 @@ const DoctorVisit = () => {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
-        <p className="text-slate-600">Loading...</p>
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        {/* Enhanced Patient Data Loader */}
+        <div className="relative">
+          {/* Outer rotating ring */}
+          <div className="w-32 h-32 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin"></div>
+          
+          {/* Inner pulsing circle */}
+          <div className="absolute inset-4 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center animate-pulse shadow-lg">
+            <User className="w-8 h-8 text-white animate-bounce" />
+          </div>
+          
+          {/* Floating particles */}
+          <div className="absolute -top-2 -left-2 w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+          <div className="absolute -top-1 -right-3 w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping delay-75"></div>
+          <div className="absolute -bottom-3 -left-1 w-1 h-1 bg-blue-300 rounded-full animate-ping delay-150"></div>
+          <div className="absolute -bottom-2 -right-2 w-2 h-2 bg-blue-600 rounded-full animate-ping delay-300"></div>
+        </div>
+        
+        {/* Professional loading text */}
+        <div className="mt-8 text-center">
+          <h3 className="text-2xl font-semibold text-slate-800 mb-2 animate-pulse">
+            Loading Patient Data
+          </h3>
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce delay-75"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce delay-150"></div>
+            </div>
+          </div>
+          <p className="text-slate-600 text-lg font-medium mb-2">
+            Preparing Consultation Interface
+          </p>
+          <p className="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
+            Fetching patient records, medical history, and setting up the consultation workspace
+          </p>
+        </div>
+        
+        {/* Progress steps */}
+        <div className="mt-12 flex items-center space-x-8">
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mb-2">
+              <CheckCircle className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-xs text-slate-600 font-medium">Authentication</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mb-2 animate-pulse">
+              <Loader2 className="w-4 h-4 text-white animate-spin" />
+            </div>
+            <span className="text-xs text-slate-600 font-medium">Patient Data</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="w-8 h-8 bg-slate-300 rounded-full flex items-center justify-center mb-2">
+              <span className="w-2 h-2 bg-slate-500 rounded-full"></span>
+            </div>
+            <span className="text-xs text-slate-400 font-medium">Interface Ready</span>
+          </div>
+        </div>
       </div>
     );
   if (error)
@@ -386,13 +445,24 @@ const DoctorVisit = () => {
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-manrope">
+      {/* Back Button - Fixed at top */}
+      <div className="absolute top-25 left-6 z-50">
+        <button
+          onClick={() => navigate("/agent-playground/agent/Doc-Sentra/doctor/dashboard")}
+          className="flex items-center text-slate-600 hover:text-slate-900 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          <span className="font-medium">Back to Dashboard</span>
+        </button>
+      </div>
+
       {/* Left Panel - Patient Info */}
       <div
         className={`bg-white transition-all duration-300 ease-in-out flex-shrink-0 ${
           leftPanelOpen ? "w-80" : "w-0"
         } overflow-hidden border-r border-slate-200`}
       >
-        <div className="p-6 pt-32 overflow-y-auto h-full">
+        <div className="p-6 pt-33 overflow-y-auto h-full">
           <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6">
             <h2 className="text-base font-bold text-blue-600">Personal Information</h2>
           </div>
@@ -492,29 +562,18 @@ const DoctorVisit = () => {
         </div>
       </div>
 
-      {/* Left Panel Toggle */}
-      <button
-        onClick={() => setLeftPanelOpen(!leftPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-r-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
-        style={{ left: leftPanelOpen ? "20rem" : "0" }}
-      >
-        {leftPanelOpen ? (
-          <ChevronLeft className="w-5 h-5 text-slate-600" />
-        ) : (
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        )}
-      </button>
+
 
       {/* Middle Panel - AI Chat & Questions */}
       <div className="flex-1 flex flex-col p-6 overflow-hidden min-w-0 pt-32">
-        <div className="bg-white rounded-lg py-3 px-4 mb-4 border border-slate-200">
-          <h2 className="text-xl font-bold text-slate-900 text-center">
-            Docsentra AI Consulting
-          </h2>
-        </div>
-
         {/* Chat Area */}
-        <div className="bg-white rounded-lg shadow-sm flex-1 flex flex-col p-6 min-h-0 border border-slate-200">
+        <div className="bg-white rounded-lg shadow-sm flex-1 flex flex-col p-6 min-h-0 border-2 border-slate-100">
+          {/* Header inside the box */}
+          <div className="mb-4 pb-3 border-b border-slate-200">
+            <h2 className="text-xl font-bold text-slate-900">
+              Docsentra AI Consulting
+            </h2>
+          </div>
           <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
             {messages.map((m, idx) => (
               <div
@@ -523,11 +582,6 @@ const DoctorVisit = () => {
                   m.sender === "user" ? "justify-end" : "items-start"
                 }`}
               >
-                {m.sender === "ai" && (
-                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 text-white font-bold">
-                    AI
-                  </div>
-                )}
                 <div
                   className={`p-3 rounded-lg max-w-md text-sm ${
                     m.sender === "user"
@@ -543,17 +597,21 @@ const DoctorVisit = () => {
 
           {/* Suggested Questions Panel - Above Input */}
           {suggestedQuestions.length > 0 && (
-            <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="mb-4 p-4 bg-blue-50 rounded-lg">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center">
-                  <MessageCircle className="w-5 h-5 text-blue-600 mr-2" />
-                  <h3 className="text-sm font-semibold text-slate-800">
+                  <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center mr-2">
+                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-sm font-semibold text-slate-900">
                     AI Suggested Questions
                   </h3>
                 </div>
                 <button
                   onClick={finishConsultation}
-                  className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md transition-colors font-medium"
+                  className="text-sm bg-white hover:bg-blue-50 text-blue-600 border border-blue-600 px-4 py-1.5 rounded-md transition-colors font-medium"
                 >
                   Finish Guidance
                 </button>
@@ -576,21 +634,23 @@ const DoctorVisit = () => {
                       }
                     }}
                   >
-                    <div className="flex items-start justify-between">
-                      <p className="text-slate-800 flex-1 pr-2">
-                        {question}
-                      </p>
+                    <div className="flex flex-col gap-2">
                       <span
-                        className={`text-xs px-2 py-1 rounded flex-shrink-0 font-semibold ${
+                        className={`text-xs px-2.5 py-0.5 rounded-full flex-shrink-0 font-medium self-start ${
                           questionStates[index]?.priority === "HIGH"
-                            ? "bg-red-100 text-red-700"
+                            ? "bg-red-100 text-red-600"
                             : questionStates[index]?.priority === "MEDIUM"
                             ? "bg-yellow-100 text-yellow-700"
+                            : questionStates[index]?.priority === "LOW"
+                            ? "bg-slate-200 text-slate-700"
                             : "bg-slate-100 text-slate-600"
                         }`}
                       >
-                        {questionStates[index]?.priority}
+                        {questionStates[index]?.priority || "LOW"}
                       </span>
+                      <p className="text-slate-900">
+                        {question}
+                      </p>
                     </div>
                     {(questionStates[index]?.status === "answered" || questionStates[index]?.status === "asked") && (
                       <div className="flex items-center mt-2">
@@ -627,7 +687,7 @@ const DoctorVisit = () => {
           )}
 
           {/* Input Area */}
-          <div className="flex gap-3 border-t border-slate-200 pt-4">
+          <div className="flex gap-3 pt-4">
             <input
               type="text"
               value={inputMessage}
@@ -642,7 +702,7 @@ const DoctorVisit = () => {
             />
             <button
               onClick={handleSendMessage}
-              className="px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors shadow-sm"
+              className="px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors"
             >
               <Send className="w-5 h-5" />
             </button>
@@ -651,17 +711,7 @@ const DoctorVisit = () => {
       </div>
 
       {/* Right Panel Toggle */}
-      <button
-        onClick={() => setRightPanelOpen(!rightPanelOpen)}
-        className="fixed top-1/2 transform -translate-y-1/2 bg-white border border-slate-200 rounded-l-lg shadow-lg hover:bg-slate-50 transition-all duration-200 z-20 p-2"
-        style={{ right: rightPanelOpen ? "24rem" : "0" }}
-      >
-        {rightPanelOpen ? (
-          <ChevronRight className="w-5 h-5 text-slate-600" />
-        ) : (
-          <ChevronLeft className="w-5 h-5 text-slate-600" />
-        )}
-      </button>
+
 
       {/* Right Panel - Visit Details */}
       <div
@@ -669,11 +719,11 @@ const DoctorVisit = () => {
           rightPanelOpen ? "w-96" : "w-0"
         } overflow-hidden border-l border-slate-200`}
       >
-        <div className="p-6 pt-32 h-full overflow-y-auto">
+        <div className="p-6 pt-31 h-full overflow-y-auto">
           <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6 flex items-center justify-center">
             <h2 className="text-base font-bold text-blue-600 flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
-              All Visit
+              All Visits
             </h2>
           </div>
 
