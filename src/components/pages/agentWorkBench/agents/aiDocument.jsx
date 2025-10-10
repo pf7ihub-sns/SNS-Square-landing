@@ -21,6 +21,7 @@ const App = () => {
   const [isDocEdited, setIsDocEdited] = useState(false);
   const [chatLoading, setChatLoading] = useState(false);
   const chatContainerRef = useState(null)[0];
+  const [showChatInterface, setShowChatInterface] = useState(false);
 
   const API_URL = 'http://localhost:8000/document';
 
@@ -106,6 +107,7 @@ const App = () => {
   const handleChat = async () => {
     const trimmed = chatInput.trim();
     if (!trimmed) return;
+    setShowChatInterface(true);
     setChatMessages(prev => [...prev, { role: 'user', content: trimmed }]);
     setChatInput('');
     setChatLoading(true);
@@ -317,236 +319,212 @@ const App = () => {
     setGenLoading(false);
   };
 
-  return (
-    <div className="flex h-screen bg-gray-100 mt-32">
-      {/* Left Side: Chat Interface */}
-      <div className="w-1/3 p-4 bg-white shadow-md flex flex-col">
-        <h2 className="text-xl font-bold mb-4">Chat</h2>
-        <div className="flex-1 overflow-y-auto mb-4 p-2 border rounded" id="chat-scroll">
-          {chatMessages.map((msg, index) => (
-            <div
-              key={index}
-              className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}
-            >
-              <span
-                className={`inline-block p-2 rounded ${
-                  msg.role === 'user' ? 'bg-blue-100' : 'bg-gray-200'
-                }`}
-              >
-                {msg.content}
-              </span>
+  // Landing Page View (Before any chat)
+  if (!showChatInterface) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+        <div className="text-center max-w-2xl px-8">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mb-6">
+              AI Chat Bot
             </div>
-          ))}
+            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+              Generate UI
+            </h1>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Components with AI
+            </h2>
+            <p className="text-gray-600 text-lg mb-12">
+              Enter a simple prompt to generate stunning UIs
+            </p>
+          </div>
+
+          {/* Input Section */}
+          <div className="relative">
+            <input
+              type="text"
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              onKeyDown={(e) => { 
+                if (e.key === 'Enter' && !e.shiftKey) { 
+                  e.preventDefault(); 
+                  handleChat(); 
+                } 
+              }}
+              className="w-full px-6 py-4 pr-24 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-base"
+              placeholder="Message"
+              disabled={chatLoading}
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                </svg>
+              </button>
+              <button 
+                onClick={handleChat}
+                disabled={chatLoading || !chatInput.trim()}
+                className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex">
-          <input
-            type="text"
-            value={chatInput}
-            onChange={(e) => setChatInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleChat(); } }}
-            className="flex-1 p-2 border rounded-l"
-            placeholder="Ask about the document or research..."
-            disabled={chatLoading}
-          />
-          <button
-            onClick={handleChat}
-            className="p-2 bg-blue-500 text-white rounded-r"
-            disabled={chatLoading || !chatInput.trim()}
-          >
-            {chatLoading ? '...' : 'Chat'}
+      </div>
+    );
+  }
+
+  // Chat Interface View (After first message)
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Left Sidebar: Chat History */}
+      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+        {/* Header */}
+        <div className="p-4 border-b border-gray-200">
+          <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-4">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="font-semibold">AI Chat Bot</span>
           </button>
-          <button
-            onClick={handleResearch}
-            className="p-2 bg-green-500 text-white ml-2 rounded"
-            disabled={chatLoading}
-          >
-            {chatLoading ? '...' : 'Research'}
+          
+          <button className="w-full flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span className="font-medium">New Chat</span>
           </button>
+        </div>
+
+        {/* Search */}
+        <div className="p-4 border-b border-gray-200">
+          <div className="relative">
+            <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+        {/* Chat List */}
+        <div className="flex-1 overflow-y-auto p-2">
+          <div className="mb-2">
+            <div className="text-xs font-semibold text-gray-500 px-3 py-2">Chat</div>
+            <div className="space-y-1">
+              {chatMessages.filter(msg => msg.role === 'user').map((msg, index) => (
+                <button
+                  key={index}
+                  className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors line-clamp-1"
+                >
+                  {msg.content}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Right Side: Document Interface */}
-      <div className="w-2/3 p-4 flex flex-col">
-        <div className="flex mb-4">
-          <button
-            onClick={() => setActiveTab('upload')}
-            className={`p-2 ${
-              activeTab === 'upload' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            } rounded-l`}
-          >
-            Upload
-          </button>
-          <button
-            onClick={() => setActiveTab('process')}
-            className={`p-2 ${
-              activeTab === 'process' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-          >
-            Process
-          </button>
-          <button
-            onClick={() => setActiveTab('generate')}
-            className={`p-2 ${
-              activeTab === 'generate' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-          >
-            Generate
-          </button>
-          <button
-            onClick={() => setActiveTab('edit')}
-            className={`p-2 ${
-              activeTab === 'edit' ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            } rounded-r`}
-          >
-            Edit
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Chat Header */}
+        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-semibold text-gray-900">
+              {chatMessages.length > 0 && chatMessages[0].role === 'user' 
+                ? chatMessages[0].content.substring(0, 50) + (chatMessages[0].content.length > 50 ? '...' : '')
+                : 'New Chat'
+              }
+            </h2>
+            <button className="p-1 text-gray-400 hover:text-gray-600">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+          </div>
+          
+          <button className="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+            Export Chat
           </button>
         </div>
 
-        {activeTab === 'upload' && (
-          <div className="bg-white p-4 shadow-md rounded">
-            <h2 className="text-xl font-bold mb-4">Upload Document</h2>
-            <input
-              type="file"
-              accept=".docx,.pdf,.txt,.md"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="mb-4"
-            />
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="w-full p-2 border rounded mb-4"
-              placeholder="Optional: Enter a prompt (e.g., Summarize this document)"
-            />
-            <button
-              onClick={handleUpload}
-              className="p-2 bg-blue-500 text-white rounded"
-              disabled={isLoading}
+        {/* Messages Area */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {chatMessages.map((msg, index) => (
+            <div
+              key={index}
+              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              Upload
-            </button>
-            <button
-              onClick={handlePasteText}
-              className="p-2 bg-blue-500 text-white rounded ml-2"
-              disabled={isLoading || !docContent.trim()}
-            >
-              Paste Text
-            </button>
-          </div>
-        )}
-
-        {activeTab === 'process' && (
-          <div className="bg-white p-4 shadow-md rounded">
-            <h2 className="text-xl font-bold mb-4">Process Document</h2>
-            <input
-              type="text"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="w-full p-2 border rounded mb-4"
-              placeholder="Enter a prompt (e.g., Summarize Section 3)"
-            />
-            <button
-              onClick={handleProcessPrompt}
-              className="p-2 bg-blue-500 text-white rounded"
-              disabled={isLoading || !docId}
-            >
-              Process
-            </button>
-          </div>
-        )}
-
-        {activeTab === 'generate' && (
-          <div className="bg-white p-4 shadow-md rounded flex flex-col gap-4">
-            <h2 className="text-xl font-bold">Generate Structured Document</h2>
-            <div className="flex gap-2">
-              <select
-                value={genType}
-                onChange={(e) => setGenType(e.target.value)}
-                className="p-2 border rounded bg-white"
+              <div
+                className={`max-w-3xl px-6 py-3 rounded-2xl ${
+                  msg.role === 'user' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-white border border-gray-200 text-gray-900'
+                }`}
               >
-                <option value="resume">Resume</option>
-                <option value="policy">Policy</option>
-                <option value="proposal">Proposal</option>
-                <option value="sop">SOP</option>
-                <option value="report">Report</option>
-                <option value="cover_letter">Cover Letter</option>
-                <option value="job_description">Job Description</option>
-                <option value="auto">Auto Detect</option>
-              </select>
-              <button
-                onClick={handleGenerate}
-                disabled={genLoading || !genRequest.trim()}
-                className="p-2 bg-blue-500 text-white rounded"
-              >
-                {genLoading ? 'Generating...' : 'Generate'}
-              </button>
+                <p className="text-sm leading-relaxed">{msg.content}</p>
+              </div>
             </div>
-            <textarea
-              value={genRequest}
-              onChange={(e) => setGenRequest(e.target.value)}
-              className="p-2 border rounded font-mono text-sm h-48"
-              placeholder="Describe what you want (e.g., 'Modern data engineer resume focusing on distributed systems and cloud pipelines')"
-            />
-            <p className="text-xs text-gray-500">Output will load into Edit tab automatically.</p>
-          </div>
-        )}
-
-        {activeTab === 'edit' && (
-          <div className="bg-white p-4 shadow-md rounded flex-1 flex flex-col">
-            <h2 className="text-xl font-bold mb-4">Edit Document</h2>
-            <h3 className="text-lg font-semibold mb-2">Document Preview: {docFilename}</h3>
-            <textarea
-              value={docContent}
-              onChange={handleDocContentChange}
-              className="flex-1 p-2 border rounded mb-4 font-mono text-sm"
-              placeholder="Document content will appear here..."
-            />
-
-            <div className="flex gap-2 mb-4">
-              <button
-                onClick={handleDocSave}
-                className="p-2 bg-blue-500 text-white rounded"
-                disabled={isLoading || !isDocEdited || !docContent.trim()}
-              >
-                Save Document
-              </button>
-              <button
-                onClick={handleDocSaveAndRegen}
-                className="p-2 bg-purple-500 text-white rounded"
-                disabled={isLoading || !isDocEdited || !docContent.trim()}
-              >
-                Save & Regenerate Report
-              </button>
+          ))}
+          
+          {chatLoading && (
+            <div className="flex justify-start">
+              <div className="max-w-3xl px-6 py-3 rounded-2xl bg-white border border-gray-200">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></div>
+                  <span className="text-sm text-gray-500 ml-2">Thinking...</span>
+                </div>
+              </div>
             </div>
+          )}
+        </div>
 
-            <div className="flex">
-              <button
-                onClick={() => handleExport('word')}
-                className="p-2 bg-blue-500 text-white rounded mr-2"
-                disabled={isLoading}
-              >
-                Export Word
-              </button>
-              <button
-                onClick={() => handleExport('pdf')}
-                className="p-2 bg-blue-500 text-white rounded mr-2"
-                disabled={isLoading}
-              >
-                Export PDF
-              </button>
-              <button
-                onClick={() => handleExport('markdown')}
-                className="p-2 bg-blue-500 text-white rounded"
-                disabled={isLoading}
-              >
-                Export Markdown
-              </button>
+        {/* Input Area */}
+        <div className="bg-white border-t border-gray-200 p-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => { 
+                  if (e.key === 'Enter' && !e.shiftKey) { 
+                    e.preventDefault(); 
+                    handleChat(); 
+                  } 
+                }}
+                className="w-full px-6 py-4 pr-24 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                placeholder="Message"
+                disabled={chatLoading}
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                  </svg>
+                </button>
+                <button 
+                  onClick={handleChat}
+                  disabled={chatLoading || !chatInput.trim()}
+                  className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
+              </div>
             </div>
-
           </div>
-        )}
-        {isLoading && <p className="text-blue-500 mt-2">Processing...</p>}
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        </div>
       </div>
     </div>
   );
