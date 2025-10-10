@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContractUpload = () => {
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [apiStatus, setApiStatus] = useState('idle');
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -34,44 +39,143 @@ const ContractUpload = () => {
     }
   };
 
-  const handleFileUpload = (file) => {
-    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+  const handleFileUpload = async (file) => {
+    const validTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ];
     const maxSize = 50 * 1024 * 1024; // 50MB
 
     if (!validTypes.includes(file.type)) {
-      alert('Please upload a valid contract file (PDF, DOC, DOCX, or TXT)');
+      toast.error('Please upload a valid contract file (PDF, DOC, DOCX, or TXT)');
       return;
     }
 
     if (file.size > maxSize) {
-      alert('File size must be less than 50MB');
+      toast.error('File size must be less than 50MB');
       return;
     }
 
-    setUploadedFile({
-      name: file.name,
-      size: (file.size / 1024).toFixed(2) + ' KB',
-      status: 'Completed'
-    });
+    try {
+      setApiStatus('uploading');
+      setUploadedFile({
+        name: file.name,
+        size: (file.size / 1024).toFixed(2) + ' KB',
+        status: 'Uploading...',
+        file: file
+      });
+
+      // Upload the file - Direct API call
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const uploadResponse = await fetch(`${API_BASE_URL}/contract-management-system/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        const error = await uploadResponse.json();
+        throw new Error(error.detail || 'Failed to upload contract');
+      }
+
+      const uploadData = await uploadResponse.json();
+      
+      setUploadedFile(prev => ({
+        ...prev,
+        status: 'Analyzing...',
+        contractId: uploadData.contract_id
+      }));
+      
+      setApiStatus('analyzing');
+      
+      // Start analysis - Direct API call
+      const analysisResponse = await fetch(
+        `${API_BASE_URL}/contract-management-system/analyze/${uploadData.contract_id}`, 
+        { method: 'POST' }
+      );
+
+      if (!analysisResponse.ok) {
+        const error = await analysisResponse.json();
+        throw new Error(error.detail || 'Failed to analyze contract');
+      }
+
+      const analysisData = await analysisResponse.json();
+      
+      setUploadedFile(prev => ({
+        ...prev,
+        status: 'Analysis Complete',
+        analysis: analysisData
+      }));
+      
+      setApiStatus('success');
+      toast.success('Contract analysis completed successfully!');
+      
+    } catch (error) {
+      console.error('Upload/Analysis failed:', error);
+      setApiStatus('error');
+      setUploadedFile(prev => ({
+        ...prev,
+        status: 'Error - ' + (error.message || 'Failed to process file')
+      }));
+      toast.error(`Error: ${error.message || 'Failed to process contract'}`);
+    }
   };
 
   const handleContinue = () => {
-    if (!uploadedFile) {
-      alert('Please upload a file first');
+    if (!uploadedFile || !uploadedFile.contractId) {
+      toast.error('Please upload and analyze a file first');
+      return;
+    }
+    
+    if (apiStatus === 'error') {
+      toast.error('Please fix the errors before continuing');
       return;
     }
     
     setIsProcessing(true);
-    
-    // Simulate processing
-    setTimeout(() => {
-      navigate('/agent-playground/agent/contract-management-system/report/uploaded');
-    }, 1500);
+    navigate(`/agent-playground/agent/contract-management-system/report/${uploadedFile.contractId}`);
   };
 
-  const handleRemoveFile = () => {
+  const handleRemoveFile = async () => {
+    if (uploadedFile?.contractId) {
+      try {
+        await fetch(`${API_BASE_URL}/contract-management-system/contract/${uploadedFile.contractId}`, {
+          method: 'DELETE',
+        });
+      } catch (error) {
+        console.error('Failed to delete contract:', error);
+      }
+    }
     setUploadedFile(null);
+    setApiStatus('idle');
+    setUploadProgress(0);
   };
+
+  // Show loading state while processing
+  if (apiStatus === 'uploading' || apiStatus === 'analyzing') {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-800">
+            {apiStatus === 'uploading' ? 'Uploading your file...' : 'Analyzing contract...'}
+          </h2>
+          {uploadProgress > 0 && (
+            <div className="w-64 bg-gray-200 rounded-full h-2.5 mt-4 mx-auto">
+              <div 
+                className="bg-blue-600 h-2.5 rounded-full" 
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
+          )}
+          <p className="text-gray-500 mt-2">This may take a few moments...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -134,14 +238,14 @@ const ContractUpload = () => {
                 Choose a file or drag & drop it here
               </h3>
               <p className="text-sm text-global-2 mb-6">
-                JPEG, PNG, PDF, and MP4 formats, up to 50MB
+                JPEG, PNG, PDF formats, up to 50MB
               </p>
 
               <label className="cursor-pointer">
                 <input
                   type="file"
                   className="hidden"
-                  accept=".jpeg,.jpg,.png,.pdf,.mp4,.doc,.docx,.txt"
+                  accept=".jpeg,.jpg,.png,.pdf,.doc,.docx,.txt"
                   onChange={handleFileSelect}
                 />
                 <span className="inline-block px-6 py-2.5 bg-white border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">

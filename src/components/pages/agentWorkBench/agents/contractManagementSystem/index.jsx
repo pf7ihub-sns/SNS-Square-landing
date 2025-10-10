@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Dashboard from './dashboard';
 import ContractUpload from './contractUpload';
-import ContractBuilder from './contractBuilder';
+import CreateContract from './createContract';
 import ContractPreview from './contractPreview';
 import ReportPage from './reportPage';
 
@@ -19,8 +19,8 @@ const ContractManagementSystem = () => {
       return <Dashboard />;
     case '/upload':
       return <ContractUpload />;
-    case '/build':
-      return <ContractBuilder />;
+    case '/create':
+      return <CreateContract />;
     case '/contract-preview':
       return <ContractPreview />;
     default:
