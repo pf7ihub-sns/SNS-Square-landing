@@ -714,6 +714,22 @@ export default {
           description: "Analyze and process spreadsheet data for insights and automation.",
           image: "/placeholder.jpg",
           agents: [
+            {
+              "id": "ai-sheets",
+              "name": "AI Sheet",
+              "summary": "Interact, analyze, and visualize your datasets with AI-driven insights and automation.",
+              "image": "/placeholder.jpg",
+              "solutions": ["Conversational data querying", "Automated visualization", "Report generation", "Database/API integration", "Prompt-to-formula conversion"],
+              "useCases": ["Business analytics", "Data exploration", "Dashboard reporting", "Research analysis", "Machine learning pipelines"],
+              "description": [
+                "AI Sheet is an intelligent platform that lets users upload datasets in multiple formats (CSV, Excel, TSV, and future formats like PDF, Word, Images) and interact with them using natural language queries or analytical intents.",
+                "The agent can generate visualizations, summarize insights, create reports, and integrate with databases or APIs for live data analysis.",
+                "AI Sheet is ideal for business users, analysts, educators, researchers, and teams who need fast, reliable, and interactive data intelligence without writing code or complex formulas.",
+                "Future enhancements include multi-format support, advanced workflow automation, prompt-to-formula conversion, and exportable dashboards for seamless decision-making."
+              ],
+              "status": "available"
+            }
+            
 
           ]
         },

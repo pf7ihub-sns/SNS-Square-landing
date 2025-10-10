@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import ReactMarkdown from 'react-markdown';
-import { Paperclip, Download } from 'lucide-react';
+import { Paperclip, Download, Send, X, File as FileIcon, RotateCcw } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 
 const AiSheets = () => {
@@ -9,9 +9,6 @@ const AiSheets = () => {
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [dataPreview, setDataPreview] = useState([]);
-  const [summary, setSummary] = useState('');
-  const [anomalies, setAnomalies] = useState('');
-  const [insights, setInsights] = useState('');
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState('');
@@ -21,50 +18,92 @@ const AiSheets = () => {
   const [visualization, setVisualization] = useState(null);
   const fileInputRef = useRef(null);
   const chartRef = useRef(null);
-  const chartInstanceRef = useRef(null);
 
   useEffect(() => {
-    // Cleanup previous chart instance
-    if (chartInstanceRef.current) {
-      chartInstanceRef.current.destroy();
-      chartInstanceRef.current = null;
-    }
-
-    // Render new chart if visualization is available
+    let chartInstance = null;
     if (visualization && visualization.chart_code && chartRef.current) {
       try {
-        // Create a function from the chart code
-        const chartFunction = new Function('Chart', visualization.chart_code);
-        chartFunction(window.Chart);
-      } catch (error) {
-        console.error('Error rendering chart:', error);
+        const canvas = chartRef.current;
+        const ctx = canvas.getContext('2d');
+        if (canvas.chart) {
+            canvas.chart.destroy();
+        }
+        const chartFunction = new Function('ctx', 'Chart', visualization.chart_code);
+        chartInstance = chartFunction(ctx, window.Chart);
+        canvas.chart = chartInstance;
+      } catch (err) {
+        console.error('Error rendering chart:', err);
         setError('Failed to render visualization.');
       }
     }
+    return () => {
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+    };
   }, [visualization]);
+
+  // FIXED: This function now reads the file and sends its content to the /save-data endpoint
+  const uploadFileToBackend = async (fileToUpload) => {
+    setLoading(true);
+    setError('');
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        // Convert the entire sheet to a JSON array (list of lists)
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(jsonData));
+        formData.append('filename', fileToUpload.name);
+
+        const res = await fetch('http://localhost:8000/ai-sheets/save-data', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'Backend failed to process the uploaded file.');
+        }
+
+        console.log('File successfully uploaded and saved by backend.');
+
+      } catch (err) {
+        console.error('File upload error:', err);
+        setError(`Failed to upload file: ${err.message}`);
+        setFile(null);
+        setDataPreview([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    reader.onerror = (err) => {
+        setError('Failed to read the file.');
+        setLoading(false);
+        console.error('FileReader error:', err);
+    };
+
+    reader.readAsArrayBuffer(fileToUpload);
+  };
 
   const handleFileUpload = async (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && (selectedFile.name.endsWith('.csv') || selectedFile.name.endsWith('.xlsx') || selectedFile.name.endsWith('.tsv'))) {
-      try {
-        await fetch('http://localhost:8000/ai-sheets/remove-file', {
-          method: 'POST',
-        });
-      } catch (error) {
-        console.error('Error removing previous file:', error);
-      }
-
       setFile(selectedFile);
       setConversation([]);
       setError('');
       setResponse('');
-      setSummary('');
-      setAnomalies('');
-      setInsights('');
       setVisualization(null);
       setActiveView('preview');
 
-      // Read file for preview (up to 50 rows)
+      // 1. Read file for frontend preview (unchanged)
       const reader = new FileReader();
       reader.onload = (event) => {
         const data = new Uint8Array(event.target.result);
@@ -72,9 +111,13 @@ const AiSheets = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-        setDataPreview(jsonData.slice(0, 51)); // Show up to 50 rows + header
+        setDataPreview(jsonData.slice(0, 51));
       };
       reader.readAsArrayBuffer(selectedFile);
+
+      // 2. Automatically upload to backend using the corrected function
+      await uploadFileToBackend(selectedFile);
+
     } else {
       setError('Please upload a CSV, XLSX, or TSV file.');
     }
@@ -82,54 +125,46 @@ const AiSheets = () => {
 
   const handleRemoveFile = async () => {
     try {
-      const res = await fetch('http://localhost:8000/ai-sheets/remove-file', {
-        method: 'POST',
-      });
-      if (!res.ok) {
-        throw new Error('Failed to remove file');
-      }
+      await fetch('http://localhost:8000/ai-sheets/remove-file', { method: 'POST' });
       setFile(null);
       setDataPreview([]);
       setConversation([]);
       setResponse('');
-      setSummary('');
-      setAnomalies('');
-      setInsights('');
       setVisualization(null);
       setActiveView('preview');
-    } catch (error) {
-      console.error('Error removing file:', error);
+      setError('');
+    } catch (err) {
+      console.error('Error removing file:', err);
       setError('Failed to remove file from backend.');
     }
   };
-
+  
   const handleCellEdit = (rowIdx, colIdx, value) => {
     const updatedData = [...dataPreview];
-    updatedData[rowIdx][colIdx] = value;
+    updatedData[rowIdx + 1][colIdx] = value;
     setDataPreview(updatedData);
   };
 
   const handleSaveData = async () => {
     if (!file || !dataPreview.length) {
-      setError('No data to save. Please upload a file and edit the data.');
+      setError('No data to save.');
       return;
     }
-
     setLoading(true);
     setError('');
     try {
       const formData = new FormData();
+      // When saving edits, we only need to send the data from the preview table
       formData.append('data', JSON.stringify(dataPreview));
       formData.append('filename', file.name);
-      const response = await fetch('http://localhost:8000/ai-sheets/save-data', {
+
+      const res = await fetch('http://localhost:8000/ai-sheets/save-data', {
         method: 'POST',
         body: formData,
       });
-      if (!response.ok) {
-        throw new Error('Failed to save edited data');
-      }
-      const result = await response.json();
-      setError(result.message === 'Edited data saved successfully' ? '' : result.message);
+      if (!res.ok) throw new Error('Failed to save edited data');
+      const result = await res.json();
+      alert(result.message || 'Data saved successfully!');
     } catch (error) {
       console.error('Error saving data:', error);
       setError('Failed to save edited data.');
@@ -141,696 +176,284 @@ const AiSheets = () => {
   const clearConversation = () => {
     setConversation([]);
     setResponse('');
-    setSummary('');
-    setAnomalies('');
-    setInsights('');
     setVisualization(null);
     setQuery('');
     setActiveView('preview');
+    setError('');
   };
 
   const handleQuerySubmit = async (e) => {
     e.preventDefault();
-    if (!file || !query.trim()) {
-      setError('Please upload a file and enter a query.');
-      return;
-    }
-
+    if (!file || !query.trim()) return;
     setLoading(true);
     setError('');
+    const newConversation = [...conversation, { user: query, ai: '' }];
+    setConversation(newConversation);
     const formData = new FormData();
     formData.append('query', query);
-    conversation.forEach((msg) => {
-      formData.append('conversation', JSON.stringify(msg));
-    });
+    conversation.forEach((msg) => formData.append('conversation', JSON.stringify(msg)));
 
     try {
-      const res = await fetch('http://localhost:8000/ai-sheets/query', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!res.ok) {
-        throw new Error('Failed to process query');
-      }
+      const res = await fetch('http://localhost:8000/ai-sheets/query', { method: 'POST', body: formData });
+      if (!res.ok) throw new Error('Failed to process query');
       const data = await res.json();
-      console.log('API Response:', data);
+
       if (data.is_report) {
         setResponse(data.response);
         setVisualization(null);
-        setActiveView('response');
+        setActiveView('report');
+        setConversation(prev => {
+            const updated = [...prev];
+            updated[updated.length - 1].ai = "Certainly! I've generated the report, which you can view on the right.";
+            return updated;
+        });
       } else if (data.visualization) {
         setResponse(data.response);
         setVisualization(data.visualization);
         setActiveView('visualization');
+        setConversation(prev => {
+            const updated = [...prev];
+            updated[updated.length - 1].ai = data.response;
+            return updated;
+        });
       } else {
-        setConversation((prev) => [...prev, { user: query, ai: data.response }]);
-        setVisualization(null);
+         setResponse('');
+         setVisualization(null);
+         setConversation(prev => {
+            const updated = [...prev];
+            updated[updated.length - 1].ai = data.response;
+            return updated;
+        });
       }
       setQuery('');
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred while processing your query.');
-      setResponse('');
-      setVisualization(null);
+      setConversation(prev => prev.slice(0, -1));
     } finally {
       setLoading(false);
     }
   };
 
   const handleDownloadData = (format) => {
-    if (!dataPreview.length) {
-      setError('No data to download.');
-      return;
-    }
-
-    try {
-      // Sanitize data to handle null/undefined and ensure strings
-      const sanitizedData = dataPreview.map(row =>
-        row.map(cell => (cell == null ? '' : String(cell)))
-      );
-
-      const filename = file ? `${file.name.split('.')[0]}_preview` : 'data_preview';
-
-      if (format === 'csv') {
-        // Convert data to CSV string
-        const csvContent = sanitizedData.map(row => row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${filename}.csv`;
-        link.click();
-        URL.revokeObjectURL(url);
-      } else if (format === 'excel') {
-        const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.aoa_to_sheet(sanitizedData);
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-        const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        const blob = new Blob([wbout], { type: 'application/octet-stream' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${filename}.xlsx`;
-        link.click();
-        URL.revokeObjectURL(url);
-      }
-    } catch (error) {
-      console.error('Error downloading data:', error);
-      console.error('Data Preview:', JSON.stringify(dataPreview));
-      setError(`Failed to download data as ${format.toUpperCase()}. Please try again.`);
+    if (!dataPreview.length) return;
+    const sanitizedData = dataPreview.map(row => row.map(cell => (cell == null ? '' : String(cell))));
+    const filename = file ? `${file.name.split('.')[0]}_preview` : 'data_preview';
+    if (format === 'csv') {
+      const csvContent = sanitizedData.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${filename}.csv`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } else if (format === 'excel') {
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.aoa_to_sheet(sanitizedData);
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+      const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([wbout], { type: 'application/octet-stream' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${filename}.xlsx`;
+      link.click();
+      URL.revokeObjectURL(link.href);
     }
     setShowDataDownloadMenu(false);
   };
 
   const handleDownloadReport = async (format) => {
-    if (!response) {
-      setError('No report available to download.');
-      return;
-    }
+    const reportContent = response || (visualization ? visualization.explanation : '');
+    if (!reportContent) return;
     const filename = 'analysis_report';
-    try {
-      if (format === 'txt') {
-        const blob = new Blob([response], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${filename}.txt`;
-        link.click();
-        URL.revokeObjectURL(url);
-      } else if (format === 'docx') {
-        const doc = new Document({
-          sections: [{
-            properties: {},
-            children: response.split('\n').map(line => 
-              new Paragraph({
-                children: [new TextRun(line)],
-              })
-            ),
-          }],
-        });
-        const blob = await Packer.toBlob(doc);
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${filename}.docx`;
-        link.click();
-        URL.revokeObjectURL(url);
-      } else if (format === 'pdf') {
+    if (format === 'pdf') {
         const printWindow = window.open('', '_blank');
+        // A slightly improved template for printing
         printWindow.document.write(`
-          <html>
-            <head>
-              <title>${filename}</title>
-              <style>
-                body { font-family: Arial, sans-serif; padding: 20px; }
-                pre { white-space: pre-wrap; }
-              </style>
-            </head>
-            <body>
-              <pre>${response.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
-            </body>
-          </html>
+            <html>
+                <head>
+                    <title>${filename}</title>
+                    <style>
+                        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 2rem; line-height: 1.6; }
+                        pre { white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: inherit; }
+                    </style>
+                </head>
+                <body><pre>${reportContent.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre></body>
+            </html>
         `);
         printWindow.document.close();
         printWindow.print();
-      }
-    } catch (error) {
-      console.error('Error downloading report:', error);
-      setError('Failed to download report. Please try again.');
+    } else if (format === 'docx') {
+      const doc = new Document({ sections: [{ children: reportContent.split('\n').map(line => new Paragraph({ children: [new TextRun(line)] })) }] });
+      const blob = await Packer.toBlob(doc);
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${filename}.docx`;
+      link.click();
+      URL.revokeObjectURL(link.href);
     }
     setShowReportDownloadMenu(false);
   };
 
+
+  const renderActiveView = () => {
+    if (!file) return <div className="placeholder-text">Upload a dataset to begin.</div>;
+    switch (activeView) {
+      case 'report':
+        return <div className="markdown-content"><ReactMarkdown>{response}</ReactMarkdown></div>;
+      case 'visualization':
+        return (
+          <div>
+            <canvas ref={chartRef} id="myChart" style={{ maxHeight: '500px', width: '100%' }}></canvas>
+            {visualization?.explanation && <p className="explanation-text">{visualization.explanation}</p>}
+          </div>
+        );
+      case 'preview':
+      default:
+        return (
+          <div style={{ overflowX: 'auto' }}>
+            <table className="data-table">
+              <thead>
+                <tr>{dataPreview[0]?.map((header, colIdx) => <th key={colIdx}>{header}</th>)}</tr>
+              </thead>
+              <tbody>
+                {dataPreview.slice(1).map((row, rowIdx) => (
+                  <tr key={rowIdx}>
+                    {row.map((cell, colIdx) => (
+                      <td key={colIdx}>
+                        <input
+                          type="text"
+                          value={cell ?? ''}
+                          onChange={(e) => handleCellEdit(rowIdx, colIdx, e.target.value)}
+                          className="table-cell-input"
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+    }
+  };
+
   return (
-    <div
-      style={{
-        padding: '25px',
-        maxWidth: '1500px',
-        margin: '80px auto',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f0f2f5',
-        minHeight: '90vh',
-        display: 'flex',
-        gap: '20px',
-      }}
-    >
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#fff',
-          borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            padding: '20px',
-            backgroundColor: '#1a73e8',
-            color: '#fff',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            textAlign: 'center',
-          }}
-        >
-          AI Sheets
-        </div>
-        <div
-          style={{
-            flex: 1,
-            maxHeight: '70vh',
-            overflowY: 'auto',
-            padding: '20px',
-            backgroundColor: '#f9fafb',
-          }}
-        >
+    <div className="ai-sheets-container">
+      <div className="chat-panel">
+        <div className="chat-header"><h2>AI Sheets</h2></div>
+        <div className="conversation-area">
           {conversation.length === 0 ? (
-            <p style={{ color: '#666', textAlign: 'center', marginTop: '20px' }}>
-              Upload a dataset and ask a question to start the conversation!
-            </p>
+            <div className="placeholder-text"><p>To give you the most helpful and relevant information, please upload a dataset and ask a question.</p></div>
           ) : (
             conversation.map((msg, idx) => (
-              <div key={idx} style={{ marginBottom: '20px' }}>
-                <div
-                  style={{
-                    backgroundColor: '#e6f0ff',
-                    padding: '12px 16px',
-                    borderRadius: '12px 12px 12px 0',
-                    marginRight: '20%',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                  }}
-                >
-                  <strong>User:</strong> {msg.user}
-                </div>
-                <div
-                  style={{
-                    backgroundColor: '#fff',
-                    padding: '12px 16px',
-                    borderRadius: '12px 12px 0 12px',
-                    marginLeft: '20%',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                  }}
-                >
-                  <ReactMarkdown>{msg.ai}</ReactMarkdown>
-                </div>
+              <div key={idx} className="conversation-turn">
+                <div className="user-message-bubble">{msg.user}</div>
+                {msg.ai && <div className="ai-response-area markdown-content"><ReactMarkdown>{msg.ai}</ReactMarkdown></div>}
               </div>
             ))
           )}
-          {loading && (
-            <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
-              <span
-                style={{
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  border: '2px solid #1a73e8',
-                  borderRadius: '50%',
-                  borderTopColor: 'transparent',
-                  animation: 'spin 1s linear infinite',
-                  marginRight: '10px',
-                }}
-              ></span>
-              Processing your query...
+          {loading && <div className="loader">Processing...</div>}
+        </div>
+        <div className="message-input-area">
+          {file && (
+            <div className="file-chip">
+              <FileIcon size={16} /><span>{file.name}</span>
+              <button onClick={handleRemoveFile} className="remove-file-btn"><X size={16} /></button>
             </div>
           )}
+          <div className="input-toolbar">
+            <form onSubmit={handleQuerySubmit} className="message-form">
+              <button type="button" onClick={() => fileInputRef.current.click()} className="icon-button" title="Upload File"><Paperclip size={20} /></button>
+              <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv,.xlsx,.tsv" style={{ display: 'none' }} />
+              <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Message" className="message-input" disabled={loading || !file} />
+              <button type="submit" className="send-button" disabled={loading || !query.trim() || !file}><Send size={20} /></button>
+            </form>
+            <button onClick={clearConversation} className="icon-button" title="Clear Conversation" disabled={conversation.length === 0 && !response}><RotateCcw size={20}/></button>
+          </div>
+          {error && <p className="error-text">{error}</p>}
         </div>
-        <form
-          onSubmit={handleQuerySubmit}
-          style={{
-            padding: '20px',
-            borderTop: '1px solid #e0e0e0',
-            backgroundColor: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => fileInputRef.current.click()}
-            style={{
-              padding: '10px',
-              backgroundColor: '#f0f0f0',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-            title="Upload dataset"
-          >
-            <Paperclip size={20} color="#333" />
-          </button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            accept=".csv,.xlsx,.tsv"
-            style={{ display: 'none' }}
-          />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask a question about your data..."
-            style={{
-              flex: 1,
-              padding: '12px',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              fontSize: '14px',
-            }}
-            disabled={loading}
-          />
-          <button
-            type="submit"
-            disabled={loading || !query.trim()}
-            style={{
-              padding: '12px 20px',
-              backgroundColor: loading || !query.trim() ? '#ccc' : '#1a73e8',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
-            }}
-          >
-            Send
-          </button>
-          <button
-            type="button"
-            onClick={clearConversation}
-            disabled={conversation.length === 0}
-            style={{
-              padding: '12px 20px',
-              backgroundColor: conversation.length === 0 ? '#ccc' : '#1a73e8',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: conversation.length === 0 ? 'not-allowed' : 'pointer',
-            }}
-          >
-            Clear
-          </button>
-          {file && (
-            <button
-              type="button"
-              onClick={handleRemoveFile}
-              style={{
-                padding: '12px 20px',
-                backgroundColor: '#1a73e8',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-              }}
-            >
-              Remove File
-            </button>
-          )}
-          {file && (
-            <button
-              type="button"
-              onClick={handleSaveData}
-              disabled={!file || loading || !dataPreview.length}
-              style={{
-                padding: '12px 20px',
-                backgroundColor: loading || !file || !dataPreview.length ? '#ccc' : '#1a73e8',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: loading || !file || !dataPreview.length ? 'not-allowed' : 'pointer',
-              }}
-            >
-              Save
-            </button>
-          )}
-        </form>
-        {file && (
-          <p style={{ padding: '10px 20px', color: '#4CAF50', margin: '0' }}>
-            ✅ Uploaded: {file.name} ({dataPreview.length - 1} rows displayed, up to 50)
-          </p>
-        )}
-        {error && (
-          <p style={{ padding: '10px 20px', color: '#f44336', margin: '0' }}>{error}</p>
-        )}
       </div>
-      <div
-        style={{
-          flex: 1,
-          backgroundColor: '#fff',
-          borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            padding: '15px',
-            backgroundColor: '#f9fafb',
-            borderBottom: '1px solid #e0e0e0',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <h3 style={{ margin: 0, color: '#333' }}>
-            {activeView === 'preview' ? 'Data Preview' : activeView === 'response' ? 'Analysis Report' : 'Visualization'}
-          </h3>
-          {file && (
-            <div style={{ display: 'flex', gap: '10px', position: 'relative' }}>
-              <button
-                onClick={() => {
-                  if (activeView === 'preview') {
-                    setActiveView(response ? 'response' : visualization ? 'visualization' : 'preview');
-                  } else if (activeView === 'response') {
-                    setActiveView(visualization ? 'visualization' : 'preview');
-                  } else {
-                    setActiveView('preview');
-                  }
-                }}
-                disabled={!response && !visualization && activeView === 'preview'}
-                style={{
-                  padding: '8px 16px',
-                  backgroundColor: response || visualization || activeView === 'preview' ? '#1a73e8' : '#ccc',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: response || visualization || activeView === 'preview' ? 'pointer' : 'not-allowed',
-                  fontSize: '14px',
-                }}
-              >
-                {activeView === 'preview' ? (response ? 'View Report' : 'View Visualization') : activeView === 'response' ? (visualization ? 'View Visualization' : 'View Data') : 'View Data'}
-              </button>
-              {activeView === 'preview' ? (
-                <div style={{ position: 'relative' }}>
-                  <button
-                    onClick={() => setShowDataDownloadMenu(!showDataDownloadMenu)}
-                    disabled={!dataPreview.length}
-                    style={{
-                      padding: '8px 16px',
-                      backgroundColor: dataPreview.length ? '#1a73e8' : '#ccc',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      cursor: dataPreview.length ? 'pointer' : 'not-allowed',
-                      fontSize: '14px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                    }}
-                  >
-                    <Download size={16} />
-                    Download Data
-                  </button>
-                  {showDataDownloadMenu && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '100%',
-                        right: 0,
-                        backgroundColor: '#fff',
-                        border: '1px solid #ddd',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                        zIndex: 10,
-                        minWidth: '100px',
-                      }}
-                    >
-                      <button
-                        onClick={() => handleDownloadData('csv')}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '8px 16px',
-                          backgroundColor: '#fff',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                        }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
-                      >
-                        CSV
-                      </button>
-                      <button
-                        onClick={() => handleDownloadData('excel')}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '8px 16px',
-                          backgroundColor: '#fff',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                        }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
-                      >
-                        Excel
-                      </button>
-                    </div>
-                  )}
+      <div className="display-panel">
+        <div className="display-header">
+          <h3 className="display-title">{file ? `Analysis of ${file.name}` : 'Data Display'}</h3>
+          <div className="display-controls">
+            <button onClick={handleSaveData} className="view-button" disabled={loading || !file || !dataPreview.length} >Save Edits</button>
+            {response && <button className={`view-button ${activeView === 'report' ? 'active' : ''}`} onClick={() => setActiveView('report')}>View Report</button>}
+            {dataPreview.length > 0 && <button className={`view-button ${activeView === 'preview' ? 'active' : ''}`} onClick={() => setActiveView('preview')}>View Data</button>}
+            <div style={{ position: 'relative' }}>
+              <button onClick={() => activeView === 'preview' ? setShowDataDownloadMenu(p => !p) : setShowReportDownloadMenu(p => !p)} className="icon-button" title="Download"><Download size={20} /></button>
+              {showDataDownloadMenu && activeView === 'preview' && (
+                <div className="download-menu">
+                  <div className="download-menu-header">Export as</div>
+                  <button onClick={() => handleDownloadData('csv')}>CSV</button>
+                  <button onClick={() => handleDownloadData('excel')}>Excel</button>
                 </div>
-              ) : activeView === 'response' ? (
-                <div style={{ position: 'relative' }}>
-                  <button
-                    onClick={() => setShowReportDownloadMenu(!showReportDownloadMenu)}
-                    disabled={!response}
-                    style={{
-                      padding: '8px 16px',
-                      backgroundColor: response ? '#1a73e8' : '#ccc',
-                      color: '#fff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      cursor: response ? 'pointer' : 'not-allowed',
-                      fontSize: '14px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '5px',
-                    }}
-                  >
-                    <Download size={16} />
-                    Download Report
-                  </button>
-                  {showReportDownloadMenu && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '100%',
-                        right: 0,
-                        backgroundColor: '#fff',
-                        border: '1px solid #ddd',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                        zIndex: 10,
-                        minWidth: '100px',
-                      }}
-                    >
-                      <button
-                        onClick={() => handleDownloadReport('pdf')}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '8px 16px',
-                          backgroundColor: '#fff',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                        }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
-                      >
-                        PDF
-                      </button>
-                      <button
-                        onClick={() => handleDownloadReport('docx')}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '8px 16px',
-                          backgroundColor: '#fff',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                        }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
-                      >
-                        DOCX
-                      </button>
-                      <button
-                        onClick={() => handleDownloadReport('txt')}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          padding: '8px 16px',
-                          backgroundColor: '#fff',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          fontSize: '14px',
-                        }}
-                        onMouseOver={(e) => (e.target.style.backgroundColor = '#f0f0f0')}
-                        onMouseOut={(e) => (e.target.style.backgroundColor = '#fff')}
-                      >
-                        TXT
-                      </button>
-                    </div>
-                  )}
+              )}
+              {showReportDownloadMenu && (activeView === 'report' || activeView === 'visualization') && (
+                <div className="download-menu">
+                  <div className="download-menu-header">Export as</div>
+                  <button onClick={() => handleDownloadReport('pdf')}>PDF Document</button>
+                  <button onClick={() => handleDownloadReport('docx')}>Word Document</button>
                 </div>
-              ) : null}
+              )}
             </div>
-          )}
+          </div>
         </div>
-        <div style={{ padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}>
-          {file ? (
-            activeView === 'preview' ? (
-              <div style={{ overflowX: 'auto' }}>
-                <p style={{ color: '#666', marginBottom: '10px' }}>
-                  Showing up to 50 rows of the dataset.
-                </p>
-                <table
-                  style={{
-                    width: '100%',
-                    minWidth: '600px',
-                    borderCollapse: 'collapse',
-                    marginBottom: '20px',
-                    fontSize: '14px',
-                  }}
-                >
-                  <thead>
-                    <tr style={{ backgroundColor: '#f0f0f0', position: 'sticky', top: 0, zIndex: 1 }}>
-                      {dataPreview[0]?.map((header, colIdx) => (
-                        <th
-                          key={colIdx}
-                          style={{
-                            padding: '10px',
-                            textAlign: 'left',
-                            border: '1px solid #ddd',
-                            whiteSpace: 'nowrap',
-                            fontWeight: 'bold',
-                          }}
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataPreview.slice(1).map((row, rowIdx) => (
-                      <tr key={rowIdx} style={{ borderBottom: '1px solid #ddd', height: '40px' }}>
-                        {row.map((cell, colIdx) => (
-                          <td
-                            key={colIdx}
-                            style={{
-                              padding: '10px',
-                              textAlign: 'left',
-                              border: '1px solid #ddd',
-                              minWidth: '120px',
-                              whiteSpace: 'normal',
-                            }}
-                          >
-                            <input
-                              type="text"
-                              value={cell}
-                              onChange={(e) => handleCellEdit(rowIdx + 1, colIdx, e.target.value)}
-                              style={{
-                                width: '100%',
-                                border: 'none',
-                                background: 'transparent',
-                                padding: '4px',
-                                fontSize: '14px',
-                              }}
-                            />
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : activeView === 'response' ? (
-              <ReactMarkdown>{response}</ReactMarkdown>
-            ) : (
-              <div>
-                <canvas id="myChart" style={{ maxHeight: '500px', width: '100%' }}></canvas>
-                {visualization && visualization.explanation && (
-                  <p style={{ marginTop: '10px', color: '#333' }}>{visualization.explanation}</p>
-                )}
-              </div>
-            )
-          ) : (
-            <p style={{ color: '#666', textAlign: 'center' }}>
-              Upload a dataset to see the preview (up to 50 rows).
-            </p>
-          )}
-        </div>
+        <div className="display-content">{renderActiveView()}</div>
       </div>
       <style>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        input:focus {
-          outline: none;
-          background: #e6f0ff;
-        }
-        table {
-          table-layout: auto;
-        }
-        td, th {
-          max-width: 300px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+        /* All existing styles remain the same */
+        .ai-sheets-container { display: flex; gap: 20px; padding: 20px; margin-top:100px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f7f8fc; height: 85vh; box-sizing: border-box; }
+        .chat-panel, .display-panel { flex: 1; display: flex; flex-direction: column; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .chat-header { padding: 12px 20px; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
+        .chat-header h2 { margin: 0; font-size: 18px; }
+        .conversation-area { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .conversation-turn { margin-bottom: 24px; }
+        .user-message-bubble { background-color: #007bff; color: white; padding: 12px 18px; border-radius: 18px; display: inline-block; max-width: 80%; font-size: 15px; }
+        .ai-response-area { margin-top: 12px; font-size: 15px; line-height: 1.6; color: #333; }
+        .loader { text-align: center; color: #888; padding: 10px; }
+        .message-input-area { padding: 15px; border-top: 1px solid #e0e0e0; background-color: #f9f9f9; }
+        .file-chip { display: flex; align-items: center; background-color: #e9ecef; padding: 6px 12px; border-radius: 16px; font-size: 14px; margin-bottom: 10px; }
+        .file-chip span { margin-right: auto; padding-left: 8px; }
+        .remove-file-btn { background: none; border: none; cursor: pointer; padding: 2px; display: flex; border-radius: 50%; }
+        .remove-file-btn:hover { background-color: #ced4da; }
+        .input-toolbar { display: flex; gap: 8px; align-items: center; }
+        .message-form { display: flex; align-items: center; gap: 10px; background-color: #fff; border: 1px solid #ccc; border-radius: 25px; padding: 5px; flex-grow: 1; }
+        .message-input { flex-grow: 1; border: none; outline: none; padding: 8px; font-size: 15px; background-color: transparent; }
+        .icon-button, .send-button { background: none; border: none; cursor: pointer; color: #555; padding: 8px; border-radius: 50%; display: flex; align-items: center; }
+        .icon-button:hover, .send-button:hover { background-color: #f0f0f0; }
+        .icon-button:disabled { cursor: not-allowed; color: #bbb; }
+        .send-button { background-color: #007bff; color: white; }
+        .send-button:disabled, .view-button:disabled { background-color: #a0cfff; cursor: not-allowed; opacity: 0.6; }
+        .error-text { color: red; text-align: center; font-size: 14px; margin-top: 10px; }
+        .display-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #e0e0e0; flex-shrink: 0; }
+        .display-title { margin: 0; font-size: 16px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .display-controls { display: flex; align-items: center; gap: 10px; }
+        .view-button { background-color: #f0f2f5; border: 1px solid #dcdcdc; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .view-button.active { background-color: #e7f1ff; border-color: #007bff; color: #007bff; font-weight: 500; }
+        .download-menu { position: absolute; top: calc(100% + 5px); right: 0; background-color: white; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 10; width: 180px; }
+        .download-menu-header { padding: 8px 12px; font-size: 14px; font-weight: 500; color: #555; border-bottom: 1px solid #eee; }
+        .download-menu button { display: block; width: 100%; padding: 10px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 14px; }
+        .download-menu button:hover { background-color: #f5f5f5; }
+        .display-content { flex-grow: 1; overflow: auto; padding: 20px; }
+        .placeholder-text { text-align: center; color: #888; margin-top: 40px; padding: 0 20px; }
+        .explanation-text { line-height: 1.7; font-size: 15px; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .data-table th, .data-table td { padding: 0; border: 1px solid #ddd; text-align: left; white-space: nowrap; }
+        .data-table th { padding: 12px 15px; background-color: #f7f8fc; font-weight: 600; position: sticky; top: -20px; }
+        .table-cell-input { width: 100%; height: 100%; border: none; background-color: transparent; padding: 12px 15px; font-size: 14px; outline: none; }
+        .table-cell-input:focus { background-color: #e7f1ff; }
+        .markdown-content { line-height: 1.7; font-size: 15px; }
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 { border-bottom: 1px solid #eee; padding-bottom: 0.3em; margin-top: 24px; margin-bottom: 16px; }
+        .markdown-content p { margin-bottom: 16px; }
+        .markdown-content ul, .markdown-content ol { padding-left: 24px; margin-bottom: 16px; }
+        .markdown-content li { margin-bottom: 8px; }
+        .markdown-content pre { background-color: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
+        .markdown-content code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 85%; background-color: rgba(27,31,35,0.05); border-radius: 3px; padding: 0.2em 0.4em; }
+        .markdown-content pre > code { background-color: transparent; padding: 0; }
+        .markdown-content blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin-left: 0; }
       `}</style>
-      <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     </div>
   );
 };
