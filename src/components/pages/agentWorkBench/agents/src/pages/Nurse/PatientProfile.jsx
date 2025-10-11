@@ -132,6 +132,7 @@ const PatientProfile = () => {
   const [editMode, setEditMode] = useState(false);
   const [showAddVisitModal, setShowAddVisitModal] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successType, setSuccessType] = useState(""); // "profile" or "visit"
   const [activeTab, setActiveTab] = useState("overview");
   const [newVisitData, setNewVisitData] = useState({
     visitDate: moment().format("YYYY-MM-DD"),
@@ -336,9 +337,17 @@ const PatientProfile = () => {
         headers: { Authorization: token ? `Bearer ${token}` : "" },
       });
 
-      alert("Patient profile updated successfully!");
+      // Show success popup instead of alert
+      setSuccessType("profile");
+      setShowSuccessPopup(true);
       setEditMode(false);
-      fetchPatientData();
+      
+      // Hide popup after 3 seconds and refresh data
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        setSuccessType("");
+        fetchPatientData();
+      }, 3000);
     } catch (err) {
       console.error("Update Profile Error:", err);
       setError(err.response?.data?.detail || "Failed to update patient profile");
@@ -414,8 +423,9 @@ const PatientProfile = () => {
         headers: { Authorization: token ? `Bearer ${token}` : "" },
       });
       
-      // Show success popup
+      // Show success popup for visit
       setShowAddVisitModal(false);
+      setSuccessType("visit");
       setShowSuccessPopup(true);
       
       // Reset form data
@@ -429,6 +439,7 @@ const PatientProfile = () => {
       // Hide popup after 3 seconds and refresh data
       setTimeout(() => {
         setShowSuccessPopup(false);
+        setSuccessType("");
         fetchPatientData();
       }, 3000);
       
@@ -1164,9 +1175,18 @@ const PatientProfile = () => {
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaCheckCircle className="text-green-500 text-5xl" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Success!</h3>
-            <p className="text-gray-600">New checkup history added successfully.</p>
-            <p className="text-sm text-gray-500 mt-2">Refreshing data...</p>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              {successType === "profile" ? "Profile Updated!" : "Success!"}
+            </h3>
+            <p className="text-gray-600">
+              {successType === "profile" 
+                ? "Patient profile updated successfully!" 
+                : "New checkup history added successfully."
+              }
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
+              {successType === "profile" ? "Refreshing..." : "Refreshing data..."}
+            </p>
           </div>
         </div>
       )}
