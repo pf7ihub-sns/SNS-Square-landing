@@ -926,7 +926,7 @@ export default function LiveSpeechToTextAgent() {
             {transcription && (
                 <div className="space-y-6">
                     {/* Processing Info */}
-                    {transcription.processing_info && (
+                    {/* {transcription.processing_info && (
                         <div className="rounded-lg p-4 border bg-gray-50 border-gray-200">
                             <h3 className="text-lg font-semibold mb-2 text-blue-900">Processing Information</h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -953,7 +953,7 @@ export default function LiveSpeechToTextAgent() {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    )} */}
 
                     {/* Tab Content */}
                     <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
@@ -988,10 +988,10 @@ export default function LiveSpeechToTextAgent() {
                                                 <span className="text-blue-900">Date:</span>
                                                 <span className="font-medium text-gray-800">{transcription.mom.meeting_info.date}</span>
                                             </div>
-                                            <div className="flex justify-between">
+                                            {/* <div className="flex justify-between">
                                                 <span className="text-blue-900">Time/Duration:</span>
                                                 <span className="font-medium text-gray-800">{transcription.mom.meeting_info.time}</span>
-                                            </div>
+                                            </div> */}
                                             <div className="flex justify-between">
                                                 <span className="text-blue-900">Type:</span>
                                                 <span className="font-medium capitalize text-gray-800">{transcription.mom.meeting_info.meeting_type}</span>

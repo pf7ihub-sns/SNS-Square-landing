@@ -16,7 +16,16 @@ import Dev from "../../../../public/images/dev.png";
 import Work from "../../../../public/images/work.png";
 import Social from "../../../../public/images/social.png";
 import AgentCard from './AgentCard.jsx';
-
+import HumanResource from "../../../../public/icons/Corprate.svg";
+import Healthcare from "../../../../public/icons/Healthcareuicon.svg"
+import Finance from "../../../../public/icons/finance.svg";
+import Manufacturing from "../../../../public/icons/supports.svg";
+import RealEstate from "../../../../public/icons/imporve.svg";
+import Retail from "../../../../public/icons/Reduces.svg";
+import Marketing from "../../../../public/icons/Marketing,Sales.svg";
+import Bank from "../../../../public/icons/ITIcon.svg";
+import General from "../../../../public/icons/Contextual.svg";
+import Agri from "../../../../public/icons/plant.png";
 const categoryIcons = {
   'doc-knowledge': Docimg,
   'data-management': Dataimg,
@@ -27,17 +36,17 @@ const categoryIcons = {
   'social-media': Social,
   'work-management': Work,
   'developer-support': Dev,
-  'manufacturing': '/images/icons/manufacturing.png',
-  'agriculture': '/images/icons/agriculture.png',
-  'healthcare': '/images/icons/healthcare.png',
-  'legal': '/images/icons/legal.png',
-  'media-entertainment': '/images/icons/media.png',
-  'retail': '/images/icons/retail.png',
-  'real-estate': '/images/icons/realestate.png',
-  'hr': '/images/icons/hr.png',
-  'fintech': '/images/icons/fintech.png',
-  'banking': '/images/icons/banking.png',
-  'general': '/images/icons/general.png'
+  'manufacturing': Manufacturing,
+  'agriculture': Agri,
+  'healthcare': Healthcare,
+  'legal': Finance,
+  'media-entertainment': Social,
+  'retail': Retail,
+  'real-estate': RealEstate,
+  'hr': HumanResource,
+  'fintech': Marketing,
+  'banking': Bank,
+  'general': General
 };
 
 const MediaEntertainment = () => {
@@ -178,6 +187,30 @@ const MediaEntertainment = () => {
 
   // Get agents to display
   const getAgentsToDisplay = () => {
+    // If there's a search query, search across ALL agents regardless of category selection
+    if (searchQuery.trim()) {
+      const allAgents = [];
+      const categories = getCategories();
+
+      categories.forEach(category => {
+        // Add agents directly under category
+        if (category.agents) {
+          allAgents.push(...category.agents);
+        }
+        // Add agents from subcategories
+        if (category.subCategories) {
+          category.subCategories.forEach(subCat => {
+            if (subCat.agents) {
+              allAgents.push(...subCat.agents);
+            }
+          });
+        }
+      });
+
+      return allAgents;
+    }
+
+    // If no search query, use the existing category-based filtering
     if (selectedSubCategory) {
       const subCategoryData = getCurrentSubCategoryData();
       return subCategoryData?.agents || [];
@@ -611,14 +644,16 @@ const MediaEntertainment = () => {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
                 <div>
                   <h2 className="text-xl sm:text-xl font-bold text-gray-900 mt-15">
-                    {selectedSubCategory ? getCurrentSubCategoryData()?.name :
-                      selectedCategory ? getCurrentCategoryData()?.name :
-                        `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
+                    {searchQuery.trim() ? 'Search Results' :
+                      selectedSubCategory ? getCurrentSubCategoryData()?.name :
+                        selectedCategory ? getCurrentCategoryData()?.name :
+                          `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
                   </h2>
                   <p className="text-[#000] mt-1 text-sm sm:text-base">
-                    {selectedSubCategory ? getCurrentSubCategoryData()?.description :
-                      selectedCategory ? getCurrentCategoryData()?.description :
-                        `Explore our ${activeTab} agent categories`}
+                    {searchQuery.trim() ? `Found ${filteredAgents.length} agents matching "${searchQuery}"` :
+                      selectedSubCategory ? getCurrentSubCategoryData()?.description :
+                        selectedCategory ? getCurrentCategoryData()?.description :
+                          `Explore our ${activeTab} agent categories`}
                   </p>
                 </div>
                 <span className="text-sm text-gray-500 self-start sm:self-auto">
@@ -675,9 +710,9 @@ const MediaEntertainment = () => {
         <MobileSidebar />
 
         {/* Agent Details Modal */}
-        <AgentDetailsModal
+        {/* <AgentDetailsModal
 
-        />
+        /> */}
       </div>
     </div>
   );
