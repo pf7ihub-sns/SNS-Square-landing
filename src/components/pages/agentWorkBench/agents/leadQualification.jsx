@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Download, X, AlertCircle, CheckCircle, Loader, FolderPlus, Upload, BarChart3, Eye, TrendingUp, FileText, Sparkles } from 'lucide-react';
+import { Search, Download, X, AlertCircle, CheckCircle, Loader, FolderPlus, Upload, BarChart3, Eye, TrendingUp, FileText, Sparkles, Info } from 'lucide-react';
 
 export default function LeadQualification() {
     const API_BASE_URL = 'http://localhost:8000/lead_qualification';
@@ -14,6 +14,8 @@ export default function LeadQualification() {
     const [showCreateProject, setShowCreateProject] = useState(false);
     const [showUploadLeads, setShowUploadLeads] = useState(false);
     const [showUploadDocs, setShowUploadDocs] = useState(false);
+    const [showProductSummary, setShowProductSummary] = useState(false);
+    const [productAnalysis, setProductAnalysis] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterPriority, setFilterPriority] = useState('all');
     const [processingProgress, setProcessingProgress] = useState(null);
@@ -62,6 +64,23 @@ export default function LeadQualification() {
         }
     };
 
+    const loadProductAnalysis = async (projectId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/projects/${projectId}/product-analysis`);
+            const data = await response.json();
+            
+            if (data.status === 'not_analyzed') {
+                showMessage('info', 'No product documents analyzed yet. Upload documents to enable AI context.');
+                setProductAnalysis(null);
+            } else if (data.status === 'success') {
+                setProductAnalysis(data.analysis);
+                setShowProductSummary(true);
+            }
+        } catch (error) {
+            showMessage('error', 'Failed to load product analysis');
+        }
+    };
+
     const handleCreateProject = async (projectName, description) => {
         try {
             const response = await fetch(`${API_BASE_URL}/projects`, {
@@ -99,6 +118,10 @@ export default function LeadQualification() {
             showMessage('success', `${data.documents_uploaded} documents analyzed successfully`);
             setShowUploadDocs(false);
             loadProjects();
+            // Reload selected project
+            const updatedProjects = await fetch(`${API_BASE_URL}/projects`).then(r => r.json());
+            const updatedProject = updatedProjects.projects.find(p => p.id === selectedProject.id);
+            if (updatedProject) setSelectedProject(updatedProject);
         } catch (error) {
             showMessage('error', 'Failed to upload documents');
         } finally {
@@ -194,6 +217,148 @@ export default function LeadQualification() {
             processing: 'bg-yellow-100 text-yellow-800'
         };
         return colors[status] || colors.new;
+    };
+
+    const ProductSummaryModal = () => {
+        if (!showProductSummary || !productAnalysis) return null;
+
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-25">
+                <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+                    <div className="sticky top-0 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 flex justify-between items-center z-10">
+                        <div className="flex items-center gap-3">
+                            <Sparkles className="w-6 h-6" />
+                            <h3 className="text-2xl font-bold">Product Analysis</h3>
+                        </div>
+                        <button onClick={() => setShowProductSummary(false)} className="text-white hover:text-gray-200">
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+                    
+                    <div className="p-6 space-y-6">
+                        {/* Elevator Pitch */}
+                        <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-xl border-2 border-purple-200">
+                            <h4 className="font-bold text-lg text-gray-900 mb-3 flex items-center gap-2">
+                                <Info className="w-5 h-5 text-purple-600" />
+                                Product Overview
+                            </h4>
+                            <p className="text-gray-800 text-lg leading-relaxed">{productAnalysis.elevator_pitch}</p>
+                        </div>
+
+                        {/* Core Problem */}
+                        {productAnalysis.core_problem && (
+                            <div className="bg-white border-2 border-gray-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-3">Problem We Solve</h4>
+                                <p className="text-gray-700">{productAnalysis.core_problem}</p>
+                            </div>
+                        )}
+
+                        {/* Key Differentiators */}
+                        {productAnalysis.key_differentiators && productAnalysis.key_differentiators.length > 0 && (
+                            <div className="bg-white border-2 border-gray-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4">Key Differentiators</h4>
+                                <div className="grid grid-cols-1 gap-3">
+                                    {productAnalysis.key_differentiators.map((diff, idx) => (
+                                        <div key={idx} className="flex items-start gap-3 bg-green-50 p-3 rounded-lg border border-green-200">
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-gray-800">{diff}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Key Features */}
+                        {productAnalysis.key_features && productAnalysis.key_features.length > 0 && (
+                            <div className="bg-white border-2 border-gray-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4">Key Features</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {productAnalysis.key_features.map((feature, idx) => (
+                                        <div key={idx} className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                            <div className="font-medium text-blue-900 mb-1">
+                                                {feature.feature_name || feature}
+                                            </div>
+                                            {feature.benefit && (
+                                                <div className="text-sm text-gray-700">{feature.benefit}</div>
+                                            )}
+                                            {feature.priority && (
+                                                <span className={`inline-block mt-2 px-2 py-1 text-xs rounded-full ${
+                                                    feature.priority === 'must_have' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                }`}>
+                                                    {feature.priority.replace('_', ' ')}
+                                                </span>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Value Propositions */}
+                        {productAnalysis.value_propositions && productAnalysis.value_propositions.length > 0 && (
+                            <div className="bg-white border-2 border-gray-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4">Value Propositions</h4>
+                                <ul className="space-y-2">
+                                    {productAnalysis.value_propositions.map((vp, idx) => (
+                                        <li key={idx} className="flex items-start gap-3">
+                                            <span className="text-purple-600 font-bold text-lg">•</span>
+                                            <span className="text-gray-700">{vp}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Target Industries */}
+                        {productAnalysis.target_industries && productAnalysis.target_industries.length > 0 && (
+                            <div className="bg-white border-2 border-gray-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-3">Target Industries</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {productAnalysis.target_industries.map((industry, idx) => (
+                                        <span key={idx} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                                            {industry}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* ICP Summary */}
+                        {productAnalysis.ideal_customer_profile && (
+                            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border-2 border-blue-200">
+                                <h4 className="font-semibold text-gray-900 mb-4">Ideal Customer Profile</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {productAnalysis.ideal_customer_profile.company_profile && (
+                                        <div className="bg-white p-4 rounded-lg">
+                                            <p className="text-xs text-gray-500 mb-1">Company Size</p>
+                                            <p className="text-sm font-medium text-gray-900">
+                                                {productAnalysis.ideal_customer_profile.company_profile.company_size_range || 'N/A'}
+                                            </p>
+                                        </div>
+                                    )}
+                                    {productAnalysis.decision_makers && productAnalysis.decision_makers.length > 0 && (
+                                        <div className="bg-white p-4 rounded-lg">
+                                            <p className="text-xs text-gray-500 mb-1">Decision Makers</p>
+                                            <p className="text-sm font-medium text-gray-900">
+                                                {productAnalysis.decision_makers.join(', ')}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Analysis Metadata */}
+                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm text-gray-600">
+                            <div className="flex justify-between items-center">
+                                <span>Documents Analyzed: {productAnalysis.documents_analyzed || 0}</span>
+                                <span>Analyzed: {productAnalysis.analyzed_at ? new Date(productAnalysis.analyzed_at).toLocaleDateString() : 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     };
 
     const Sidebar = () => (
@@ -511,7 +676,16 @@ export default function LeadQualification() {
                                 </div>
                             </div>
                             {project.project_context && (
-                                <Sparkles className="w-5 h-5 text-purple-500" />
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        loadProductAnalysis(project.id);
+                                    }}
+                                    className="p-2 hover:bg-purple-100 rounded-lg transition-colors"
+                                    title="View Product Analysis"
+                                >
+                                    <Info className="w-5 h-5 text-purple-600" />
+                                </button>
                             )}
                         </div>
                         {project.description && (
@@ -564,11 +738,27 @@ export default function LeadQualification() {
         return (
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                    <div>
+                    <div className="flex items-center gap-4">
                         <h2 className="text-3xl font-bold text-gray-900">{selectedProject?.name}</h2>
-                        <p className="text-gray-500 mt-1">{leads.length} total leads</p>
+                        {selectedProject?.project_context && (
+                            <button
+                                onClick={() => loadProductAnalysis(selectedProject.id)}
+                                className="flex items-center gap-2 px-3 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors"
+                                title="View Product Summary"
+                            >
+                                <Info className="w-4 h-4" />
+                                <span className="text-sm font-medium">Product Info</span>
+                            </button>
+                        )}
                     </div>
                     <div className="flex gap-3">
+                        <button 
+                            onClick={() => setShowUploadDocs(true)} 
+                            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                        >
+                            <FileText className="w-4 h-4" />
+                            Upload Docs
+                        </button>
                         <button 
                             onClick={() => setShowUploadLeads(true)} 
                             className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
@@ -749,6 +939,11 @@ export default function LeadQualification() {
         const scoreBreakdown = selectedLead.score_breakdown?.rule_based?.breakdown || {};
         const contextMatch = selectedLead.context_match || {};
         const recommendations = selectedLead.recommendations || {};
+        
+        // Get AI summary from qualification report
+        const qualificationReport = selectedLead.qualification_report || {};
+        const executiveSummary = qualificationReport.executive_summary || {};
+        const aiSummary = executiveSummary.ai_summary || selectedLead.summary || `${selectedLead.name} (${selectedLead.title} at ${selectedLead.company}) - Lead qualification in progress.`;
 
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-20">
@@ -771,11 +966,7 @@ export default function LeadQualification() {
                                         <Sparkles className="w-5 h-5 text-purple-600" />
                                         AI Analysis Summary
                                     </h4>
-                                    {selectedLead.summary ? (
-                                        <p className="text-sm text-gray-700 leading-relaxed">{selectedLead.summary}</p>
-                                    ) : (
-                                        <p className="text-sm text-gray-500 italic">No AI summary available</p>
-                                    )}
+                                    <p className="text-sm text-gray-700 leading-relaxed">{aiSummary}</p>
                                 </div>
 
                                 {contextMatch.match_quality && (
@@ -1004,9 +1195,13 @@ export default function LeadQualification() {
             <div className="flex-1 p-8 overflow-auto">
                 {message && (
                     <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-                        message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
+                        message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 
+                        message.type === 'info' ? 'bg-blue-50 text-blue-800 border border-blue-200' :
+                        'bg-red-50 text-red-800 border border-red-200'
                     }`}>
-                        {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+                        {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : 
+                         message.type === 'info' ? <Info className="w-5 h-5" /> :
+                         <AlertCircle className="w-5 h-5" />}
                         {message.text}
                     </div>
                 )}
@@ -1028,6 +1223,8 @@ export default function LeadQualification() {
                 
                 <CreateProjectModal />
                 <UploadLeadsModal />
+                <UploadDocsModal />
+                <ProductSummaryModal />
                 <LeadDetailsModal />
             </div>
         </div>
