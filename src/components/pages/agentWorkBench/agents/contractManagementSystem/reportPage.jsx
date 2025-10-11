@@ -10,7 +10,7 @@ const ReportPage = ({ reportId }) => {
   const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview'); // Tab state
+  const [activeTab, setActiveTab] = useState('overview'); 
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -77,6 +77,39 @@ const ReportPage = ({ reportId }) => {
     }
   };
 
+  const handleDownloadDocx = async () => {
+    try {
+      toast.info('Generating DOCX file...');
+      
+      const response = await fetch(
+        `${API_BASE_URL}/contract-management-system/contract/${reportData.contract_id}/export/docx`
+      );
+      
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.detail || 'Failed to generate DOCX');
+      }
+      
+      // Get the blob from response
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Contract_${reportData.contract_id}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      
+      toast.success('Contract downloaded successfully!');
+    } catch (error) {
+      console.error('Failed to download DOCX:', error);
+      toast.error(`Error: ${error.message || 'Failed to download contract'}`);
+    }
+  };
+
   // Tab configuration
   const tabs = [
     { id: 'overview', label: 'Contract Overview', icon: '📄' },
@@ -130,7 +163,7 @@ const ReportPage = ({ reportId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FD]">
+    <div className="pt-25 min-h-screen bg-[#F8F9FD]">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-8 py-4 sticky top-0 z-10">
         <div className="flex items-center justify-between">
@@ -141,26 +174,44 @@ const ReportPage = ({ reportId }) => {
             >
               ← Back
             </button>
-            <div>
+            <div className="flex-1">
               <h1 className="text-xl font-semibold text-gray-900">Contract Summary & Analysis Report</h1>
-              <div className="flex gap-4 text-sm text-gray-600 mt-1">
-                <span><strong>Contract Name:</strong> {reportData.contract_name}</span>
-                <span><strong>Contract ID:</strong> {reportData.contract_id}</span>
-                <span><strong>Type:</strong> {reportData.contract_type}</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-600 mt-2">
+                <div className="flex flex-col">
+                  <span><strong>Contract Name:</strong> {reportData.contract_name}</span>
+                  <span><strong>Contract ID:</strong> {reportData.contract_id}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span><strong>Type:</strong> {reportData.contract_type}</span>
+                  <span><strong>Domain:</strong> {reportData.domain}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span><strong>Review Date:</strong> {reportData.review_date}</span>
+                  <span><strong>Owner:</strong> {reportData.owner}</span>
+                </div>
               </div>
-              <div className="flex gap-4 text-sm text-gray-600 mt-1">
-                {reportData.parties?.parties && reportData.parties.parties.length > 0 && (
-                  <span><strong>Parties:</strong> {reportData.parties.parties.map(p => p.name).join(' & ')}</span>
-                )}
-                {reportData.effective_date && (
-                  <span><strong>Effective Date:</strong> {reportData.effective_date}</span>
-                )}
-                <span><strong>Review Date:</strong> {reportData.review_date}</span>
-                <span><strong>Owner:</strong> {reportData.owner}</span>
-              </div>
+              {(reportData.parties || reportData.effective_date) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600 mt-2">
+                  {reportData.parties && (
+                    <span><strong>Parties:</strong> {reportData.parties}</span>
+                  )}
+                  {reportData.effective_date && (
+                    <span><strong>Effective Date:</strong> {reportData.effective_date}</span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex gap-3">
+            <button
+              onClick={handleDownloadDocx}
+              className="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M5.83333 8.33333L10 12.5M10 12.5L14.1667 8.33333M10 12.5V2.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Download DOCX
+            </button>
             <button
               onClick={handleRevise}
               className="px-5 py-2.5 bg-white border border-[#155DFC] text-[#155DFC] rounded-lg font-medium hover:bg-[#F0F5FF] transition-colors"
@@ -179,12 +230,12 @@ const ReportPage = ({ reportId }) => {
 
       {/* Tabs */}
       <div className="bg-white border-b border-gray-200 px-8">
-        <div className="flex gap-2">
+        <div className="flex gap-1 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 font-medium transition-colors relative ${
+              className={`px-6 py-3 font-medium transition-colors relative whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'text-[#155DFC] border-b-2 border-[#155DFC]'
                   : 'text-gray-600 hover:text-gray-900'
@@ -214,72 +265,101 @@ const ReportPage = ({ reportId }) => {
 const OverviewTab = ({ data }) => {
   if (!data) return <EmptyState message="No overview data available" />;
 
-  const { summary, key_points } = data;
+  const { contract_type, description, key_points } = data;
 
   return (
     <div className="max-w-6xl mx-auto">
       <div className="bg-white rounded-lg border border-gray-200 p-8">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Contract Overview</h2>
+        <h2 className="text-2xl font-semibold text-gray-900 mb-6">1. Contract Overview</h2>
         
-        <p className="text-gray-700 mb-6 leading-relaxed">{summary}</p>
-
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Points:</h3>
-
-        {/* Obligations */}
-        {key_points?.obligations && key_points.obligations.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-semibold text-gray-900 mb-2">● Obligations:</h4>
-            <div className="ml-6 space-y-2">
-              {key_points.obligations.map((obligation, idx) => (
-                <div key={idx} className="text-gray-700">
-                  <span className="font-medium">{obligation.party}:</span> {obligation.obligation}
-                </div>
-              ))}
-            </div>
+        <div className="space-y-6">
+          {/* Contract Type */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 mb-2">Contract Type</h3>
+            <p className="text-gray-700">{contract_type}</p>
           </div>
-        )}
 
-        {/* Deadlines */}
-        {key_points?.deadlines && key_points.deadlines.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-semibold text-gray-900 mb-2">● Deadlines:</h4>
-            <div className="ml-6 space-y-1">
-              {key_points.deadlines.map((deadline, idx) => (
-                <div key={idx} className="text-gray-700">
-                  <span className="font-medium">{deadline.type}:</span> {deadline.date}
-                </div>
-              ))}
-            </div>
+          {/* Description */}
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
+            <p className="text-gray-700 leading-relaxed">{description}</p>
           </div>
-        )}
 
-        {/* Penalties */}
-        {key_points?.penalties && key_points.penalties.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-semibold text-gray-900 mb-2">● Penalties:</h4>
-            <div className="ml-6 space-y-2">
-              {key_points.penalties.map((penalty, idx) => (
-                <div key={idx} className="text-gray-700">
-                  <span className="font-medium">{penalty.type}:</span> {penalty.description}
+          {/* Key Points */}
+          {key_points && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Key Points</h3>
+              
+              {/* Obligations */}
+              {key_points.obligations && key_points.obligations.length > 0 && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    Obligations
+                  </h4>
+                  <div className="space-y-2">
+                    {key_points.obligations.map((obligation, idx) => (
+                      <div key={idx} className="text-gray-700 pl-4">
+                        <span className="font-medium">{obligation}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
+              )}
 
-        {/* Additional Clauses */}
-        {key_points?.additional_clauses && key_points.additional_clauses.length > 0 && (
-          <div className="mb-6">
-            <h4 className="font-semibold text-gray-900 mb-2">● Additional Clauses:</h4>
-            <div className="ml-6 space-y-2">
-              {key_points.additional_clauses.map((clause, idx) => (
-                <div key={idx} className="text-gray-700">
-                  <span className="font-medium">{clause.type}:</span> {clause.description}
+              {/* Deadlines */}
+              {key_points.deadlines && Object.keys(key_points.deadlines).length > 0 && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></span>
+                    Important Dates
+                  </h4>
+                  <div className="space-y-2">
+                    {Object.entries(key_points.deadlines).map(([key, value], idx) => (
+                      <div key={idx} className="text-gray-700 pl-4">
+                        <span className="font-medium capitalize">{key.replace('_', ' ')}:</span> {value}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {/* Penalties */}
+              {key_points.penalties && key_points.penalties.length > 0 && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                    Penalties
+                  </h4>
+                  <div className="space-y-2">
+                    {key_points.penalties.map((penalty, idx) => (
+                      <div key={idx} className="text-gray-700 pl-4">
+                        <span className="font-medium">{penalty}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Additional Clauses */}
+              {key_points.additional_clauses && key_points.additional_clauses.length > 0 && (
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                    Additional Clauses
+                  </h4>
+                  <div className="space-y-2">
+                    {key_points.additional_clauses.map((clause, idx) => (
+                      <div key={idx} className="text-gray-700 pl-4">
+                        <span className="font-medium">{clause}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
@@ -544,7 +624,17 @@ const NegotiationsTab = ({ data }) => {
 const EmptyState = ({ message }) => (
   <div className="max-w-6xl mx-auto">
     <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-      <p className="text-gray-500 text-lg">{message}</p>
+      <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-gray-500 text-lg font-medium">{message}</p>
+          <p className="text-gray-400 text-sm mt-2">The analysis may still be processing or the contract may not contain this type of information.</p>
+        </div>
+      </div>
     </div>
   </div>
 );
