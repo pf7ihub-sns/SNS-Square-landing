@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import ReactMarkdown from 'react-markdown';
-import { Paperclip, Download, Send, X, File as FileIcon, RotateCcw, Sparkles } from 'lucide-react';
+import { Paperclip, Download, Send, X, File as FileIcon, RotateCcw, Sparkles, Clipboard, RefreshCw } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
+import remarkGfm from 'remark-gfm';
 
 const AiSheets = () => {
   const [file, setFile] = useState(null);
@@ -10,41 +11,30 @@ const AiSheets = () => {
   const [response, setResponse] = useState('');
   const [dataPreview, setDataPreview] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
   const [conversation, setConversation] = useState([]);
   const [error, setError] = useState('');
   const [activeView, setActiveView] = useState('preview');
   const [showDataDownloadMenu, setShowDataDownloadMenu] = useState(false);
   const [showReportDownloadMenu, setShowReportDownloadMenu] = useState(false);
   const [visualization, setVisualization] = useState(null);
+  const [datasetPath, setDatasetPath] = useState(''); // New state for dataset path
   const fileInputRef = useRef(null);
   const landingFileInputRef = useRef(null);
-  const chartRef = useRef(null);
-
+  const conversationEndRef = useRef(null);
+  const [copiedIndex, setCopiedIndex] = useState(null);
   const showLandingPage = !file && conversation.length === 0;
 
   useEffect(() => {
-    let chartInstance = null;
-    if (visualization && visualization.chart_code && chartRef.current) {
-      try {
-        const canvas = chartRef.current;
-        const ctx = canvas.getContext('2d');
-        if (canvas.chart) {
-            canvas.chart.destroy();
-        }
-        const chartFunction = new Function('ctx', 'Chart', visualization.chart_code);
-        chartInstance = chartFunction(ctx, window.Chart);
-        canvas.chart = chartInstance;
-      } catch (err) {
-        console.error('Error rendering chart:', err);
-        setError('Failed to render visualization.');
-      }
+    conversationEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversation]);
+
+  useEffect(() => {
+    if (copiedIndex !== null) {
+      const timer = setTimeout(() => setCopiedIndex(null), 2000);
+      return () => clearTimeout(timer);
     }
-    return () => {
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
-    };
-  }, [visualization, activeView]);
+  }, [copiedIndex]);
 
   const uploadFileToBackend = async (fileToUpload) => {
     setLoading(true);
@@ -69,6 +59,8 @@ const AiSheets = () => {
           const errorData = await res.json();
           throw new Error(errorData.message || 'Backend failed to process file.');
         }
+        const responseData = await res.json();
+        setDatasetPath(responseData.path || fileToUpload.name); // Store dataset path from backend
         console.log('File uploaded and saved by backend.');
       } catch (err) {
         console.error('File upload error:', err);
@@ -86,15 +78,12 @@ const AiSheets = () => {
   const handleFileUpload = async (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
-    
+
     if (selectedFile.name.endsWith('.csv') || selectedFile.name.endsWith('.xlsx') || selectedFile.name.endsWith('.tsv')) {
       setFile(selectedFile);
-      
       if (showLandingPage) {
-          // FIX: Changed '#' to '//'
-          setQuery(''); // Clear any typed query on landing page if they just upload
+        setQuery('');
       }
-
       setConversation([]);
       setError('');
       setResponse('');
@@ -106,10 +95,10 @@ const AiSheets = () => {
         const data = new Uint8Array(event.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
         if (workbook.SheetNames.length > 0) {
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            setDataPreview(jsonData.slice(0, 51));
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          setDataPreview(jsonData.slice(0, 51));
         }
       };
       reader.readAsArrayBuffer(selectedFile);
@@ -117,7 +106,7 @@ const AiSheets = () => {
     } else {
       setError('Please upload a CSV, XLSX, or TSV file.');
     }
-    e.target.value = ''; 
+    e.target.value = '';
   };
 
   const handleRemoveFile = async () => {
@@ -130,11 +119,12 @@ const AiSheets = () => {
       setVisualization(null);
       setActiveView('preview');
       setError('');
+      setDatasetPath(''); // Clear dataset path
     } catch (err) {
       setError('Failed to remove file from backend.');
     }
   };
-  
+
   const handleCellEdit = (rowIdx, colIdx, value) => {
     const updatedData = [...dataPreview];
     updatedData[rowIdx + 1][colIdx] = value;
@@ -151,6 +141,8 @@ const AiSheets = () => {
       formData.append('filename', file.name);
       const res = await fetch('http://localhost:8000/ai-sheets/save-data', { method: 'POST', body: formData });
       if (!res.ok) throw new Error('Failed to save data');
+      const responseData = await res.json();
+      setDatasetPath(responseData.path || file.name); // Update dataset path after saving
       alert('Data saved successfully!');
     } catch (error) {
       setError('Failed to save edited data.');
@@ -168,64 +160,104 @@ const AiSheets = () => {
     setError('');
   };
 
-  const handleQuerySubmit = async (e) => {
-    e.preventDefault();
-    if (!file) {
-        setError("Please upload a dataset using the paperclip icon to begin analysis.");
-        return;
-    }
-    if (!query.trim()) return;
-
-    setLoading(true);
-    setError('');
-    const currentQuery = query;
-    setQuery('');
-    const newConversation = [...conversation, { user: currentQuery, ai: '' }];
-    setConversation(newConversation);
+  const executeQuery = async (queryText, history) => {
     const formData = new FormData();
-    formData.append('query', currentQuery);
-    conversation.forEach((msg) => formData.append('conversation', JSON.stringify(msg)));
-
+    formData.append('query', queryText);
+    history.forEach((msg) => formData.append('conversation', JSON.stringify(msg)));
+    formData.append('dataset_path', datasetPath); // Include dataset path
     try {
       const res = await fetch('http://localhost:8000/ai-sheets/query', { method: 'POST', body: formData });
       if (!res.ok) throw new Error('Failed to process query');
-      const data = await res.json();
-      if (data.is_report) {
-        setResponse(data.response);
-        setVisualization(null);
-        setActiveView('report');
-        setConversation(prev => {
-            const updated = [...prev];
-            updated[updated.length - 1].ai = "I've generated the report. You can view it in the right panel.";
-            return updated;
-        });
-      } else if (data.visualization) {
-        setResponse(data.response);
-        setVisualization(data.visualization);
-        setActiveView('visualization');
-        setConversation(prev => {
-            const updated = [...prev];
-            updated[updated.length - 1].ai = data.response;
-            return updated;
-        });
-      } else {
-         setResponse('');
-         setVisualization(null);
-         setConversation(prev => {
-            const updated = [...prev];
-            updated[updated.length - 1].ai = data.response;
-            return updated;
-        });
-      }
+      return await res.json();
     } catch (error) {
       console.error('Error:', error);
+      throw error;
+    }
+  };
+
+  const handleBackendResponse = (data) => {
+    let aiReply = data.response;
+    if (data.is_report) {
+      setResponse(data.response);
+      setVisualization(null);
+      setActiveView('report');
+      aiReply = "I've generated the report. You can view it in the right panel.";
+    } else if (data.visualization) {
+      setResponse(data.response);
+      setVisualization(data.visualization);
+      setActiveView('visualization');
+      aiReply = "Visualization has been displayed in the right panel as a report."; // Specific message for visualization
+    } else {
+      setResponse(data.response);
+      setVisualization(null);
+      setActiveView('report'); // Default to report view for non-visualization responses
+    }
+    return aiReply;
+  };
+
+  const handleQuerySubmit = async (e) => {
+    e.preventDefault();
+    if (!file || !datasetPath) {
+      setError("Please upload a dataset using the paperclip icon to begin analysis.");
+      return;
+    }
+    if (!query.trim()) return;
+
+    const currentQuery = query;
+    setQuery('');
+    setLoading(true);
+    setError('');
+
+    setConversation(prev => [...prev, { user: currentQuery, ai: '' }]);
+
+    try {
+      const data = await executeQuery(currentQuery, conversation);
+      const aiReply = handleBackendResponse(data);
+      setConversation(prev => {
+        const newConv = [...prev];
+        newConv[newConv.length - 1].ai = aiReply;
+        return newConv;
+      });
+    } catch (error) {
       setError('An error occurred while processing your query.');
-      // FIX: Changed '#' to '//'
-      setConversation(prev => prev.slice(0, -1)); // Remove user query on failure
-      setQuery(currentQuery); // Restore query to input
+      setConversation(prev => prev.slice(0, -1));
+      setQuery(currentQuery);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRegenerate = async () => {
+    if (conversation.length === 0 || loading || isRegenerating) return;
+    const lastTurn = conversation[conversation.length - 1];
+    const history = conversation.slice(0, -1);
+
+    setIsRegenerating(true);
+    setConversation(prev => {
+      const newConv = [...prev];
+      newConv[newConv.length - 1].ai = '';
+      return newConv;
+    });
+
+    try {
+      const data = await executeQuery(lastTurn.user, history);
+      const aiReply = handleBackendResponse(data);
+      setConversation(prev => {
+        const newConv = [...prev];
+        newConv[newConv.length - 1].ai = aiReply;
+        return newConv;
+      });
+    } catch (error) {
+      setError('Failed to regenerate response.');
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
+
+  const handleCopy = (text, index) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+    });
   };
 
   const handleDownloadData = (format) => {
@@ -260,10 +292,11 @@ const AiSheets = () => {
     if (!reportContent) return;
     const filename = 'analysis_report';
     if (format === 'pdf') {
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`<html><head><title>${filename}</title><style>body{font-family:sans-serif;padding:2rem;line-height:1.6}pre{white-space:pre-wrap;word-wrap:break-word;font-family:inherit}</style></head><body><pre>${reportContent.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre></body></html>`);
-        printWindow.document.close();
-        printWindow.print();
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`<html><head><title>${filename}</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:2rem;line-height:1.6;color:#333}ul,ol{padding-left:2em}li{margin-top:0.25em}h1,h2,h3{color:#000}pre{white-space:pre-wrap;word-wrap:break-word;background:#f6f8fa;padding:15px;border-radius:5px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background-color:#f2f2f2}</style></head><body><div class="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]}>${reportContent}</ReactMarkdown></div></body></html>`);
+      printWindow.document.close();
+      printWindow.document.body.innerHTML = `<pre style="white-space: pre-wrap; font-family: sans-serif;">${reportContent}</pre>`;
+      printWindow.print();
     } else if (format === 'docx') {
       const doc = new Document({ sections: [{ children: reportContent.split('\n').map(line => new Paragraph({ children: [new TextRun(line)] })) }] });
       const blob = await Packer.toBlob(doc);
@@ -286,9 +319,9 @@ const AiSheets = () => {
         style={{ display: 'none' }}
       />
       {!isLanding && (
-          <button type="button" onClick={() => fileInput-ref.current.click()} className="icon-button" title="Upload File" disabled={loading}>
-            <Paperclip size={20} />
-          </button>
+        <button type="button" onClick={() => fileInputRef.current.click()} className="icon-button" title="Upload File" disabled={loading || isRegenerating}>
+          <Paperclip size={20} />
+        </button>
       )}
       <input
         type="text"
@@ -296,14 +329,14 @@ const AiSheets = () => {
         onChange={(e) => setQuery(e.target.value)}
         placeholder={file ? "Ask a question about your data..." : "Upload a dataset to begin..."}
         className="message-input"
-        disabled={loading}
+        disabled={loading || isRegenerating}
       />
       {isLanding && (
-          <button type="button" onClick={() => landingFileInputRef.current.click()} className="icon-button landing-attach" title="Upload File" disabled={loading}>
-            <Paperclip size={20} color="#007bff"/>
-          </button>
+        <button type="button" onClick={() => landingFileInputRef.current.click()} className="icon-button landing-attach" title="Upload File" disabled={loading}>
+          <Paperclip size={20} color="#007bff"/>
+        </button>
       )}
-      <button type="submit" className={`send-button ${isLanding ? 'landing-send' : ''}`} disabled={loading}>
+      <button type="submit" className={`send-button ${isLanding ? 'landing-send' : ''}`} disabled={loading || isRegenerating}>
         <Send size={isLanding ? 16 : 18} />
       </button>
     </form>
@@ -331,44 +364,81 @@ const AiSheets = () => {
   const renderMainApp = () => (
     <div className="ai-sheets-container">
       <div className="chat-panel">
-        <div className="chat-header"><h2>AI Sheets</h2></div>
+        <div className="chat-header">
+          <div style={{display:'flex', alignItems:'center', gap:'8px', color:'var(--primary)'}}>
+            <Sparkles size={18} />
+            <h2 style={{margin:0, fontSize:'16px', fontWeight:'600', color:'#333'}}>AI Sheets</h2>
+          </div>
+        </div>
         <div className="conversation-area">
           {conversation.length === 0 ? (
-            <div className="placeholder-text"><p>Dataset uploaded. Ask a question to start analyzing!</p></div>
+            <div className="placeholder-text">
+              <Sparkles size={24} style={{marginBottom:'10px', color:'#ccc'}}/>
+              <p>Dataset uploaded.</p>
+              <p style={{fontSize:'13px', marginTop:'5px'}}>Ask a question to generate insights, reports, or charts.</p>
+            </div>
           ) : (
             conversation.map((msg, idx) => (
-              <div key={idx} className="conversation-turn">
-                <div className="user-message-bubble">{msg.user}</div>
-                {msg.ai && <div className="ai-response-area markdown-content"><ReactMarkdown>{msg.ai}</ReactMarkdown></div>}
-              </div>
+              <React.Fragment key={idx}>
+                <div className="conversation-turn user">
+                  <div className="user-message-bubble">{msg.user}</div>
+                </div>
+                <div className="conversation-turn ai">
+                  {msg.ai ? (
+                    <div className="ai-message-container">
+                      <div className="markdown-content chat-markdown">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.ai}</ReactMarkdown>
+                      </div>
+                      <div className="action-icons">
+                        <button className="action-icon-button" title="Copy" onClick={() => handleCopy(msg.ai, idx)}>
+                          {copiedIndex === idx ? <span style={{fontSize:'12px'}}>Copied!</span> : <Clipboard size={14} />}
+                        </button>
+                        {idx === conversation.length - 1 && !loading && !isRegenerating && (
+                          <button className="action-icon-button" title="Regenerate" onClick={handleRegenerate}>
+                            <RefreshCw size={14} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    (loading || isRegenerating) && idx === conversation.length - 1 && (
+                      <div className="ai-message-container">
+                        <div className="typing-indicator">
+                          <span></span><span></span><span></span>
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </React.Fragment>
             ))
           )}
-          {loading && <div className="loader"><span className="spinner"></span>Processing...</div>}
+          <div ref={conversationEndRef} />
         </div>
         <div className="message-input-area">
           {file && (
             <div className="file-chip">
-              <FileIcon size={16} /><span>{file.name}</span>
-              <button onClick={handleRemoveFile} className="remove-file-btn" title="Remove file"><X size={16} /></button>
+              <FileIcon size={14} /><span>{file.name}</span>
+              <button onClick={handleRemoveFile} className="remove-file-btn" title="Remove file"><X size={14} /></button>
             </div>
           )}
           <div className="input-toolbar">
             {renderCommonInputForm(false)}
-            <button onClick={clearConversation} className="icon-button" title="Clear Conversation" disabled={conversation.length === 0 || loading}><RotateCcw size={20}/></button>
+            <button onClick={clearConversation} className="icon-button" title="Clear Conversation" disabled={conversation.length === 0 || loading || isRegenerating}><RotateCcw size={20}/></button>
           </div>
           {error && <p className="error-text">{error}</p>}
         </div>
       </div>
       <div className="display-panel">
         <div className="display-header">
-          <h3 className="display-title">{file ? `${file.name}` : 'Data Display'}</h3>
+          <h3 className="display-title">{file ? `${file.name}` : 'Data View'}</h3>
           <div className="display-controls">
-            <button onClick={handleSaveData} className="view-button" disabled={loading || !file || !dataPreview.length} >Save Edits</button>
+            <button onClick={handleSaveData} className="view-button" disabled={loading || isRegenerating || !file || !dataPreview.length} >Save Edits</button>
             {response && <button className={`view-button ${activeView === 'report' ? 'active' : ''}`} onClick={() => setActiveView('report')}>View Report</button>}
             {(visualization) && <button className={`view-button ${activeView === 'visualization' ? 'active' : ''}`} onClick={() => setActiveView('visualization')}>View Chart</button>}
             {dataPreview.length > 0 && <button className={`view-button ${activeView === 'preview' ? 'active' : ''}`} onClick={() => setActiveView('preview')}>View Data</button>}
             <div style={{ position: 'relative' }}>
-              <button onClick={() => activeView === 'preview' ? setShowDataDownloadMenu(p => !p) : setShowReportDownloadMenu(p => !p)} className="icon-button" title="Download" disabled={!file}><Download size={20} /></button>
+              <button onClick={() => activeView === 'preview' ? setShowDataDownloadMenu(p => !p) : setShowReportDownloadMenu(p => !p)} className="icon-button" title="Download" disabled={!file}><Download size={18} /></button>
               {showDataDownloadMenu && activeView === 'preview' && (
                 <div className="download-menu">
                   <div className="download-menu-header">Export Data</div>
@@ -387,11 +457,24 @@ const AiSheets = () => {
           </div>
         </div>
         <div className="display-content">
-            {!file ? <div className="placeholder-text">No data loaded.</div> : 
-             activeView === 'report' ? <div className="markdown-content"><ReactMarkdown>{response}</ReactMarkdown></div> :
-             activeView === 'visualization' ? (<div><canvas ref={chartRef} id="myChart" style={{ maxHeight: '500px', width: '100%' }}></canvas>{visualization?.explanation && <p className="explanation-text">{visualization.explanation}</p>}</div>) :
-             (
-              <div style={{ overflowX: 'auto' }}>
+          {!file ? <div className="placeholder-text">Provide data to see output here.</div> :
+            activeView === 'report' ? <div className="markdown-content report-view"><ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown></div> :
+            activeView === 'visualization' ? (
+              <div style={{padding:'20px'}}>
+                {visualization?.image ? (
+                  <img src={`data:image/png;base64,${visualization.image}`} alt="Visualization" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                ) : (
+                  <div className="placeholder-text">No valid visualization generated.</div>
+                )}
+                {visualization?.explanation && (
+                  <div className="markdown-content report-view" style={{marginTop:'20px'}}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{visualization.explanation}</ReactMarkdown>
+                  </div>
+                )}
+              </div>
+            ) :
+            (
+              <div style={{ overflowX: 'auto', height:'100%' }}>
                 <table className="data-table">
                   <thead><tr>{dataPreview[0]?.map((header, colIdx) => <th key={colIdx}>{header}</th>)}</tr></thead>
                   <tbody>
@@ -407,8 +490,8 @@ const AiSheets = () => {
                   </tbody>
                 </table>
               </div>
-             )
-            }
+            )
+          }
         </div>
       </div>
     </div>
@@ -418,81 +501,128 @@ const AiSheets = () => {
     <>
       {showLandingPage ? renderLandingPage() : renderMainApp()}
       <style>{`
-        /* All existing styles are correct and remain the same */
-        :root { --primary: #007bff; --bg-light: #f7f8fc; --border: #e0e0e0; --text-dark: #333; --text-light: #666; }
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #fff; }
+        :root { --primary: #007bff; --bg-light: #f7f8fc; --border: #e0e0e0; --text-dark: #1a1a1a; --text-med: #555; --text-light: #888; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #fff; color: var(--text-dark); }
         .landing-container { position: relative; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #fff; }
         .background-grid { position: absolute; inset: 0; z-index: 0; background-size: 60px 60px; background-image: linear-gradient(to right, rgba(0, 123, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 123, 255, 0.05) 1px, transparent 1px); }
         .background-grid::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 20%, #fff 80%); }
         .landing-content { position: relative; z-index: 1; text-align: center; max-width: 700px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .pill-label { display: inline-flex; align-items: center; color: var(--primary); border: 1px solid var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 24px; background-color: rgba(0, 123, 255, 0.04); }
         .landing-title { font-size: 56px; line-height: 1.1; font-weight: 700; color: #000; margin: 0 0 16px 0; letter-spacing: -1px; }
-        .landing-subtitle { font-size: 18px; color: var(--text-light); margin: 0 0 40px 0; max-width: 500px; }
+        .landing-subtitle { font-size: 18px; color: var(--text-med); margin: 0 0 40px 0; max-width: 500px; }
         .landing-search-bar-container { width: 100%; max-width: 600px; position: relative; }
-        .landing-form { background: #fff; border: 1px solid #2f4f4f; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); padding: 8px; border-radius: 16px; transition: box-shadow 0.2s, border-color 0.2s; }
-        .landing-form:focus-within { box-shadow: 0 15px 40px -10px rgba(0, 123, 255, 0.15); border-color: #2f4f4f; }
+        .landing-form { background: #fff; border: 1px solid #eaeaea; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); padding: 8px; border-radius: 16px; transition: box-shadow 0.2s, border-color 0.2s; }
+        .landing-form:focus-within { box-shadow: 0 15px 40px -10px rgba(0, 123, 255, 0.15); border-color: #b3d7ff; }
         .landing-form .message-input { font-size: 16px; padding: 12px 16px; }
         .landing-attach { padding: 10px; margin-right: 4px; }
-        .landing-send { background-color: var(--primary); color: white; border-radius: 6px; padding: 1px 14px; transition: background 0.2s; }
+        .landing-send { background-color: var(--primary); color: white; border-radius: 12px; padding: 10px 14px; transition: background 0.2s; }
         .landing-send:hover:not(:disabled) { background-color: #0056b3; }
         .landing-error { color: #d93025; background: #ffebeb; padding: 10px; border-radius: 8px; margin-top: 20px; font-size: 14px; }
         .landing-loader { margin-top: 20px; color: var(--primary); font-weight: 500; }
-        .ai-sheets-container { display: flex; gap: 20px; margin-top:90px ;padding: 20px; height: 85vh; box-sizing: border-box; background-color: var(--bg-light); animation: fadeIn 0.3s ease-in-out; }
+
+        .ai-sheets-container { display: flex; gap: 20px; margin-top:90px; padding: 20px; height: 85vh; box-sizing: border-box; background-color: var(--bg-light); animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .chat-panel, .display-panel { padding:1px ; flex: 1; display: flex; flex-direction: column; background-color: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        .chat-header, .display-header { padding: 14px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: #fff; }
-        .chat-header h2 { margin: 0; font-size: 17px; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
-        .chat-header h2::before { content: ""; display: inline-block; width: 10px; height: 10px; background: var(--primary); border-radius: 50%; }
-        .conversation-area { flex-grow: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
-        .conversation-turn { margin-bottom: 24px; }
-        .user-message-bubble { background-color: #f0f2f5; color: var(--text-dark); padding: 10px 16px; border-radius: 18px 18px 4px 18px; display: inline-block; max-width: 85%; font-size: 14.5px; align-self: flex-end; margin-left: auto; }
-        .ai-response-area {color: var(--text-dark); max-width: 95%; }
-        .message-input-area { padding: 16px; border-top: 1px solid var(--border); background-color: #fff; }
-        .file-chip { display: inline-flex; align-items: center; background-color: #eef3f8; color: #444; padding: 4px 10px; border-radius: 6px; font-size: 13px; margin-bottom: 10px; border: 1px solid #dce5f2; }
-        .file-chip span { margin: 0 8px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .remove-file-btn { background: none; border: none; cursor: pointer; padding: 4px; display: flex; border-radius: 4px; color: #888; }
-        .remove-file-btn:hover { background-color: rgba(0,0,0,0.05); color: #d93025; }
-        .input-toolbar { display: flex; gap: 10px; align-items: center; width:30 px}
-        .message-form { display: flex; align-items: center; background-color: #f0f2f5; border: 1px solid var(--primary); border-radius: 24px; padding: 4px; flex-grow: 1; transition: border-color 0.2s, background 0.2s; }
-        .message-form:not(.landing-form):focus-within { border-color: #0056b3; background-color: #fff; box-shadow: 0 0 0 2px rgba(0,123,255,0.1); }
-        .message-input { flex-grow: 1; border: none; outline: none; padding: 10px 12px; font-size: 14.5px; background-color: transparent; color: var(--text-dark); }
-        .icon-button { background: none; border: none; cursor: pointer; color: #777; padding: 8px; border-radius: 50%; display: flex; align-items: center; transition: background 0.2s, color 0.2s; }
-        .icon-button:hover:not(:disabled) { background-color: #e9ecef; color: var(--text-dark); }
-        .send-button { background-color: var(--primary); color: white; border: none; border-radius: 50%; width: 45px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; margin-right: 2px; }
-        .send-button:hover:not(:disabled) { background-color: #0056b3; }
+        .chat-panel, .display-panel { padding:0; flex: 1; display: flex; flex-direction: column; background-color: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        
+        .chat-header, .display-header { padding: 12px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: #fff; display: flex; align-items: center; justify-content: space-between; height: 50px; box-sizing: border-box; }
+        .display-title { margin: 0; font-size: 14px; font-weight: 600; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+        .display-controls { display: flex; align-items: center; gap: 6px; }
+        .view-button { background: transparent; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-med); transition: all 0.2s; }
+        .view-button:hover:not(:disabled) { background-color: #f5f5f5; color: var(--text-dark); }
+        .view-button.active { background-color: #eef6fc; color: var(--primary); font-weight: 600; }
+        .view-button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .conversation-area { flex-grow: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; background-color: #fff; display: flex; flex-direction: column; }
+        .conversation-turn { display: flex; width: 100%; margin-bottom: 20px; }
+        .conversation-turn.user { justify-content: flex-end; }
+        .conversation-turn.ai { justify-content: flex-start; }
+        
+        .user-message-bubble { background-color: var(--primary); color: white; padding: 10px 16px; border-radius: 18px 18px 4px 18px; max-width: 80%; font-size: 14.5px; line-height: 1.5; box-shadow: 0 1px 2px rgba(0,0,0,0.1); word-wrap: break-word; }
+        
+        .ai-message-container { max-width: 90%; display: flex; flex-direction: column; align-items: flex-start; }
+        
+        .chat-markdown { font-size: 14.5px; line-height: 1.6; color: var(--text-dark); }
+        .chat-markdown p { margin: 0 0 10px 0; }
+        .chat-markdown p:last-child { margin-bottom: 0; }
+        .chat-markdown ul, .chat-markdown ol { padding-left: 2em; margin: 0 0 10px 0; list-style-type: disc; } /* Ensure bullet points render */
+        .chat-markdown ul ul, .chat-markdown ol ol { list-style-type: circle; }
+        .chat-markdown li { margin-top: 0.25em; }
+        
+        .action-icons { display: flex; align-items: center; gap: 4px; margin-top: 6px; opacity: 0; transition: opacity 0.2s; }
+        .conversation-turn.ai:hover .action-icons { opacity: 1; }
+        .action-icon-button { background: transparent; border: none; cursor: pointer; color: #999; padding: 4px; border-radius: 4px; display: flex; align-items: center; gap: 4px; font-size: 12px; transition: all 0.2s; }
+        .action-icon-button:hover { background-color: #f5f5f5; color: var(--text-med); }
+        
+        .typing-indicator { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: #f5f5f5; border-radius: 18px 18px 18px 4px; }
+        .typing-indicator span { width: 6px; height: 6px; background: #bbb; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+        .message-input-area { padding: 16px 20px; border-top: 1px solid var(--border); background-color: #fff; }
+        .file-chip { display: inline-flex; align-items: center; background-color: #f0f7ff; color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; margin-bottom: 10px; border: 1px solid #cce5ff; gap: 6px; }
+        .file-chip span { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .remove-file-btn { background: none; border: none; cursor: pointer; padding: 2px; display: flex; border-radius: 50%; color: var(--primary); opacity: 0.6; transition: opacity 0.2s; }
+        .remove-file-btn:hover { opacity: 1; background-color: rgba(0,123,255,0.1); }
+        
+        .input-toolbar { display: flex; gap: 10px; align-items: center; }
+        .message-form { display: flex; align-items: center; background-color: #fff; border: 1px solid var(--border); border-radius: 24px; padding: 4px 6px 4px 12px; flex-grow: 1; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+        .message-form:not(.landing-form):focus-within { border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,123,255,0.15); }
+        .message-input { flex-grow: 1; border: none; outline: none; padding: 8px 0; font-size: 14.5px; background-color: transparent; color: var(--text-dark); }
+        .message-input::placeholder { color: #999; }
+        
+        .icon-button { background: none; border: none; cursor: pointer; color: #888; padding: 8px; border-radius: 50%; display: flex; align-items: center; transition: all 0.2s; }
+        .icon-button:hover:not(:disabled) { background-color: #f5f5f5; color: var(--text-dark); }
+        .send-button { background-color: var(--primary); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; margin-left: 4px; }
+        .send-button:hover:not(:disabled) { background-color: #0062cc; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         button:disabled { opacity: 0.5; cursor: not-allowed !important; }
-        .loader { display: flex; align-items: center; justify-content: center; gap: 8px; color: #777; font-size: 13px; margin: 10px 0; }
-        .spinner { width: 14px; height: 14px; border: 2px solid #ccc; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .error-text { color: #d93025; font-size: 13px; margin-top: 8px; padding-left: 8px; }
-        .display-header { display: flex; justify-content: space-between; align-items: center; }
-        .display-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-        .display-controls { display: flex; align-items: center; gap: 8px; }
-        .view-button { background: none; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13.5px; font-weight: 500; color: #555; transition: all 0.2s; }
-        .view-button:hover:not(:disabled) { background-color: #f0f2f5; color: var(--text-dark); }
-        .view-button.active { background-color: #e7f1ff; color: var(--primary); }
-        .download-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background-color: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; width: 140px; overflow: hidden; animation: slideDown 0.15s ease-out; }
+        .error-text { color: #d93025; font-size: 12px; margin-top: 6px; padding-left: 12px; }
+
+        .placeholder-text { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-light); text-align: center; }
+        
+        .download-menu { position: absolute; top: 100%; right: 0; margin-top: 6px; background-color: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); z-index: 100; min-width: 130px; overflow: hidden; animation: slideDown 0.15s ease-out; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        .download-menu-header { padding: 8px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: #999; background: #fafafa; border-bottom: 1px solid #eee; }
-        .download-menu button { display: block; width: 100%; padding: 10px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13.5px; color: var(--text-dark); transition: background 0.1s; }
-        .download-menu button:hover { background-color: #f7f8fc; }
-        .display-content { flex-grow: 1; overflow: auto; padding: 2px; position: relative; }
-        .placeholder-text { position: absolute; top: 50%; left: 25%; transform: translate(-50%, -50%); color: #999; font-size: 14px; }
-        .data-table { width: 100%; padding:50px; margin:20px ;border-spacing: 0; border: 1px solid var(--border); font-size: 13.5px; font-variant-numeric: tabular-nums; }
-        .data-table th { padding: 10px 12px; background-color: #f8f9fa; font-weight: 600; color: #444; text-align: left; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
-        .data-table td { padding: 0; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: #fff; }
-        .table-cell-input { width: 100%; border: none; padding: 10px 12px; font-size: 13.5px; font-family: inherit; background: transparent; outline: none; box-sizing: border-box; }
-        .table-cell-input:focus { box-shadow: inset 0 0 0 2px var(--primary); z-index: 2; position: relative; }
-        .explanation-text { padding: 20px; font-size: 14.5px; line-height: 1.6; color: #444; border-top: 1px solid var(--border); background: #fafafa; }
-        .markdown-content { padding: 25px; line-height: 1.7; font-size: 15px; color: #24292e; }
-        .markdown-content h1, .markdown-content h2, .markdown-content h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; line-height: 1.25; }
-        .markdown-content h1 { font-size: 1.8em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        .markdown-content h2 { font-size: 1.4em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
-        .markdown-content p, .markdown-content ul, .markdown-content ol { margin-bottom: 16px; }
-        .markdown-content ul, .markdown-content ol { padding-left: 2em; }
-        .markdown-content code { padding: 0.2em 0.4em; margin: 0; font-size: 85%; background-color: rgba(27,31,35,0.05); border-radius: 3px; font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace; }
-        .markdown-content pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: #f6f8fa; border-radius: 6px; }
-        .markdown-content pre code { background-color: transparent; padding: 0; }
+        .download-menu-header { padding: 8px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: #999; background: #fafafa; border-bottom: 1px solid #eee; letter-spacing: 0.5px; }
+        .download-menu button { display: block; width: 100%; padding: 8px 12px; background: none; border: none; text-align: left; cursor: pointer; font-size: 13px; color: var(--text-dark); transition: background 0.1s; }
+        .download-menu button:hover { background-color: #f5f9ff; color: var(--primary); }
+
+        .display-content { flex-grow: 1; overflow: auto; position: relative; background-color: #fff; display: flex; flex-direction: column; }
+        
+        .data-table { width: auto; min-width: 100%; padding:0; margin:20px; border-spacing: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+        .data-table th { padding: 8px 12px; background-color: #fafafa; font-weight: 600; color: #555; text-align: left; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); position: sticky; top: 0; z-index: 10; white-space: nowrap; }
+        .data-table td { padding: 0; border-bottom: 1px solid #eee; border-right: 1px solid #eee; background: #fff; }
+        .data-table tr:hover td { background-color: #f9f9f9; }
+        .table-cell-input { width: 100%; border: none; padding: 8px 12px; font-size: 13px; font-family: inherit; background: transparent; outline: none; box-sizing: border-box; color: var(--text-dark); min-width: 80px; }
+        .table-cell-input:focus { box-shadow: inset 0 0 0 1.5px var(--primary); background-color: #fff; z-index: 2; position: relative; }
+        
+        .report-view { padding: 30px 40px; max-width: 800px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        .markdown-content { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #24292e; line-height: 1.6; }
+        .markdown-content ul, .markdown-content ol { padding-left: 2em; margin-top: 0; margin-bottom: 16px; list-style-type: disc; } /* Ensure bullet points render */
+        .markdown-content ul ul, .markdown-content ol ol { list-style-type: circle; }
+        .markdown-content li { margin-top: 0.25em; }
+        
+        .markdown-content h1, .markdown-content h2, .markdown-content h3, .markdown-content h4 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; color: #1a1a1a; }
+        .markdown-content h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        .markdown-content h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        .markdown-content h3 { font-size: 1.25em; }
+        .markdown-content h4 { font-size: 1em; }
+        
+        .markdown-content p { margin-top: 0; margin-bottom: 16px; }
+        .markdown-content strong { font-weight: 600; color: #000; }
+        .markdown-content li > p { margin-top: 16px; }
+        
+        .markdown-content code { padding: 0.2em 0.4em; margin: 0; font-size: 85%; background-color: rgba(27,31,35,0.05); border-radius: 6px; font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace; }
+        .markdown-content pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: #f6f8fa; border-radius: 6px; margin-bottom: 16px; border: 1px solid #e1e4e8; }
+        .markdown-content pre code { background-color: transparent; padding: 0; border: 0; }
+        
+        .markdown-content blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 0 0 16px 0; }
+        .markdown-content hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: #e1e4e8; border: 0; }
+        
+        .markdown-content table { border-spacing: 0; border-collapse: collapse; margin-top: 0; margin-bottom: 16px; width: 100%; overflow: auto; display: block; }
+        .markdown-content table th, .markdown-content table td { padding: 6px 13px; border: 1px solid #dfe2e5; }
+        .markdown-content table th { font-weight: 600; background-color: #f6f8fa; }
+        .markdown-content table tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
+        .markdown-content table tr:nth-child(2n) { background-color: #f8f9fa; }
       `}</style>
     </>
   );
