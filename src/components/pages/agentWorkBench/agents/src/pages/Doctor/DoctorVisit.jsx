@@ -446,7 +446,7 @@ const DoctorVisit = () => {
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-manrope">
       {/* Back Button - Fixed at top */}
-      <div className="absolute top-24 left-6 z-50">
+      <div className="absolute top-25 left-6 z-50">
         <button
           onClick={() => navigate("/agent-playground/agent/Doc-Sentra/doctor/dashboard")}
           className="flex items-center text-slate-600 hover:text-slate-900 transition-colors"
@@ -462,7 +462,7 @@ const DoctorVisit = () => {
           leftPanelOpen ? "w-80" : "w-0"
         } overflow-hidden border-r border-slate-200`}
       >
-        <div className="p-6 pt-32 overflow-y-auto h-full">
+        <div className="p-6 pt-33 overflow-y-auto h-full">
           <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6">
             <h2 className="text-base font-bold text-blue-600">Personal Information</h2>
           </div>
@@ -719,7 +719,7 @@ const DoctorVisit = () => {
           rightPanelOpen ? "w-96" : "w-0"
         } overflow-hidden border-l border-slate-200`}
       >
-        <div className="p-6 pt-32 h-full overflow-y-auto">
+        <div className="p-6 pt-31 h-full overflow-y-auto">
           <div className="bg-blue-100 rounded-lg py-3 px-4 mb-6 flex items-center justify-center">
             <h2 className="text-base font-bold text-blue-600 flex items-center">
               <Calendar className="w-5 h-5 mr-2" />

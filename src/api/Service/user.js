@@ -4,7 +4,7 @@ import { getEncryptedItem } from "../../lib/encryption";
 // Existing loginUser function
 export const loginUser = async (loginData) => {
   try {
-    const response = await axiosInstance.post("/auth/login", loginData);
+    const response = await axiosInstance.post("api/v1/auth/login", loginData);
     const payload = response.data || {};
     const data = payload.data || {};
     const userFromData = data.user || {};

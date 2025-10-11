@@ -21,11 +21,12 @@ import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
+import RenewalAgent from "../components/pages/agentWorkBench/agents/renewalAgent";
+import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1/index";
+import ContractManagementSystem from "../components/pages/agentWorkBench/agents/contractManagementSystem/index";
 // import MomLiveSpeechToText from "../components/pages/agentWorkBench/agents/MomLiveSpeechToText";
 import EnhancedLiveTranscription from "../components/pages/agentWorkBench/agents/EnhancedLiveTranscription";
 import SpeechToTxtAgent from "../components/pages/agentWorkBench/agents/SpeechToTxtAgent";
-import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1";
-import ContractManagementSystem from "../components/pages/agentWorkBench/agents/contractManagementSystem";
 export default function AppRoutes() {
   return (
     <Routes>

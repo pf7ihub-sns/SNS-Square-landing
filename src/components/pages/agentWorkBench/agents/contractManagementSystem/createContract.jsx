@@ -105,8 +105,8 @@ const CreateContract = () => {
   
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white shadow rounded-lg p-6">
+      <div className="max-w-4xl mx-auto pt-24">
+        <div className="bg-white shadow rounded-lg p-6 ">
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">Create New Contract</h1>
             <p className="mt-1 text-sm text-gray-500">Fill in the details below to create a new contract</p>
@@ -278,7 +278,7 @@ const CreateContract = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 {isSubmitting ? 'Creating...' : 'Create Contract'}
               </button>
