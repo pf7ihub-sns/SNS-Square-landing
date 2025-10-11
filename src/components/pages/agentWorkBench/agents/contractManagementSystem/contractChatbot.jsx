@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
+import { ArrowLeft, Send, Download, FileText, CheckCircle, Loader2 } from 'lucide-react';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
@@ -27,7 +28,6 @@ const ContractChatbot = () => {
 
   const initializeChatbot = async () => {
     const welcomeMessage = {
-      role: 'assistant',
       content: "Hello! I'm your Contract Builder assistant. What type of contract do you need?\n\n• Rental Agreement\n• Lease Agreement\n• Property Sale Agreement"
     };
     setMessages([welcomeMessage]);
@@ -46,9 +46,15 @@ const ContractChatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/contract-management-system/chatbot/message`, {
+      const endpoint = `/contract-management-system/chatbot/message`;
+      console.log('Sending request to:', `${API_BASE_URL}${endpoint}`);
+      
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({
           session_id: sessionId,
           message: inputMessage,
@@ -56,11 +62,22 @@ const ContractChatbot = () => {
         })
       });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API Error Response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData
+        });
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
       const data = await response.json();
+      console.log('API Response:', data);
 
       const assistantMessage = {
         role: 'assistant',
-        content: data.response
+        content: data.response || data.message || 'No response content'
       };
       
       setMessages(prev => [...prev, assistantMessage]);
@@ -69,8 +86,8 @@ const ContractChatbot = () => {
         setIsComplete(true);
       }
     } catch (error) {
-      console.error('Error:', error);
-      toast.error('Failed to send message');
+      console.error('Error sending message:', error);
+      toast.error(`Failed to send message: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -142,105 +159,142 @@ const ContractChatbot = () => {
   };
 
   return (
-    <div className="pt-25 flex flex-col h-screen bg-white">
-      {/* Header */}
-      <div className="px-6 py-4 border-b flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={() => window.history.back()}
-            className="text-blue-600 hover:text-blue-800"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M19 12H5M5 12L12 19M5 12L12 5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          <h1 className="text-xl font-semibold">Contract Builder</h1>
-        </div>
-        
-        {isComplete && (
-          <button
-            onClick={handleGenerateContract}
-            disabled={isLoading || contractId}
-            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-              contractId 
-                ? 'bg-green-600 text-white cursor-default'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
-            }`}
-          >
-            {contractId ? '✓ Generated' : 'Generate Contract'}
-          </button>
-        )}
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-manrope">
+      {/* Back Button - Fixed at top */}
+      <div className="absolute top-6 left-6 z-50">
+        <button
+          onClick={() => window.history.back()}
+          className="flex items-center text-slate-600 hover:text-slate-900 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          <span className="font-medium">Back</span>
+        </button>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-2xl px-4 py-3 rounded-2xl ${
-                message.role === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-900'
-              }`}
-              style={{ whiteSpace: 'pre-wrap' }}
-            >
-              {message.content}
-            </div>
-          </div>
-        ))}
-        
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-gray-100 px-4 py-3 rounded-2xl">
-              <div className="flex gap-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col p-6 overflow-hidden min-w-0 pt-20">
+        {/* Chat Container */}
+        <div className="bg-white rounded-lg shadow-sm flex-1 flex flex-col p-6 min-h-0 border-2 border-slate-100">
+          {/* Header */}
+          <div className="mb-4 pb-4 border-b border-slate-200 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                <FileText className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Contract Builder Assistant</h2>
+                <p className="text-xs text-slate-500">AI-Powered Contract Generation</p>
               </div>
             </div>
+            
+            {isComplete && !contractId && (
+              <button
+                onClick={handleGenerateContract}
+                disabled={isLoading}
+                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2 disabled:bg-slate-300 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-4 h-4" />
+                    Generate Contract
+                  </>
+                )}
+              </button>
+            )}
+
+            {contractId && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-700">Contract Generated</span>
+              </div>
+            )}
           </div>
-        )}
-        
-        <div ref={messagesEndRef} />
-      </div>
 
-      {/* Download Button */}
-      {contractId && (
-        <div className="px-6 py-3 bg-green-50 border-t border-green-200">
-          <button
-            onClick={handleDownloadDocx}
-            className="w-full py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-              <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M5.83333 8.33333L10 12.5M10 12.5L14.1667 8.33333M10 12.5V2.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Download Contract (DOCX)
-          </button>
-        </div>
-      )}
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${
+                  message.role === 'user' ? 'justify-end' : 'items-start'
+                }`}
+              >
+                <div
+                  className={`p-3 rounded-lg max-w-2xl text-sm ${
+                    message.role === 'user'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-slate-100 text-slate-900'
+                  }`}
+                  style={{ whiteSpace: 'pre-wrap' }}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ))}
+            
+            {isLoading && (
+              <div className="flex items-start">
+                <div className="bg-slate-100 px-4 py-3 rounded-lg">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-75"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-150"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
+          </div>
 
-      {/* Input */}
-      <div className="px-6 py-4 border-t">
-        <div className="flex gap-3">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Type your message here..."
-            disabled={isLoading}
-            className="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={isLoading || !inputMessage.trim()}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-          >
-            Send
-          </button>
+          {/* Download Section */}
+          {contractId && (
+            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">Contract Ready for Download</p>
+                    <p className="text-xs text-slate-600">Contract ID: {contractId}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={handleDownloadDocx}
+                  className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download DOCX
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Input Area */}
+          <div className="flex gap-3 pt-4 border-t border-slate-200">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
+              placeholder="Type your message here..."
+              disabled={isLoading}
+              className="flex-1 p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white text-slate-900 placeholder-slate-400 text-sm disabled:bg-slate-50 disabled:cursor-not-allowed"
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={isLoading || !inputMessage.trim()}
+              className="px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
