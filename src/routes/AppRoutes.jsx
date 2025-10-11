@@ -24,6 +24,8 @@ import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentD
 // import MomLiveSpeechToText from "../components/pages/agentWorkBench/agents/MomLiveSpeechToText";
 import EnhancedLiveTranscription from "../components/pages/agentWorkBench/agents/EnhancedLiveTranscription";
 import SpeechToTxtAgent from "../components/pages/agentWorkBench/agents/SpeechToTxtAgent";
+import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1";
+import ContractManagementSystem from "../components/pages/agentWorkBench/agents/contractManagementSystem";
 export default function AppRoutes() {
   return (
     <Routes>
