@@ -891,7 +891,7 @@ export default {
             {
               id: "speech-to-text-mom",
               name: "Speech to Text MOMAgent",
-              summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
+              summary: " Convert audio files to  Minutes of Meeting (MoM) documents from discussions.",
               image: "/placeholder.jpg",
               solutions: ["Meeting transcription", "Action item extraction", "Summary generation"],
               useCases: ["Team meetings", "Project updates", "Client calls"],
