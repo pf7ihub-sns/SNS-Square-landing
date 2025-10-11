@@ -157,6 +157,21 @@ const PatientProfile = () => {
       });
 
       const backendData = response.data;
+      console.log("Backend data received:", backendData); // Debug log
+      
+      // Extract nested data structures
+      const medicalHistory = backendData.medicalHistory || {};
+      const currentHealth = backendData.currentHealth || {};
+      const lifestyle = backendData.lifestyle || {};
+      const visitHistory = backendData.visitHistory || {};
+      
+      console.log("Nested data structures:", {
+        medicalHistory,
+        currentHealth,
+        lifestyle,
+        visitHistory
+      });
+      
       const transformedData = {
         fullName: backendData.full_name || "",
         patientId: backendData.patient_id,
@@ -185,28 +200,53 @@ const PatientProfile = () => {
         consentTaken: backendData.consent_taken || false,
         nurseId: backendData.nurse_id || "",
         nurseName: backendData.nurse_name || "",
-        latestVitals: backendData.latest_vitals || {},
-        chronicConditionsList: backendData.chronic_conditions_list || [],
-        pastIllnesses: backendData.past_illnesses || [],
-        surgicalHistory: backendData.surgical_history || "",
-        allergiesFromImage: backendData.allergies_from_image || [],
-        otherAllergiesDetails: backendData.other_allergies_details || "",
-        symptoms: backendData.symptoms || [],
-        otherSymptoms: backendData.other_symptoms || "",
-        durationOfComplaint: backendData.duration_of_complaint || "",
-        severityOfComplaint: backendData.severity_of_complaint || "",
-        contextualDetails: backendData.contextual_details || {},
-        lifestyleHabits: backendData.lifestyle_habits || {},
-        currentMedications: backendData.current_medications || [],
-        ongoingTreatments: backendData.ongoing_treatments || "",
+        
+        // Current Health - from nested currentHealth object
+        latestVitals: currentHealth.latestVitals || backendData.latest_vitals || {},
+        symptoms: currentHealth.currentSymptoms || backendData.symptoms || [],
+        otherSymptoms: currentHealth.otherSymptoms || backendData.other_symptoms || "",
+        durationOfComplaint: currentHealth.durationOfComplaint || backendData.duration_of_complaint || "",
+        severityOfComplaint: currentHealth.severityOfComplaint || backendData.severity_of_complaint || "",
+        contextualDetails: currentHealth.contextualDetails || backendData.contextual_details || {},
+        currentMedications: currentHealth.currentMedications || backendData.current_medications || [],
+        ongoingTreatments: currentHealth.ongoingTreatments || backendData.ongoing_treatments || "",
+        primaryReasonForVisit: backendData.primary_reason_for_visit || "",
+        
+        // Medical History - from nested medicalHistory object
+        chronicConditionsList: medicalHistory.chronicConditions || backendData.chronic_conditions_list || [],
+        pastIllnesses: medicalHistory.pastIllnesses || backendData.past_illnesses || [],
+        surgicalHistory: medicalHistory.surgicalHistory || backendData.surgical_history || "",
+        allergiesFromImage: medicalHistory.allergiesFromImage || backendData.allergies_from_image || [],
+        otherAllergiesDetails: medicalHistory.otherAllergiesDetails || backendData.other_allergies_details || "",
+        allergiesList: medicalHistory.allergiesList || backendData.allergies_list || [],
+        otherChronicConditionsDetails: medicalHistory.otherChronicConditionsDetails || backendData.other_chronic_conditions_details || "",
+        
+        // Lifestyle - from nested lifestyle object and lifestyleHabits sub-object
+        lifestyleHabits: lifestyle.lifestyleHabits || backendData.lifestyle_habits || {},
+        smoking: lifestyle.smoking || lifestyle.lifestyleHabits?.smoking || backendData.smoking || "",
+        alcohol: lifestyle.alcohol || lifestyle.lifestyleHabits?.alcohol || backendData.alcohol || "",
+        exercise: lifestyle.exercise || lifestyle.lifestyleHabits?.exercise || backendData.exercise || "",
+        diet: lifestyle.diet || backendData.diet || "",
+        sleepPattern: lifestyle.sleepPattern || backendData.sleep_pattern || "",
+        
+        // Visit History - from nested visitHistory object
+        pastMedicalHistory: visitHistory.pastMedicalHistory || backendData.pastMedicalHistory || [],
+        
+        // Other fields
         department: backendData.department || "",
         assignedDoctor: backendData.assigned_doctor || "",
         climate: backendData.climate || "",
-        allergiesList: backendData.allergies_list || [],
-        otherChronicConditionsDetails: backendData.other_chronic_conditions_details || "",
-        pastMedicalHistory: backendData.pastMedicalHistory || [],
       };
 
+      console.log("Transformed data for UI:", transformedData); // Debug log
+      console.log("Key fields after transformation:", {
+        latestVitals: transformedData.latestVitals,
+        symptoms: transformedData.symptoms,
+        pastIllnesses: transformedData.pastIllnesses,
+        smoking: transformedData.smoking,
+        alcohol: transformedData.alcohol,
+        pastMedicalHistory: transformedData.pastMedicalHistory
+      });
       setPatientData(transformedData);
     } catch (err) {
       console.error("Fetch Patient Data Error:", err);
@@ -326,6 +366,14 @@ const PatientProfile = () => {
         severity_of_complaint: patientData.severityOfComplaint,
         contextual_details: patientData.contextualDetails,
         lifestyle_habits: patientData.lifestyleHabits,
+        // Individual lifestyle fields
+        smoking: patientData.smoking,
+        alcohol: patientData.alcohol,
+        exercise: patientData.exercise,
+        diet: patientData.diet,
+        sleep_pattern: patientData.sleepPattern,
+        // Additional current health fields
+        primary_reason_for_visit: patientData.primaryReasonForVisit,
         current_medications: patientData.currentMedications,
         ongoing_treatments: patientData.ongoingTreatments,
         allergies_list: patientData.allergiesList,
@@ -333,20 +381,31 @@ const PatientProfile = () => {
         pastMedicalHistory: patientData.pastMedicalHistory || []
       };
 
+      console.log("Sending data to backend:", backendData); // Debug log
+      console.log("Patient data before transformation:", {
+        latestVitals: patientData.latestVitals,
+        symptoms: patientData.symptoms,
+        pastIllnesses: patientData.pastIllnesses,
+        smoking: patientData.smoking,
+        alcohol: patientData.alcohol
+      });
+      
       await axios.put(`${API_BASE_URL}/patients/${patientId}`, backendData, {
         headers: { Authorization: token ? `Bearer ${token}` : "" },
       });
 
-      // Show success popup instead of alert
+      // Show success popup and immediately refresh data
       setSuccessType("profile");
       setShowSuccessPopup(true);
       setEditMode(false);
       
-      // Hide popup after 3 seconds and refresh data
+      // Immediately fetch updated data to ensure UI reflects saved changes
+      await fetchPatientData();
+      
+      // Hide popup after 3 seconds
       setTimeout(() => {
         setShowSuccessPopup(false);
         setSuccessType("");
-        fetchPatientData();
       }, 3000);
     } catch (err) {
       console.error("Update Profile Error:", err);
