@@ -783,17 +783,11 @@ export default {
                                 description: "The Live Speech-to-Text Meeting Minutes Generator captures spoken conversations during meetings, transcribes them in real time, and uses AI analysis to generate structured Meeting Minutes. It identifies participants, action items, decisions, and risks while maintaining accurate, timestamped records. The agent combines advanced speech recognition, noise reduction, and multi-model AI analysis to deliver complete, shareable summaries of every meeting."
                             },
                             features: [
-                                "Real-time speech-to-text transcription with automatic restart handling",
-                                "Multi-format audio recording (WebM, WAV, OGG) using MediaRecorder API",
-                                "Live audio visualization with animated waveform monitoring",
-                                "Noise reduction via spectral gating algorithms for clear speech capture",
-                                "Multi-model AI pipeline: Groq Whisper for transcription + Google Gemini for analysis",
-                                "Automatic participant detection and role extraction",
-                                "Action item tracking with priority, deadlines, and assignees",
-                                "Decision and rationale recording with contextual impact tagging",
-                                "Risk identification with severity and resolution tracking",
-                                "Follow-up planning with scheduling and pending item mapping",
-                                "Key topic extraction and summarization of discussion themes"
+                                "Real-time speech-to-text transcription with multi-format audio recording and noise reduction",
+                                "Multi-model AI pipeline using Groq Whisper for transcription and Google Gemini for analysis",
+                                "Automatic participant detection, role extraction, and speaker identification from conversations",
+                                "Action item, decision, and risk tracking with priority levels, deadlines, and severity analysis",
+                                "Key topic extraction, discussion summarization, and follow-up planning capabilities"
                             ],
                             useCases: {
                                 title: "Supported Use Cases Across Industries",
@@ -907,17 +901,13 @@ export default {
                                 description: "The Audio-Based Meeting Minutes Generator processes pre-recorded audio files from meetings, transcribes them using advanced AI models, and generates comprehensive, structured Minutes of Meeting. It leverages OpenAI Whisper for accurate speech-to-text conversion and Google Gemini for intelligent content analysis, identifying participants, extracting action items, capturing decisions, and highlighting risks. The system provides editable outputs in multiple formats (PDF, DOCX, JSON) for seamless integration into workflow systems."
                             },
                             features: [
-                                "Multi-format audio file support (MP3, WAV, MP4) with drag-and-drop upload interface",
-                                "Advanced speech-to-text transcription using OpenAI Whisper base model",
-                                "AI-powered meeting analysis using Google Gemini 2.0 Flash for content extraction",
-                                "Automatic participant identification and role extraction from conversations",
+                                "Multi-format audio file support (MP3, WAV, MP4) with drag-and-drop upload interface and 50MB size limit",
+                                "Advanced speech-to-text transcription using OpenAI Whisper base model for accurate conversion",
+                                "AI-powered meeting analysis using Google Gemini 2.0 Flash for automatic content extraction",
                                 "Intelligent task extraction with assignee detection and deadline parsing",
-                                "Decision tracking with participant attribution and contextual rationale",
-                                "Risk and blocker identification with severity analysis",
-                                "Data point and metrics extraction for quantitative insights",
+                                "Decision and risk tracking with participant attribution and severity analysis",
                                 "Real-time editable transcript and MoM sections with inline editing capability",
-                                "Multi-format export (PDF, DOCX) with professional document formatting",
-                                "File size validation (up to 50MB) and audio format verification"
+                                "Professional multi-format export (PDF, DOCX) with organized document formatting"
                             ],
                             useCases: {
                                 title: "Supported Use Cases Across Industries",
@@ -1028,20 +1018,16 @@ export default {
                             status: "available",
                             whatItIs: {
                                 title: "Universal Data Intelligence Platform",
-                                description: "AI Sheet enables users to upload datasets from any source or format and interact with them using natural language queries. The platform processes CSV, Excel, TSV files (with future support for PDF, Word, and Images), generates automated visualizations, creates comprehensive reports, and integrates with databases or APIs for live insights. Ideal for analysts, business users, and teams handling structured or semi-structured data across systems, AI Sheet eliminates repetitive analysis tasks and empowers data-driven decision-making through conversational interaction."
+                                description: " AI Sheet allows users to upload datasets (CSV, Excel, TSV, and future formats like PDF, Word, Images) and interact with them using natural language queries. Users can generate reports, visualizations, summaries, and integrate with databases or APIs for live insights. Ideal for analysts, business users, and teams handling structured or semi-structured data across systems."
                             },
                             features: [
-                                "Multi-format data ingestion supporting CSV, Excel, and TSV files with future support for PDF, Word, and Images",
-                                "Conversational query engine enabling natural language interaction with any dataset",
-                                "Automated visualization and chart generation with intelligent rendering",
-                                "AI-powered report creation and insight summarization for rapid analysis",
-                                "Database and API integration layer for live data access and real-time insights",
-                                "Schema detection and metadata understanding for automatic data interpretation",
-                                "Exportable outputs including dashboards, reports, and visualizations",
-                                "Prompt-to-formula conversion for spreadsheet automation and complex calculations",
-                                "Cross-format data handling for seamless integration across systems",
-                                "Insight extraction engine for trend detection and pattern recognition",
-                                "Multi-source data integration supporting diverse analytics workflows"
+                                "Multi-format data ingestion (CSV, Excel, TSV; future: PDF, Word, Images)",
+                                "Conversational query engine for any dataset interaction",
+                                "Automated visualization and chart generation",
+                                "Report creation and insight summarization",
+                                "Database and API integration for live data access",
+                                "Exportable outputs and dashboards",
+                                "Prompt-to-formula conversion for spreadsheet automation"
                             ],
                             useCases: {
                                 title: "Supported Use Cases Across Industries",
@@ -1163,20 +1149,15 @@ export default {
                             status: "available",
                             whatItIs: {
                                 title: "Next-Generation AI Document Creation Platform",
-                                description: "The AI Docs Agent is a comprehensive platform that automates professional document creation through intelligent content generation and adaptive formatting. Users can upload existing documents, generate from templates, or interact with AI through conversational chat to create or refine content. The platform provides Rich Text editing capabilities with visually consistent outputs through automatic style and layout adaptation. Enhanced with deep research mode for web-sourced, citation-backed content, AI Docs is ideal for businesses, educators, marketers, legal teams, and non-profits requiring efficient and professional document production at scale."
+                                description: "The AI Docs Agent is a next-generation platform that automates professional document creation. Users can upload existing documents, generate templates, or interact with AI through chat to create or refine content. It supports editing modes Rich Text and provides a visually consistent output with style and layout adaptation. Ideal for businesses, educators, marketers, legal teams, and non-profits that require efficient and professional document production."
                             },
                             features: [
-                                "AI-powered document generation from user prompts, chat queries, or structured inputs",
-                                "Automatic layout, typography, and professional style application with design consistency",
-                                "Adaptive template library with reusable, content-adjusted designs for various document types",
-                                "Inline document preview with real-time editing capabilities and visual feedback",
-                                "Rich Text editing mode with seamless switching for content refinement",
-                                "Deep research mode for fetching updated, source-backed information from the web",
-                                "Visual integration module for images and style elements with automatic formatting",
-                                "Content import engine supporting Word, PDF, and metadata integration",
-                                "Multi-format export supporting PDF, DOCX, Markdown, and TXT outputs",
-                                "Template framework that dynamically adjusts based on content structure and length",
-                                "AI-assisted editing for content enhancement, summarization, and restructuring"
+                                "AI-powered document generation from user prompts or chat queries.",
+                                "Automatic layout, typography, and style application.",
+                                "Adaptive template library for reusable, content-adjusted designs.",
+                                "Inline document preview with editing capabilities.",
+                                "Dual Rich Text editing modes.",
+                                "Deep research mode: fetches updated, source-backed information from the web."
                             ],
                             useCases: {
                                 title: "Supported Use Cases Across Industries",
@@ -1244,7 +1225,7 @@ export default {
                                         description: "User Input (Upload/Template/Chat) → AI Document Generation → Template & Styling Application → Visual Integration → Editable Preview → Content Refinement → Multi-Format Export. Built for intelligent automation, professional consistency, and seamless editing.",
                                         process: [
                                             { icon: "/icons/AO1.svg", label: "Document Upload or Chat Input", isImage: true },
-                                            { icon: "/icons/AO2.svg", label: "AI Content Generation Engine", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "AI Document Generation Engine", isImage: true },
                                             { icon: "/icons/AO3.svg", label: "Adaptive Template Application", isImage: true },
                                             { icon: "/icons/Contextual.svg", label: "Visual & Style Integration", isImage: true },
                                             { icon: "/icons/AO4.svg", label: "Export (PDF/DOCX/TXT)", isImage: true }
@@ -1288,20 +1269,14 @@ export default {
                             status: "available",
                             whatItIs: {
                                 title: "Advanced Conversational AI Platform",
-                                description: "General AI Chat Agent is a comprehensive conversational AI platform designed to provide real-time, context-aware interactions across diverse use cases. Users can engage in multi-turn conversations with persistent context, upload documents for intelligent analysis, or activate deep research mode to fetch and summarize updated web-based information. Supporting natural language understanding and multiple languages, the platform seamlessly handles complex queries, document interpretation, and continuous dialogue. Ideal for customer support, education, business operations, healthcare communication, and knowledge-intensive workflows requiring instant, accurate responses."
+                                description: "The AI Chat Agent is an advanced conversational AI platform designed to provide real-time, context-aware interactions. Users can engage in multi-turn conversations, upload documents for analysis, or utilize deep research mode to fetch updated information. It supports natural language understanding and multiple languages, making it ideal for customer support, education, business operations, and more."
                             },
                             features: [
-                                "Real-time, context-aware response generation with natural language understanding",
-                                "Multi-turn conversation support maintaining context across continuous dialogue sessions",
-                                "Deep research mode retrieving and summarizing current web-based information with source attribution",
-                                "Document and file analysis engine with intelligent content extraction and interpretation",
-                                "Multi-language support enabling global accessibility and cross-cultural communication",
-                                "Context management system preserving conversation history and user intent across interactions",
-                                "Natural language understanding processor for accurate query interpretation and intent recognition",
-                                "Response verification and quality control ensuring accurate and relevant answers",
-                                "File upload integration supporting document-based queries and content analysis",
-                                "Adaptive conversation flow handling complex, multi-step interactions intelligently",
-                                "Real-time information retrieval for time-sensitive and dynamic queries"
+                                "Real-time, context-aware response generation from user queries.",
+                                "Multi-turn conversation support for continuous dialogue.",
+                                "Deep research mode: retrieves and summarizes web-based information.",
+                                "Document and file analysis with natural language processing.",
+                                "Multi-language support for global accessibility."
                             ],
                             useCases: {
                                 title: "Supported Use Cases Across Industries",
