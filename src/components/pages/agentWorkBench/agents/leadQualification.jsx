@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Download, X, AlertCircle, CheckCircle, Loader, FolderPlus, Upload, BarChart3, Eye, TrendingUp } from 'lucide-react';
+import { Search, Download, X, AlertCircle, CheckCircle, Loader, FolderPlus, Upload, BarChart3, Eye, TrendingUp, FileText, Sparkles } from 'lucide-react';
 
 export default function LeadQualification() {
     const API_BASE_URL = 'http://localhost:8000/lead_qualification';
@@ -13,6 +13,7 @@ export default function LeadQualification() {
     const [message, setMessage] = useState(null);
     const [showCreateProject, setShowCreateProject] = useState(false);
     const [showUploadLeads, setShowUploadLeads] = useState(false);
+    const [showUploadDocs, setShowUploadDocs] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterPriority, setFilterPriority] = useState('all');
     const [processingProgress, setProcessingProgress] = useState(null);
@@ -68,12 +69,40 @@ export default function LeadQualification() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: projectName, description })
             });
-            const data = await response.json();
+            await response.json();
             showMessage('success', `Project "${projectName}" created successfully`);
             setShowCreateProject(false);
             loadProjects();
         } catch (error) {
             showMessage('error', 'Failed to create project');
+        }
+    };
+
+    const handleUploadDocuments = async (files) => {
+        if (!selectedProject) {
+            showMessage('error', 'Please select a project first');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            Array.from(files).forEach(file => {
+                formData.append('files', file);
+            });
+
+            const response = await fetch(`${API_BASE_URL}/projects/${selectedProject.id}/upload-documents`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            showMessage('success', `${data.documents_uploaded} documents analyzed successfully`);
+            setShowUploadDocs(false);
+            loadProjects();
+        } catch (error) {
+            showMessage('error', 'Failed to upload documents');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -87,14 +116,13 @@ export default function LeadQualification() {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('project_id', selectedProject.id);
 
             const response = await fetch(`${API_BASE_URL}/projects/${selectedProject.id}/upload-leads`, {
                 method: 'POST',
                 body: formData
             });
             const data = await response.json();
-            showMessage('success', `${data.leads_uploaded} leads uploaded successfully`);
+            showMessage('success', `${data.uploaded} leads uploaded successfully`);
             setShowUploadLeads(false);
             loadProjectLeads(selectedProject.id);
         } catch (error) {
@@ -204,6 +232,12 @@ export default function LeadQualification() {
                 <div className="p-4 border-t border-gray-200 bg-gray-50">
                     <p className="text-xs text-gray-500 mb-1">Current Project</p>
                     <p className="font-medium text-sm text-gray-900 truncate">{selectedProject.name}</p>
+                    {selectedProject.project_context && (
+                        <div className="mt-2 flex items-center gap-1 text-xs text-green-600">
+                            <Sparkles className="w-3 h-3" />
+                            <span>Context Enabled</span>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
@@ -212,12 +246,56 @@ export default function LeadQualification() {
     const CreateProjectModal = () => {
         const [projectName, setProjectName] = useState('');
         const [description, setDescription] = useState('');
+        const [documents, setDocuments] = useState([]);
+        const [uploadingDocs, setUploadingDocs] = useState(false);
         
         if (!showCreateProject) return null;
+
+        const handleCreateWithDocs = async () => {
+            if (!projectName.trim()) return;
+
+            setLoading(true);
+            try {
+                // Step 1: Create project
+                const response = await fetch(`${API_BASE_URL}/projects`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: projectName, description })
+                });
+                const data = await response.json();
+                const newProjectId = data.project.id;
+
+                // Step 2: Upload documents if any
+                if (documents.length > 0) {
+                    setUploadingDocs(true);
+                    const formData = new FormData();
+                    documents.forEach(file => {
+                        formData.append('files', file);
+                    });
+
+                    await fetch(`${API_BASE_URL}/projects/${newProjectId}/upload-documents`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+
+                showMessage('success', `Project "${projectName}" created successfully${documents.length > 0 ? ' with context analysis' : ''}`);
+                setShowCreateProject(false);
+                setProjectName('');
+                setDescription('');
+                setDocuments([]);
+                loadProjects();
+            } catch (error) {
+                showMessage('error', 'Failed to create project');
+            } finally {
+                setLoading(false);
+                setUploadingDocs(false);
+            }
+        };
         
         return (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-10">
+                <div className="bg-white p-6 rounded-xl shadow-xl max-w-lg w-full mx-4">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-xl font-bold text-gray-900">Create New Project</h3>
                         <button onClick={() => setShowCreateProject(false)} className="text-gray-400 hover:text-gray-600">
@@ -244,13 +322,63 @@ export default function LeadQualification() {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent h-24 resize-none"
                             />
                         </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <Sparkles className="w-4 h-4 text-purple-600" />
+                                Product Documents (Optional)
+                            </label>
+                            <p className="text-xs text-gray-500 mb-3">Upload PRD, BRD, or product docs to enable AI-powered context matching</p>
+                            <div className="border-2 border-dashed border-purple-300 rounded-lg p-6 text-center bg-purple-50">
+                                <FileText className="w-10 h-10 text-purple-400 mx-auto mb-3" />
+                                <input
+                                    type="file"
+                                    accept=".pdf,.docx,.txt"
+                                    multiple
+                                    onChange={(e) => setDocuments(Array.from(e.target.files))}
+                                    className="hidden"
+                                    id="project-docs-upload"
+                                />
+                                <label htmlFor="project-docs-upload" className="cursor-pointer px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors inline-block text-sm font-medium">
+                                    Choose Documents
+                                </label>
+                                {documents.length > 0 && (
+                                    <div className="mt-3 text-left max-h-32 overflow-y-auto">
+                                        {documents.map((f, i) => (
+                                            <div key={i} className="flex items-center justify-between py-1 px-2 bg-white rounded mb-1">
+                                                <span className="text-xs text-gray-700 truncate flex-1">📄 {f.name}</span>
+                                                <button 
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setDocuments(documents.filter((_, idx) => idx !== i));
+                                                    }}
+                                                    className="text-red-500 hover:text-red-700 ml-2"
+                                                >
+                                                    <X className="w-3 h-3" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <button
-                        onClick={() => handleCreateProject(projectName, description)}
-                        disabled={!projectName.trim()}
-                        className="w-full mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        onClick={handleCreateWithDocs}
+                        disabled={!projectName.trim() || loading}
+                        className="w-full mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                        Create Project
+                        {loading ? (
+                            <>
+                                <Loader className="w-4 h-4 animate-spin" />
+                                {uploadingDocs ? 'Analyzing Documents...' : 'Creating Project...'}
+                            </>
+                        ) : (
+                            <>
+                                <FolderPlus className="w-4 h-4" />
+                                Create Project
+                            </>
+                        )}
                     </button>
                 </div>
             </div>
@@ -263,7 +391,7 @@ export default function LeadQualification() {
         if (!showUploadLeads) return null;
         
         return (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 ">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-xl font-bold text-gray-900">Upload Leads</h3>
@@ -292,6 +420,57 @@ export default function LeadQualification() {
                         className="w-full mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                         Upload & Sync to Salesforce
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
+    const UploadDocsModal = () => {
+        const [files, setFiles] = useState([]);
+        
+        if (!showUploadDocs) return null;
+        
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-xl shadow-xl max-w-md w-full mx-4">
+                    <div className="flex justify-between items-center mb-6">
+                        <h3 className="text-xl font-bold text-gray-900">Upload Project Documents</h3>
+                        <button onClick={() => setShowUploadDocs(false)} className="text-gray-400 hover:text-gray-600">
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+                    <div className="space-y-4">
+                        <p className="text-sm text-gray-600">Upload PRD, BRD, or product documents (.pdf, .docx, .txt)</p>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                            <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                            <input
+                                type="file"
+                                accept=".pdf,.docx,.txt"
+                                multiple
+                                onChange={(e) => setFiles(Array.from(e.target.files))}
+                                className="hidden"
+                                id="docs-upload"
+                            />
+                            <label htmlFor="docs-upload" className="cursor-pointer px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors inline-block">
+                                Choose Files
+                            </label>
+                            {files.length > 0 && (
+                                <div className="mt-3 text-left">
+                                    {files.map((f, i) => (
+                                        <p key={i} className="text-sm text-gray-600">• {f.name}</p>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => handleUploadDocuments(files)}
+                        disabled={files.length === 0 || loading}
+                        className="w-full mt-6 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                        Analyze Documents
                     </button>
                 </div>
             </div>
@@ -331,9 +510,23 @@ export default function LeadQualification() {
                                     <p className="text-sm text-gray-500">{project.lead_count || 0} leads</p>
                                 </div>
                             </div>
+                            {project.project_context && (
+                                <Sparkles className="w-5 h-5 text-purple-500" />
+                            )}
                         </div>
                         {project.description && (
                             <p className="text-sm text-gray-600 mb-4">{project.description}</p>
+                        )}
+                        {project.project_context && (
+                            <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                                <div className="flex items-center gap-2 text-purple-700 text-xs font-medium">
+                                    <Sparkles className="w-4 h-4" />
+                                    <span>AI Context Enabled</span>
+                                </div>
+                                <p className="text-xs text-purple-600 mt-1">
+                                    {project.project_documents?.length || 0} document(s) analyzed
+                                </p>
+                            </div>
                         )}
                         <div className="flex gap-2">
                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor('completed')}`}>
@@ -391,9 +584,9 @@ export default function LeadQualification() {
                             {loading ? (
                                 <Loader className="w-4 h-4 animate-spin" />
                             ) : (
-                                <CheckCircle className="w-4 h-4" />
+                                <Sparkles className="w-4 h-4" />
                             )}
-                            Qualify Leads {newLeadsCount > 0 && `(${newLeadsCount})`}
+                            {selectedProject?.project_context ? 'Qualify with Context' : 'Qualify Leads'} {newLeadsCount > 0 && `(${newLeadsCount})`}
                         </button>
                         <button 
                             onClick={() => handleDownloadReport('csv')}
@@ -452,7 +645,7 @@ export default function LeadQualification() {
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                 <input 
                                     type="text" 
-                                    placeholder="Search leads by name, company, email..." 
+                                    placeholder="Search leads..." 
                                     value={searchTerm} 
                                     onChange={(e) => setSearchTerm(e.target.value)} 
                                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -475,13 +668,13 @@ export default function LeadQualification() {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lead</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Company</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -550,134 +743,265 @@ export default function LeadQualification() {
         );
     };
 
-const LeadDetailsModal = () => {
-    if (!selectedLead) return null;
-    
-    const scoreBreakdown = selectedLead.score_breakdown?.rule_based?.breakdown || {};
-    const recommendations = selectedLead.recommendations || {};
+    const LeadDetailsModal = () => {
+        if (!selectedLead) return null;
+        
+        const scoreBreakdown = selectedLead.score_breakdown?.rule_based?.breakdown || {};
+        const contextMatch = selectedLead.context_match || {};
+        const recommendations = selectedLead.recommendations || {};
 
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 top-20">
-            <div className="bg-white rounded-xl shadow-xl max-w-6xl w-full max-h-[calc(85vh-80px)] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center z-20">
-                    <h3 className="text-2xl font-bold text-gray-900">{selectedLead.name}</h3>
-                    <button onClick={() => setSelectedLead(null)} className="text-gray-400 hover:text-gray-600">
-                        <X className="w-6 h-6" />
-                    </button>
-                </div>
-                
-                <div className="p-6 space-y-6">
-                    <div className="grid grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Contact Information</h4>
-                            <div className="space-y-2">
-                                <p className="text-sm"><span className="text-gray-500">Email:</span> <span className="font-medium">{selectedLead.email}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Phone:</span> <span className="font-medium">{selectedLead.phone || 'N/A'}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Company:</span> <span className="font-medium">{selectedLead.company}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Title:</span> <span className="font-medium">{selectedLead.title}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Industry:</span> <span className="font-medium">{selectedLead.industry}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Location:</span> <span className="font-medium">{selectedLead.location}</span></p>
-                            </div>
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-20">
+                <div className="bg-white rounded-xl shadow-xl max-w-5xl w-full max-h-[80vh] overflow-y-auto">
+                    <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center z-10">
+                        <div>
+                            <h3 className="text-2xl font-bold text-gray-900">{selectedLead.name}</h3>
+                            <p className="text-sm text-gray-500">{selectedLead.email}</p>
                         </div>
-                        
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Qualification Details</h4>
-                            <div className="flex items-center justify-center">
-                                <div className="relative">
-                                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
-                                        <div className="text-center text-white">
-                                            <div className="text-4xl font-bold">{Math.round(selectedLead.lead_score || 0)}</div>
-                                            <div className="text-xs">Score</div>
+                        <button onClick={() => setSelectedLead(null)} className="text-gray-400 hover:text-gray-600">
+                            <X className="w-6 h-6" />
+                        </button>
+                    </div>
+                    
+                    <div className="p-6 space-y-6">
+                        <div className="grid grid-cols-3 gap-6">
+                            <div className="col-span-2 space-y-6">
+                                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
+                                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                        <Sparkles className="w-5 h-5 text-purple-600" />
+                                        AI Analysis Summary
+                                    </h4>
+                                    {selectedLead.summary ? (
+                                        <p className="text-sm text-gray-700 leading-relaxed">{selectedLead.summary}</p>
+                                    ) : (
+                                        <p className="text-sm text-gray-500 italic">No AI summary available</p>
+                                    )}
+                                </div>
+
+                                {contextMatch.match_quality && (
+                                    <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                        <h4 className="font-semibold text-gray-900 mb-4">Project Fit Analysis</h4>
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm font-medium text-gray-600">Match Quality</span>
+                                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                                    contextMatch.match_quality === 'excellent' ? 'bg-green-100 text-green-800' :
+                                                    contextMatch.match_quality === 'good' ? 'bg-blue-100 text-blue-800' :
+                                                    contextMatch.match_quality === 'fair' ? 'bg-yellow-100 text-yellow-800' :
+                                                    'bg-red-100 text-red-800'
+                                                }`}>
+                                                    {contextMatch.match_quality.toUpperCase()}
+                                                </span>
+                                            </div>
+                                            
+                                            {contextMatch.industry_match && (
+                                                <div className="p-3 bg-gray-50 rounded-lg">
+                                                    <p className="text-xs font-medium text-gray-500 mb-1">Industry Match</p>
+                                                    <p className="text-sm text-gray-700">{contextMatch.industry_match}</p>
+                                                </div>
+                                            )}
+                                            
+                                            {contextMatch.title_match && (
+                                                <div className="p-3 bg-gray-50 rounded-lg">
+                                                    <p className="text-xs font-medium text-gray-500 mb-1">Title Match</p>
+                                                    <p className="text-sm text-gray-700">{contextMatch.title_match}</p>
+                                                </div>
+                                            )}
+                                            
+                                            {contextMatch.pain_point_alignment && (
+                                                <div className="p-3 bg-gray-50 rounded-lg">
+                                                    <p className="text-xs font-medium text-gray-500 mb-1">Pain Point Alignment</p>
+                                                    <p className="text-sm text-gray-700">{contextMatch.pain_point_alignment}</p>
+                                                </div>
+                                            )}
+
+                                            {contextMatch.intent_signals && contextMatch.intent_signals.length > 0 && (
+                                                <div>
+                                                    <p className="text-xs font-medium text-gray-500 mb-2">Intent Signals</p>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {contextMatch.intent_signals.map((signal, i) => (
+                                                            <span key={i} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                                                {signal}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                    <h4 className="font-semibold text-gray-900 mb-4">Contact Information</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Phone</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.phone || 'N/A'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Company</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.company}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Title</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.title}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Industry</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.industry}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Location</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.location || 'N/A'}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 mb-1">Intent</p>
+                                            <p className="text-sm font-medium text-gray-900">{selectedLead.intent || 'N/A'}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {selectedLead.tech_stack && (
+                                    <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                        <h4 className="font-semibold text-gray-900 mb-3">Tech Stack</h4>
+                                        <p className="text-sm text-gray-700">{selectedLead.tech_stack}</p>
+                                    </div>
+                                )}
+
+                                {selectedLead.interest_tags && (
+                                    <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                        <h4 className="font-semibold text-gray-900 mb-3">Interest Tags</h4>
+                                        <p className="text-sm text-gray-700">{selectedLead.interest_tags}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-6 rounded-xl text-white text-center">
+                                    <p className="text-sm opacity-90 mb-2">Lead Score</p>
+                                    <p className="text-5xl font-bold mb-2">{Math.round(selectedLead.lead_score || 0)}</p>
+                                    <span className={`inline-block px-4 py-1 rounded-full text-xs font-bold bg-white ${
+                                        selectedLead.priority === 'high' ? 'text-red-600' :
+                                        selectedLead.priority === 'medium' ? 'text-yellow-600' :
+                                        'text-green-600'
+                                    }`}>
+                                        {selectedLead.priority?.toUpperCase()}
+                                    </span>
+                                </div>
+
+                                {Object.keys(scoreBreakdown).length > 0 && (
+                                    <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                        <h4 className="font-semibold text-gray-900 mb-4">Score Breakdown</h4>
+                                        <div className="space-y-3">
+                                            {Object.entries(scoreBreakdown).map(([key, value]) => (
+                                                <div key={key}>
+                                                    <div className="flex justify-between items-center mb-1">
+                                                        <span className="text-xs text-gray-600 capitalize">{key.replace('_', ' ')}</span>
+                                                        <span className="text-sm font-bold text-gray-900">
+                                                            {typeof value === 'number' ? value.toFixed(1) : value}
+                                                        </span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                                                        <div 
+                                                            className="bg-blue-600 h-1.5 rounded-full" 
+                                                            style={{width: `${Math.min((value / 25) * 100, 100)}%`}}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="bg-white border border-gray-200 p-6 rounded-xl">
+                                    <h4 className="font-semibold text-gray-900 mb-3">Status</h4>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-gray-600">Processing</span>
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedLead.processing_status)}`}>
+                                                {selectedLead.processing_status}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm text-gray-600">Confidence</span>
+                                            <span className="text-sm font-medium text-gray-900">
+                                                {selectedLead.intent_confidence || 'N/A'}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <p className="text-sm"><span className="text-gray-500">Priority:</span> <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getPriorityColor(selectedLead.priority)}`}>{selectedLead.priority?.toUpperCase()}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Status:</span> <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedLead.processing_status)}`}>{selectedLead.processing_status}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Intent:</span> <span className="font-medium">{selectedLead.intent || 'N/A'}</span></p>
-                                <p className="text-sm"><span className="text-gray-500">Intent Confidence:</span> <span className="font-medium">{selectedLead.intent_confidence || 'N/A'}</span></p>
-                            </div>
                         </div>
+
+                        {recommendations.next_steps && recommendations.next_steps.length > 0 && (
+                            <div className="bg-green-50 border border-green-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <CheckCircle className="w-5 h-5 text-green-600" />
+                                    Recommended Next Steps
+                                </h4>
+                                <ul className="space-y-2">
+                                    {recommendations.next_steps.map((step, idx) => (
+                                        <li key={idx} className="flex items-start gap-3">
+                                            <span className="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                                                {idx + 1}
+                                            </span>
+                                            <span className="text-sm text-gray-700 pt-0.5">{step}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {recommendations.talking_points && recommendations.talking_points.length > 0 && (
+                            <div className="bg-blue-50 border border-blue-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4">Key Talking Points</h4>
+                                <ul className="space-y-2">
+                                    {recommendations.talking_points.map((point, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                            <span className="text-blue-600 mt-1">•</span>
+                                            <span className="text-sm text-gray-700">{point}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {recommendations.risks && recommendations.risks.length > 0 && (
+                            <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <AlertCircle className="w-5 h-5 text-yellow-600" />
+                                    Potential Risks & Concerns
+                                </h4>
+                                <ul className="space-y-2">
+                                    {recommendations.risks.map((risk, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                            <span className="text-yellow-600 mt-1">⚠</span>
+                                            <span className="text-sm text-gray-700">{risk}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {recommendations.personalized_approach && (
+                            <div className="bg-purple-50 border border-purple-200 p-6 rounded-xl">
+                                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                    <Sparkles className="w-5 h-5 text-purple-600" />
+                                    Personalized Approach
+                                </h4>
+                                <p className="text-sm text-gray-700 leading-relaxed">{recommendations.personalized_approach}</p>
+                            </div>
+                        )}
                     </div>
-
-                    {Object.keys(scoreBreakdown).length > 0 && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Score Breakdown</h4>
-                            <div className="grid grid-cols-2 gap-3">
-                                {Object.entries(scoreBreakdown).map(([key, value]) => (
-                                    <div key={key} className="bg-gray-50 p-3 rounded-lg">
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-sm text-gray-600 capitalize">{key.replace('_', ' ')}</span>
-                                            <span className="font-semibold text-gray-900">{typeof value === 'number' ? value.toFixed(1) : value}</span>
-                                        </div>
-                                        <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-                                            <div className="bg-blue-600 h-2 rounded-full" style={{width: `${Math.min((value / 25) * 100, 100)}%`}}></div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {selectedLead.tech_stack && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Tech Stack</h4>
-                            <p className="text-sm text-gray-700">{selectedLead.tech_stack}</p>
-                        </div>
-                    )}
-
-                    {selectedLead.interest_tags && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Interest Tags</h4>
-                            <p className="text-sm text-gray-700">{selectedLead.interest_tags}</p>
-                        </div>
-                    )}
-
-                    {recommendations.next_steps && recommendations.next_steps.length > 0 && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Recommended Next Steps</h4>
-                            <ul className="space-y-2">
-                                {recommendations.next_steps.map((step, idx) => (
-                                    <li key={idx} className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                                        <span className="text-sm text-gray-700">{step}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {selectedLead.summary && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Summary</h4>
-                            <p className="text-sm text-gray-700 bg-blue-50 p-4 rounded-lg">{selectedLead.summary}</p>
-                        </div>
-                    )}
-
-                    {recommendations.risks && recommendations.risks.length > 0 && (
-                        <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-900">Potential Risks</h4>
-                            <ul className="space-y-2">
-                                {recommendations.risks.map((risk, idx) => (
-                                    <li key={idx} className="flex items-start gap-2">
-                                        <AlertCircle className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
-                                        <span className="text-sm text-gray-700">{risk}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
                 </div>
             </div>
-        </div>
-    );
-};
+        );
+    };
 
     return (
         <div className="min-h-screen bg-gray-50 flex pt-20">
             <Sidebar />
-            <div className="flex-1 p-8">
+            <div className="flex-1 p-8 overflow-auto">
                 {message && (
                     <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
                         message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
@@ -691,10 +1015,10 @@ const LeadDetailsModal = () => {
                     <div className="mb-6 p-4 rounded-lg bg-blue-50 border border-blue-200">
                         <div className="flex items-center gap-3 mb-2">
                             <Loader className="w-5 h-5 animate-spin text-blue-600" />
-                            <span className="text-blue-800 font-medium">Processing leads...</span>
+                            <span className="text-blue-800 font-medium">Processing leads in parallel...</span>
                         </div>
                         <div className="w-full bg-blue-200 rounded-full h-2">
-                            <div className="bg-blue-600 h-2 rounded-full transition-all" style={{width: `${(processingProgress.current / processingProgress.total) * 100}%`}}></div>
+                            <div className="bg-blue-600 h-2 rounded-full transition-all animate-pulse" style={{width: '60%'}}></div>
                         </div>
                     </div>
                 )}
