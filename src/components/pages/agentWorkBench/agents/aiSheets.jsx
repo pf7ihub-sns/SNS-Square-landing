@@ -9,6 +9,7 @@ const AiSheets = () => {
   const [file, setFile] = useState(null);
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
+  const [visualizationResponse, setVisualizationResponse] = useState(''); // New state for visualization explanation
   const [dataPreview, setDataPreview] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -18,7 +19,6 @@ const AiSheets = () => {
   const [showDataDownloadMenu, setShowDataDownloadMenu] = useState(false);
   const [showReportDownloadMenu, setShowReportDownloadMenu] = useState(false);
   const [visualization, setVisualization] = useState(null);
-  // REMOVED: datasetPath state is no longer needed as backend handles session state
   const fileInputRef = useRef(null);
   const landingFileInputRef = useRef(null);
   const conversationEndRef = useRef(null);
@@ -59,7 +59,7 @@ const AiSheets = () => {
           const errorData = await res.json();
           throw new Error(errorData.message || 'Backend failed to process file.');
         }
-        await res.json(); // Don't need to store path, just confirm success
+        await res.json();
         console.log('File uploaded and saved by backend, session is active.');
       } catch (err) {
         console.error('File upload error:', err);
@@ -86,6 +86,7 @@ const AiSheets = () => {
       setConversation([]);
       setError('');
       setResponse('');
+      setVisualizationResponse(''); // Reset visualization response
       setVisualization(null);
       setActiveView('preview');
 
@@ -115,6 +116,7 @@ const AiSheets = () => {
       setDataPreview([]);
       setConversation([]);
       setResponse('');
+      setVisualizationResponse(''); // Reset visualization response
       setVisualization(null);
       setActiveView('preview');
       setError('');
@@ -151,13 +153,13 @@ const AiSheets = () => {
   const clearConversation = () => {
     setConversation([]);
     setResponse('');
+    setVisualizationResponse(''); // Reset visualization response
     setVisualization(null);
     setQuery('');
     setActiveView('preview');
     setError('');
   };
 
-  // FIX: Removed datasetPath from this function
   const executeQuery = async (queryText, history) => {
     const formData = new FormData();
     formData.append('query', queryText);
@@ -172,26 +174,24 @@ const AiSheets = () => {
     }
   };
 
-  // FIX: This function now handles all state updates correctly for all response types.
   const handleBackendResponse = (data) => {
-    let aiReply = data.response; // Default reply is the response text
-    
+    let aiReply = data.response;
+
     if (data.is_report) {
-      // It's a report. Update right panel and set chat message.
+      // It's a report. Update report state and set chat message.
       setResponse(data.response);
+      setVisualizationResponse(''); // Clear visualization response
       setVisualization(null);
       setActiveView('report');
       aiReply = "I've generated the report. You can view it in the right panel.";
     } else if (data.visualization) {
-      // It's a visualization. Update right panel and set chat message.
-      setResponse(data.response); // Set the text summary for the right panel
+      // It's a visualization. Update visualization state and explanation, but not report state.
+      setVisualizationResponse(data.response); // Store visualization explanation
       setVisualization(data.visualization);
       setActiveView('visualization');
       aiReply = "I've generated a visualization, which you can view in the right panel.";
     } else {
-      // It's a standard chat message. DO NOT update the right panel state.
-      // Only the AI reply for the chat bubble is needed.
-      // No state changes for `response`, `visualization`, or `activeView`.
+      // It's a standard chat message. Do not update report or visualization state.
     }
     return aiReply;
   };
@@ -227,9 +227,7 @@ const AiSheets = () => {
       setLoading(false);
     }
   };
-  
-  // ... (All other functions like regenerate, copy, download, and renderers are unchanged and correct)
-  // ... (The entire render block and style tag remain exactly as you provided them)
+
   const handleRegenerate = async () => {
     if (conversation.length === 0 || loading || isRegenerating) return;
     const lastTurn = conversation[conversation.length - 1];
@@ -291,7 +289,7 @@ const AiSheets = () => {
   };
 
   const handleDownloadReport = async (format) => {
-    const reportContent = response || (visualization ? visualization.explanation : '');
+    const reportContent = activeView === 'visualization' ? visualizationResponse : response; // Use appropriate content based on active view
     if (!reportContent) return;
     const filename = 'analysis_report';
     if (format === 'pdf') {
@@ -407,8 +405,7 @@ const AiSheets = () => {
                             <img src={`data:image/png;base64,${visualization.image}`} alt="Visualization" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                         </div>
                     ) : (<div className="placeholder-text">Could not render visualization.</div>)}
-                    {/* FIX: This now correctly renders the 'response' text below the chart */}
-                    {response && (<div className="markdown-content report-view" style={{borderTop:'1px solid var(--border)', paddingTop:'20px', flexGrow:1, overflowY:'auto'}}><ReactMarkdown remarkPlugins={[remarkGfm]}>{response}</ReactMarkdown></div>)}
+                    {visualizationResponse && (<div className="markdown-content report-view" style={{borderTop:'1px solid var(--border)', paddingTop:'20px', flexGrow:1, overflowY:'auto'}}><ReactMarkdown remarkPlugins={[remarkGfm]}>{visualizationResponse}</ReactMarkdown></div>)}
                   </div>
                 ) :
                 (<div style={{ overflow: 'auto', height:'100%' }}><table className="data-table"><thead><tr>{dataPreview[0]?.map((header, colIdx) => <th key={colIdx}>{header}</th>)}</tr></thead><tbody>{dataPreview.slice(1).map((row, rowIdx) => (<tr key={rowIdx}>{row.map((cell, colIdx) => (<td key={colIdx}><input type="text" value={cell ?? ''} onChange={(e) => handleCellEdit(rowIdx, colIdx, e.target.value)} className="table-cell-input" /></td>))}</tr>))}</tbody></table></div>)
@@ -418,7 +415,6 @@ const AiSheets = () => {
         </div>
       )}
       <style>{`
-        /* --- YOUR PRESERVED UI VALUES AND STYLES --- */
         :root { --primary: #007bff; --bg-light: #f7f8fc; --border: #e0e0e0; --text-dark: #1a1a1a; --text-med: #555; --text-light: #888; }
         body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #fff; color: var(--text-dark); }
         .landing-container { position: relative; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #fff; }
