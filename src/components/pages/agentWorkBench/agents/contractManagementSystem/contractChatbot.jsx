@@ -142,7 +142,7 @@ const ContractChatbot = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className="pt-25 flex flex-col h-screen bg-white">
       {/* Header */}
       <div className="px-6 py-4 border-b flex items-center justify-between">
         <div className="flex items-center gap-3">
