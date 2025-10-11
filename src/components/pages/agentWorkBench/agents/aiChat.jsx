@@ -138,19 +138,23 @@ const AiChat = () => {
   };
 
   const formatNumberedList = (lines) => {
-    let html = "<ol class='list-decimal pl-8 space-y-4 my-4'>";
+    let html = "<ol class='list-decimal pl-0 space-y-4 my-4'>";
     let currentIndent = 0;
 
     lines.forEach(({ text, indent }) => {
+      const paddingLeft = indent * 24; // Consistent indentation
       while (indent > currentIndent) {
-        html += "<ol class='list-decimal pl-8 space-y-4 mt-2'>";
+        html += "<ol class='list-decimal pl-6 space-y-4 mt-2'>";
         currentIndent++;
       }
       while (indent < currentIndent) {
         html += "</ol>";
         currentIndent--;
       }
-      html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
+      html += `<li class='pl-2 leading-relaxed flex items-start' style='margin-left: ${paddingLeft}px'>
+        <span class="mr-4 text-gray-600 font-medium"></span>
+        <span>${text}</span>
+      </li>`;
     });
 
     while (currentIndent > 0) {
@@ -161,19 +165,24 @@ const AiChat = () => {
   };
 
   const formatBulletList = (lines) => {
-    let html = "<ul class='list-disc pl-8 space-y-4 my-4'>";
+    let html = "<ul class='list-none pl-0 space-y-4 my-4'>";
     let currentIndent = 0;
 
     lines.forEach(({ text, indent }) => {
+      const bulletClass = currentIndent === 0 ? 'list-disc' : 'list-circle';
+      const paddingLeft = indent * 24; // Consistent indentation
       while (indent > currentIndent) {
-        html += "<ul class='list-disc pl-8 space-y-4 mt-2'>";
+        html += `<ul class='${bulletClass} pl-6 space-y-4 mt-2'>`;
         currentIndent++;
       }
       while (indent < currentIndent) {
         html += "</ul>";
         currentIndent--;
       }
-      html += `<li class='pl-2 leading-relaxed'>${text}</li>`;
+      html += `<li class='pl-2 leading-relaxed flex items-start' style='margin-left: ${paddingLeft}px'>
+        <span class="mr-2">•</span>
+        <span>${text}</span>
+      </li>`;
     });
 
     while (currentIndent > 0) {
@@ -186,10 +195,10 @@ const AiChat = () => {
   const formatParagraphs = (lines) => {
     return lines
       .map(({ text, indent }) => {
-        const padding = "&nbsp;".repeat(indent * 4);
-        return `<p class='my-4 leading-relaxed text-gray-700'>${padding}${text}</p>`;
+        const marginLeft = indent * 24;
+        return `<p class='my-4 leading-relaxed text-gray-700' style='margin-left: ${marginLeft}px'>${text}</p>`;
       })
-      .join("");
+      .join("\n");
   };
 
   const formatResponse = (data) => {
@@ -582,7 +591,7 @@ const AiChat = () => {
               backgroundAttachment: 'fixed'
             }}
           >
-            <div className="max-w-3xl mx-auto h-full">
+            <div className="w-full h-full">
               {chatHistory.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center py-0">
                   <div className="mb-5">
@@ -714,7 +723,7 @@ const AiChat = () => {
 
           {/* Input Area */}
           <div className="bg-transparent border-t-0 p-4 flex-shrink-0 mb-35">
-            <div className="max-w-3xl mx-auto">
+            <div className="w-full h-full">
               <OneDriveModal
                 isOpen={oneDriveModalOpen}
                 onClose={() => setOneDriveModalOpen(false)}

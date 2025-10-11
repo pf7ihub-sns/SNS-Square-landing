@@ -64,13 +64,18 @@ import ContractManagement from "./agents/contractManagement";
 import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
+import RenewalAgent from "./agents/renewalAgent";
+import ContractManagementSystem from "./agents/contractManagementSystem"; 
 import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
+import LeadQualification from "./agents/leadQualification";
+
 import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
 import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
+import AiSheets from "./agents/aiSheets";
 
 const AgentRouter = () => {
   const { agentId } = useParams();
@@ -144,12 +149,14 @@ const AgentRouter = () => {
     "Lead-Genearation": <LeadGeneration />,
     "Lab-results-extractor": <LabResultsExtractor /> ,
     "email-support":<EmailSupport/>,
+    "lead-qualification":<LeadQualification/>,
     "knowledge-base-agent": <KnowledgeBaseChat /> ,
     "ai-docs":<ChatPage/> ,
     "ai-document":<AIDocument/> ,
     "speech-to-text-mom":<SpeechtoTextMom/>,
-    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>
-    
+    "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>,
+    "ai-sheets" : <AiSheets/>,
+    "contract-management-system": <ContractManagementSystem />,
   };
 
   // Lookup case-insensitive
