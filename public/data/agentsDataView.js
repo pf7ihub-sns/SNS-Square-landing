@@ -176,7 +176,7 @@ export default {
                                         description: "Converting scanned contracts or documents into editable text"
                                     },
                                     {
-                                        icon: "/icons/education.svg",
+                                        icon: "/icons/eduation.svg",
                                         title: "Education",
                                         description: "Digitizing notes, textbooks, or research materials"
                                     },
@@ -776,7 +776,7 @@ export default {
                             name: "Live Speech-to-Text Meeting Minutes Generator",
                             summary: "An AI-powered live meeting assistant that transcribes speech in real time, identifies participants, captures decisions, and auto-generates structured Meeting Minutes with AI insights.",
                             image: "/placeholder.jpg",
-                            heading: "Live Speech-to-Text Meeting Minutes Generator – Turn conversations into actionable insights instantly.",
+                            heading: "Live Speech-to-Text Instant Meeting Insights",
                             status: "available",
                             whatItIs: {
                                 title: "Transforming Meetings into Structured Intelligence",
@@ -900,7 +900,7 @@ export default {
                             name: "Speech to Text MOMAgent",
                             summary: "Generate Minutes of Meeting (MoM) documents from discussions.",
                             image: "/placeholder.jpg",
-                            heading: "Audio-Based Meeting Minutes Generator – Transform recorded meetings into professional, structured documentation instantly.",
+                            heading: "Meeting Minutes Generator  From Audio to Docs.",
                             status: "available",
                             whatItIs: {
                                 title: "Converting Audio Recordings into Actionable Intelligence",
@@ -1014,6 +1014,391 @@ export default {
                                             "Input: Audio files (MP3, WAV, MP4) up to 50MB via upload or drag-and-drop",
                                             "Processing: Whisper transcription + LangChain agents + Gemini analysis + JSON structuring",
                                             "Output: Editable transcripts, structured MoM, and downloadable PDF/DOCX formats"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            id: "ai-sheets",
+                            name: "AI Sheet",
+                            summary: "Your Universal Data Intelligence Workspace for exploring, analyzing, and visualizing datasets.",
+                            image: "/placeholder.jpg",
+                            heading: "AI Sheet  Your Universal Data Intelligence Workspace",
+                            status: "available",
+                            whatItIs: {
+                                title: "Universal Data Intelligence Platform",
+                                description: "AI Sheet enables users to upload datasets from any source or format and interact with them using natural language queries. The platform processes CSV, Excel, TSV files (with future support for PDF, Word, and Images), generates automated visualizations, creates comprehensive reports, and integrates with databases or APIs for live insights. Ideal for analysts, business users, and teams handling structured or semi-structured data across systems, AI Sheet eliminates repetitive analysis tasks and empowers data-driven decision-making through conversational interaction."
+                            },
+                            features: [
+                                "Multi-format data ingestion supporting CSV, Excel, and TSV files with future support for PDF, Word, and Images",
+                                "Conversational query engine enabling natural language interaction with any dataset",
+                                "Automated visualization and chart generation with intelligent rendering",
+                                "AI-powered report creation and insight summarization for rapid analysis",
+                                "Database and API integration layer for live data access and real-time insights",
+                                "Schema detection and metadata understanding for automatic data interpretation",
+                                "Exportable outputs including dashboards, reports, and visualizations",
+                                "Prompt-to-formula conversion for spreadsheet automation and complex calculations",
+                                "Cross-format data handling for seamless integration across systems",
+                                "Insight extraction engine for trend detection and pattern recognition",
+                                "Multi-source data integration supporting diverse analytics workflows"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Enable professionals across sectors to transform datasets into actionable intelligence with speed and precision.",
+                                cases: [
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Business Analytics",
+                                        description: "Explore and visualize operational datasets, generate performance reports, and identify business trends automatically."
+                                    },
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Finance & Accounting",
+                                        description: "Track transactions, generate financial summaries, detect anomalies, and automate reconciliation processes."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "E-commerce Operations",
+                                        description: "Analyze sales patterns, customer behavior, inventory levels, and campaign performance across channels."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Education & Academia",
+                                        description: "Summarize student performance, analyze exam results, and generate insights from educational datasets."
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Healthcare Analytics",
+                                        description: "Extract key metrics from clinical datasets, track patient outcomes, and analyze operational efficiency."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Enterprise IT Monitoring",
+                                        description: "Integrate multiple data sources for system monitoring, performance tracking, and incident analysis."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Research & Data Science",
+                                        description: "Generate insights from structured and unstructured data, automate exploratory analysis, and create visualizations."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Revolutionize data analysis workflows with AI-driven insights, automated visualization, and conversational intelligence.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduces time spent on manual data analysis and reporting by up to 80%"
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enables non-technical users to work with complex datasets using natural language"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Improves decision-making with AI-generated insights and automated visualizations"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Supports seamless collaboration across teams with exportable dashboards and reports"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Enhances compatibility with existing analytics and reporting tools through multi-format support"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "File Upload/Database Connection → Data Parsing & Schema Detection → AI Query Engine → Visualization & Report Generation → Export & Integration. Built for seamless data interaction, intelligent analysis, and actionable output.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: " File Upload / Database/API Connection", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Data Parsing & Understanding", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "AI Query Engine", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Visualization & Report Generation", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Export & Integration", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Integrated platform combining multi-format data ingestion, AI-powered query processing, automated visualization, and seamless export capabilities.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "File ingestion module supporting CSV, Excel, TSV with future PDF and image support",
+                                            "Schema detection engine for automatic metadata understanding and data type inference",
+                                            "Natural language query engine enabling conversational dataset interaction",
+                                            "Visualization and chart rendering engine with intelligent graph selection",
+                                            "AI-powered insight summarization and report generation system",
+                                            "Database and API integration layer for live data connectivity",
+                                            "Export manager supporting dashboards, reports, and multiple output formats"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Processes datasets from multiple sources with intelligent parsing, query execution, and automated output generation.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: CSV, Excel, TSV files via upload; future support for PDF, Word, Images, JSON, SQL, and API connections",
+                                            "Processing: Schema detection + natural language query interpretation + visualization rendering + insight extraction",
+                                            "Output: Interactive visualizations, automated reports, exportable dashboards, and data summaries"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            id: "ai-document",
+                            name: "AI Document Agent",
+                            summary: "Interact with and extract information from documents using AI.",
+                            image: "/placeholder.jpg",
+                            heading: "AI Docs Agent  Effortless creation of professional, visually stunning documents.",
+                            status: "available",
+                            whatItIs: {
+                                title: "Next-Generation AI Document Creation Platform",
+                                description: "The AI Docs Agent is a comprehensive platform that automates professional document creation through intelligent content generation and adaptive formatting. Users can upload existing documents, generate from templates, or interact with AI through conversational chat to create or refine content. The platform provides Rich Text editing capabilities with visually consistent outputs through automatic style and layout adaptation. Enhanced with deep research mode for web-sourced, citation-backed content, AI Docs is ideal for businesses, educators, marketers, legal teams, and non-profits requiring efficient and professional document production at scale."
+                            },
+                            features: [
+                                "AI-powered document generation from user prompts, chat queries, or structured inputs",
+                                "Automatic layout, typography, and professional style application with design consistency",
+                                "Adaptive template library with reusable, content-adjusted designs for various document types",
+                                "Inline document preview with real-time editing capabilities and visual feedback",
+                                "Rich Text editing mode with seamless switching for content refinement",
+                                "Deep research mode for fetching updated, source-backed information from the web",
+                                "Visual integration module for images and style elements with automatic formatting",
+                                "Content import engine supporting Word, PDF, and metadata integration",
+                                "Multi-format export supporting PDF, DOCX, Markdown, and TXT outputs",
+                                "Template framework that dynamically adjusts based on content structure and length",
+                                "AI-assisted editing for content enhancement, summarization, and restructuring"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Enable organizations to automate document production with professional consistency, visual excellence, and intelligent content generation.",
+                                cases: [
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Corporate Documentation",
+                                        description: "Generate reports, proposals, presentations, and executive summaries with consistent branding and professional formatting."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Education & Academia",
+                                        description: "Create research papers, academic reports, structured assignments, and educational materials with proper citations."
+                                    },
+                                    {
+                                        icon: "/icons/Legal.svg",
+                                        title: "Legal Documentation",
+                                        description: "Produce contracts, case documentation, compliance reports, and legal briefs with precision and formatting consistency."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Marketing Materials",
+                                        description: "Develop branded collateral, campaign summaries, visual documents, and promotional content with design coherence."
+                                    },
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Non-Profit Organizations",
+                                        description: "Create grant proposals, compliance reports, audit documentation, and stakeholder communications efficiently."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Transform document creation workflows with AI-driven generation, adaptive templates, and professional formatting automation.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Cuts document creation time by up to 75%, dramatically boosting operational efficiency"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Ensures professional, consistent outputs with automated design and formatting standards"
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Supports seamless collaboration through editable previews and dual editing modes"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Scales effortlessly for high-volume document production across departments and clients"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Enhances content quality with deep research mode and AI-assisted editing capabilities"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "User Input (Upload/Template/Chat) → AI Document Generation → Template & Styling Application → Visual Integration → Editable Preview → Content Refinement → Multi-Format Export. Built for intelligent automation, professional consistency, and seamless editing.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "Document Upload or Chat Input", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "AI Content Generation Engine", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "Adaptive Template Application", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Visual & Style Integration", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Export (PDF/DOCX/TXT)", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Integrated platform combining AI document generation, adaptive templates, visual styling, and intelligent editing capabilities for professional output.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Document Generation Engine converting prompts or chat queries into structured documents",
+                                            "Visual Integration Module for images and style elements with automated design consistency",
+                                            "Adaptive Template Framework dynamically adjusting layouts based on content requirements",
+                                            "Content Import Engine handling uploaded documents and metadata integration seamlessly",
+                                            "Rich Text Editing Layer supporting advanced formatting with intuitive switching",
+                                            "Web Research Module fetching and summarizing updated online information with source attribution",
+                                            "Multi-format export system supporting PDF, DOCX, Markdown, and TXT outputs"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Processes multiple input formats with intelligent content generation, automatic formatting, and professional output delivery.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Text prompts, chat queries, uploaded documents (Word, PDF), images, and structured content",
+                                            "Processing: AI-driven content generation + adaptive template application + visual integration + metadata structuring + style formatting",
+                                            "Output: Editable document previews, professional PDF/DOCX files, Markdown, and TXT formats with consistent branding"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            id: "ai-chat",
+                            name: "AI Chat Support Agent",
+                            summary: "Provide instant customer support with context-aware responses.",
+                            image: "/placeholder.jpg",
+                            heading: "AI Chat Agent Seamless, intelligent conversations at your fingertips.",
+                            status: "available",
+                            whatItIs: {
+                                title: "Advanced Conversational AI Platform",
+                                description: "General AI Chat Agent is a comprehensive conversational AI platform designed to provide real-time, context-aware interactions across diverse use cases. Users can engage in multi-turn conversations with persistent context, upload documents for intelligent analysis, or activate deep research mode to fetch and summarize updated web-based information. Supporting natural language understanding and multiple languages, the platform seamlessly handles complex queries, document interpretation, and continuous dialogue. Ideal for customer support, education, business operations, healthcare communication, and knowledge-intensive workflows requiring instant, accurate responses."
+                            },
+                            features: [
+                                "Real-time, context-aware response generation with natural language understanding",
+                                "Multi-turn conversation support maintaining context across continuous dialogue sessions",
+                                "Deep research mode retrieving and summarizing current web-based information with source attribution",
+                                "Document and file analysis engine with intelligent content extraction and interpretation",
+                                "Multi-language support enabling global accessibility and cross-cultural communication",
+                                "Context management system preserving conversation history and user intent across interactions",
+                                "Natural language understanding processor for accurate query interpretation and intent recognition",
+                                "Response verification and quality control ensuring accurate and relevant answers",
+                                "File upload integration supporting document-based queries and content analysis",
+                                "Adaptive conversation flow handling complex, multi-step interactions intelligently",
+                                "Real-time information retrieval for time-sensitive and dynamic queries"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Enable organizations to deliver instant, intelligent interactions with scalable conversation management and deep research capabilities.",
+                                cases: [
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Customer Support",
+                                        description: "Provide instant query resolution, 24/7 assistance, and automated troubleshooting with context-aware responses."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Education & Tutoring",
+                                        description: "Enable interactive tutoring, Q&A sessions, concept explanations, and personalized learning support."
+                                    },
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Business Operations",
+                                        description: "Facilitate internal communication, generate meeting summaries, answer policy questions, and streamline workflows."
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Healthcare Communication",
+                                        description: "Support patient triage, provide informational assistance, answer medical queries, and facilitate care coordination."
+                                    },
+                                    {
+                                        icon: "/icons/Legal.svg",
+                                        title: "Knowledge Management",
+                                        description: "Deliver instant access to organizational knowledge, documentation, procedures, and research-backed insights."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Transform user engagement with instant, accurate conversations powered by advanced AI, deep research, and intelligent context management.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduces response time by up to 80%, dramatically improving customer satisfaction and engagement"
+                                    },
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enables scalable 24/7 support with minimal human intervention and consistent quality"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Enhances decision-making with deep research capabilities and document-based insights"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "Fosters global reach with multi-language capabilities and cross-cultural communication support"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces-1.svg",
+                                        title: "Maintains conversation continuity with advanced context management across multi-turn dialogues"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Architecture Overview",
+                                        description: "User Input (Chat/Upload/Query) → AI Conversation Engine → Context & NLU Processing → Deep Research/Document Analysis → Response Generation & Verification → Answer Display → Continuous Interaction. Built for intelligent dialogue, research integration, and seamless user experience.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "User Chat Input or Document Upload", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Natural Language Understanding", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "Context Management & Processing", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Deep Research or Document Analysis", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Response Generation & Display", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Core Components",
+                                        description: "Integrated conversational platform combining natural language processing, context management, deep research, and document analysis for comprehensive interaction capabilities.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Conversation Engine processing and generating natural language responses with contextual awareness",
+                                            "Context Management Module maintaining conversation history and user intent across multiple turns",
+                                            "Natural Language Understanding Processor interpreting user queries and extracting intent accurately",
+                                            "Deep Research Module fetching and summarizing current web data with source verification",
+                                            "Document Analysis Engine extracting and parsing uploaded content for intelligent query responses",
+                                            "Multi-language Processing supporting global communication and cross-cultural interactions",
+                                            "Response Verification System ensuring accuracy, relevance, and quality control"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Data Handling",
+                                        description: "Processes conversational inputs, uploaded documents, and web research with intelligent context management and verified response generation.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Text queries, multi-turn conversations, uploaded documents (PDF, Word, text files), and research requests",
+                                            "Processing: Natural language understanding + context management + document parsing + web research + response generation + verification",
+                                            "Output: Context-aware responses, research summaries with citations, document insights, and continuous dialogue support"
                                         ]
                                     }
                                 ]
