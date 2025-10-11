@@ -3450,7 +3450,8 @@ export default {
           "summary": "Automatically qualify leads based on engagement and fit.",
           "image": "/placeholder.jpg",
           "solutions": ["Lead scoring", "Engagement tracking", "Fit assessment"],
-          "useCases": ["Sales qualification", "Marketing automation", "Customer insights"]
+          "useCases": ["Sales qualification", "Marketing automation", "Customer insights"],
+          status: "available"
         },
         {
           "id": "invoice-processing",
