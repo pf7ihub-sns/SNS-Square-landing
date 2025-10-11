@@ -286,30 +286,36 @@ export default function LeadGeneration() {
         }
     };
 
-    const handleStartCampaign = async (messageIds) => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${API_BASE_URL}/outreach/start-campaign`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    project_id: selectedProject,
-                    message_ids: messageIds
-                })
-            });
+const handleStartCampaign = async (messageIds) => {
+    setLoading(true);
+    try {
+        // messageIds should be the actual message IDs from outreach_messages collection
+        // NOT the lead IDs
+        console.log('Starting campaign with message IDs:', messageIds);
+        
+        const response = await fetch(`${API_BASE_URL}/outreach/start-campaign`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                project_id: selectedProject,
+                message_ids: messageIds
+            })
+        });
 
-            const data = await response.json();
-            
-            if (data.status === 'completed') {
-                showMessage('success', `Campaign started! Sent: ${data.sent}, Failed: ${data.failed}`);
-                setCurrentView('campaigns');
-            }
-        } catch (error) {
-            showMessage('error', 'Failed to start campaign');
-        } finally {
-            setLoading(false);
+        const data = await response.json();
+        
+        if (data.status === 'completed') {
+            showMessage('success', `Campaign started! Sent: ${data.sent}, Failed: ${data.failed}`);
+            setCurrentView('campaigns');
+        } else {
+            showMessage('error', data.error || 'Failed to start campaign');
         }
-    };
+    } catch (error) {
+        showMessage('error', 'Failed to start campaign');
+    } finally {
+        setLoading(false);
+    }
+};
 
 const handleUpdateMessage = async (messageId) => {
     try {
@@ -1085,23 +1091,26 @@ const handleUpdateMessage = async (messageId) => {
         );
     };
 
-    const OutreachReviewView = () => (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Review Outreach Messages</h2>
-                    <p className="text-gray-500 text-sm mt-1">{outreachMessages.length} messages generated</p>
-                </div>
-                <button
-                    onClick={() => {
-                        const messageIds = outreachMessages.map(m => m.lead_id);
-                        handleStartCampaign(messageIds);
-                    }}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium flex items-center gap-2"
-                >
-                    <Send className="w-5 h-5" />
-                    Start Campaign
-                </button>
+const OutreachReviewView = () => (
+    <div className="space-y-6">
+        <div className="flex justify-between items-center">
+            <div>
+                <h2 className="text-2xl font-bold text-gray-900">Review Outreach Messages</h2>
+                <p className="text-gray-500 text-sm mt-1">{outreachMessages.length} messages generated</p>
+            </div>
+            <button
+                onClick={() => {
+                    // FIX: Use the actual message IDs returned from save_messages_for_approval
+                    // These should be stored in outreachMessages after generate-messages call
+                    const messageIds = outreachMessages.map(m => m._id || m.message_id || m.lead_id);
+                    console.log('Message IDs being sent:', messageIds);
+                    handleStartCampaign(messageIds);
+                }}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium flex items-center gap-2"
+            >
+                <Send className="w-5 h-5" />
+                Start Campaign
+            </button>
             </div>
 
             <div className="space-y-4">
@@ -1268,13 +1277,22 @@ const handleUpdateMessage = async (messageId) => {
 
 const CampaignsView = () => {
     const intervalRef = useRef(null);
+    const isMountedRef = useRef(true);
 
     useEffect(() => {
+        isMountedRef.current = true;
+
         if (selectedProject) {
             const fetchCampaignStatus = () => {
+                if (!isMountedRef.current) return;
+
                 fetch(`${API_BASE_URL}/outreach/campaign-status/${selectedProject}`)
                     .then(res => res.json())
-                    .then(data => setCampaignStatus(data))
+                    .then(data => {
+                        if (isMountedRef.current) {
+                            setCampaignStatus(data);
+                        }
+                    })
                     .catch(console.error);
             };
 
@@ -1283,17 +1301,21 @@ const CampaignsView = () => {
             // Clear existing interval if any
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
+                intervalRef.current = null;
             }
 
             intervalRef.current = setInterval(fetchCampaignStatus, 30000); // Poll every 30 seconds
-
-            return () => {
-                if (intervalRef.current) {
-                    clearInterval(intervalRef.current);
-                }
-            };
         }
-    }, [selectedProject]);
+
+        return () => {
+            isMountedRef.current = false;
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
+    }, [selectedProject, currentView]); // Add currentView dependency
+
 
     return (
         <div className="space-y-6">
