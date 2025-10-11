@@ -1403,6 +1403,138 @@ export default {
                                     }
                                 ]
                             }
+                        },
+                        {
+                            id: "Doc-Sentra",
+                            name: "DocSentra",
+                            summary: "AI-driven healthcare automation platform integrating clinical intelligence, conversational AI, and smart workflow management.",
+                            image: "/placeholder.jpg",
+                            heading: "AI-Driven Healthcare Automation Platform ",
+                            status: "available",
+                            whatItIs: {
+                                title: "Comprehensive Healthcare Automation Platform",
+                                description: "DocSentra is an advanced AI-driven healthcare automation platform that integrates clinical intelligence, conversational AI, and smart workflow management to revolutionize patient care delivery. The platform provides intelligent clinical decision support, automated medical documentation, real-time patient monitoring, and prescription management with HIPAA-compliant data handling. Seamlessly integrating with existing EHR systems, DocSentra streamlines clinical workflows from patient intake through treatment planning and follow-up care. Ideal for hospitals, clinics, healthcare professionals, and medical practices requiring efficient automation, enhanced diagnostic accuracy, and improved operational performance across all aspects of medical practice."
+                            },
+                            features: [
+                                "Intelligent Clinical Decision Support with evidence-based treatment recommendations",
+                                "Automated Medical Documentation with intelligent transcription and data entry",
+                                "Real-time Patient Monitoring for continuous care tracking and alerts",
+                                "Prescription Management System with drug interaction checks and dosage recommendations",
+                                "HIPAA-Compliant Data Handling ensuring patient privacy and regulatory compliance",
+                                "Multi-language Support for global accessibility and cross-cultural healthcare delivery",
+                                "Integration with EHR Systems for seamless workflow connectivity",
+                                "Advanced Analytics Dashboard for healthcare metrics and operational performance tracking"
+                            ],
+                            useCases: {
+                                title: "Supported Use Cases Across Industries",
+                                subtitle: "Transform healthcare operations with intelligent automation and AI-powered insights across every aspect of patient care delivery.",
+                                cases: [
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Patient Care Enhancement",
+                                        description: "Streamline patient interactions and improve care quality through AI-powered assistance and real-time monitoring."
+                                    },
+                                    {
+                                        icon: "/icons/Research.svg",
+                                        title: "Clinical Documentation",
+                                        description: "Automate medical record creation and maintenance with intelligent transcription and data entry."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Decision Support",
+                                        description: "Provide evidence-based treatment recommendations and diagnostic assistance to healthcare professionals."
+                                    },
+                                    {
+                                        icon: "/icons/Finance.svg",
+                                        title: "Workflow Optimization",
+                                        description: "Enhance hospital operations and clinic workflow efficiency through intelligent automation."
+                                    },
+                                    {
+                                        icon: "/icons/Healthcareuicon.svg",
+                                        title: "Prescription Management",
+                                        description: "Streamline medication prescribing with drug interaction checks and dosage recommendations."
+                                    },
+                                    {
+                                        icon: "/icons/ITIcon.svg",
+                                        title: "Performance Analytics",
+                                        description: "Track healthcare metrics and operational performance with comprehensive reporting tools."
+                                    }
+                                ]
+                            },
+                            whyItMatters: {
+                                title: "Business Impact",
+                                subtitle: "Revolutionize healthcare delivery with intelligent automation, reducing administrative burden and improving patient outcomes through advanced AI capabilities.",
+                                benefits: [
+                                    {
+                                        icon: "/icons/supports.svg",
+                                        title: "Enhanced Patient Safety through intelligent clinical decision support and error prevention"
+                                    },
+                                    {
+                                        icon: "/icons/Reduces.svg",
+                                        title: "Reduced Processing Time with automated documentation and workflow optimization"
+                                    },
+                                    {
+                                        icon: "/icons/imporve.svg",
+                                        title: "Improved Efficiency across clinical operations and administrative processes"
+                                    },
+                                    {
+                                        icon: "/icons/knowledge.svg",
+                                        title: "AI-Powered Insights for better diagnosis accuracy and treatment outcomes"
+                                    }
+                                ]
+                            },
+                            howItWorks: {
+                                title: "How It Works",
+                                steps: [
+                                    {
+                                        number: "01",
+                                        title: "Patient Intake",
+                                        description: "AI-powered patient registration and initial assessment with automated data collection and verification for streamlined onboarding.",
+                                        process: [
+                                            { icon: "/icons/AO1.svg", label: "Patient Registration & Data Collection", isImage: true },
+                                            { icon: "/icons/AO2.svg", label: "Automated Assessment & Verification", isImage: true },
+                                            { icon: "/icons/AO3.svg", label: "EHR Integration & Data Sync", isImage: true },
+                                            { icon: "/icons/Contextual.svg", label: "Initial Clinical Evaluation", isImage: true },
+                                            { icon: "/icons/AO4.svg", label: "Patient Profile Creation", isImage: true }
+                                        ]
+                                    },
+                                    {
+                                        number: "02",
+                                        title: "Clinical Analysis",
+                                        description: "Advanced clinical intelligence analyzes patient data and provides diagnostic support to healthcare professionals with evidence-based insights.",
+                                        image: "/images/corecomponents.png",
+                                        features: [
+                                            "Intelligent Clinical Decision Support with treatment recommendations",
+                                            "Automated Medical Documentation with transcription capabilities",
+                                            "Real-time Patient Monitoring for continuous care tracking",
+                                            "Prescription Management System with safety checks"
+                                        ]
+                                    },
+                                    {
+                                        number: "03",
+                                        title: "Treatment Planning",
+                                        description: "Generate personalized treatment plans with evidence-based recommendations and medication management for optimal patient outcomes.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "HIPAA-Compliant Data Handling for secure patient information",
+                                            "Multi-language Support for diverse patient populations",
+                                            "Integration with EHR Systems for seamless workflows",
+                                            "Advanced Analytics Dashboard for performance tracking"
+                                        ]
+                                    },
+                                    {
+                                        number: "04",
+                                        title: "Documentation & Follow-up",
+                                        description: "Automated documentation generation and intelligent scheduling for follow-up appointments and care continuity with comprehensive record keeping.",
+                                        image: "/images/datahandling.png",
+                                        features: [
+                                            "Input: Patient data, clinical observations, medical history, prescriptions, and diagnostic results",
+                                            "Processing: AI clinical analysis + automated documentation + prescription management + EHR integration + compliance verification",
+                                            "Output: Treatment plans, medical records, prescriptions, follow-up schedules, and analytics reports"
+                                        ]
+                                    }
+                                ]
+                            }
                         }
 
 
