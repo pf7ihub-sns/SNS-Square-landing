@@ -342,7 +342,10 @@ const CreateProjectView = ({
     );
 };
 
-const DashboardView = ({ statistics, setCurrentView, projects, setSelectedProject, loadProjectDetails }) => (
+const DashboardView = ({ statistics, setCurrentView, projects, setSelectedProject, loadProjectDetails }) => {
+    console.log('DashboardView received statistics:', statistics);
+    
+    return (
     <div className="space-y-6">
         <div>
             <h2 className="text-2xl font-bold text-gray-900">Dashboard</h2>
@@ -465,6 +468,7 @@ const DashboardView = ({ statistics, setCurrentView, projects, setSelectedProjec
         </div>
     </div>
 );
+};
 
 const ProjectsView = ({ setCurrentView, projects, setSelectedProject, loadProjectDetails }) => (
     <div className="space-y-6">
@@ -660,7 +664,7 @@ const LeadsView = ({
     const filteredLeads = leads.filter(lead => {
         if (leadFilter === 'test' && !lead.is_test_lead) return false;
         if (leadFilter === 'real' && lead.is_test_lead) return false;
-        if (leadFilter === 'approved' && lead.approval_status !== 'confirmed') return false;
+        if (leadFilter === 'approved' && lead.approved !== true) return false;
         
         if (searchTerm) {
             return lead.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -746,7 +750,7 @@ const LeadsView = ({
                                                         TEST
                                                     </span>
                                                 )}
-                                                {lead.approval_status === 'confirmed' && (
+                                                {lead.approved === true && (
                                                     <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
                                                         ✅ APPROVED
                                                     </span>
@@ -889,36 +893,38 @@ const EmailMonitorView = ({ emailMonitorStatus, setEmailMonitorStatus, emailStat
     <div className="space-y-6">
         <div>
             <h2 className="text-2xl font-bold text-gray-900">Email Monitor</h2>
-            <p className="text-gray-500 text-sm mt-1">Monitor incoming email replies from leads</p>
+            <p className="text-gray-500 text-sm mt-1">Real-time email monitoring using IMAP IDLE (push-based) - starts automatically</p>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+                <Activity className="w-5 h-5 text-blue-600 mt-0.5" />
+                <div>
+                    <h4 className="font-medium text-blue-900">IMAP IDLE Technology</h4>
+                    <p className="text-sm text-blue-700 mt-1">
+                        Using push-based notifications instead of polling. The email server notifies us instantly when new emails arrive, eliminating continuous checking and preventing system crashes. Monitoring starts automatically when the application launches.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4">
             <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-2">
                     <Activity className="w-8 h-8 text-blue-600" />
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        emailMonitorStatus ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
-                    }`}>
-                        {emailMonitorStatus ? 'Running' : 'Stopped'}
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                        Auto-Started (IDLE)
                     </span>
                 </div>
                 <p className="text-sm text-gray-600">Monitor Status</p>
                 <div className="mt-4">
-                    <button
-                        onClick={async () => {
-                            const endpoint = emailMonitorStatus ? '/email-monitor/stop' : '/email-monitor/start';
-                            await fetch(`http://localhost:8000/lead-generation${endpoint}`, { method: 'POST' });
-                            setEmailMonitorStatus(!emailMonitorStatus);
-                        }}
-                        className={`w-full px-4 py-2 rounded-lg font-medium flex items-center justify-center gap-2 ${
-                            emailMonitorStatus
-                                ? 'bg-red-100 text-red-700 hover:bg-red-200'
-                                : 'bg-green-100 text-green-700 hover:bg-green-200'
-                        }`}
-                    >
-                        {emailMonitorStatus ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                        {emailMonitorStatus ? 'Stop' : 'Start'} Monitor
-                    </button>
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm text-green-700 font-medium">Auto-Started (IDLE)</span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                        Email monitoring starts automatically when the application launches. No manual intervention required.
+                    </p>
                 </div>
             </div>
 
@@ -1341,7 +1347,7 @@ const QualificationView = ({ projects }) => {
         }
 
         if (selectedStatusFilter === 'approved') {
-            filtered = filtered.filter(lead => lead.approval_status === 'confirmed');
+            filtered = filtered.filter(lead => lead.approved === true);
         } else if (selectedStatusFilter === 'qualified') {
             filtered = filtered.filter(lead => lead.qualification_score);
         } else if (selectedStatusFilter === 'hot') {
@@ -1429,7 +1435,7 @@ const QualificationView = ({ projects }) => {
                         <CheckCircle className="w-8 h-8 opacity-80" />
                     </div>
                     <p className="text-sm opacity-90">Approved Leads</p>
-                    <p className="text-3xl font-bold mt-1">{allLeads.filter(l => l.approval_status === 'confirmed').length}</p>
+                    <p className="text-3xl font-bold mt-1">{allLeads.filter(l => l.approved === true).length}</p>
                 </div>
                 <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white">
                     <div className="flex items-center justify-between mb-4">
@@ -1487,8 +1493,8 @@ const QualificationView = ({ projects }) => {
                                 const scoreA = a.qualification_score || 0;
                                 const scoreB = b.qualification_score || 0;
                                 if (scoreB !== scoreA) return scoreB - scoreA;
-                                if (a.approval_status === 'confirmed' && b.approval_status !== 'confirmed') return -1;
-                                if (b.approval_status === 'confirmed' && a.approval_status !== 'confirmed') return 1;
+                                if (a.approved === true && b.approved !== true) return -1;
+                                if (b.approved === true && a.approved !== true) return 1;
                                 return 0;
                             })
                             .map(lead => (
@@ -1496,12 +1502,12 @@ const QualificationView = ({ projects }) => {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-4">
                                             <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                                lead.approval_status === 'confirmed' ? 'bg-green-100' :
+                                                lead.approved === true ? 'bg-green-100' :
                                                 lead.qualification_grade === 'hot' ? 'bg-red-100' :
                                                 lead.qualification_grade === 'warm' ? 'bg-orange-100' :
                                                 lead.qualification_grade === 'lukewarm' ? 'bg-yellow-100' : 'bg-gray-100'
                                             }`}>
-                                                {lead.approval_status === 'confirmed' ? (
+                                                {lead.approved === true ? (
                                                     <CheckCircle className="w-6 h-6 text-green-600" />
                                                 ) : lead.qualification_score ? (
                                                     <Star className={`w-6 h-6 ${
@@ -1516,7 +1522,7 @@ const QualificationView = ({ projects }) => {
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <p className="font-semibold text-gray-900">{lead.name}</p>
-                                                    {lead.approval_status === 'confirmed' && (
+                                                    {lead.approved === true && (
                                                         <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
                                                             APPROVED
                                                         </span>
@@ -1712,32 +1718,63 @@ export default function LeadGeneration() {
         }
     }, [currentView, selectedProject]);
 
+    // Reload statistics when returning to dashboard
+    useEffect(() => {
+        if (currentView === 'dashboard') {
+            loadStatistics();
+        }
+    }, [currentView]);
+
+    // Debug: Monitor statistics changes
+    useEffect(() => {
+        console.log('Statistics state changed:', statistics);
+    }, [statistics]);
+
     const loadStatistics = async () => {
+        console.log('loadStatistics called');
         try {
             const projectsRes = await fetch(`${API_BASE_URL}/projects/list`);
             const projectsData = await projectsRes.json();
+            console.log('Projects data:', projectsData);
             
             let totalLeads = 0;
             let approvedLeads = 0;
+            let qualifiedLeads = 0;
+            let sentOutreach = 0;
             if (projectsData.projects) {
                 for (const project of projectsData.projects) {
+                    console.log(`Processing project: ${project.project_id}`);
                     const leadsRes = await fetch(`${API_BASE_URL}/leads/project/${project.project_id}?limit=1000`);
                     const leadsData = await leadsRes.json();
+                    console.log(`Project ${project.project_id} leads data:`, leadsData);
                     totalLeads += leadsData.total || 0;
                     
                     if (leadsData.leads) {
-                        approvedLeads += leadsData.leads.filter(lead => lead.approval_status === 'confirmed').length;
+                        const projectApproved = leadsData.leads.filter(lead => lead.approved === true).length;
+                        const projectQualified = leadsData.leads.filter(lead => lead.qualification_grade).length;
+                        const projectSent = leadsData.leads.filter(lead => lead.outreach_status === 'sent').length;
+                        
+                        console.log(`Project ${project.project_id}: ${projectApproved} approved, ${projectQualified} qualified, ${projectSent} sent outreach`);
+                        
+                        approvedLeads += projectApproved;
+                        qualifiedLeads += projectQualified;
+                        sentOutreach += projectSent;
                     }
                 }
             }
 
-            setStatistics({
+            console.log('Final statistics:', { totalLeads, approvedLeads, qualifiedLeads, sentOutreach });
+
+            setStatistics(prevStats => ({
+                ...prevStats,
                 total_projects: projectsData.projects?.length || 0,
                 total_leads: totalLeads,
                 approved_leads: approvedLeads,
-                sent_outreach: 0,
-                qualified_leads: 0
-            });
+                sent_outreach: sentOutreach,
+                qualified_leads: qualifiedLeads
+            }));
+            
+            console.log('Statistics updated:', newStatistics);
         } catch (error) {
             console.error('Failed to load statistics:', error);
         }
@@ -2058,6 +2095,7 @@ export default function LeadGeneration() {
 
                 {currentView === 'dashboard' && (
                     <DashboardView 
+                        key={`dashboard-${statistics.approved_leads}-${statistics.total_leads}`}
                         statistics={statistics} 
                         setCurrentView={setCurrentView} 
                         projects={projects}
