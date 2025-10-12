@@ -3420,22 +3420,41 @@ export default {
       image: "/industry/Fintech.png",
       agents: [
         {
-          "id": "Lead-Genearation",
-          "name": "Lead Management",
-          "summary": "Sales Lead Generation - Find and qualify high-potential prospects automatically.",
-          "image": "/placeholder.jpg",
-          "solutions": ["Prospect identification", "Lead scoring", "Outreach automation", "Engagement tracking"],
-          "useCases": ["B2B lead generation", "Account-based marketing", "Sales pipeline growth"],
-          status: "available"
-        },
-                {
-          "id": "lead-qualification",
-          "name": "Lead Qualification",
-          "summary": "Automatically qualify leads based on engagement and fit.",
-          "image": "/placeholder.jpg",
-          "solutions": ["Lead scoring", "Engagement tracking", "Fit assessment"],
-          "useCases": ["Sales qualification", "Marketing automation", "Customer insights"]
-        },
+  "id": "lead-management",
+  "name": "Lead Management",
+  "summary": "End-to-end AI-powered lead management that qualifies, scores, and nurtures leads with automated outreach and conversion tracking.",
+  "image": "/industry/LeadManagement.png",
+  "solutions": [
+    "Lead qualification and scoring",
+    "Personalized outreach automation",
+    "Engagement tracking",
+    "Conversion management"
+  ],
+  "useCases": [
+    "Lead nurturing workflow",
+    "Sales automation",
+    "Customer conversion tracking"
+  ],
+  "status": "available"
+},
+
+        // {
+        //   "id": "Lead-Genearation",
+        //   "name": "Lead Generation",
+        //   "summary": "Sales Lead Generation - Find and qualify high-potential prospects automatically.",
+        //   "image": "/placeholder.jpg",
+        //   "solutions": ["Prospect identification", "Lead scoring", "Outreach automation", "Engagement tracking"],
+        //   "useCases": ["B2B lead generation", "Account-based marketing", "Sales pipeline growth"],
+        //   status: "available"
+        // },
+        //         {
+        //   "id": "lead-qualification",
+        //   "name": "Lead Qualification",
+        //   "summary": "Automatically qualify leads based on engagement and fit.",
+        //   "image": "/placeholder.jpg",
+        //   "solutions": ["Lead scoring", "Engagement tracking", "Fit assessment"],
+        //   "useCases": ["Sales qualification", "Marketing automation", "Customer insights"]
+        // },
         {
           "id": "invoice-processing",
           "name": "Invoice Processing",
