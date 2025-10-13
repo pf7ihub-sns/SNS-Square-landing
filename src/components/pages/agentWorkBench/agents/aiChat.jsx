@@ -722,7 +722,7 @@ const AiChat = () => {
           )}
 
           {/* Input Area */}
-          <div className="bg-transparent border-t-0 p-4 flex-shrink-0 mb-35">
+          <div className="bg-transparent border-t-0 p-4 flex-shrink-0 mb-15">
             <div className="w-full h-full">
               <OneDriveModal
                 isOpen={oneDriveModalOpen}
