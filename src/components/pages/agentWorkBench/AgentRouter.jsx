@@ -72,6 +72,8 @@ import AIChat from "./agents/aiChat";
 import AIDocument from "./agents/aiDocument.jsx";
 import EmailSupport from "./agents/CustomerSupportEmailAgent";
 import LeadQualification from "./agents/leadQualification";
+import LeadManagement from "./agents/leadManagement";
+
 
 import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
 import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
@@ -158,6 +160,7 @@ const AgentRouter = () => {
     "live-speech-to-text-mom":<LiveSpeechtoTextAgent/>,
     "ai-sheets" : <AiSheets/>,
     "contract-management-system": <ContractManagementSystem />,
+    "lead-management": <LeadManagement />,
   };
 
   // Lookup case-insensitive
