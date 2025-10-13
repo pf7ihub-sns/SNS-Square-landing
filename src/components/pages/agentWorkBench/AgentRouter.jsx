@@ -65,7 +65,7 @@ import EmailTriage from "./agents/emailTriage";
 import LeadGeneration from "./agents/leadGeneration"; // New import
 import LabResultsExtractor from "./agents/labResultsExtractor"; // New import
 import RenewalAgent from "./agents/renewalAgent";
-import ContractManagementSystem from "./agents/contractManagementSystem"; 
+import ContractManagementSystem from "./agents/contractManagementSystem";
 import KnowledgeBaseChat from "./agents/KnowledgeBaseChat.jsx";
 import ChatPage from "./agents/AI_Docs/chatPage.jsx";
 import AIChat from "./agents/aiChat";
@@ -76,6 +76,7 @@ import LeadQualification from "./agents/leadQualification";
 import SpeechtoTextMom from "./agents/speechtoTextMom.jsx";
 import LiveSpeechtoTextAgent from "./agents/liveSpeechtoText.jsx";import DocSentra from "./agents/docSentra";
 import AiSheets from "./agents/aiSheets";
+
 
 const AgentRouter = () => {
   const { agentId } = useParams();
