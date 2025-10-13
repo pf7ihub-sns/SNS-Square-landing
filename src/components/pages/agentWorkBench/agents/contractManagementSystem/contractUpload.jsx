@@ -266,7 +266,7 @@ const ContractUpload = () => {
           <div>
             <h1 className="ml-10 text-xl font-semibold text-global-1">Upload Contract</h1>
             <p className="ml-10 text-sm text-global-2 mt-1">
-              Upload your Real Estate contract (Lease, Rental, Construction, or Property Sale)
+              Upload your contract to get started.
             </p>
           </div>
         </div>

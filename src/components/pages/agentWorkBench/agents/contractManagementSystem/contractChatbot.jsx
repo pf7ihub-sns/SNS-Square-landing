@@ -59,7 +59,7 @@ const ContractChatbot = () => {
   const initializeChatbot = async () => {
     const welcomeMessage = {
       role: 'assistant',
-      content: "Hello! I'm your **Intelligent Contract Builder** assistant. 🤖\n\n" +
+      content: "Hello! I'm your **Contract Builder** assistant.\n\n" +
                "I can help you create professional contracts for Real Estate. Just tell me what you need!\n\n" +
                "**Examples:**\n" +
                "• \"Create a lease agreement for my office at 123 Main St, Mumbai\"\n" +
