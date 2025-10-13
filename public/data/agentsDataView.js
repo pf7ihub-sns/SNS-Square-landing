@@ -1379,6 +1379,29 @@ export default {
                                 ]
                             }
                         },
+
+
+
+
+                    ]
+                }
+
+            ]
+        }
+    ],
+    industry: [
+        {
+            id: "healthcare",
+            name: "Healthcare",
+            description: "PHI-aware agents with clinical context and auditability.",
+            image: "/industry/Healthcare.png",
+            subCategories: [
+                {
+                    id: "healthcare-operations",
+                    name: "Healthcare Operations",
+                    description: "Administrative, financial, and operational management workflows",
+                    image: "/placeholder.jpg",
+                    agents: [
                         {
                             id: "Doc-Sentra",
                             name: "DocSentra",
@@ -1511,14 +1534,9 @@ export default {
                                 ]
                             }
                         }
-
-
-
                     ]
-                }
-
+                },
             ]
         }
-    ],
-    industry: []
+    ]
 };
