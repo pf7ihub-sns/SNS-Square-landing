@@ -52,7 +52,7 @@ const ContractPreview = () => {
               onClick={() => navigate('/agent-playground/agent/contract-management-system/build')}
               className="text-gray-600 hover:text-gray-900"
             >
-              ← Back
+              ← 
             </button>
             <div>
               <h1 className="text-xl font-semibold text-global-1">Contract Preview</h1>
