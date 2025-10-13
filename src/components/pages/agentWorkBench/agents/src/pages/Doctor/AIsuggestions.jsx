@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import {
   FileText,
@@ -20,15 +20,30 @@ const AIsuggestion = () => {
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
+    console.log('AIsuggestion useEffect triggered:', { 
+      hasConversation: !!conversation, 
+      hasPatientName: !!patientName, 
+      hasFetchedBefore: hasFetched.current 
+    });
+
     if (!conversation || !patientName) {
       setError("No conversation data available.");
       setLoading(false);
       return;
     }
 
+    // Prevent multiple API calls
+    if (hasFetched.current) {
+      console.log('Skipping API call - already fetched');
+      return;
+    }
+
     const fetchRecommendations = async () => {
+      hasFetched.current = true;
+      console.log('Making API call for AI suggestions...');
       try {
         const API_BASE_URL = import.meta.env.VITE_API_BASE_URL_DOCSENTRA || "http://localhost:8080";
         const res = await fetch(`${API_BASE_URL}/chatbot/suggestions`, {
