@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../../../store/store';
 import agentsData from '../../../../public/data/agentsDataView';
 import Right from "../../../../public/images/rightclick.png";
-import DocSentraDetails from '../healthcare/DocSentraDetails';
+
 
 const AgentDetailsPage = () => {
   const navigate = useNavigate();
@@ -23,11 +23,7 @@ const AgentDetailsPage = () => {
       return;
     }
 
-    // Handle DocSentra specifically
-    if (agentId === 'Doc-Sentra') {
-      setIsLoading(false);
-      return;
-    }
+
 
     const findAgentInData = () => {
       const allCategories = [...(agentsData.foundational || []), ...(agentsData.industry || [])];
@@ -99,10 +95,7 @@ const AgentDetailsPage = () => {
 
   const otherAgents = getOtherAgents();
 
-  // Handle DocSentra specifically
-  if (agentId === 'Doc-Sentra') {
-    return <DocSentraDetails />;
-  }
+
 
   if (isLoading) {
     return (

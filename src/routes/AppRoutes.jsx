@@ -21,6 +21,9 @@ import AgentTryPage from "../components/pages/agentWorkBench/AgentTryPage";
 import AgentDetailsPage from "../components/pages/agentWorkBench/AgentDetailsPage";
 import LogicValidationAgent from "../components/pages/agentWorkBench/agents/logicValidation";
 import AgentDetailsModelPage from "../components/pages/mediaEntertainment/AgentDetailsModal";
+import RenewalAgent from "../components/pages/agentWorkBench/agents/renewalAgent";
+import ContractManagementV1 from "../components/pages/agentWorkBench/agents/contractManagementV1/index";
+import ContractManagementSystem from "../components/pages/agentWorkBench/agents/contractManagementSystem/index";
 // import MomLiveSpeechToText from "../components/pages/agentWorkBench/agents/MomLiveSpeechToText";
 import EnhancedLiveTranscription from "../components/pages/agentWorkBench/agents/EnhancedLiveTranscription";
 import SpeechToTxtAgent from "../components/pages/agentWorkBench/agents/SpeechToTxtAgent";
@@ -99,6 +102,8 @@ export default function AppRoutes() {
       
       <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
       
+      <Route path="/agent-playground/agent/contract-management-v1/*" element={<ContractManagementV1 />} />
+      <Route path="/agent-playground/agent/contract-management-system/*" element={<ContractManagementSystem />} />
       {/* Existing Agent Detail Routes */}
       
       {/* Legacy Agent Details Routes - Protected */}

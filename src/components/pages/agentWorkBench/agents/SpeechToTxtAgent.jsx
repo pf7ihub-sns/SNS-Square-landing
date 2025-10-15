@@ -721,7 +721,7 @@ export default function SpeechToTxtAgent() {
               ) : (
                 <div className="whitespace-pre-wrap" style={{ color: '#374151' }}>
                   <p><strong>Overview:</strong> {typeof mom.summary === "string" ? mom.summary : mom.summary?.overview || "No overview provided"}</p>
-                  <p><strong>Detailed:</strong> {typeof mom.summary === "string" ? "No detailed summary provided" : mom.summary?.detailed || "No detailed summary provided"}</p>
+                  {/* <p><strong>Detailed:</strong> {typeof mom.summary === "string" ? "No detailed summary provided" : mom.summary?.detailed || "No detailed summary provided"}</p> */}
                 </div>
               )}
             </div>
