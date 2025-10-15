@@ -1,33 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Users, FileText, Briefcase, Search, Filter, Eye, Edit, Trash2, MoreVertical } from 'lucide-react'
 import { jobAPI } from '../../../api/Service/job'
 
 const OverView = () => {
   const navigate = useNavigate()
-  const [jobs, setJobs] = useState([])
+  const [allJobs, setAllJobs] = useState([]) // Store all jobs from API
+  const [jobs, setJobs] = useState([]) // Displayed jobs (paginated)
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({ total: 0, published: 0, draft: 0, closed: 0 })
-  const [pagination, setPagination] = useState({})
+  const [currentPage, setCurrentPage] = useState(1)
+  const [jobsPerPage] = useState(10)
+  const [searchTimeout, setSearchTimeout] = useState(null) // Debounced search timeout
   const [filters, setFilters] = useState({
-    page: 1,
-    limit: 10,
     status: 'published',
     search: '',
     sortBy: 'createdAt',
     sortOrder: 'desc'
   })
 
-  // Fetch jobs data
-  const fetchJobs = async () => {
+  // Fetch ALL jobs (no filtering on backend)
+  const fetchJobs = useCallback(async () => {
     try {
       setLoading(true)
-      const response = await jobAPI.getAllJobs(filters)
+      // Only send search and sort parameters, no status filtering
+      const apiParams = {
+        search: filters.search,
+        sortBy: filters.sortBy,
+        sortOrder: filters.sortOrder
+      }
+      const response = await jobAPI.getAllJobs(apiParams)
       
       if (response.success) {
-        setJobs(response.data.jobs || [])
-        setStats(response.data.stats || { total: 0, published: 0, draft: 0, closed: 0 })
-        setPagination(response.data.pagination || {})
+        setAllJobs(response.data.jobs || [])
       } else {
         console.error('Failed to fetch jobs:', response.message)
       }
@@ -36,6 +41,102 @@ const OverView = () => {
     } finally {
       setLoading(false)
     }
+  }, [filters.search, filters.sortBy, filters.sortOrder])
+
+  // Calculate stats from all jobs
+  const calculateStats = (jobs) => {
+    const stats = {
+      total: jobs.length,
+      published: jobs.filter(job => job.status === 'published').length,
+      draft: jobs.filter(job => job.status === 'draft').length,
+      closed: jobs.filter(job => job.status === 'closed').length,
+      archived: jobs.filter(job => job.status === 'archived').length
+    }
+    return stats
+  }
+
+  // Filter jobs by status locally
+  const filterJobsByStatus = (jobs, status) => {
+    if (!status || status === '') return jobs
+    return jobs.filter(job => job.status === status)
+  }
+
+  // Apply frontend filtering and pagination
+  const applyFilteringAndPagination = () => {
+    // First filter by status
+    const filteredJobs = filterJobsByStatus(allJobs, filters.status)
+    
+    // Then apply pagination
+    const startIndex = (currentPage - 1) * jobsPerPage
+    const endIndex = startIndex + jobsPerPage
+    const paginatedJobs = filteredJobs.slice(startIndex, endIndex)
+    
+    setJobs(paginatedJobs)
+    
+    // Update stats from all jobs (not filtered)
+    const newStats = calculateStats(allJobs)
+    setStats(newStats)
+  }
+
+  // Calculate pagination info based on filtered jobs
+  const filteredJobs = filterJobsByStatus(allJobs, filters.status)
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage)
+  const hasNextPage = currentPage < totalPages
+  const hasPrevPage = currentPage > 1
+
+  // Handle job actions
+  const handleJobAction = async (action, jobId) => {
+    try {
+      let response;
+      
+      switch (action) {
+        case 'view':
+          // Navigate to job preview page
+          navigate(`/admin/jobopenings/preview/${jobId}`);
+          break;
+        case 'edit':
+          // Navigate to job edit page
+          navigate(`/admin/jobopenings/edit/${jobId}`);
+          break;
+        case 'delete':
+          if (window.confirm('Are you sure you want to delete this job?')) {
+            response = await jobAPI.deleteJob(jobId);
+            if (response.success) {
+              // Refresh the jobs list
+              fetchJobs();
+            }
+          }
+          break;
+        case 'publish':
+          response = await jobAPI.publishJob(jobId);
+          if (response.success) {
+            fetchJobs(); // Refresh the list
+          }
+          break;
+        case 'unpublish':
+          response = await jobAPI.unpublishJob(jobId);
+          if (response.success) {
+            fetchJobs(); // Refresh the list
+          }
+          break;
+        case 'archive':
+          response = await jobAPI.archiveJob(jobId);
+          if (response.success) {
+            fetchJobs(); // Refresh the list
+          }
+          break;
+        case 'close':
+          response = await jobAPI.closeJob(jobId);
+          if (response.success) {
+            fetchJobs(); // Refresh the list
+          }
+          break;
+        default:
+          console.log('Unknown action:', action);
+      }
+    } catch (error) {
+      console.error(`Error performing ${action} action:`, error);
+    }
   }
 
   // Effect to fetch jobs on component mount and filter changes
@@ -43,22 +144,53 @@ const OverView = () => {
     fetchJobs()
   }, [filters])
 
-  // Handle search
+  // Effect to apply filtering and pagination when allJobs, filters, or currentPage changes
+  useEffect(() => {
+    applyFilteringAndPagination()
+  }, [allJobs, filters.status, currentPage])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout)
+      }
+    }
+  }, [searchTimeout])
+
+  // Debounced search to prevent multiple API calls
   const handleSearch = (e) => {
-    setFilters(prev => ({
-      ...prev,
-      search: e.target.value,
-      page: 1
-    }))
+    const value = e.target.value
+    
+    // Clear existing timeout
+    if (searchTimeout) {
+      clearTimeout(searchTimeout)
+    }
+    
+    // Set new timeout for debounced search
+    const timeout = setTimeout(() => {
+      setFilters(prev => ({
+        ...prev,
+        search: value
+      }))
+      setCurrentPage(1) // Reset to first page
+    }, 500) // 500ms delay
+    
+    setSearchTimeout(timeout)
   }
 
   // Handle status filter change
   const handleStatusFilter = (status) => {
     setFilters(prev => ({
       ...prev,
-      status,
-      page: 1
+      status
     }))
+    setCurrentPage(1) // Reset to first page
+  }
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage)
   }
 
   // Format date
@@ -265,9 +397,9 @@ const OverView = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Created By
-                      </th>
+                      </th> */}
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Created Date
                       </th>
@@ -298,21 +430,51 @@ const OverView = () => {
                             {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        {/* <td className="px-6 py-4 text-sm text-gray-900">
                           {job.createdBy ? `${job.createdBy.firstName} ${job.createdBy.lastName}` : 'N/A'}
-                        </td>
+                        </td> */}
                         <td className="px-6 py-4 text-sm text-gray-900">
                           {formatDate(job.createdAt)}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-900">
                           <div className="flex items-center space-x-2">
-                            <button className="text-blue-600 hover:text-blue-900">
+                            <button 
+                              onClick={() => handleJobAction('view', job._id)}
+                              className="text-blue-600 hover:text-blue-900"
+                              title="View Job"
+                            >
                               <Eye className="h-4 w-4" />
                             </button>
-                            <button className="text-green-600 hover:text-green-900">
+                            <button 
+                              onClick={() => handleJobAction('edit', job._id)}
+                              className="text-green-600 hover:text-green-900"
+                              title="Edit Job"
+                            >
                               <Edit className="h-4 w-4" />
                             </button>
-                            <button className="text-red-600 hover:text-red-900">
+                            {job.status === 'draft' && (
+                              <button 
+                                onClick={() => handleJobAction('publish', job._id)}
+                                className="text-green-600 hover:text-green-900"
+                                title="Publish Job"
+                              >
+                                <Plus className="h-4 w-4" />
+                              </button>
+                            )}
+                            {job.status === 'published' && (
+                              <button 
+                                onClick={() => handleJobAction('unpublish', job._id)}
+                                className="text-yellow-600 hover:text-yellow-900"
+                                title="Unpublish Job"
+                              >
+                                <FileText className="h-4 w-4" />
+                              </button>
+                            )}
+                            <button 
+                              onClick={() => handleJobAction('delete', job._id)}
+                              className="text-red-600 hover:text-red-900"
+                              title="Delete Job"
+                            >
                               <Trash2 className="h-4 w-4" />
                             </button>
                           </div>
@@ -324,19 +486,19 @@ const OverView = () => {
               </div>
 
               {/* Pagination */}
-              {pagination.totalPages > 1 && (
+              {totalPages > 1 && (
                 <div className="px-6 py-3 border-t border-gray-200 flex items-center justify-between">
                   <div className="flex-1 flex justify-between sm:hidden">
                     <button
-                      onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
-                      disabled={!pagination.hasPrevPage}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={!hasPrevPage}
                       className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Previous
                     </button>
                     <button
-                      onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
-                      disabled={!pagination.hasNextPage}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={!hasNextPage}
                       className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Next
@@ -345,20 +507,20 @@ const OverView = () => {
                   <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
                       <p className="text-sm text-gray-700">
-                        Showing page {pagination.currentPage} of {pagination.totalPages} ({pagination.totalJobs} total jobs)
+                        Showing page {currentPage} of {totalPages} ({filteredJobs.length} filtered jobs)
                       </p>
                     </div>
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
-                        disabled={!pagination.hasPrevPage}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={!hasPrevPage}
                         className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Previous
                       </button>
                       <button
-                        onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
-                        disabled={!pagination.hasNextPage}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={!hasNextPage}
                         className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Next
