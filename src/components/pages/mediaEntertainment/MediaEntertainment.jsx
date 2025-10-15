@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/store';
 import agentsData from '../../../../public/data/agentsData.js';
@@ -80,13 +80,6 @@ const MediaEntertainment = () => {
     setCurrentPage(1);
     setIsMobileSidebarOpen(false); // Close sidebar on tab change
   }, [activeTab]);
-
-  // Close mobile sidebar when category/subcategory is selected
-  useEffect(() => {
-    if (selectedCategory || selectedSubCategory) {
-      setIsMobileSidebarOpen(false);
-    }
-  }, [selectedCategory, selectedSubCategory]);
 
   // Replace the useEffect in MediaEntertainment.jsx with this fixed version
   useEffect(() => {
@@ -362,29 +355,51 @@ const MediaEntertainment = () => {
 
   // Mobile Sidebar Component
   const MobileSidebar = () => (
-    <>
-      {/* Overlay */}
+    <AnimatePresence mode="wait">
       {isMobileSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          onClick={() => setIsMobileSidebarOpen(false)}
-        />
-      )}
+        <>
+          {/* Blur Overlay with Glass Effect */}
+          <motion.div
+            key="overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 lg:hidden"
+            style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+            onClick={() => setIsMobileSidebarOpen(false)}
+          >
+            <div className="absolute inset-0 bg-black/30" />
+          </motion.div>
 
-      {/* Sidebar */}
-      <div
-        className={`fixed left-0 top-0 h-full w-[85vw] max-w-[320px] sm:w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto shadow-xl ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-      >
-        <div className="p-4 sm:p-5 border-b border-gray-200 sticky top-0 bg-white z-10">
+          {/* Sidebar */}
+          <motion.div
+            key="mobile-sidebar"
+            initial={{ x: '-100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '-100%', opacity: 0 }}
+            transition={{ 
+              type: 'spring',
+              stiffness: 300,
+              damping: 30
+            }}
+            className="fixed left-0 top-0 h-full w-[85vw] max-w-[320px] sm:w-80 bg-white/95 backdrop-blur-xl z-50 lg:hidden overflow-y-auto shadow-2xl border-r border-gray-200/50"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95))'
+            }}
+          >
+        <div className="p-4 sm:p-5 border-b border-gray-200/70 sticky top-0 bg-white/90 backdrop-blur-lg z-10 shadow-sm">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900">Categories</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+              Categories
+            </h3>
             <button
               onClick={() => setIsMobileSidebarOpen(false)}
-              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95"
+              aria-label="Close sidebar"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -392,8 +407,11 @@ const MediaEntertainment = () => {
 
         <div className="p-3 sm:p-4">
           <div className="space-y-2">
-            {categories.map((category) => (
-              <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
+            {categories.map((category, index) => (
+              <div 
+                key={category.id} 
+                className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
                 <button
                   onClick={() => handleCategoryClick(category.id)}
                   className={`w-full px-3 sm:px-4 py-3 sm:py-4 text-left transition-all duration-300 ${selectedCategory === category.id
@@ -432,7 +450,7 @@ const MediaEntertainment = () => {
                 {selectedCategory === category.id && category.subCategories && (
                   <div className="bg-gray-50/50 border-t border-gray-100">
                     <div className="p-2 sm:p-3 space-y-2">
-                      {category.subCategories.map((subCategory) => (
+                      {category.subCategories.map((subCategory, subIndex) => (
                         <button
                           key={subCategory.id}
                           onClick={() => handleSubCategoryClick(subCategory.id)}
@@ -456,8 +474,10 @@ const MediaEntertainment = () => {
             ))}
           </div>
         </div>
-      </div>
-    </>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 
   if (isLoading) {
@@ -476,73 +496,10 @@ const MediaEntertainment = () => {
     <div className="min-h-screen bg-gray-50 ">
       {heroSection}
 
-      {/* Search and Filter Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="w-full max-w-sm sm:max-w-md lg:max-w-3xl xl:max-w-4xl mx-auto pt-6 sm:pt-8 lg:pt-10 px-4"
-      >
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              placeholder="Search Agents"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 sm:py-2.5 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
-            />
-            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
-              <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
-          <div className="relative w-full sm:w-auto sm:min-w-[140px]">
-            <select
-              value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value)}
-              onFocus={() => setIsOpen(true)}
-              onBlur={() => setIsOpen(false)}
-              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
-            >
-              <option className='text-black' value="all">All Status</option>
-              <option className='text-black' value="available">Available</option>
-              <option className='text-black' value="not available">Not Available</option>
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg
-                className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
       {/* Main Content Container */}
-      <div className="container mx-auto px-4 py-6 sm:py-8">
-        {/* Tabs */}
-
-        {/* Mobile Filter Button */}
-        <div className="lg:hidden mb-4 sm:mb-6">
-          <button
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2.5 sm:py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors w-full sm:w-auto justify-center sm:justify-start"
-          >
-            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-            </svg>
-            <span className="text-gray-700 font-medium text-sm sm:text-base">Filter Categories</span>
-          </button>
-        </div>
-
+      <div className="container mx-auto px-4 pt-6 sm:pt-8 lg:pt-10 pb-6 sm:pb-8">
         {/* Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:-mt-20">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-4">
@@ -639,6 +596,113 @@ const MediaEntertainment = () => {
 
           {/* Main Content */}
           <div className="flex-1 w-full lg:w-auto">
+            {/* Search and Filter Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mb-6 lg:mb-8"
+            >
+              <div className="flex gap-2 sm:gap-3">
+                {/* Search Input */}
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search Agents"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-2 sm:py-2.5 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+                  />
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Status Filter Dropdown - Desktop */}
+                <div className="hidden lg:block relative w-auto min-w-[140px] flex-shrink-0">
+                  <select
+                    value={statusFilter}
+                    onChange={e => setStatusFilter(e.target.value)}
+                    onFocus={() => setIsOpen(true)}
+                    onBlur={() => setIsOpen(false)}
+                    className="w-full px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
+                  >
+                    <option className='text-black' value="all">All Status</option>
+                    <option className='text-black' value="available">Available</option>
+                    <option className='text-black' value="not available">Not Available</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg
+                      className={`w-4 h-4 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Status Filter - Mobile/Tablet (Icon Only) */}
+                <div className="lg:hidden relative">
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-r from-[#064EE3] to-[#3D76EC] text-white border border-blue-500 rounded-lg shadow-sm hover:shadow-md transition-all flex-shrink-0"
+                    aria-label="Status Filter"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                    </svg>
+                  </button>
+                  
+                  {/* Dropdown Menu for Mobile */}
+                  {isOpen && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-30" 
+                        onClick={() => setIsOpen(false)}
+                      />
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-40">
+                        <div className="py-1">
+                          <button
+                            onClick={() => { setStatusFilter('all'); setIsOpen(false); }}
+                            className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'all' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                          >
+                            All Status
+                          </button>
+                          <button
+                            onClick={() => { setStatusFilter('available'); setIsOpen(false); }}
+                            className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'available' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                          >
+                            Available
+                          </button>
+                          <button
+                            onClick={() => { setStatusFilter('not available'); setIsOpen(false); }}
+                            className={`w-full text-left px-4 py-2 text-sm ${statusFilter === 'not available' ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                          >
+                            Not Available
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Mobile Filter Button - Icon Only */}
+                <button
+                  onClick={() => setIsMobileSidebarOpen(true)}
+                  className="lg:hidden flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex-shrink-0"
+                  aria-label="Filter Categories"
+                >
+                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+
             {/* Header */}
             <div className="mb-4 sm:mb-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
