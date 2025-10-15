@@ -264,20 +264,20 @@ const MediaEntertainment = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl "
+          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl px-4"
         >
           Welcome back, {userName}! Explore our comprehensive suite of AI agents and choose the perfect one for your needs
         </motion.p>
-        <div className="flex  justify-center mt-25 sm:mb-8">
-          <div className=" p-1 w-full sm:w-auto">
-            <div className="flex space-x-5">
+        <div className="flex justify-center mt-6 sm:mt-8 md:mt-10 lg:mt-12 px-4 w-full">
+          <div className="p-1 w-full max-w-md sm:w-auto">
+            <div className="flex space-x-3 sm:space-x-5">
               {['foundational', 'industry'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-lg font-medium transition-colors ${activeTab === tab
+                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-2.5 rounded-md text-sm sm:text-base lg:text-lg font-medium transition-colors ${activeTab === tab
                     ? 'bg-white text-blue-600'
-                    : 'text-white   border-1  border-amber-50 hover:text-gray-900 hover:bg-gray-100'
+                    : 'text-white border border-white/50 hover:text-gray-900 hover:bg-gray-100'
                     }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -373,38 +373,38 @@ const MediaEntertainment = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed left-0 top-0 h-full w-[85vw] max-w-[320px] sm:w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto shadow-xl ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 sm:p-5 border-b border-gray-200 sticky top-0 bg-white z-10">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-gray-900">Categories</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900">Categories</h3>
             <button
               onClick={() => setIsMobileSidebarOpen(false)}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         </div>
 
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           <div className="space-y-2">
             {categories.map((category) => (
               <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
                 <button
                   onClick={() => handleCategoryClick(category.id)}
-                  className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
+                  className={`w-full px-3 sm:px-4 py-3 sm:py-4 text-left transition-all duration-300 ${selectedCategory === category.id
                     ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
                     : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
                     }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="font-semibold text-base">{category.name}</div>
-                      <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-sm sm:text-base truncate">{category.name}</div>
+                      <div className={`text-xs sm:text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
                         }`}>
                         {category.subCategories
                           ? `${category.subCategories.length} subcategories`
@@ -413,10 +413,10 @@ const MediaEntertainment = () => {
                       </div>
                     </div>
                     {category.subCategories && (
-                      <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
+                      <div className={`p-1 rounded-full transition-all duration-300 flex-shrink-0 ml-2 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
                         }`}>
                         <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
+                          className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
                             }`}
                           fill="none"
                           stroke="currentColor"
@@ -431,17 +431,17 @@ const MediaEntertainment = () => {
 
                 {selectedCategory === category.id && category.subCategories && (
                   <div className="bg-gray-50/50 border-t border-gray-100">
-                    <div className="p-3 space-y-2">
+                    <div className="p-2 sm:p-3 space-y-2">
                       {category.subCategories.map((subCategory) => (
                         <button
                           key={subCategory.id}
                           onClick={() => handleSubCategoryClick(subCategory.id)}
-                          className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
+                          className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
                             ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
                             : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
                             }`}
                         >
-                          <div className="font-medium text-sm">{subCategory.name}</div>
+                          <div className="font-medium text-xs sm:text-sm">{subCategory.name}</div>
                           <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
                             }`}>
                             {getFilteredAgentCount(subCategory.agents)} agents
@@ -481,30 +481,30 @@ const MediaEntertainment = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0 "
+        className="w-full max-w-sm sm:max-w-md lg:max-w-3xl xl:max-w-4xl mx-auto pt-6 sm:pt-8 lg:pt-10 px-4"
       >
-        <div className="flex flex-col sm:flex-row gap-5 sm:gap-5">
-          <div className="relative flex-1 lg:-ml-45">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="relative flex-1">
             <input
               type="text"
               placeholder="Search Agents"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-5xl px-4 py-2 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              className="w-full px-4 py-2 sm:py-2.5 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
             />
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+              <svg className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
           </div>
-          <div className="relative ">
+          <div className="relative w-full sm:w-auto sm:min-w-[140px]">
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
-              className="w-30 px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
             >
               <option className='text-black' value="all">All Status</option>
               <option className='text-black' value="available">Available</option>
@@ -525,29 +525,29 @@ const MediaEntertainment = () => {
       </motion.div>
 
       {/* Main Content Container */}
-      <div className="container mx-auto px-4 py-6 sm:py-8 ">
+      <div className="container mx-auto px-4 py-6 sm:py-8">
         {/* Tabs */}
 
         {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4 sm:mb-6">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2.5 sm:py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors w-full sm:w-auto justify-center sm:justify-start"
           >
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
             </svg>
-            <span className="text-gray-700 font-medium">Filter Categories</span>
+            <span className="text-gray-700 font-medium text-sm sm:text-base">Filter Categories</span>
           </button>
         </div>
 
         {/* Content Layout */}
-        <div className="flex gap-6 lg:-mt-20 ">
+        <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 lg:-mt-20">
           {/* Desktop Sidebar */}
-          <div className="hidden lg:block w-80 flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 -tracking-tight">Categories</h3>
+          <div className="hidden lg:block lg:w-72 xl:w-80 flex-shrink-0">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-4">
+              <div className="px-4 lg:px-5 py-4 border-b border-gray-200">
+                <h3 className="text-base lg:text-lg font-medium text-gray-900 -tracking-tight">Categories</h3>
               </div>
 
               <div className="py-3">
@@ -572,12 +572,12 @@ const MediaEntertainment = () => {
                       {/* Main Category Button */}
                       <button
                         onClick={() => handleCategoryClick(category.id)}
-                        className={`w-full px-5 py-3 text-left transition-all duration-200 group ${selectedCategory === category.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'
+                        className={`w-full px-4 lg:px-5 py-2.5 lg:py-3 text-left transition-all duration-200 group ${selectedCategory === category.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'
                           }`}
                       >
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-2 lg:space-x-3">
                           {/* Category Icon */}
-                          <div className="w-4 h-4 flex-shrink-0">
+                          <div className="w-3.5 h-3.5 lg:w-4 lg:h-4 flex-shrink-0">
                             {categoryIcons[category.id] ? (
                               <img
                                 src={categoryIcons[category.id]}
@@ -585,7 +585,7 @@ const MediaEntertainment = () => {
                                 className="w-full h-full object-contain"
                               />
                             ) : (
-                              <div className={`w-4 h-4 rounded-sm flex items-center justify-center text-xs font-semibold text-white ${selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
+                              <div className={`w-3.5 h-3.5 lg:w-4 lg:h-4 rounded-sm flex items-center justify-center text-xs font-semibold text-white ${selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
                                 }`}>
                                 📄
                               </div>
@@ -594,7 +594,7 @@ const MediaEntertainment = () => {
 
                           {/* Category Name */}
                           <div className="flex-1 min-w-0">
-                            <div className={`font-medium text-base leading-tight tracking-tight ${selectedCategory === category.id ? 'text-[#000000]' : 'text-gray-900'
+                            <div className={`font-medium text-sm lg:text-base leading-tight tracking-tight ${selectedCategory === category.id ? 'text-[#000000]' : 'text-gray-900'
                               }`}>
                               {category.name}
                             </div>
@@ -605,12 +605,12 @@ const MediaEntertainment = () => {
                       {/* Subcategories with proper hierarchy */}
                       {selectedCategory === category.id && category.subCategories && (
                         <div className="relative">
-                          <div className="ml-8 space-y-1 animate-in slide-in-from-top duration-300">
+                          <div className="ml-6 lg:ml-8 space-y-1 animate-in slide-in-from-top duration-300">
                             {category.subCategories.map((subCategory, index) => (
                               <div key={subCategory.id} className="relative">
                                 <button
                                   onClick={() => handleSubCategoryClick(subCategory.id)}
-                                  className={`w-65 px-5 py-1 text-left transition-all duration-150 rounded-md ml-2 transform ${selectedSubCategory === subCategory.id
+                                  className={`w-full max-w-[calc(100%-1rem)] lg:max-w-[16rem] px-3 lg:px-4 py-1 text-left transition-all duration-150 rounded-md ml-2 transform ${selectedSubCategory === subCategory.id
                                     ? ' text-[#000000] bg-[#F3F5FA] shadow-lg scale-105'
                                     : ' hover:border border-[#064EE3]'
                                     }`}
@@ -619,7 +619,7 @@ const MediaEntertainment = () => {
                                   }}
                                 >
                                   <div
-                                    className="text-sm font-medium leading-tight tracking-tight bg-[#F3F5FA]  px-3 py-2 rounded"
+                                    className="text-xs lg:text-sm font-medium leading-tight tracking-tight bg-[#F3F5FA] px-2 lg:px-3 py-1.5 lg:py-2 rounded"
                                   >
                                     {subCategory.name}
                                   </div>
@@ -638,32 +638,32 @@ const MediaEntertainment = () => {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1  ">
+          <div className="flex-1 w-full lg:w-auto">
             {/* Header */}
-            <div className="mb-4 sm:mb-6 ml-1">
+            <div className="mb-4 sm:mb-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
-                <div>
-                  <h2 className="text-xl sm:text-xl font-bold text-gray-900 mt-15">
+                <div className="flex-1">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                     {searchQuery.trim() ? 'Search Results' :
                       selectedSubCategory ? getCurrentSubCategoryData()?.name :
                         selectedCategory ? getCurrentCategoryData()?.name :
                           `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
                   </h2>
-                  <p className="text-[#000] mt-1 text-sm sm:text-base">
+                  <p className="text-[#000] mt-1 text-xs sm:text-sm md:text-base line-clamp-2">
                     {searchQuery.trim() ? `Found ${filteredAgents.length} agents matching "${searchQuery}"` :
                       selectedSubCategory ? getCurrentSubCategoryData()?.description :
                         selectedCategory ? getCurrentCategoryData()?.description :
                           `Explore our ${activeTab} agent categories`}
                   </p>
                 </div>
-                <span className="text-sm text-gray-500 self-start sm:self-auto">
+                <span className="text-xs sm:text-sm text-gray-500 self-start sm:self-auto flex-shrink-0">
                   {filteredAgents.length} agents
                 </span>
               </div>
             </div>
 
             {/* Agents Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {paginatedAgents.length > 0 ? (
                 paginatedAgents.map((agent, index) => (
                   <AgentCard
@@ -675,16 +675,16 @@ const MediaEntertainment = () => {
                   />
                 ))
               ) : (
-                <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12">
+                <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12 px-4">
                   <img
                     src={SelectCatagoryImg}
                     alt="Objects"
-                    className="w-50 sm:w-62 mb-6"
+                    className="w-40 sm:w-50 md:w-62 mb-4 sm:mb-6"
                   />
-                  <h3 className="text-base sm:text-lg text-gray-800 mb-2">
+                  <h3 className="text-sm sm:text-base md:text-lg text-gray-800 mb-2">
                     {selectedCategory ? 'No agents found' : 'Select a category to view agents'}
                   </h3>
-                  <p className="text-gray-600 text-sm sm:text-base px-4 max-w-md">
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base px-2 max-w-md">
                     {selectedCategory
                       ? 'Try adjusting your search terms or browse different categories.'
                       : 'Choose a category from the sidebar to explore available agents.'}
