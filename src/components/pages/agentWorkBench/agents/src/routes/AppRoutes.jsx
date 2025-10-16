@@ -8,7 +8,6 @@ import NurseDashboard from "../pages/Nurse/NurseDashboard";
 import DoctorDashboard from "../pages/Doctor/DoctorDashboard";
 import DoctorRecommendation from "../pages/Nurse/Recommendation";
 import DoctorVisit from "../pages/Doctor/DoctorVisit";
-import AIsuggestion from "../pages/Doctor/AIsuggestions";
 
 // ProtectedRoute component to check authentication and role
 function ProtectedRoute({ element, allowedRole }) {
@@ -53,12 +52,7 @@ function AppRoutes() {
           <ProtectedRoute element={<DoctorVisit />} allowedRole="doctor" />
         }
       />
-      <Route
-        path="/doctor/visit/:patientId/:visitId/suggestion"
-        element={
-          <ProtectedRoute element={<AIsuggestion />} allowedRole="doctor" />
-        }
-      />
+
 
       <Route
         path="/nurse/recommendation/:patientId"

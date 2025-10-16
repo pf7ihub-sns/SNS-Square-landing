@@ -157,6 +157,11 @@ export default function AppRoutes() {
       } />
       
       {/* Protected Routes - Require Authentication (Any logged-in user) */}
+      <Route path="/agent-details/:agentId" element={<AgentDetailsModelPage />} />
+
+      <Route path="/live-speech-to-text" element={<EnhancedLiveTranscription />} />
+      <Route path="/speech_to_txt_agent" element={<SpeechToTxtAgent />} />
+      {/* Protected Routes - Require Authentication */}
       <Route path="/media-entertainment" element={
         <ProtectedRoute>
           <MediaEntertainment />
@@ -217,27 +222,18 @@ export default function AppRoutes() {
         </Route>
       </Route>
       
-      {/* Agent Playground Routes */}
-      <Route path="/agent-playground" element={
-        <ProtectedRoute>
-          <AgentPlayGround />
-        </ProtectedRoute>
-      } />
-      <Route path="/agent-playground/agent" element={
-        <ProtectedRoute>
-          <AgentDisplay />
-        </ProtectedRoute>
-      } />
-      <Route path="/agent-playground/agent/:agentId" element={
-        <ProtectedRoute>
+      {/* New Agent Playground Routes */}
+      <Route path="/agent-playground" element={<AgentPlayGround />} />
+      <Route path="/agent-playground/agent" element={<AgentDisplay />} />
+      <Route path="/agent-playground/agent/:agentId" element={<AgentRouter />} />
       <Route path="/agent-playground/agent/:agentId/*" element={<AgentRouter />} />
-            <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
-    <AgentRouter />
+      
+      <Route path="/agent-playground/agents/logic-validation-agent" element={<LogicValidationAgent />} />
+      
       <Route path="/agent-playground/agent/contract-management-v1/*" element={<ContractManagementV1 />} />
       <Route path="/agent-playground/agent/contract-management-system/*" element={<ContractManagementSystem />} />
-        </ProtectedRoute>
-      } />
-
+      {/* Existing Agent Detail Routes */}
+      
       {/* Legacy Agent Details Routes - Protected */}
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={
         <ProtectedRoute>
@@ -249,11 +245,11 @@ export default function AppRoutes() {
           <AgentsDetails />
         </ProtectedRoute>
       } />
+      {/* Global DocSentra nurse new-patient route */}
+      <Route path="/nurse/new-patient/*" element={<DocSentra />} />
 
       {/* 404 Not Found - MUST BE LAST ROUTE */}
       <Route path="*" element={<NotFound />} />
-      {/* Global DocSentra nurse new-patient route */}
-      <Route path="/nurse/new-patient/*" element={<DocSentra />} />
     </Routes>
   );
 }

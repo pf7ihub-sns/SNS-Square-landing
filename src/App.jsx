@@ -1,5 +1,5 @@
 import Navbar from "./components/common/Navbar";
-// import Footer from "./components/common/Footer";
+import Footer from "./components/common/Footer";
 import AdminSidebar from "./components/common/AdminSidebar";
 import AppRoutes from "./routes/AppRoutes";
 // import CTA from "./components/common/CTA";

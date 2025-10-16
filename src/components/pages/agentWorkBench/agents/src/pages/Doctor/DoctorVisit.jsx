@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import {
   Phone,
@@ -32,6 +32,9 @@ const DoctorVisit = () => {
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(null);
   const [isAnsweringQuestion, setIsAnsweringQuestion] = useState(false);
   const navigate = useNavigate();
+  
+  // Ref for auto-focusing the input
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (patientId) {
@@ -41,6 +44,13 @@ const DoctorVisit = () => {
       setLoading(false);
     }
   }, [patientId, visitId]);
+
+  // Auto-focus input when entering answer mode
+  useEffect(() => {
+    if (isAnsweringQuestion && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isAnsweringQuestion]);
 
   const fetchPatientData = async () => {
     try {
@@ -180,6 +190,7 @@ const DoctorVisit = () => {
           patient_name: patientData.full_name,
           doctor_input:
             "Generate initial consultation questions based on patient history",
+          patient_id: patientData.patient_id, // ADD patient_id for patient-specific questions
         }),
       });
 
@@ -261,6 +272,7 @@ const DoctorVisit = () => {
           body: JSON.stringify({
             patient_name: patient.full_name,
             doctor_input: `Question: ${question}\nAnswer: ${answerText}`,
+            patient_id: patient.patient_id, // ADD patient_id for context-aware processing
           }),
         });
       } catch (err) {
@@ -288,6 +300,7 @@ const DoctorVisit = () => {
         body: JSON.stringify({
           patient_name: patient.full_name,
           doctor_input: doctorInput,
+          patient_id: patient.patient_id, // ADD patient_id for patient-specific responses
         }),
       });
 
@@ -335,9 +348,39 @@ const DoctorVisit = () => {
   };
 
   const handleQuestionClick = (index) => {
-    const question = suggestedQuestions[index];
-
-    // Mark as asked
+    const currentStatus = questionStates[index]?.status;
+    
+    // If this question is already active, do nothing
+    if (activeQuestionIndex === index && isAnsweringQuestion) {
+      return;
+    }
+    
+    // If already answered, don't allow re-selection
+    if (currentStatus === "answered") {
+      return;
+    }
+    
+    // If currently answering another question, reset that question to pending
+    if (isAnsweringQuestion && activeQuestionIndex !== null) {
+      setQuestionStates((prev) => ({
+        ...prev,
+        [activeQuestionIndex]: {
+          ...prev[activeQuestionIndex],
+          status: "pending",
+        },
+      }));
+    }
+    
+    // If clicking on an "asked" question that's not active, deselect it
+    if (currentStatus === "asked" && activeQuestionIndex !== index) {
+      setQuestionStates((prev) => ({
+        ...prev,
+        [index]: { ...prev[index], status: "pending" },
+      }));
+      return;
+    }
+    
+    // Mark as asked and set as active
     setQuestionStates((prev) => ({
       ...prev,
       [index]: { ...prev[index], status: "asked" },
@@ -346,6 +389,13 @@ const DoctorVisit = () => {
     setActiveQuestionIndex(index);
     setIsAnsweringQuestion(true);
     setInputMessage(""); // Clear input for answer
+    
+    // Auto-focus the input box after a short delay to ensure state is updated
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 100);
   };
 
   const cancelAnswering = () => {
@@ -623,13 +673,14 @@ const DoctorVisit = () => {
                     key={index}
                     className={`p-3 rounded-lg border transition-all text-sm ${
                       questionStates[index]?.status === "answered"
-                        ? "bg-green-50 border-green-300"
+                        ? "bg-green-50 border-green-300 cursor-not-allowed"
                         : questionStates[index]?.status === "asked"
-                        ? "bg-blue-50 border-blue-300"
+                        ? "bg-blue-50 border-blue-300 cursor-pointer hover:bg-blue-100"
                         : "bg-white border-slate-200 hover:border-blue-400 cursor-pointer"
                     }`}
                     onClick={() => {
-                      if (questionStates[index]?.status === "pending") {
+                      // Allow clicking on pending or asked questions (but not answered ones)
+                      if (questionStates[index]?.status !== "answered") {
                         handleQuestionClick(index);
                       }
                     }}
@@ -652,14 +703,18 @@ const DoctorVisit = () => {
                         {question}
                       </p>
                     </div>
-                    {(questionStates[index]?.status === "answered" || questionStates[index]?.status === "asked") && (
-                      <div className="flex items-center mt-2">
+                    {questionStates[index]?.status && (
+                      <div className="flex items-center justify-between mt-2">
                         <span className="text-xs text-slate-600">
-                          {questionStates[index]?.status === "answered" &&
-                            "✓ Answered"}
-                          {questionStates[index]?.status === "asked" &&
-                            "⏳ Awaiting answer"}
+                          {questionStates[index]?.status === "answered" && "✓ Answered"}
+                          {questionStates[index]?.status === "asked" && activeQuestionIndex === index && "⏳ Active - Awaiting answer"}
+                          {questionStates[index]?.status === "asked" && activeQuestionIndex !== index && "📋 Selected"}
                         </span>
+                        {questionStates[index]?.status === "asked" && activeQuestionIndex !== index && (
+                          <span className="text-xs text-blue-600 cursor-pointer hover:text-blue-800">
+                            Click to deselect
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -689,6 +744,7 @@ const DoctorVisit = () => {
           {/* Input Area */}
           <div className="flex gap-3 pt-4">
             <input
+              ref={inputRef}
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
