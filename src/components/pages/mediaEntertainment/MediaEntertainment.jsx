@@ -250,46 +250,48 @@ const MediaEntertainment = () => {
         backgroundImage: "url('/images/AgentFrame.png')",
       }}
     >
-      {/* Overlay content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-center drop-shadow-lg mt-15  py-5"
+          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-center drop-shadow-lg mt-15 py-5"
         >
           Agentic Workbench
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl "
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-white text-sm sm:text-base md:text-lg lg:text-3xl text-center drop-shadow-lg pt-3 sm:pt-4 lg:pt-5 max-w-7xl"
         >
           Welcome back, {userName}! Explore our comprehensive suite of AI agents and choose the perfect one for your needs
         </motion.p>
-        <div className="flex  justify-center mt-25 sm:mb-8">
-          <div className=" p-1 w-full sm:w-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex justify-center mt-25 sm:mb-8"
+        >
+          <div className="p-1 w-full sm:w-auto">
             <div className="flex space-x-5">
               {['foundational', 'industry'].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 rounded-md text-lg font-medium transition-colors ${activeTab === tab
-                    ? 'bg-white text-blue-600'
-                    : 'text-white   border-1  border-amber-50 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
+                  className={`flex-1 sm:flex-none px-6 sm:px-8 py-2.5 rounded-lg text-base sm:text-lg font-semibold transition-all duration-300 ${
+                    activeTab === tab
+                      ? 'bg-white text-blue-600 shadow-lg'
+                      : 'text-white border-2 border-white/40 hover:border-white hover:bg-white/10 backdrop-blur-sm'
+                  }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
               ))}
             </div>
           </div>
-        </div>
-
+        </motion.div>
       </div>
-
-
     </div>
   );
 
@@ -360,23 +362,21 @@ const MediaEntertainment = () => {
     setCurrentPage(1);
   };
 
-  // Mobile Sidebar Component
   const MobileSidebar = () => (
     <>
-      {/* Overlay */}
       {isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
       <div
-        className={`fixed left-0 top-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed left-0 top-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out lg:hidden overflow-y-auto shadow-2xl ${
+          isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold text-gray-900">Categories</h3>
             <button
@@ -393,31 +393,28 @@ const MediaEntertainment = () => {
         <div className="p-4">
           <div className="space-y-2">
             {categories.map((category) => (
-              <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden">
+              <div key={category.id} className="border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <button
                   onClick={() => handleCategoryClick(category.id)}
-                  className={`w-full px-4 py-4 text-left transition-all duration-300 ${selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
-                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
-                    }`}
+                  className={`w-full px-4 py-4 text-left transition-all duration-300 ${
+                    selectedCategory === category.id
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 border-b border-gray-50'
+                  }`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="font-semibold text-base">{category.name}</div>
-                      <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'
-                        }`}>
+                      <div className={`text-sm mt-1 ${selectedCategory === category.id ? 'text-blue-100' : 'text-gray-500'}`}>
                         {category.subCategories
                           ? `${category.subCategories.length} subcategories`
                           : `${getFilteredAgentCount(category.agents)} agents`}
-
                       </div>
                     </div>
                     {category.subCategories && (
-                      <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'
-                        }`}>
+                      <div className={`p-1 rounded-full transition-all duration-300 ${selectedCategory === category.id ? 'bg-white/20' : 'bg-gray-100'}`}>
                         <svg
-                          className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'
-                            }`}
+                          className={`w-4 h-4 transition-transform duration-300 ${selectedCategory === category.id ? 'rotate-90 text-white' : 'text-gray-600'}`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -436,16 +433,15 @@ const MediaEntertainment = () => {
                         <button
                           key={subCategory.id}
                           onClick={() => handleSubCategoryClick(subCategory.id)}
-                          className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${selectedSubCategory === subCategory.id
-                            ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
-                            : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
-                            }`}
+                          className={`w-full px-4 py-3 rounded-lg text-left transition-all duration-200 border ${
+                            selectedSubCategory === subCategory.id
+                              ? 'bg-blue-50 text-blue-800 border-blue-200 shadow-sm'
+                              : 'text-gray-700 hover:bg-white border-transparent hover:border-gray-200 hover:shadow-sm'
+                          }`}
                         >
                           <div className="font-medium text-sm">{subCategory.name}</div>
-                          <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'
-                            }`}>
+                          <div className={`text-xs mt-1 ${selectedSubCategory === subCategory.id ? 'text-blue-600' : 'text-gray-500'}`}>
                             {getFilteredAgentCount(subCategory.agents)} agents
-
                           </div>
                         </button>
                       ))}
@@ -462,7 +458,7 @@ const MediaEntertainment = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-blue-200 border-t-blue-600 mx-auto"></div>
           <p className="mt-4 sm:mt-6 text-blue-600 font-medium text-base sm:text-lg">Loading your workspace...</p>
@@ -473,24 +469,23 @@ const MediaEntertainment = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 ">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
       {heroSection}
 
-      {/* Search and Filter Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="max-w-sm sm:max-w-md mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0 "
+        className="max-w-2xl mx-auto pt-6 sm:pt-8 lg:pt-10 px-4 sm:px-0"
       >
-        <div className="flex flex-col sm:flex-row gap-5 sm:gap-5">
-          <div className="relative flex-1 lg:-ml-45">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between">
+          <div className="relative flex-1 max-w-md">
             <input
               type="text"
-              placeholder="Search Agents"
+              placeholder="Search agents by name, description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-5xl px-4 py-2 pl-10 border border-[#B6B9BE] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-sm sm:text-base"
+              className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm hover:shadow-md text-sm sm:text-base bg-white"
             />
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -498,13 +493,13 @@ const MediaEntertainment = () => {
               </svg>
             </div>
           </div>
-          <div className="relative ">
+          <div className="relative">
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
               onFocus={() => setIsOpen(true)}
               onBlur={() => setIsOpen(false)}
-              className="w-30 px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#064EE3] to-[#3D76EC] shadow-sm hover:border-blue-400 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 cursor-pointer appearance-none"
+              className="w-full sm:w-40 px-4 py-3 pr-10 border-0 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-700 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 cursor-pointer appearance-none"
             >
               <option className='text-black' value="all">All Status</option>
               <option className='text-black' value="available">Available</option>
@@ -525,14 +520,13 @@ const MediaEntertainment = () => {
       </motion.div>
 
       {/* Main Content Container */}
-      <div className="container mx-auto px-4 py-6 sm:py-8 ">
+      <div className="container mx-auto px-4 py-18 sm:py-20 ">
         {/* Tabs */}
 
-        {/* Mobile Filter Button */}
         <div className="lg:hidden mb-4 sm:mb-6">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2.5 bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md hover:bg-gray-50 transition-all"
           >
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
@@ -545,39 +539,34 @@ const MediaEntertainment = () => {
         <div className="flex gap-6 lg:-mt-20 ">
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-80 flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="px-5 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900 -tracking-tight">Categories</h3>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden sticky top-6">
+              <div className="px-5 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+                <h3 className="text-lg font-bold text-gray-900">Categories</h3>
               </div>
 
-              <div className="py-3">
+              <div className="py-3 max-h-[calc(100vh-200px)] overflow-y-auto">
                 <div className="space-y-0">
                   {categories.map((category) => (
                     <div key={category.id} className="relative">
-                      {/* Flowing blue line from icon to selected subcategory */}
                       {selectedCategory === category.id && category.subCategories && category.subCategories.length > 0 && (
                         <div
-                          className="absolute left-6.5 top-10 w-1 bg-blue-500 transition-all duration-300 ease-out z-10 rounded-2xl"
+                          className="absolute left-6.5 top-10 w-1 bg-gradient-to-b from-blue-500 to-blue-600 transition-all duration-300 ease-out z-10 rounded-full"
                           style={{
                             height: selectedSubCategory ?
                               `${((category.subCategories.findIndex(sub => sub.id === selectedSubCategory) + 1) * 40) + 8}px` :
                               `${category.subCategories.length * 40}px`,
-                            background: selectedSubCategory ?
-                              'linear-gradient(to bottom, #3b82f6, #1d4ed8)' :
-                              '#d1d5db'
                           }}
                         />
                       )}
 
-                      {/* Main Category Button */}
                       <button
                         onClick={() => handleCategoryClick(category.id)}
-                        className={`w-full px-5 py-3 text-left transition-all duration-200 group ${selectedCategory === category.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'
-                          }`}
+                        className={`w-full px-5 py-3 text-left transition-all duration-200 group ${
+                          selectedCategory === category.id ? 'bg-blue-50/70' : 'hover:bg-gray-50'
+                        }`}
                       >
                         <div className="flex items-center space-x-3">
-                          {/* Category Icon */}
-                          <div className="w-4 h-4 flex-shrink-0">
+                          <div className="w-5 h-5 flex-shrink-0">
                             {categoryIcons[category.id] ? (
                               <img
                                 src={categoryIcons[category.id]}
@@ -585,24 +574,24 @@ const MediaEntertainment = () => {
                                 className="w-full h-full object-contain"
                               />
                             ) : (
-                              <div className={`w-4 h-4 rounded-sm flex items-center justify-center text-xs font-semibold text-white ${selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
-                                }`}>
+                              <div className={`w-5 h-5 rounded-lg flex items-center justify-center text-xs font-semibold text-white ${
+                                selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-400'
+                              }`}>
                                 📄
                               </div>
                             )}
                           </div>
 
-                          {/* Category Name */}
                           <div className="flex-1 min-w-0">
-                            <div className={`font-medium text-base leading-tight tracking-tight ${selectedCategory === category.id ? 'text-[#000000]' : 'text-gray-900'
-                              }`}>
+                            <div className={`font-semibold text-base leading-tight ${
+                              selectedCategory === category.id ? 'text-blue-700' : 'text-gray-900'
+                            }`}>
                               {category.name}
                             </div>
                           </div>
                         </div>
                       </button>
 
-                      {/* Subcategories with proper hierarchy */}
                       {selectedCategory === category.id && category.subCategories && (
                         <div className="relative">
                           <div className="ml-8 space-y-1 animate-in slide-in-from-top duration-300">
@@ -610,20 +599,15 @@ const MediaEntertainment = () => {
                               <div key={subCategory.id} className="relative">
                                 <button
                                   onClick={() => handleSubCategoryClick(subCategory.id)}
-                                  className={`w-65 px-5 py-1 text-left transition-all duration-150 rounded-md ml-2 transform ${selectedSubCategory === subCategory.id
-                                    ? ' text-[#000000] bg-[#F3F5FA] shadow-lg scale-105'
-                                    : ' hover:border border-[#064EE3]'
-                                    }`}
-                                  style={{
-                                    animationDelay: `${index * 50}ms`
-                                  }}
+                                  className={`w-65 px-4 py-2.5 text-left transition-all duration-150 rounded-lg ml-2 transform hover:scale-[1.02] ${
+                                    selectedSubCategory === subCategory.id
+                                      ? 'text-blue-700 bg-blue-50 shadow-sm border border-blue-200'
+                                      : 'hover:bg-white hover:shadow-sm border border-transparent'
+                                  }`}
                                 >
-                                  <div
-                                    className="text-sm font-medium leading-tight tracking-tight bg-[#F3F5FA]  px-3 py-2 rounded"
-                                  >
+                                  <div className="text-sm font-medium leading-tight">
                                     {subCategory.name}
                                   </div>
-
                                 </button>
                               </div>
                             ))}
@@ -639,31 +623,34 @@ const MediaEntertainment = () => {
 
           {/* Main Content */}
           <div className="flex-1  ">
-            {/* Header */}
-            <div className="mb-4 sm:mb-6 ml-1">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+            <div className="mb-6 ml-1 mt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
                 <div>
-                  <h2 className="text-xl sm:text-xl font-bold text-gray-900 mt-15">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
                     {searchQuery.trim() ? 'Search Results' :
                       selectedSubCategory ? getCurrentSubCategoryData()?.name :
                         selectedCategory ? getCurrentCategoryData()?.name :
                           `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Agents`}
                   </h2>
-                  <p className="text-[#000] mt-1 text-sm sm:text-base">
+                  <p className="text-gray-600 text-sm sm:text-base">
                     {searchQuery.trim() ? `Found ${filteredAgents.length} agents matching "${searchQuery}"` :
                       selectedSubCategory ? getCurrentSubCategoryData()?.description :
                         selectedCategory ? getCurrentCategoryData()?.description :
                           `Explore our ${activeTab} agent categories`}
                   </p>
                 </div>
-                <span className="text-sm text-gray-500 self-start sm:self-auto">
-                  {filteredAgents.length} agents
-                </span>
+                <div className="flex items-center space-x-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
+                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <span className="text-sm font-semibold text-blue-700">
+                    {filteredAgents.length} {filteredAgents.length === 1 ? 'Agent' : 'Agents'}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Agents Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {paginatedAgents.length > 0 ? (
                 paginatedAgents.map((agent, index) => (
                   <AgentCard
@@ -675,13 +662,13 @@ const MediaEntertainment = () => {
                   />
                 ))
               ) : (
-                <div className="col-span-full flex flex-col items-center justify-center text-center py-8 sm:py-12">
+                <div className="col-span-full flex flex-col items-center justify-center text-center py-16 sm:py-20 mt-4 bg-white rounded-2xl border-2 border-dashed border-gray-200">
                   <img
                     src={SelectCatagoryImg}
                     alt="Objects"
-                    className="w-50 sm:w-62 mb-6"
+                    className="w-48 sm:w-60 mb-6 opacity-80"
                   />
-                  <h3 className="text-base sm:text-lg text-gray-800 mb-2">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
                     {selectedCategory ? 'No agents found' : 'Select a category to view agents'}
                   </h3>
                   <p className="text-gray-600 text-sm sm:text-base px-4 max-w-md">
@@ -693,9 +680,8 @@ const MediaEntertainment = () => {
               )}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-6 sm:mt-8">
+              <div className="mt-8 sm:mt-10">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
