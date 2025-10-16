@@ -393,3 +393,39 @@ blockquote, .quote, .highlight {
 .leading-extra-loose {
   line-height: 150%;
 }
+
+
+/* Override font sizes for Agent Workbench agents */
+.agent-wrapper,
+.agent-wrapper * {
+  font-size: 0.875rem !important; /* 14px */
+}
+
+/* Preserve specific size classes if needed */
+.agent-wrapper h1 {
+  font-size: 1.5rem !important; /* 24px for h1 */
+}
+
+.agent-wrapper h2 {
+  font-size: 1.25rem !important; /* 20px for h2 */
+}
+
+.agent-wrapper h3 {
+  font-size: 1.125rem !important; /* 18px for h3 */
+}
+
+.agent-wrapper h4 {
+  font-size: 1rem !important; /* 16px for h4 */
+}
+
+/* Keep button text readable */
+.agent-wrapper button {
+  font-size: 0.875rem !important;
+}
+
+/* Keep input/select text readable */
+.agent-wrapper input,
+.agent-wrapper select,
+.agent-wrapper textarea {
+  font-size: 0.875rem !important;
+}
