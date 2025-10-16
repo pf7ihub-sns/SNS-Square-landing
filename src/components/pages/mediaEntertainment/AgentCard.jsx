@@ -79,7 +79,8 @@ const AgentCard = ({ agent, index, onTryAgent, onViewAgent }) => {
                     onClick={() => onViewAgent(agent.id)}
                     className="flex-1 px-6 py-2 text-[#155DFC] hover:text-blue-700 border border-blue-300 hover:border-blue-400 hover:bg-blue-50 rounded-lg text-[14px] font-medium transition-all duration-200"
                 >
-                    View Details
+
+                    Details
                 </button>
             </div>
         </motion.div>

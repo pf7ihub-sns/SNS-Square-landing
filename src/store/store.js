@@ -8,7 +8,8 @@ export const useAuthStore = create((set, get) => ({
   user: typeof window !== "undefined" ? {
     id: getEncryptedItem("userId"),
     name: localStorage.getItem("name"),
-    email: localStorage.getItem("userEmail")
+    email: localStorage.getItem("userEmail"),
+    role: localStorage.getItem("role") // Add role to user object
   } : null,
   error: null,
   isAuthenticated: typeof window !== "undefined" ? !!getEncryptedItem("token") : false,
@@ -18,11 +19,11 @@ export const useAuthStore = create((set, get) => ({
       const { token, user, success } = await loginUser(loginData);
 
       if (success) {
-
         setEncryptedItem("token", token);
         setEncryptedItem("userId", user.id);
         localStorage.setItem("userEmail", user.email);
         localStorage.setItem("name", user.name);
+        localStorage.setItem("role", user.role); // Store role
 
         set({
           token,
@@ -47,6 +48,7 @@ export const useAuthStore = create((set, get) => ({
       setEncryptedItem("userId", user.id);
       localStorage.setItem("name", user.name);
       localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("role", user.role); // Store role
       set({ token, userId: user.id, user, error: null, isAuthenticated: true });
       return { success, message };
     } catch (error) {
@@ -60,6 +62,7 @@ export const useAuthStore = create((set, get) => ({
     removeEncryptedItem("userId");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("name");
+    localStorage.removeItem("role"); // Remove role
     set({ user: null, token: null, userId: null, isAuthenticated: false });
   },
 

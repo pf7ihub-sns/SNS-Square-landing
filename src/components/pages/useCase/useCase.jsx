@@ -2,15 +2,16 @@ import React from "react";
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import CTASection from "../Home/CTASection";
+import SEO from "../../common/SEO";
 import useCaseData from "../../../data/usecase.json";
-import UseCaseCard from "../../common/UseCaseCard";
-import Button from "../../common/Button2";
+import HeroSection from "./HeroSection";
+import TopCategoryTabs from "./TopCategoryTabs";
+import UseCasesGrid from "./UseCasesGrid";
 
 // Main App component
 export const UseCase = () => {
   const [activeCategory, setActiveCategory] = useState("supply-chain");
   const [showAllUseCases, setShowAllUseCases] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,7 +24,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "supply-chain",
         label: "Supply Chain",
-        icon: "/icons/supply.svg",
+        icon: "/icons/newicons/supplychain.svg",
       },
     },
     "information-technology": {
@@ -33,7 +34,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "information-technology",
         label: "Information Technology",
-        icon: "/icons/it.svg",
+        icon: "/icons/newicons/IT.svg",
       },
     },
     healthcare: {
@@ -43,7 +44,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "healthcare",
         label: "Healthcare",
-        icon: "/icons/healthcare.svg",
+        icon: "/icons/newicons/healthcare.svg",
       },
     },
     "human-resource": {
@@ -53,7 +54,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "human-resource",
         label: "Human Resource",
-        icon: "/icons/humanresource.svg",
+        icon: "/icons/newicons/humanresource.svg",
       },
     },
     insurance: {
@@ -63,7 +64,7 @@ export const UseCase = () => {
       categoryInfo: {
         id: "insurance",
         label: "Insurance",
-        icon: "/icons/humanresource.svg",
+        icon: "/icons/newicons/insurance.svg",
       },
     },
   }), []);
@@ -106,17 +107,8 @@ export const UseCase = () => {
 
   const handleCategoryClick = (categoryId) => {
     setActiveCategory(categoryId);
-    setIsDropdownOpen(false); // Close dropdown when category is selected
     // Reset showAllUseCases when category changes
     setShowAllUseCases(false);
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const getActiveFilter = () => {
-    return categoryFilters.find(filter => filter.isActive);
   };
 
   const handleViewAllClick = () => {
@@ -141,230 +133,34 @@ export const UseCase = () => {
 
   return (
     <div className="bg-white min-h-screen w-full">
+      <SEO 
+        title="Use Cases | SNS Square Agentic AI Solutions"
+        description="Explore SNS Square's Agentic AI use cases. Discover how our AI agents empower industries to accelerate progress, innovate, and achieve measurable impact."
+        keywords="SNS Square, Agentic AI, AI Use Cases, Industry AI Solutions, Business Automation, Digital Transformation, Enterprise AI, AI Innovation"
+        image="https://www.snssquare.com/images/og/usecase-og.jpg"
+        url="https://www.snssquare.com/usecase"
+      />
       {/* Hero Section - Full Width */}
-      <div className="relative w-full h-auto min-h-[300px] md:min-h-[440px] overflow-hidden pt-20">
-        {/* Background Pattern */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-          style={{ 
-            backgroundImage: "url('/images/HomeHero.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center center",
-            backgroundRepeat: "no-repeat"
-          }}
-        />
-        
-        {/* Background blur effect */}
-        <div className="absolute w-[300px] h-[300px] md:w-[470px] md:h-[470px] top-0 left-1/2 transform -translate-x-1/2 md:left-[485px] md:transform-none bg-[#1357e591] rounded-full blur-[400px]" />
-        
-        {/* Hero Content */}
-        <section className="w-full bg-[linear-gradient(359deg,#ffffff_0%,_#e3ebff_100%)] relative">
-          <div 
-            className="w-full h-[300px] md:h-[440px] bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: "url('/images/HomeHero.png')",
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat"
-            }}
-          >
-            <div className="w-full max-w-[300px] xs:max-w-[350px] sm:max-w-[400px] md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1200px] 2xl:max-w-[1300px] mx-auto px-3 xs:px-4 sm:px-5 lg:px-8 h-full">
-
-              {/* Content Container */}
-              <div className="flex flex-col justify-center items-center h-full text-center">
-                <div className="max-w-6xl">
-                  <h1 className="text-2xl md:text-3xl lg:text-4xl font-manrope font-[800] leading-[40px]  sm:leading-[56px] md:leading-[72px] lg:leading-[80px] text-center text-global-1 w-full h-full">
-                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">Partnered Progress</span>
-                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]"> : </span>
-                    <span className="text-global-5 text-[#064EE3] text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">
-                      Agentic AI
-                    </span>
-                    <br />
-                    <span className="text-global-1 text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-manrope font-[800]">
-                      Solution for Every Sector
-                    </span>
-                  </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+      <HeroSection />
 
       {/* Main Content */}
       <div className="relative overflow-hidden">
-        <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-16 lg:gap-20 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 sm:py-8 md:py-10 lg:py-12">
-          <div className="flex flex-col lg:flex-row w-full xl:max-w-[1300px] items-start gap-6 lg:gap-6">
-            {/* Category Filters */}
-            {/* Mobile Accordion */}
-            <div className="block lg:hidden w-full mb-6">
-              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-                <button
-                  onClick={toggleDropdown}
-                  className="flex items-center justify-between w-full px-4 py-4 hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      className="w-6 h-6"
-                      alt="Category icon"
-                      src={getActiveFilter()?.icon}
-                      style={{
-                        filter: "brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(3028%) hue-rotate(212deg) brightness(94%) contrast(90%)"
-                      }}
-                    />
-                    <span className="font-Manrope font-semibold text-base text-[#064EE3]">
-                      {getActiveFilter()?.label}
-                    </span>
-                  </div>
-                  <svg
-                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
-                      isDropdownOpen ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  isDropdownOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}>
-                  <div className="border-t border-gray-100">
-                    {categoryFilters.filter(filter => !filter.isActive).map((filter) => (
-                      <button
-                        key={filter.id}
-                        onClick={() => handleCategoryClick(filter.id)}
-                        className="flex items-center gap-3 w-full px-4 py-5 text-left hover:bg-gray-50 transition-colors duration-150 border-b border-gray-50 last:border-b-0"
-                      >
-                        <img
-                          className="w-6 h-6"
-                          alt="Category icon"
-                          src={filter.icon}
-                          style={{
-                            filter: "brightness(0) saturate(100%) invert(15%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(95%)",
-                            opacity: 0.41
-                          }}
-                        />
-                        <span className="font-Manrope font-semibold text-base text-[#04040469]">
-                          {filter.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="flex flex-col items-center gap-8 sm:gap-4 md:gap-6 lg:gap-8 px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pb-6 sm:pb-8 md:pb-10 lg:pb-12 pt-4">
+          {/* Top Category Tabs */}
+          <TopCategoryTabs
+            categoryFilters={categoryFilters}
+            handleCategoryClick={handleCategoryClick}
+          />
 
-            {/* Desktop Category Filters */}
-            <div className="hidden lg:flex flex-col w-full lg:w-95 items-start gap-4 mb-10 ">
-              {categoryFilters.map((filter) => (
-                <Button
-                  key={filter.id}
-                  variant="ghost"
-                  onClick={() => handleCategoryClick(filter.id)}
-                  className={`flex items-center justify-start gap-2.5 pl-4 pr-6 py-5 md:py-7 w-full rounded-2xl overflow-hidden focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 active:outline-none active:ring-0 border-none outline-none ${
-                    filter.isActive ? "bg-[#e6edfc]" : "bg-transparent"
-                  }`}
-                  style={{ outline: 'none', border: 'none', boxShadow: 'none' }}
-                >
-                  <img
-                    className="w-6 h-6 md:w-8 md:h-8"
-                    alt="Category icon"
-                    src={filter.icon}
-                    style={
-                      filter.isActive
-                        ? {
-                            filter:
-                              "brightness(0) saturate(100%) invert(25%) sepia(89%) saturate(3028%) hue-rotate(212deg) brightness(94%) contrast(90%)",
-                          }
-                        : {
-                            filter:
-                              "brightness(0) saturate(100%) invert(15%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(95%)",
-                            opacity: 0.41,
-                          }
-                    }
-                  />
-
-                  <div
-                    className={`font-Manrope font-semibold text-base md:text-lg tracking-[-0.60px] leading-6 whitespace-nowrap text-left ${
-                      filter.isActive ? "text-[#064EE3]" : "text-[#04040469]"
-                    }`}
-                  >
-                    {filter.label}
-                  </div>
-                </Button>
-              ))}
-            </div>
-
-            {/* Use Cases Grid */}
-            <div className="flex flex-col w-full max-w-[1300px] items-center justify-center gap-8 md:gap-10">
-              {currentUseCases.length === 0 ? (
-                // No Data State
-                <div className="flex flex-col items-center justify-center min-h-[400px] w-full text-center">
-                  <div className="w-24 h-24 mb-6 rounded-full bg-gray-100 flex items-center justify-center">
-                    <svg
-                      className="w-12 h-12 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-700 mb-2">
-                    No Use Cases Available
-                  </h3>
-                  <p className="text-gray-500 max-w-md">
-                    There are currently no use cases available for the selected
-                    category. Please check back later or select a different
-                    category.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-6 xl:gap-8 w-full">
-                    {useCasesToDisplay.map((useCase) => (
-                      <UseCaseCard
-                        key={useCase.id}
-                        useCase={useCase}
-                        onLearnMore={handleLearnMoreClick}
-                      />
-                    ))}
-                  </div>
-
-                  {!showAllUseCases && currentUseCases.length > 6 && (
-                    <Button
-                      onClick={handleViewAllClick}
-                      className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[80px] bg-[linear-gradient(90deg,rgba(6,78,227,1)_0%,rgba(61,118,236,1)_100%)] h-auto"
-                    >
-                      <div className="font-Manrope font-semibold text-white text-sm md:text-base text-center tracking-0 leading-6 whitespace-nowrap">
-                        View All Use Cases
-                      </div>
-                    </Button>
-                  )}
-
-                  {showAllUseCases && currentUseCases.length > 6 && (
-                    <Button
-                      onClick={handleShowLessClick}
-                      className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-[80px] bg-[linear-gradient(90deg,rgba(6,78,227,1)_0%,rgba(61,118,236,1)_100%)] h-auto"
-                    >
-                      <div className="font-Manrope font-semibold text-white text-sm md:text-base text-center tracking-0 leading-6 whitespace-nowrap">
-                        Show Less
-                      </div>
-                    </Button>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
+          {/* Use Cases Grid */}
+          <UseCasesGrid
+            currentUseCases={currentUseCases}
+            useCasesToDisplay={useCasesToDisplay}
+            showAllUseCases={showAllUseCases}
+            handleViewAllClick={handleViewAllClick}
+            handleShowLessClick={handleShowLessClick}
+            handleLearnMoreClick={handleLearnMoreClick}
+          />
 
           {/* CTA Section */}
           {/* <CTASection /> */}
