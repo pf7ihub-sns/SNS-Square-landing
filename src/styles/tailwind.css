@@ -122,4 +122,13 @@
   .text-footer-1 {
     color: var(--footer-text-1);
   }
+
+  /* 3D Perspective Effects */
+  .perspective-distant {
+    perspective: 1000px;
+  }
+  
+  .transform-3d {
+    transform-style: preserve-3d;
+  }
 }

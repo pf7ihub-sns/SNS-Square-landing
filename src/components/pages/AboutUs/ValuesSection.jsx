@@ -1,152 +1,79 @@
-import React, { useState, useEffect } from "react";
-import { WobbleCard } from "../../ui/wobble-card";
-import Lottie from "lottie-react";
-import purposefulGrowthUrl from "/images/icons/animated_json/Purposeful Growth.json?url";
-import trustAtCoreUrl from "/images/icons/animated_json/Trust at the Core.json?url";
-import futureFirstImpactUrl from "/images/icons/animated_json/Future-First Impact.json?url";
+import React from "react";
 
-// Values data
-const values = [
-  {
-    id: 1,
-    title: "Purposeful Growth",
-    description: "Driving meaningful progress with responsibility, impact, and care.",
-    icon: "/images/icons/triangle.png",
-    animationUrl: purposefulGrowthUrl
-  },
-  {
-    id: 2,
-    title: "Trust at the Core",
-    description: "Ethical, transparent, and reliable AI you can believe in.",
-    icon: "/images/icons/triangles_1.png",
-    animationUrl: trustAtCoreUrl
-  },
-  {
-    id: 3,
-    title: "Future-First Impact",
-    description: "Every solution is designed to shape tomorrow, today.",
-    icon: "/images/icons/squares.png",
-    animationUrl: futureFirstImpactUrl
-  }
-];
-
-const ValuesSection = () => {
-  const [animationData, setAnimationData] = useState({});
-
-  useEffect(() => {
-    // Load all animation data
-    const loadAnimations = async () => {
-      try {
-        const [purposefulGrowth, trustAtCore, futureFirstImpact] = await Promise.all([
-          fetch(purposefulGrowthUrl).then(res => res.json()),
-          fetch(trustAtCoreUrl).then(res => res.json()),
-          fetch(futureFirstImpactUrl).then(res => res.json())
-        ]);
-
-        setAnimationData({
-          'Purposeful Growth': purposefulGrowth,
-          'Trust at the Core': trustAtCore,
-          'Future-First Impact': futureFirstImpact
-        });
-      } catch (error) {
-        console.error('Error loading animations:', error);
-      }
-    };
-
-    loadAnimations();
-  }, []);
-
+const WhyWeAreHereSection = () => {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-blue-50 to-white">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8 lg:gap-16 items-start">
-          {/* Left Column - Text Content (30%) */}
-          <div className="lg:col-span-3 flex flex-col justify-center h-full">
-            <h2 className="text-3xl sm:text-4xl font-manrope font-bold text-global-1 mb-4">
-              <span className="text-[#1E63FF]">Our</span> Values
-            </h2>
-            <p className="text-base sm:text-lg font-inter text-gray-700 leading-relaxed">
-              The core of everything we do is guided by values that drive impact.
-            </p>
-          </div>
+    <section
+      className="py-8 sm:py-12 lg:py-16 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: "url('/images/backgroundgrids/gridBG.png')"
+      }}
+    >
+      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-4">
+        {/* Header Section - Left Aligned */}
+        <div className="flex flex-col justify-start items-start gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-14  mx-auto">
+          <h3 className="leading-tight">
+            Why We're Here
+          </h3>
+          <p className="text-zinc-600 font-normal font-inter leading-snug">
+            We’re not just solving today’s problems. We’re building tomorrow’s possibilities.
+          </p>
+        </div>
 
-          {/* Right Column - Wobble Cards (70%) */}
-          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* First Row - Two Cards */}
-            <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
-              <div className="flex flex-col ">
-                <div className="w-36 h-22 flex items-start justify-start mb-4 ">
-                  {animationData[values[0].title] && (
-                    <Lottie
-                      animationData={animationData[values[0].title]}
-                      loop={true}
-                      autoplay={true}
-                      style={{ width: 200, height: 150 }}
-                    />
-                  )}
-                </div>
-                <div className="p-4 px-8">
-                  <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
-                    {values[0].title}
-                  </h3>
-                  <div className="w-full h-px bg-gray-300 mb-3"></div>
-                  <p className="text-sm font-inter text-gray-700 leading-relaxed">
-                    {values[0].description}
+        {/* Main Content Card */}
+        <div className="relative  mx-auto">
+          {/* White Card Background */}
+          <div className="w-full min-h-[400px] sm:min-h-[500px] lg:h-[675px] bg-white rounded border border-stone-300 relative p-4 sm:p-6 lg:p-0">
+
+            <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-0 h-full">
+              {/* Left Content Area */}
+              <div className="lg:absolute lg:left-[35px] lg:top-[44px] xl:w-[540px] lg:w-[400px] flex flex-col justify-center lg:justify-start">
+                {/* Main Heading - Uses h3 from index.css */}
+                <h3 className="text-black font-bold font-manrope mb-4 sm:mb-6 lg:mb-[110px] leading-tight">
+                  Accelerate growth at the new speed of business
+                </h3>
+
+                {/* First Paragraph */}
+                <div className="flex flex-col flex-1 gap-6 mt-6">
+                  {/* First Paragraph */}
+                  <p className="text-neutral-500 leading-relaxed flex-1">
+                    We believe the future belongs to those who move fast, adapt faster, and innovate without limits.
+                    Businesses today don’t just need technology; they need intelligent, scalable solutions that keep
+                    them ahead in an ever-changing world.
+                  </p>
+
+                  {/* Second Paragraph */}
+                  <p className="text-neutral-600 font-medium font-manrope leading-relaxed flex-1">
+                    That’s why we’re here: to bridge the gap between ambition and execution. We combine Agentic AI,
+                    automation, and next-gen digital solutions to help organisations reimagine possibilities, unlock
+                    efficiency, and create measurable impact.
+                  </p>
+
+                  {/* Third Paragraph */}
+                  <p className="text-neutral-600 font-medium font-manrope leading-relaxed flex-1">
+                    Our mission is simple empower businesses to grow at the speed of change. Whether it’s transforming industries with AI-driven use cases, building enterprise-grade platforms, or enabling custom solutions tailored to your needs, SNS Square is your partner in shaping a smarter, faster, more resilient future.
                   </p>
                 </div>
               </div>
-            </WobbleCard>
 
-            <WobbleCard containerClassName="col-span-1 min-h-[250px] sm:min-h-[200px] bg-[#DCE7FD]">
-              <div className="flex flex-col ">
-                <div className="w-36 h-22 flex items-start justify-start mb-4">
-                  {animationData[values[1].title] && (
-                    <Lottie
-                      animationData={animationData[values[1].title]}
-                      loop={true}
-                      autoplay={true}
-                      style={{ width: 200, height: 150 }}
-                    />
-                  )}
-                </div>
-                <div className="p-4 px-8">
-                  <h3 className="text-lg font-manrope font-semibold text-global-1 mb-3">
-                    {values[1].title}
-                  </h3>
-                  <div className="w-full h-px bg-gray-300 mb-3"></div>
-                  <p className="text-sm font-inter text-gray-700 leading-relaxed">
-                    {values[1].description}
-                  </p>
-                </div>
+              {/* Right Image Placeholder */}
+              <div className="lg:absolute lg:right-[35px] lg:top-[38px] w-full xl:w-[600px] h-[200px] sm:h-[250px] md:h-[300px] lg:h-[600px] lg:w-[500px] rounded overflow-hidden">
+                <img
+                  src="/images/About_us/About us.png" // replace with your image path
+                  alt="Descriptive Alt Text"
+                  className="w-full h-full object-fill"
+                />
               </div>
-            </WobbleCard>
 
-            {/* Second Row - One Wide Card */}
-            <WobbleCard containerClassName="md:col-span-2 min-h-[150px] bg-[#DCE7FD] py-8 ">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 px-4">
-                <div className="pl-4">
-                  <div className="w-22 h-22 flex items-center justify-center flex-shrink-0  sm:mb-0 ">
-                    {animationData[values[2].title] && (
-                      <Lottie
-                        animationData={animationData[values[2].title]}
-                        loop={true}
-                        autoplay={true}
-                        style={{ width: 200, height: 150 }}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 w-full px-4">
-                  <h3 className="text-lg font-manrope font-semibold text-global-1 flex-shrink-0">
-                    {values[2].title}
-                  </h3>
-                  <div className="w-full sm:w-px h-px sm:h-8 bg-gray-300 flex-shrink-0"></div>
-                  <p className="text-sm font-inter text-gray-700 leading-relaxed">
-                    {values[2].description}
-                  </p>
-                </div>
-              </div>
-            </WobbleCard>
+            </div>
+
+            {/* Contact Button */}
+            <div className="lg:absolute lg:left-[35px] lg:bottom-[48px] mt-4 sm:mt-6 lg:mt-0">
+              <button className="h-10 sm:h-12 lg:h-16 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-7 bg-neutral-800 rounded inline-flex justify-center items-center gap-3.5 hover:bg-neutral-700 transition-colors duration-300 w-full lg:w-auto">
+                <span className="text-orange-50 font-medium font-manrope">
+                  Contact Us
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -154,4 +81,4 @@ const ValuesSection = () => {
   );
 };
 
-export default ValuesSection;
+export default WhyWeAreHereSection;

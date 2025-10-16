@@ -262,7 +262,7 @@
     "summary": "From scattered data inputs to seamless execution.",
     "heroTitle": "Smarter Planning with Agentic AI",
     "description": "From data to decisions—smarter planning for modern software teams. Agentic AI streamlines autonomous agents to handle requirement gathering, draft timelines, and risk checks—while decision-makers focus on priorities and approvals.",
-    "image": "/images/ai_planning.jpg",
+    "image": "/images/InformationTechnology/PoweredPlanning.png",
     "tagline": "From scattered data inputs to seamless execution",
     "sections": [
       {
@@ -316,7 +316,7 @@
     "summary": "Smarter data preparation empowers intelligent business",
     "heroTitle": "Data Preparation",
     "description": "Essential data preparation is the process of turning messy, scattered, and incomplete data into a clean, usable, and reliable format for analysis. Without it, companies face delays, compliance risks, and loss of valuable trends.",
-    "image": "/images/ai_data_preparation.jpg",
+    "image": "/images/InformationTechnology/data_prep.png",
     "tagline": "Smarter data preparation empowers intelligent business",
     "sections": [
       {
@@ -367,7 +367,7 @@
     "summary": "Where Business Logic Becomes Scalable Reality.",
     "heroTitle": "Transforming Software Development with Agentic AI",
     "description": "Built with Agentic AI to transform how businesses build and scale software. Our platform removes the complexity of traditional development by separating business logic from code.",
-    "image": "/images/ai_developement.jpg",
+    "image":"/images/InformationTechnology/developmentPlatform.png",
     "tagline": "Where Business Logic Becomes Scalable Reality",
     "sections": [
       {
@@ -405,7 +405,7 @@
     "summary": "Transforming Software Testing into an Intelligent, Self-Adaptive Process",
     "heroTitle": "AI–powered Test Automation",
     "description": "Our Agentic AI–powered Test Automation Platform makes testing simple, fast, and intelligent. It supports web, mobile, and API apps with no-code, low-code, and pro-code flexibility.",
-    "image": "/images/ai_testing.jpg",
+    "image": "/images/InformationTechnology/TestAutomation.png",
     "tagline": "Transforming Software Testing into an Intelligent, Self-Adaptive Process",
     "sections": [
       {
@@ -453,7 +453,7 @@
     "summary": "From manual pipelines to self-driving deployments",
     "heroTitle": "Agentic AI-Driven Autonomous Deployment",
     "description": "Software deployment has become a cornerstone of modern engineering, shaping the pace and reliability of digital transformation. Deployment now requires an intelligent, adaptive approach.",
-    "image": "/images/ai_deployment.jpg",
+    "image": "/images/InformationTechnology/deploymentAutomation.png",
     "tagline": "From manual pipelines to self-driving deployments",
     "sections": [
       {
@@ -507,7 +507,7 @@
     "summary": "Accelerate Revenue. Strengthen Customer Relationships. Scale Without Limits.",
     "heroTitle": "AI Agents at the Core of Business Transformation",
     "description": "AI Agents are redefining how Salesforce operates—not as passive tools, but as active digital co-pilots that drive execution, intelligence, and growth. These agents automate repetitive tasks, orchestrate workflows across systems, and surface real-time insights, enabling businesses to move faster, smarter, and at scale.",
-    "image": "/images/ai_victory.jpg",
+    "image": "/images/InformationTechnology/business_Acc.png",
     "tagline": "Accelerate Revenue. Strengthen Customer Relationships. Scale Without Limits.",
     "sections": [
       {
@@ -561,7 +561,7 @@
     "summary": "From Backlog to Delivery — Faster, Smarter, Seamless.",
     "heroTitle": "Jira AI Agents Transform Project Management",
     "description": "Jira AI Agents transform traditional project management into a high-performance, automated ecosystem. By embedding intelligence into workflows, they streamline execution, eliminate inefficiencies, and empower teams to focus on innovation and business impact.",
-    "image": "/images/ai_jira.png",
+    "image": "/images/InformationTechnology/AutomatingJira.png",
     "tagline": "From Backlog to Delivery — Faster, Smarter, Seamless.",
     "sections": [
       {
@@ -619,7 +619,7 @@
     "summary": "Intelligent ServiceNow Agents for Faster, Smarter IT Support",
     "heroTitle": "ServiceNow AI: ITSM Excellence Unlocked",
     "description": "Deploying intelligent automation agents within ServiceNow transforms IT support into a proactive, high-speed function, unlocking efficiency, customer satisfaction, and cost savings.",
-    "image": "/images/ai_driving.jpg",
+    "image": "/images/InformationTechnology/ServiceNowAI.png",
     "tagline": "Intelligent ServiceNow Agents for Faster, Smarter IT Support",
     "sections": [
       {
