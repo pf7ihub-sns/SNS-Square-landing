@@ -100,6 +100,7 @@ const Header = () => {
     'about-us': [
       { label: 'Life at SNS Square', href: '/life-at-sns' },
       { label: 'About SNS Square', href: '/about-us' },
+      { label: 'GCC', href: '/gcc' }
     ],
   };
 
@@ -558,19 +559,25 @@ const Header = () => {
                 Who we are
               </div>
               <div className="ml-4 space-y-1">
-                <NavLink to="/life-at-sns" className={({ isActive }) =>
-                  `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
-                   ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
-                } onClick={handleNavClick}>
-                  Life at SNS Square
-                </NavLink>
-                <NavLink to="/about-us" className={({ isActive }) =>
-                  `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
-                   ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
-                } onClick={handleNavClick}>
-                  About SNS Square
-                </NavLink>
-              </div>
+              <NavLink to="/life-at-sns" className={({ isActive }) =>
+                `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+              } onClick={handleNavClick}>
+                Life at SNS Square
+              </NavLink>
+              <NavLink to="/about-us" className={({ isActive }) =>
+                `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+              } onClick={handleNavClick}>
+                About SNS Square
+              </NavLink>
+              <NavLink to="/gcc" className={({ isActive }) =>
+                `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
+                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
+              } onClick={handleNavClick}>
+                GCC
+              </NavLink>
+            </div>
             </div>
             <NavLink to="/careers" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
