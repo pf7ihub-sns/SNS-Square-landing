@@ -260,7 +260,7 @@ const Dashboard = () => {
       <div className="bg-white border-b border-gray-200 px-8 py-4 mt-25">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Contract Dashboard</h1>
+            <h2 className="text-2xl font-semibold text-gray-900">Contract Dashboard</h2>
             <p className="text-sm text-gray-500 mt-1">
               {stats.total} {stats.total === 1 ? 'contract' : 'contracts'} found
             </p>
@@ -423,12 +423,12 @@ const Dashboard = () => {
         {/* Contracts Table */}
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h4 className="text-sm font-semibold text-gray-900">
               {filterStatus === 'all' && 'All Contracts'}
-              {filterStatus === 'expiring' && '⚠️ Expiring Soon (Next 30 Days)'}
-              {filterStatus === 'active' && '✓ Active Contracts'}
+              {filterStatus === 'expiring' && 'Expiring Soon (Next 30 Days)'}
+              {filterStatus === 'active' && 'Active Contracts'}
               {filterStatus === 'expired' && 'Expired Contracts'}
-            </h2>
+            </h4>
           </div>
           
           <div className="overflow-x-auto">

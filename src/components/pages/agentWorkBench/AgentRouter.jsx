@@ -174,10 +174,21 @@ const AgentRouter = () => {
 
   // Special handling for DocSentra with nested routes
   if (decoded.toLowerCase() === 'doc-sentra' || key.toLowerCase() === 'doc-sentra') {
-    return <DocSentra />;
+    return (
+      <div className="agent-wrapper">
+        <DocSentra />
+      </div>
+    );
   }
 
-  return normalized[decoded.toLowerCase()] || normalized[key.toLowerCase()] || <AgentDisplay />;
+  const component = normalized[decoded.toLowerCase()] || normalized[key.toLowerCase()] || <AgentDisplay />;
+  
+  // Wrap all agents with reduced font size
+  return (
+    <div className="agent-wrapper">
+      {component}
+    </div>
+  );
 };
 
 export default AgentRouter;
