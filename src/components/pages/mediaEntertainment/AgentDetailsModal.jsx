@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -150,7 +149,7 @@ const AgentDetailsPage = () => {
           backgroundImage: "url('/images/bgall.png')",
         }}
       >
-        <div className="w-full max-w-6xl mx-auto px-4 py-20 text-center ">
+        <div className="w-full max-w-10xl mx-auto px-4 py-20 text-center ">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -301,7 +300,7 @@ const AgentDetailsPage = () => {
             </div>
 
             <div className="text-center mb-12">
-              <h3 className="text-2xl lg:text-4xl font-bold text-[#000] mb-6">
+              <h3 className="text-3xl lg:text-4xl font-bold text-[#000] mb-6">
                 {agent.whyItMatters.title}
               </h3>
               <p className="text-[17px] text-[#6B7280] max-w-4xl mx-auto leading-relaxed">
