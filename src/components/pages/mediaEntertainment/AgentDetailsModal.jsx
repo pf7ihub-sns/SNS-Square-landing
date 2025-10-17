@@ -205,7 +205,7 @@ const AgentDetailsPage = () => {
             transition={{ duration: 0.6 }}
             className="mb-20"
           >
-            <div className="mb-12">
+            <div className="mb-6 px-6 py-6">
               <div className="inline-block border-b-4 border-blue-500 pb-2">
                 <h2 className="text-2xl font-medium text-[#000]">What It Is</h2>
               </div>
@@ -322,7 +322,7 @@ const AgentDetailsPage = () => {
                       <span className="text-white text-2xl">{benefit.icon}</span>
                     )}
                   </div>
-                  <h4 className="text-lg  font-medium text-[#000] mb-3 leading-tight">
+                  <h4 className="text-lg font-medium text-[#000] mb-3 leading-tight">
                     {benefit.title}
                   </h4>
                 </div>
@@ -352,7 +352,8 @@ const AgentDetailsPage = () => {
                   <button
                     key={index}
                     onClick={() => setActiveStep(index)}
-                    className="relative pb-4 px-4 transition-all duration-300 border border-gray-200 rounded-xl shadow-lg bg-white"
+                    className={`relative pb-4 px-4 transition-all duration-300 rounded-xl ${activeStep === index ? 'bg-white' : 'bg-transparent'
+                      }`}
                   >
                     {/* Top border */}
                     <div
@@ -383,78 +384,98 @@ const AgentDetailsPage = () => {
             <div className="bg-[#EFF3FF] rounded-2xl p-8 lg:p-12 border border-blue-100">
               {agent.howItWorks.steps[activeStep] && (
                 <div>
-                  <div className=" items-start space-x-6 mb-8">
-                    <div className=" mb-2  items-center justify-center ">
-                      <span className="text-[#155DFC] text-3xl font-bold">
-                        {agent.howItWorks.steps[activeStep].number}
-                      </span>
-                    </div>
-                    <div className=" inline-block ">
-                      <h4 className="text-3xl font-bold text-[#000] mb-2">
-                        {agent.howItWorks.steps[activeStep].title}
-                      </h4>
-                      <p className="text-lg text-[#6B7280] leading-relaxed">
-                        {agent.howItWorks.steps[activeStep].description}
-                      </p>
-                      <hr className='mt-5 border-t-2 border-[#C7C7C7]' />
-                    </div>
-                  </div>
-
-                  {/* Process Flow - Only for step 1 (Architecture Overview) */}
+                  {/* Process Flow - Architecture Overview */}
                   {agent.howItWorks.steps[activeStep].process && (
-                    <div className="flex flex-wrap items-center justify-center gap-4  rounded-xl p-6">
-                      {agent.howItWorks.steps[activeStep].process.map((item, idx) => (
-                        <React.Fragment key={idx}>
-                          <div className="flex items-center space-x-4 p-6 bg-white rounded-xl shadow-md border border-gray-100 min-w-[200px]">
-                            {item.isImage ? (
-                              <img
-                                src={item.icon}
-                                alt={item.label}
-                                className="w-7 h-7 object-contain flex-shrink-0"
-                              />
-                            ) : (
-                              <span className="text-xl flex-shrink-0">{item.icon}</span>
+                    <div className="mb-8">
+                      {/* Title and Description */}
+                      <div className="mb-6">
+                        <h3 className="text-4xl font-bold text-blue-600 mb-4">
+                          {agent.howItWorks.steps[activeStep].number}
+                        </h3>
+                        <h4 className="text-2xl font-bold text-[#000] mb-3">
+                          {agent.howItWorks.steps[activeStep].title}
+                        </h4>
+                        <p className="text-base text-gray-600 leading-relaxed mb-8">
+                          {agent.howItWorks.steps[activeStep].description}
+                        </p>
+                      </div>
+
+                      {/* Process Flow Cards */}
+                      <div className="flex flex-wrap items-center justify-start gap-3 p-4">
+                        {agent.howItWorks.steps[activeStep].process.map((item, idx) => (
+                          <React.Fragment key={idx}>
+                            <div className="flex items-center gap-3 px-6 py-4 bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                              {item.isImage ? (
+                                <img
+                                  src={item.icon}
+                                  alt={item.label}
+                                  className="w-6 h-14 object-contain flex-shrink-0"
+                                />
+                              ) : (
+                                <span className="text-blue-600 text-lg flex-shrink-0">{item.icon}</span>
+                              )}
+                              <span className="font-medium text-gray-900 text-sm whitespace-nowrap">
+                                {item.label}
+                              </span>
+                            </div>
+                            {idx < agent.howItWorks.steps[activeStep].process.length - 1 && (
+                              <svg className="w-5 h-5 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                              </svg>
                             )}
-                            <span className="font-medium text-gray-900 text-base text-left leading-snug max-w-[160px]">
-                              {item.label}
-                            </span>
-                          </div>
-                          {idx < agent.howItWorks.steps[activeStep].process.length - 1 && (
-                            <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                          )}
-                        </React.Fragment>
-                      ))}
+                          </React.Fragment>
+                        ))}
+                      </div>
                     </div>
                   )}
 
                   {agent.howItWorks.steps[activeStep].features && (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full">
-                      {/* Left side - Features (spans 1 column) */}
-                      <div className="lg:col-span-1 space-y-4">
-                        {agent.howItWorks.steps[activeStep].features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center mt-1">
-                              <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                              </svg>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start w-full">
+                      {/* Left side - Features with step number and description */}
+                      <div className="lg:col-span-1">
+                        <div className="mb-6">
+                          <h3 className="text-4xl font-bold text-blue-600 mb-4">
+                            {agent.howItWorks.steps[activeStep].number}
+                          </h3>
+                          <h4 className="text-2xl font-bold text-[#000] mb-3">
+                            {agent.howItWorks.steps[activeStep].title}
+                          </h4>
+                          <p className="text-base text-gray-600 leading-relaxed mb-8">
+                            {agent.howItWorks.steps[activeStep].description}
+                          </p>
+                          <hr className="border-t-2 border-gray-300 mb-8" />
+                        </div>
+                        
+                        <div className="space-y-4">
+                          {agent.howItWorks.steps[activeStep].features.map((feature, idx) => (
+                            <div key={idx} className="flex items-start space-x-3">
+                              <div className="flex-shrink-0 w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center mt-0.5">
+                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                </svg>
+                              </div>
+                              <span className="text-base text-[#000] leading-relaxed font-medium">
+                                {feature}
+                              </span>
                             </div>
-                            <span className="text-base text-[#000] leading-relaxed font-medium">
-                              {feature}
-                            </span>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
 
-                      {/* Right side - Image (spans 1 column, aligned to the top right) */}
+                      {/* Right side - Image with gradient background */}
                       {agent.howItWorks.steps[activeStep].image && (
-                        <div className="lg:col-span-1 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-2 flex justify-end w-full">
-                          <img
-                            src={agent.howItWorks.steps[activeStep].image}
-                            alt={agent.howItWorks.steps[activeStep].title}
-                            className="w-full h-auto rounded-lg max-w-[400px]"
-                          />
+                        <div className="lg:col-span-1 flex items-center justify-center">
+                          <div className="rounded-3xl p-8 shadow-xl" style={{
+                            background: 'linear-gradient(235deg, #EFF3FF 3%, #A4C0FE 36%, #155DFC 100%)'
+                          }}>
+                            <div className="bg-white rounded-2xl p-6 shadow-inner">
+                              <img
+                                src={agent.howItWorks.steps[activeStep].image}
+                                alt={agent.howItWorks.steps[activeStep].title}
+                                className="w-full h-auto rounded-lg"
+                              />
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>

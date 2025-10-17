@@ -27,6 +27,7 @@ import { BlogGrid, BlogDetail } from "../pages/blog";
 import JobDescription from "../pages/careers/JobDescription";
 import JobApplicationPage from "../pages/careers/JobApplicationPage";
 import PolicyPage from "../pages/policy/PolicyPage";
+import GCCPage from "../pages/GCC";
 import Login from "../pages/Auth/login";
 import Signup from "../pages/Auth/signup";
 import AdminDashboard from "../pages/admin/dashboard";
@@ -75,6 +76,7 @@ export default function AppRoutes() {
       <Route path="/usecase/:category/:id" element={<UseCaseDetail />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/gcc" element={<GCCPage />} />
       <Route path="/resources" element={<BlogGrid />} />
       <Route path="/resources/blog" element={<BlogGrid />} />
       <Route path="/resources/blog/:id" element={<BlogDetail />} />
