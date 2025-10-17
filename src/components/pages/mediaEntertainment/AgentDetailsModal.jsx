@@ -205,7 +205,7 @@ const AgentDetailsPage = () => {
             transition={{ duration: 0.6 }}
             className="mb-20"
           >
-            <div className="mb-6 px-6 py-6">
+            <div className="mb-12">
               <div className="inline-block border-b-4 border-blue-500 pb-2">
                 <h2 className="text-2xl font-medium text-[#000]">What It Is</h2>
               </div>
@@ -301,7 +301,7 @@ const AgentDetailsPage = () => {
             </div>
 
             <div className="text-center mb-12">
-              <h3 className="text-3xl lg:text-4xl font-bold text-[#000] mb-6">
+              <h3 className="text-2xl lg:text-4xl font-bold text-[#000] mb-6">
                 {agent.whyItMatters.title}
               </h3>
               <p className="text-[17px] text-[#6B7280] max-w-4xl mx-auto leading-relaxed">
@@ -322,7 +322,7 @@ const AgentDetailsPage = () => {
                       <span className="text-white text-2xl">{benefit.icon}</span>
                     )}
                   </div>
-                  <h4 className="text-lg font-medium text-[#000] mb-3 leading-tight">
+                  <h4 className="text-lg  font-medium text-[#000] mb-3 leading-tight">
                     {benefit.title}
                   </h4>
                 </div>
@@ -331,7 +331,7 @@ const AgentDetailsPage = () => {
           </motion.section>
         )}
 
-        {/* How It Works Section */}
+ {/* How It Works Section */}
         {agent.howItWorks && (
           <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -485,6 +485,7 @@ const AgentDetailsPage = () => {
             </div>
           </motion.section>
         )}
+
       </div>
     </div>
   );
