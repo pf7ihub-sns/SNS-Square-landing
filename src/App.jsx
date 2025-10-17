@@ -13,11 +13,14 @@ function App() {
   
   // Check if current path is an admin route
   const isAdminRoute = location.pathname.startsWith("/admin");
+  
+  // Check if current path is GCC page
+  const isGCCPage = location.pathname === "/gcc";
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Only show Navbar if NOT an admin route */}
-      {!isAdminRoute && <Navbar />}
+      {/* Only show Navbar if NOT an admin route AND NOT GCC page */}
+      {!isAdminRoute && !isGCCPage && <Navbar />}
       
       {/* Admin Layout with Sidebar */}
       {isAdminRoute ? (
@@ -34,8 +37,8 @@ function App() {
         </main>
       )}
       
-      {/* Only show Footer if NOT contact/login/signup pages AND NOT admin route */}
-      {!isContactUsPage && !isAdminRoute && <Footer />}
+      {/* Only show Footer if NOT contact/login/signup pages AND NOT admin route AND NOT GCC page */}
+      {!isContactUsPage && !isAdminRoute && !isGCCPage && <Footer />}
     </div>
   );
 }

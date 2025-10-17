@@ -1,3 +1,54 @@
+/* GCC Footer Headings */
+.footer-heading {
+  background: #8098F9;
+  color: #22223B;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+.footer-list {
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  padding-left: 0;
+  list-style: none;
+}
+.footer-list li {
+  margin-bottom: 0.25rem;
+}
+/* GCC Main Background: texture + blue gradient */
+.bg-gcc-main {
+  background: #000222;
+}
+.bg-gcc-texture {
+  background-image: url('/images/texture.png');
+  background-size: cover;
+  background-repeat: repeat;
+  opacity: 0.18;
+}
+.bg-gcc-gradient {
+  background: linear-gradient(180deg, rgba(0, 9, 50, 0) 0%, #0D2978 100%);
+  opacity: 0.95;
+}
+
+/* GCC Specialist Gradient Text */
+.gcc-specialist-gradient {
+  background: linear-gradient(90deg, #F9C365 0%, #FDE0E1 45.19%, #6BD2C6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* GCC Footer Custom BG */
+.bg-gcc-footer {
+  background: #020526;
+  position: relative;
+  overflow: hidden;
+}
 /* GCC Page Specific Styles */
 
 /* Header Spacing Fix */
