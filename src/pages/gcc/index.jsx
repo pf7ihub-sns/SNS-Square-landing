@@ -422,79 +422,56 @@ const GCCPage = () => {
 
 
   {/* spacer removed to avoid blank white area on scroll */}
-{/* Partners and Stats Section */}
-      <section className="relative z-20 overflow-hidden">
-        {/* First Part - Blue Gradient Background */}
-        <div 
-          className="relative pt-24 pb-20"
-          style={{ 
-            background: 'linear-gradient(180deg, rgba(0, 9, 50, 0) 0%, #0a1f5c 50%, #061642 100%)'
-          }}
-        >
-          {/* Left Triangle Light - Enhanced */}
-          <div 
-            className="absolute"
-            style={{
-              width: '900px',
-              height: '100%',
-              top: '0',
-              left: '-200px',
-              background: 'linear-gradient(180deg, #2388FF 0%, #1a6dd9 40%, rgba(35, 136, 255, 0) 75%)',
-              clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
-              opacity: 0.8,
-              pointerEvents: 'none',
-              filter: 'blur(60px)'
-            }}
-          />
-
-          {/* Right Triangle Light - Enhanced */}
-          <div 
-            className="absolute"
-            style={{
-              width: '900px',
-              height: '100%',
-              top: '0',
-              right: '-200px',
-              background: 'linear-gradient(180deg, #2388FF 0%, #1a6dd9 40%, rgba(35, 136, 255, 0) 75%)',
-              clipPath: 'polygon(50% 100%, 0 0, 100% 0)',
-              opacity: 0.8,
-              pointerEvents: 'none',
-              filter: 'blur(60px)'
-            }}
-          />
-
-          <div className="max-w-7xl mx-auto px-8 relative z-10">
+  <section className="relative z-10" style={{ background: '#061642' }}>
+        {/* Stats and Partners Section - New blue gradient background */}
+        <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #061642 0%, #0D2978 100%)' }}>
+          <div className="max-w-7xl mx-auto px-8">
             {/* Partner Logos - Two Rows */}
-            <div className="flex flex-col items-center gap-8 mb-20">
+            <div className="mb-20">
               {/* First Row */}
-              <div className="flex items-center justify-center gap-12 flex-wrap">
-                <img src="/images/home/company logos/AWS.png" alt="AWS" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/Snowflake.png" alt="Snowflake" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/SalesForce.png" alt="Salesforce" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/AZURE.png" alt="Azure" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+              <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 mb-12">
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/aws.png" alt="AWS" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/snowflake.png" alt="Snowflake" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/salesforce.png" alt="Salesforce" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/databricks.png" alt="Databricks" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/azure.png" alt="Azure" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
               </div>
+
               {/* Second Row */}
-              <div className="flex items-center justify-center gap-12 flex-wrap">
-                <img src="/images/home/company logos/AWS.png" alt="Google Cloud" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/Snowflake.png" alt="NVIDIA" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/SalesForce.png" alt="Google BigQuery" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                <img src="/images/home/company logos/ServiceNow.png" alt="ServiceNow" className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+              <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/google-cloud.png" alt="Google Cloud" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/nvidia.png" alt="NVIDIA" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/bigquery.png" alt="BigQuery" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
+                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
+                  <img src="/images/servicenow.png" alt="ServiceNow" className="h-8 md:h-10 w-auto object-contain" />
+                </div>
               </div>
             </div>
 
-            {/* Stats Boxes */}
-            <div className="flex flex-col md:flex-row gap-6 justify-center max-w-4xl mx-auto pb-12">
-              {/* 150+ Box */}
-              <div 
-                className="flex items-center gap-4 px-6 py-4 rounded-lg border border-blue-500/30"
-                style={{ 
-                  background: 'linear-gradient(180deg, #05102E 0%, #031F8C 100%)',
-                  boxShadow: '0 4px 20px rgba(3, 31, 140, 0.3)'
-                }}
-              >
+            {/* Stats Cards */}
+            <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
+              {/* Databricks Card */}
+              <div className="flex items-center gap-6 bg-blue-900/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 hover:bg-blue-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
                 <div className="flex-shrink-0">
-                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-10 w-auto" />
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect x="14" y="14" width="20" height="20" rx="2" fill="#FF3621" transform="rotate(45 24 24)"/>
+                  </svg>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white mb-0">150+</div>
@@ -502,20 +479,14 @@ const GCCPage = () => {
                 </div>
               </div>
 
-              {/* 1500+ Box */}
-              <div 
-                className="flex items-center gap-4 px-6 py-4 rounded-lg border border-blue-500/30"
-                style={{ 
-                  background: 'linear-gradient(180deg, #05102E 0%, #031F8C 100%)',
-                  boxShadow: '0 4px 20px rgba(3, 31, 140, 0.3)'
-                }}
-              >
+              {/* Foundational Agents Card */}
+              <div className="flex items-center gap-6 bg-blue-900/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 hover:bg-blue-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
                 <div className="flex-shrink-0">
-                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                    <rect x="2" y="2" width="16" height="16" rx="2" fill="#FFD700" />
-                    <rect x="22" y="2" width="16" height="16" rx="2" fill="#FFD700" />
-                    <rect x="2" y="22" width="16" height="16" rx="2" fill="#FFD700" />
-                    <rect x="22" y="22" width="16" height="16" rx="2" fill="#FFD700" />
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <rect x="14" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
+                    <rect x="30" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
+                    <rect x="14" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
+                    <rect x="30" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
                   </svg>
                 </div>
                 <div>
