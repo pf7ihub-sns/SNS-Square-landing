@@ -403,7 +403,7 @@ const Header = () => {
             </NavLink>
           </div>
 
-          <div className="relative group">
+          {/* <div className="relative group">
             <NavLink
               to="/gcc"
               className={linkClasses}
@@ -411,7 +411,7 @@ const Header = () => {
             >
               GCC
             </NavLink>
-          </div>
+          </div> */}
 
           <div className="relative group">
             <NavLink
@@ -594,12 +594,6 @@ const Header = () => {
                ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
             } onClick={handleNavClick}>
               Careers
-            </NavLink>
-            <NavLink to="/gcc" className={({ isActive }) =>
-              `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100
-               ${isActive ? "text-blue-600 bg-blue-50" : "text-black hover:text-blue-600"}`
-            } onClick={handleNavClick}>
-              GCC
             </NavLink>
             <NavLink to="/resources" className={({ isActive }) =>
               `text-small font-normal font-inter cursor-pointer transition-all duration-200 rounded-md px-3 py-2 hover:bg-gray-100

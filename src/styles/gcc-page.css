@@ -1,13 +1,64 @@
+/* GCC Footer Headings */
+.footer-heading {
+  background: #8098F9;
+  color: #22223B;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+.footer-list {
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  padding-left: 0;
+  list-style: none;
+}
+.footer-list li {
+  margin-bottom: 0.25rem;
+}
+/* GCC Main Background: texture + blue gradient */
+.bg-gcc-main {
+  background: #000222;
+}
+.bg-gcc-texture {
+  background-image: url('/images/texture.png');
+  background-size: cover;
+  background-repeat: repeat;
+  opacity: 0.18;
+}
+.bg-gcc-gradient {
+  background: linear-gradient(180deg, rgba(0, 9, 50, 0) 0%, #0D2978 100%);
+  opacity: 0.95;
+}
+
+/* GCC Specialist Gradient Text */
+.gcc-specialist-gradient {
+  background: linear-gradient(90deg, #F9C365 0%, #FDE0E1 45.19%, #6BD2C6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+/* GCC Footer Custom BG */
+.bg-gcc-footer {
+  background: #020526;
+  position: relative;
+  overflow: hidden;
+}
 /* GCC Page Specific Styles */
 
-/* Header Spacing Fix */
+/* Header Spacing: removed global top padding so header can sit flush to top */
 .gcc-page {
-  padding-top: 100px; /* Account for fixed header height */
+  padding-top: 0;
 }
 
 @media (max-width: 768px) {
   .gcc-page {
-    padding-top: 120px; /* More space on mobile */
+    padding-top: 0;
   }
 }
 
@@ -151,4 +202,36 @@
   .gcc-column span {
     font-size: 12px;
   }
+}
+
+/* Footer typography adjustments scoped to GCC page */
+.gcc-page footer h3 {
+  font-size: 15px; /* slightly larger headings for readability */
+  font-weight: 600;
+  margin-bottom: 1rem; /* more breathing room */
+  color: #8098F9;
+}
+
+.gcc-page footer ul,
+.gcc-page footer p,
+.gcc-page footer li {
+  font-size: 14px; /* uniform body size */
+  line-height: 1.8; /* increased line-height for breathability */
+  color: rgba(255,255,255,0.85);
+}
+
+.gcc-page footer ul li {
+  margin-bottom: 0.75rem; /* gap between each list row */
+}
+
+.gcc-page footer .col-address p,
+.gcc-page footer .col-address span {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+}
+
+/* Make sure footer small print is legible */
+.gcc-page .relative.z-20.w-full {
+  font-size: 12px;
 }
