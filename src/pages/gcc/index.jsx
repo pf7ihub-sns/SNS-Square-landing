@@ -426,40 +426,53 @@ const GCCPage = () => {
         {/* Stats and Partners Section - New blue gradient background */}
         <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #061642 0%, #0D2978 100%)' }}>
           <div className="max-w-7xl mx-auto px-8">
-            {/* Partner Logos - Two Rows */}
-            <div className="mb-20">
-              {/* First Row */}
-              <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 mb-12">
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/aws.png" alt="AWS" className="h-8 md:h-10 w-auto object-contain" />
+            {/* Partner Logos - Pyramid Layout */}
+            <div className="mb-20 relative">
+              {/* Triangle Background Gradient */}
+              <div 
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                style={{
+                  width: '800px',
+                  height: '400px',
+                  background: 'linear-gradient(180deg, rgba(35, 136, 255, 0.1) 0%, rgba(35, 136, 255, 0.05) 50%, transparent 100%)',
+                  clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+                  filter: 'blur(60px)',
+                  opacity: 0.6
+                }}
+              />
+
+              {/* First Row - 5 logos */}
+              <div className="flex items-center justify-center gap-8 md:gap-12 lg:gap-16 mb-8 md:mb-10">
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/AWS.png" alt="AWS" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/snowflake.png" alt="Snowflake" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/Snowflake.png" alt="Snowflake" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/salesforce.png" alt="Salesforce" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/SalesForce.png" alt="Salesforce" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/databricks.png" alt="Databricks" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/azure.png" alt="Azure" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/AZURE.png" alt="Azure" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
               </div>
 
-              {/* Second Row */}
-              <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/google-cloud.png" alt="Google Cloud" className="h-8 md:h-10 w-auto object-contain" />
+              {/* Second Row - 4 logos */}
+              <div className="flex items-center justify-center gap-10 md:gap-14 lg:gap-20">
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/gcloud.png" alt="Google Cloud" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/nvidia.png" alt="NVIDIA" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/nvidia.png" alt="NVIDIA" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/bigquery.png" alt="BigQuery" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/bigquery.png" alt="BigQuery" className="h-14 md:h-50 w-auto object-contain" />
                 </div>
-                <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/servicenow.png" alt="ServiceNow" className="h-8 md:h-10 w-auto object-contain" />
+                <div className="transition-all duration-300 hover:scale-110 hover:brightness-110">
+                  <img src="/images/home/company logos/ServiceNow.png" alt="ServiceNow" className="h-14 md:h-10 w-auto object-contain" />
                 </div>
               </div>
             </div>
