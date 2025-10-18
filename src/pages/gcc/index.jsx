@@ -335,7 +335,7 @@ const GCCPage = () => {
                         writingMode: 'vertical-rl',
                         textOrientation: 'mixed',
                         transform: 'rotate(180deg)',
-                        letterSpacing: '0.2em',
+                        letterSpacing: '0.3em',
                         textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
                         filter: 'drop-shadow(0 0 8px rgba(220,20,60,0.5))'
                       }}
@@ -422,44 +422,45 @@ const GCCPage = () => {
 
 
   {/* spacer removed to avoid blank white area on scroll */}
-  <section className="relative z-10" style={{ background: '#061642' }}>
+         {/* spacer removed to avoid blank white area on scroll */}
+      <section className="relative z-10" style={{ background: '#061642' }}>
         {/* Stats and Partners Section - New blue gradient background */}
         <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #061642 0%, #0D2978 100%)' }}>
           <div className="max-w-7xl mx-auto px-8">
-            {/* Partner Logos - Two Rows */}
+            {/* Partner Logos - Two Rows - BIGGER SIZE */}
             <div className="mb-20">
-              {/* First Row */}
+              {/* First Row - 5 logos */}
               <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 mb-12">
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/aws.png" alt="AWS" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/aws.png" alt="AWS" className="h-14 md:h-16 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/snowflake.png" alt="Snowflake" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/home/company logos/Snowflake.png" alt="Snowflake" className="h-14 md:h-14 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/salesforce.png" alt="Salesforce" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/home/company logos/SalesForce.png" alt="Salesforce" className="h-14 md:h-16 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/databricks.png" alt="Databricks" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-14 md:h-14 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/azure.png" alt="Azure" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/home/company logos/AZURE.png" alt="Azure" className="h-14 md:h-16 w-auto object-contain" />
                 </div>
               </div>
 
-              {/* Second Row */}
+              {/* Second Row - 4 logos */}
               <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/google-cloud.png" alt="Google Cloud" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/gcloud.png" alt="Google Cloud" className="h-16 md:h-25 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/nvidia.png" alt="NVIDIA" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/nvidia.png" alt="NVIDIA" className="h-14 md:h-25 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/bigquery.png" alt="BigQuery" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/bigquery.png" alt="BigQuery" className="h-14 md:h-25 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/servicenow.png" alt="ServiceNow" className="h-8 md:h-10 w-auto object-contain" />
+                  <img src="/images/servicenow.png" alt="ServiceNow" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
               </div>
             </div>
@@ -469,9 +470,7 @@ const GCCPage = () => {
               {/* Databricks Card */}
               <div className="flex items-center gap-6 bg-blue-900/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 hover:bg-blue-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
                 <div className="flex-shrink-0">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <rect x="14" y="14" width="20" height="20" rx="2" fill="#FF3621" transform="rotate(45 24 24)"/>
-                  </svg>
+                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-12 w-auto object-contain" />
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-white mb-0">150+</div>
@@ -495,64 +494,66 @@ const GCCPage = () => {
                 </div>
               </div>
             </div>
+
+            {/* Soft Light Blue Glow - No visible triangle, just merged light */}
+            <div 
+              className="absolute"
+              style={{
+                width: '2000px',
+                height: '1000px',
+                bottom: '-300px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'radial-gradient(ellipse 800px 600px at 50% 0%, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.15) 20%, rgba(37, 99, 235, 0.08) 40%, rgba(29, 78, 216, 0) 70%)',
+                pointerEvents: 'none',
+                zIndex: 1,
+                filter: 'blur(150px)',
+                opacity: 0.6
+              }}
+            />
           </div>
         </div>
 
-        {/* Curved Separator with Triangle Bottom - Enhanced */}
-        <div className="relative" style={{ height: '180px', marginTop: '-1px' }}>
-          {/* The curved separator SVG - Deeper curve */}
+        {/* Single Smooth Curve Divider */}
+        <div className="relative" style={{ height: '120px', marginTop: '-1px' }}>
           <svg 
-            viewBox="0 0 1440 180" 
+            viewBox="0 0 1440 120" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
             className="w-full h-full absolute top-0"
             preserveAspectRatio="none"
-            style={{ transform: 'translateY(-1px)' }}
           >
-            {/* Top curve (blue gradient background continues) */}
+            {/* Smooth curve transition */}
             <path 
-              d="M0,0 L0,80 Q360,140 720,80 T1440,80 L1440,0 Z" 
-              fill="#061642"
+              d="M0,0 L0,40 Q360,100 720,40 T1440,40 L1440,0 Z" 
+              fill="url(#blueGradient)"
             />
-            {/* Bottom part (black background) */}
             <path 
-              d="M0,80 Q360,140 720,80 T1440,80 L1440,180 L0,180 Z" 
+              d="M0,40 Q360,100 720,40 T1440,40 L1440,120 L0,120 Z" 
               fill="#000000"
             />
+            <defs>
+              <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#0D2978" />
+                <stop offset="100%" stopColor="rgba(0, 9, 50, 0.5)" />
+              </linearGradient>
+            </defs>
           </svg>
 
-          {/* Center Triangle Bottom Light - Enhanced and Repositioned */}
+          {/* Additional bottom center glow for smooth transition */}
           <div 
             className="absolute"
             style={{
               width: '1200px',
-              height: '600px',
-              bottom: '40px',
+              height: '500px',
+              bottom: '0px',
               left: '50%',
               transform: 'translateX(-50%)',
-              background: 'linear-gradient(180deg, #2388FF 0%, #1a6dd9 30%, rgba(35, 136, 255, 0) 70%)',
-              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-              opacity: 0.7,
-              pointerEvents: 'none',
-              zIndex: 1,
-              filter: 'blur(80px)'
-            }}
-          />
-
-          {/* Additional center glow for more intensity */}
-          <div 
-            className="absolute"
-            style={{
-              width: '600px',
-              height: '300px',
-              bottom: '60px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'radial-gradient(ellipse at center, #2388FF 0%, rgba(35, 136, 255, 0) 70%)',
-              opacity: 0.6,
+              background: 'radial-gradient(ellipse at center top, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 30%, rgba(29, 78, 216, 0) 60%)',
+              opacity: 0.4,
               pointerEvents: 'none',
               zIndex: 2,
-              filter: 'blur(40px)'
+              filter: 'blur(140px)'
             }}
           />
         </div>
