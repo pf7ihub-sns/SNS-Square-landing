@@ -419,16 +419,14 @@ const GCCPage = () => {
           </div>
         </div>
       </div>
-
-
   {/* spacer removed to avoid blank white area on scroll */}
          {/* spacer removed to avoid blank white area on scroll */}
       <section className="relative z-10" style={{ background: '#000222' }}>
         {/* Stats and Partners Section - New blue gradient background */}
         <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #0D2978 0%, #000222 25%)' }}>
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-10xl mx-auto px-8">
             {/* Partner Logos - Two Rows - BIGGER SIZE */}
-            <div className="mb-20">
+            <div className="mb-20" style={{ position: 'relative', zIndex: 10 }}>
               {/* First Row - 5 logos */}
               <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 mb-12">
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
@@ -441,7 +439,7 @@ const GCCPage = () => {
                   <img src="/images/home/company logos/SalesForce.png" alt="Salesforce" className="h-14 md:h-16 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-14 md:h-14 w-auto object-contain" />
+                  <img src="/images/home/company logos/Databricks_long.png" alt="Databricks" className="h-14 md:h-14 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
                   <img src="/images/home/company logos/AZURE.png" alt="Azure" className="h-14 md:h-16 w-auto object-contain" />
@@ -463,6 +461,7 @@ const GCCPage = () => {
                   <img src="/images/servicenow.png" alt="ServiceNow" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
               </div>
+
             </div>
 
             {/* Stats Cards */}
@@ -475,11 +474,11 @@ const GCCPage = () => {
                 }}
               >
                 <div className="flex-shrink-0">
-                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-12 w-auto object-contain" />
+                  <img src="/images/home/company logos/databrick2.png" alt="Databricks" className="h-auto w-40 object-contain" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-white mb-0">150+</div>
-                  <div className="text-xs text-white/90 leading-tight">Certified AI Associates</div>
+                  <div className="text-3xl font-bold text-white mb-4">150+</div>
+                  <div className="text-xl text-white/90 leading-tight">Certified AI Associates</div>
                 </div>
               </div>
 
@@ -491,16 +490,12 @@ const GCCPage = () => {
                 }}
               >
                 <div className="flex-shrink-0">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <rect x="14" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="30" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="14" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="30" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
-                  </svg>
+                  <img src="/images/home/company logos/foundational_agent.png" alt="Databricks" className="h-auto w-30 object-contain" />
+
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-white mb-0">1500+</div>
-                  <div className="text-xs text-white/90 leading-tight">Foundational Agents, Industry<br />Specific Agents & Solutions</div>
+                  <div className="text-3xl font-bold text-white mb-4 ">1500+</div>
+                  <div className="text-xl text-white/90 leading-tight">Foundational Agents, Industry<br />Specific Agents & Solutions</div>
                 </div>
               </div>
             </div>
@@ -523,26 +518,43 @@ const GCCPage = () => {
             />
           </div>
         </div>
-
         {/* Additional brighter triangle layer */}
         <div
           className="absolute"
           style={{
-            width: '1920px',
-            height: '1000px',
+            width: '1950px',
+            height: '900px',
             bottom: '40px',
             left: '50%',
             transform: 'translateX(-50%)',
-            borderLeft: '700px solid transparent',
-            borderRight: '700px solid transparent',
-            borderBottom: '550px solid rgba(34, 211, 238, 0.6)',
-            filter: 'blur(60px)',
+            filter: 'blur(80px)',
             pointerEvents: 'none',
             zIndex: 0,
-            opacity: 1
+            opacity: 0.8
           }}
-        />
-
+        >
+          <svg width="1920" height="900" viewBox="0 0 1920 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0 900 Q 490 800, 960 0 Q 1440 800, 1920 900 Z" fill="#0064EA" />
+          </svg>
+        </div>
+        <div
+          className="absolute"
+          style={{
+            width: '1920px',
+            height: '550px',
+            bottom: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            filter: 'blur(70px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+            opacity: 0.6
+          }}
+        >
+          <svg width="1920" height="550" viewBox="0 0 1920 550" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0 550 Q 480 490, 960 0 Q 1440 490, 1920 550 Z" fill="#3C94FF" />
+          </svg>
+        </div>
         {/* Second Part - Pure Black Background */}
         <div 
           className="relative pt-34 pb-20"
@@ -553,7 +565,21 @@ const GCCPage = () => {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className="max-w-4xl mx-auto  relative">
+          {/* Stroke Layer - Element 2.png */}
+          <div
+            className="absolute top-0 left-0 right-0"
+            style={{
+              backgroundImage: 'url(/images/Element 2.png)',
+              backgroundSize: '1920px',
+              backgroundPosition: 'center -5px',
+              backgroundRepeat: 'no-repeat',
+              height: '100%',
+              pointerEvents: 'none',
+              zIndex: -1
+            
+            }}
+          />
+          <div className="max-w-4xl mx-auto  relative" style={{ zIndex: 2 }}>
             {/* Main CTA Section */}
             <div className="text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
