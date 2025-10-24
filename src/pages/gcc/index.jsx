@@ -66,9 +66,9 @@ const GCCPage = () => {
       duration: 1,
     }, 0);
 
-    // Change background from blue gradient to black
+    // Keep blue gradient background visible throughout scroll
     tl.to(backgroundRef.current, {
-      opacity: 0,
+      opacity: 10,
       duration: 1,
     }, 0);
 
@@ -220,7 +220,7 @@ const GCCPage = () => {
             <div className="text-center flex flex-col items-center" style={{ maxWidth: '1323px' }}>
               {/* Content at top of building */}
               <div className="flex flex-col items-center gap-4 px-8 mb-8">
-                <h1 className="text-5xl md:text-6xl font-bold text-white tracking-wider gcc-text-glow whitespace-nowrap">
+                <h1 className="text-5xl md:text-6xl font-bold text-white tracking-wider whitespace-nowrap">
                   SNS Square
                 </h1>
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-wide gcc-specialist-gradient whitespace-nowrap">
@@ -230,25 +230,28 @@ const GCCPage = () => {
                   Harness the combined power of integrated data and Agentic AI to build a intelligent, future-proof operational hub.
                 </p>
               </div>
-
-              {/* Spacer to position buttons below GCC text on building */}
-              <div style={{ height: '280px' }}></div>
-
-              {/* Buttons positioned below the GCC text */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center px-8">
-                <Link
-                  to="/get-started"
-                  className="px-8 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition-colors duration-200 gcc-button"
-                >
-                  Get Started
-                </Link>
-                <Link
-                  to="/contact-us"
-                  className="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors duration-200 gcc-button"
-                >
-                  Contact US
-                </Link>
-              </div>
+            </div>
+            {/* Centered Buttons on Building */}
+            <div
+              className="absolute left-1/2 top-1/2 z-[4] flex flex-col sm:flex-row gap-4 justify-center items-center"
+              style={{
+                transform: 'translate(-50%, -50%)',
+                width: '100%',
+                pointerEvents: 'auto',
+              }}
+            >
+              <Link
+                to="/get-started"
+                className="px-8 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition-colors duration-200 gcc-button"
+              >
+                Get Started
+              </Link>
+              <Link
+                to="/contact-us"
+                className="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-900 transition-colors duration-200 gcc-button"
+              >
+                Contact US
+              </Link>
             </div>
           </div>
 
@@ -256,7 +259,7 @@ const GCCPage = () => {
           <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center">
             <div className="relative w-full max-w-7xl mx-auto px-8">
               {/* DATA + AGENTIC AI HUB text - Positioned below GCC on building (no container) */}
-              <div ref={gccHeaderRef} className="text-center mb-12" style={{ opacity: 0, marginTop: '20px' }}>
+              <div ref={gccHeaderRef} className="text-center mb-12" style={{ opacity: 0, marginTop: '15vh' }}>
                 <p 
                   className="text-lg font-semibold text-white tracking-widest"
                   style={{ 
@@ -275,13 +278,20 @@ const GCCPage = () => {
                 style={{ opacity: 0, pointerEvents: 'none', marginTop: '80px' }}
               >
                 {/* Positioning container for texts over building */}
-                <div className="flex items-end justify-between" style={{ width: '650px', height: '300px', paddingBottom: '80px' }}>
+                <div className="relative" style={{ width: '650px', height: '300px', paddingBottom: '80px' }}>
                   {/* Build Text - Left Pillar */}
                   <div 
-                    className="relative cursor-pointer transition-all duration-300 hover:scale-110"
+                    className="absolute cursor-pointer transition-all duration-300 hover:scale-110"
                     onMouseEnter={() => setHoveredPillar('build')}
                     onMouseLeave={() => setHoveredPillar(null)}
-                    style={{ height: '250px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+                    style={{ 
+                      height: '250px', 
+                      display: 'flex', 
+                      alignItems: 'flex-end', 
+                      justifyContent: 'center', 
+                      left: '16%',
+                      bottom: '40%'
+                    }}
                   >
                     <span 
                       className="text-white font-bold text-2xl"
@@ -296,38 +306,22 @@ const GCCPage = () => {
                     >
                       Build
                     </span>
-
-                    {/* Hover Card - Left Side */}
-                    {hoveredPillar === 'build' && (
-                      <div 
-                        className="absolute top-1/2 right-full mr-12 transform -translate-y-1/2 transition-all duration-300 z-50"
-                        style={{ minWidth: '350px', maxWidth: '400px' }}
-                      >
-                        <div 
-                          className="p-8 rounded-2xl shadow-2xl"
-                          style={{
-                            background: pillarCards.build.bgColor,
-                            border: `3px solid ${pillarCards.build.color}`,
-                            boxShadow: `0 0 40px ${pillarCards.build.color}60`
-                          }}
-                        >
-                          <h3 className="text-3xl font-bold mb-4" style={{ color: pillarCards.build.color }}>
-                            {pillarCards.build.title}
-                          </h3>
-                          <p className="text-lg text-gray-800 leading-relaxed">
-                            {pillarCards.build.description}
-                          </p>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   {/* Operate Text - Middle Pillar */}
                   <div 
-                    className="relative cursor-pointer transition-all duration-300 hover:scale-110"
+                    className="absolute cursor-pointer transition-all duration-300 hover:scale-110"
                     onMouseEnter={() => setHoveredPillar('operate')}
                     onMouseLeave={() => setHoveredPillar(null)}
-                    style={{ height: '250px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+                    style={{ 
+                      height: '250px', 
+                      display: 'flex', 
+                      alignItems: 'flex-end', 
+                      justifyContent: 'center',
+                      left: '49%',
+                      transform: 'translateX(-50%)',
+                      bottom: '40%'
+                    }}
                   >
                     <span 
                       className="text-white font-bold text-2xl"
@@ -342,38 +336,21 @@ const GCCPage = () => {
                     >
                       Operate
                     </span>
-
-                    {/* Hover Card - Right Side */}
-                    {hoveredPillar === 'operate' && (
-                      <div 
-                        className="absolute top-1/2 left-full ml-12 transform -translate-y-1/2 transition-all duration-300 z-50"
-                        style={{ minWidth: '350px', maxWidth: '400px' }}
-                      >
-                        <div 
-                          className="p-8 rounded-2xl shadow-2xl"
-                          style={{
-                            background: pillarCards.operate.bgColor,
-                            border: `3px solid ${pillarCards.operate.color}`,
-                            boxShadow: `0 0 40px ${pillarCards.operate.color}60`
-                          }}
-                        >
-                          <h3 className="text-3xl font-bold mb-4" style={{ color: pillarCards.operate.color }}>
-                            {pillarCards.operate.title}
-                          </h3>
-                          <p className="text-lg text-gray-800 leading-relaxed">
-                            {pillarCards.operate.description}
-                          </p>
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   {/* Transfer Text - Right Pillar */}
                   <div 
-                    className="relative cursor-pointer transition-all duration-300 hover:scale-110"
+                    className="absolute cursor-pointer transition-all duration-300 hover:scale-110"
                     onMouseEnter={() => setHoveredPillar('transfer')}
                     onMouseLeave={() => setHoveredPillar(null)}
-                    style={{ height: '250px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+                    style={{ 
+                      height: '250px', 
+                      display: 'flex', 
+                      alignItems: 'flex-end', 
+                      justifyContent: 'center',
+                      left: '75%',
+                      bottom: '40%'
+                    }}
                   >
                     <span 
                       className="text-white font-bold text-2xl"
@@ -388,47 +365,117 @@ const GCCPage = () => {
                     >
                       Transfer
                     </span>
-
-                    {/* Hover Card - Right Side */}
-                    {hoveredPillar === 'transfer' && (
-                      <div 
-                        className="absolute top-1/2 left-full ml-12 transform -translate-y-1/2 transition-all duration-300 z-50"
-                        style={{ minWidth: '350px', maxWidth: '400px' }}
-                      >
-                        <div 
-                          className="p-8 rounded-2xl shadow-2xl"
-                          style={{
-                            background: pillarCards.transfer.bgColor,
-                            border: `3px solid ${pillarCards.transfer.color}`,
-                            boxShadow: `0 0 40px ${pillarCards.transfer.color}60`
-                          }}
-                        >
-                          <h3 className="text-3xl font-bold mb-4" style={{ color: pillarCards.transfer.color }}>
-                            {pillarCards.transfer.title}
-                          </h3>
-                          <p className="text-lg text-gray-800 leading-relaxed">
-                            {pillarCards.transfer.description}
-                          </p>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Hover Tooltips - Top Level */}
+          {hoveredPillar === 'build' && (
+            <div 
+              className="fixed top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-130
+               transition-all duration-200 z-[9999]"
+              style={{ minWidth: '250px', maxWidth: '280px' }}
+            >
+              <div 
+                className="relative p-2 rounded-md shadow-lg"
+                style={{
+                  background: pillarCards.build.color,
+                  boxShadow: `0 6px 15px rgba(0,0,0,0.3)`
+                }}
+              >
+                <h3 className="text-xs font-bold mb-0.5 text-black">
+                  {pillarCards.build.title}
+                </h3>
+                <p className="text-[10px] text-black leading-tight">
+                  {pillarCards.build.description}
+                </p>
+                {/* Arrow pointing to pillar */}
+                <div 
+                  className="absolute top-1/2 -right-1 transform -translate-y-1/2 w-0 h-0"
+                  style={{
+                    borderTop: '4px solid transparent',
+                    borderBottom: '4px solid transparent',
+                    borderLeft: `4px solid ${pillarCards.build.color}`
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {hoveredPillar === 'operate' && (
+            <div 
+              className="fixed top-1/2 left-1/2 transform -translate-y-1/2 translate-x-8 transition-all duration-200 z-[9999]"
+              style={{ minWidth: '250px', maxWidth: '280px' }}
+            >
+              <div 
+                className="relative p-2 rounded-md shadow-lg"
+                style={{
+                  background: pillarCards.operate.color,
+                  boxShadow: `0 6px 15px rgba(0,0,0,0.3)`
+                }}
+              >
+                <h3 className="text-xs font-bold mb-1 text-white">
+                  {pillarCards.operate.title}
+                </h3>
+                <p className="text-[10px] text-white leading-tight">
+                  {pillarCards.operate.description}
+                </p>
+                {/* Arrow pointing to pillar */}
+                <div 
+                  className="absolute top-1/2 -left-1 transform -translate-y-1/2 w-0 h-0"
+                  style={{
+                    borderTop: '4px solid transparent',
+                    borderBottom: '4px solid transparent',
+                    borderRight: `4px solid ${pillarCards.operate.color}`
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {hoveredPillar === 'transfer' && (
+            <div 
+              className="fixed top-1/2 left-1/2 transform -translate-y-1/2 translate-x-55 transition-all duration-200 z-[9999]"
+              style={{ minWidth: '250px', maxWidth: '280px' }}
+            >
+              <div 
+                className="relative p-2 rounded-md shadow-lg"
+                style={{
+                  background: pillarCards.transfer.color,
+                  boxShadow: `0 6px 15px rgba(0,0,0,0.3)`
+                }}
+              >
+                <h3 className="text-xs font-bold mb-1 text-white">
+                  {pillarCards.transfer.title}
+                </h3>
+                <p className="text-[10px] text-white leading-tight">
+                  {pillarCards.transfer.description}
+                </p>
+                {/* Arrow pointing to pillar */}
+                <div 
+                  className="absolute top-1/2 -left-1 transform -translate-y-1/2 w-0 h-0"
+                  style={{
+                    borderTop: '4px solid transparent',
+                    borderBottom: '4px solid transparent',
+                    borderRight: `4px solid ${pillarCards.transfer.color}`
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
 
-  {/* spacer removed to avoid blank white area on scroll */}
          {/* spacer removed to avoid blank white area on scroll */}
-      <section className="relative z-10" style={{ background: '#061642' }}>
+      <section className="relative z-10" style={{ background: '#000222' }}>
         {/* Stats and Partners Section - New blue gradient background */}
-        <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #061642 0%, #0D2978 100%)' }}>
-          <div className="max-w-7xl mx-auto px-8">
+        <div className="relative pt-20 pb-16" style={{ background: 'linear-gradient(180deg, #0D2978 0%, #000222 25%)' }}>
+          <div className="max-w-10xl mx-auto px-8">
             {/* Partner Logos - Two Rows - BIGGER SIZE */}
-            <div className="mb-20">
+            <div className="mb-20" style={{ position: 'relative', zIndex: 10 }}>
               {/* First Row - 5 logos */}
               <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16 mb-12">
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
@@ -441,7 +488,7 @@ const GCCPage = () => {
                   <img src="/images/home/company logos/SalesForce.png" alt="Salesforce" className="h-14 md:h-16 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
-                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-14 md:h-14 w-auto object-contain" />
+                  <img src="/images/home/company logos/Databricks_long.png" alt="Databricks" className="h-14 md:h-14 w-auto object-contain" />
                 </div>
                 <div className="transition-all duration-300 hover:scale-110 hover:opacity-100 opacity-85">
                   <img src="/images/home/company logos/AZURE.png" alt="Azure" className="h-14 md:h-16 w-auto object-contain" />
@@ -463,34 +510,41 @@ const GCCPage = () => {
                   <img src="/images/servicenow.png" alt="ServiceNow" className="h-14 md:h-20 w-auto object-contain" />
                 </div>
               </div>
+
             </div>
 
             {/* Stats Cards */}
-            <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
+            <div className="relative flex flex-col md:flex-row gap-6 justify-center mb-16 z-10">
               {/* Databricks Card */}
-              <div className="flex items-center gap-6 bg-blue-900/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 hover:bg-blue-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
+              <div 
+                className="flex items-center gap-6 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20"
+                style={{
+                  background: 'linear-gradient(180deg, #05102E 0%, #031F8C 100%)'
+                }}
+              >
                 <div className="flex-shrink-0">
-                  <img src="/images/home/company logos/Databricks.png" alt="Databricks" className="h-12 w-auto object-contain" />
+                  <img src="/images/home/company logos/databrick2.png" alt="Databricks" className="h-auto w-40 object-contain" />
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-white mb-0">150+</div>
-                  <div className="text-xs text-white/90 leading-tight">Certified AI Associates</div>
+                  <div className="text-3xl font-bold text-white mb-4">150+</div>
+                  <div className="text-xl text-white/90 leading-tight">Certified AI Associates</div>
                 </div>
               </div>
 
               {/* Foundational Agents Card */}
-              <div className="flex items-center gap-6 bg-blue-900/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 hover:bg-blue-900/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20">
+              <div 
+                className="flex items-center gap-6 backdrop-blur-sm border border-blue-500/30 rounded-xl p-6 md:p-8 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20"
+                style={{
+                  background: 'linear-gradient(180deg, #05102E 0%, #031F8C 100%)'
+                }}
+              >
                 <div className="flex-shrink-0">
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <rect x="14" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="30" y="14" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="14" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
-                    <rect x="30" y="30" width="12" height="12" rx="2" fill="#FBBF24"/>
-                  </svg>
+                  <img src="/images/home/company logos/foundational_agent.png" alt="Databricks" className="h-auto w-30 object-contain" />
+
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-white mb-0">1500+</div>
-                  <div className="text-xs text-white/90 leading-tight">Foundational Agents, Industry<br />Specific Agents & Solutions</div>
+                  <div className="text-3xl font-bold text-white mb-4 ">1500+</div>
+                  <div className="text-xl text-white/90 leading-tight">Foundational Agents, Industry<br />Specific Agents & Solutions</div>
                 </div>
               </div>
             </div>
@@ -499,7 +553,7 @@ const GCCPage = () => {
             <div 
               className="absolute"
               style={{
-                width: '2000px',
+                width: '20000px',
                 height: '1000px',
                 bottom: '-300px',
                 left: '50%',
@@ -513,59 +567,68 @@ const GCCPage = () => {
             />
           </div>
         </div>
-
-        {/* Single Smooth Curve Divider */}
-        <div className="relative" style={{ height: '120px', marginTop: '-1px' }}>
-          <svg 
-            viewBox="0 0 1440 120" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full absolute top-0"
-            preserveAspectRatio="none"
-          >
-            {/* Smooth curve transition */}
-            <path 
-              d="M0,0 L0,40 Q360,100 720,40 T1440,40 L1440,0 Z" 
-              fill="url(#blueGradient)"
-            />
-            <path 
-              d="M0,40 Q360,100 720,40 T1440,40 L1440,120 L0,120 Z" 
-              fill="#000000"
-            />
-            <defs>
-              <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#0D2978" />
-                <stop offset="100%" stopColor="rgba(0, 9, 50, 0.5)" />
-              </linearGradient>
-            </defs>
-          </svg>
-
-          {/* Additional bottom center glow for smooth transition */}
-          <div 
-            className="absolute"
-            style={{
-              width: '1200px',
-              height: '500px',
-              bottom: '0px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'radial-gradient(ellipse at center top, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 30%, rgba(29, 78, 216, 0) 60%)',
-              opacity: 0.4,
-              pointerEvents: 'none',
-              zIndex: 2,
-              filter: 'blur(140px)'
-            }}
-          />
-        </div>
-
-        {/* Second Part - Pure Black Background */}
-        <div 
-          className="relative pt-24 pb-20"
-          style={{ 
-            background: '#000000'
+        {/* Additional brighter triangle layer */}
+        <div
+          className="absolute"
+          style={{
+            width: '1950px',
+            height: '900px',
+            bottom: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            filter: 'blur(80px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+            opacity: 0.8
           }}
         >
-          <div className="max-w-7xl mx-auto px-8 relative">
+          <svg width="1920" height="900" viewBox="0 0 1920 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0 900 Q 490 800, 960 0 Q 1440 800, 1920 900 Z" fill="#0064EA" />
+          </svg>
+        </div>
+        <div
+          className="absolute"
+          style={{
+            width: '1920px',
+            height: '550px',
+            bottom: '40px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            filter: 'blur(70px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+            opacity: 0.6
+          }}
+        >
+          <svg width="1920" height="550" viewBox="0 0 1920 550" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0 550 Q 480 490, 960 0 Q 1440 490, 1920 550 Z" fill="#3C94FF" />
+          </svg>
+        </div>
+        {/* Second Part - Pure Black Background */}
+        <div 
+          className="relative pt-34 pb-20"
+          style={{ 
+            backgroundImage: 'url(/images/Element.png)',
+            backgroundSize: '1920px',
+            backgroundPosition: 'center top',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {/* Stroke Layer - Element 2.png */}
+          <div
+            className="absolute top-0 left-0 right-0"
+            style={{
+              backgroundImage: 'url(/images/Element 2.png)',
+              backgroundSize: '1920px',
+              backgroundPosition: 'center -5px',
+              backgroundRepeat: 'no-repeat',
+              height: '100%',
+              pointerEvents: 'none',
+              zIndex: -1
+            
+            }}
+          />
+          <div className="max-w-4xl mx-auto  relative" style={{ zIndex: 2 }}>
             {/* Main CTA Section */}
             <div className="text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -652,27 +715,29 @@ const GCCPage = () => {
             </div>
           </div>
         </div>
-      </footer>
-
-      <div className="relative z-20 w-full bg-white border-t border-gray-200">
-        <div className="max-w-[1216px] mx-auto px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-2">
-          <span className="text-[12px] text-[#020526]">© {new Date().getFullYear()} SNS Square. All rights reserved.</span>
-          <div className="flex gap-4">
-            <a href="https://www.linkedin.com/company/snssquare" target="_blank" rel="noopener noreferrer" className="text-[#020526] hover:text-[#0077b5] transition-colors" aria-label="LinkedIn">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-              </svg>
-            </a>
-            <a href="https://www.youtube.com/@snssquare" target="_blank" rel="noopener noreferrer" className="text-[#020526] hover:text-[#FF0000] transition-colors" aria-label="YouTube">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-              </svg>
-            </a>
-          </div>
+      {/* Divider line */}
+      <hr className="border-t border-gray-700 my-4" />
+      {/* Copyright and social links inside footer, dark background */}
+      <div className="max-w-[1216px] mx-auto px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-2">
+        <span className="text-[12px] text-white">© {new Date().getFullYear()} SNS Square. All rights reserved.</span>
+        <div className="flex gap-4 h-8 items-center">
+          <a href="https://www.linkedin.com/company/snssquare" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#0077b5] transition-colors" aria-label="LinkedIn">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@snssquare" target="_blank" rel="noopener noreferrer" className="text-white hover:text-[#FF0000] transition-colors" aria-label="YouTube">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+            </svg>
+          </a>
         </div>
       </div>
+    </footer>
     </div>
   );
 };
 
 export default GCCPage;
+
+

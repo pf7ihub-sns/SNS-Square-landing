@@ -21,17 +21,20 @@
 }
 /* GCC Main Background: texture + blue gradient */
 .bg-gcc-main {
-  background: #000222;
+  /* Lightened one shade from #000222 */
+  background: #0A0F2A;
 }
 .bg-gcc-texture {
   background-image: url('/images/texture.png');
   background-size: cover;
   background-repeat: repeat;
-  opacity: 0.18;
+  /* Slightly reduced texture intensity for a lighter feel */
+  opacity: 0.12;
 }
 .bg-gcc-gradient {
-  background: linear-gradient(180deg, rgba(0, 9, 50, 0) 0%, #0D2978 100%);
-  opacity: 0.95;
+  /* Lighten overall gradient by starting with a subtle tint and a brighter end color */
+  background: linear-gradient(180deg, rgba(13, 41, 120, 0.15) 0%, #1E3A8A 100%);
+  opacity: 0.9;
 }
 
 /* GCC Specialist Gradient Text */
@@ -40,7 +43,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 /* GCC Footer Custom BG */
