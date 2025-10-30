@@ -10,6 +10,7 @@ import AgentWorkbenchIndex from "../pages/agentWorkbench/Index";
 import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -47,6 +48,7 @@ export default function AppRoutes() {
       </Route>
       <Route path="/agent-workbench/:category/:categoryId/:subcategoryId/agents/:agentId" element={<AgentsDetails />} />
       <Route path="/agent-workbench/:category/:categoryId/agents/:agentId" element={<AgentsDetails />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
     </Routes>
   );
 }

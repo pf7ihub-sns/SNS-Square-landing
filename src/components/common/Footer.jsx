@@ -141,6 +141,15 @@ export default function Footer() {
             >
               Contact us
             </li>
+            <li>
+              <Link 
+                to="/privacy-policy" 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="hover:text-blue-400 transition-colors"
+              >
+                Privacy policy
+              </Link>
+            </li>
           </ul>
         </div>
 
