@@ -46,7 +46,15 @@ const GCCPage = () => {
             <Navbar />
 
             {/* Hero Section with Gradient Ellipses */}
-            <section className="relative min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 md:px-8 pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-16 md:pb-20 overflow-hidden">
+            <section
+                className="relative min-h-screen flex flex-col items-center justify-center px-2 sm:px-4 md:px-8 pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-16 md:pb-20 overflow-hidden"
+                style={{
+                    backgroundImage: `url(${Texture})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}
+            >
                 {/* Gradient Ellipse 1 - large, light radial gradient anchored left */}
                 <div
                     className="absolute w-[600px] sm:w-[800px] md:w-[1100px] h-[600px] sm:h-[800px] md:h-[1100px] rounded-full blur-3xl"
@@ -54,7 +62,7 @@ const GCCPage = () => {
                         left: '-5%',
                         top: '-10%',
                         pointerEvents: 'none',
-                        background: 'radial-gradient(circle at 20% 30%, rgba(6,78,227,0.18) 0%, rgba(6,78,227,0.09) 45%, transparent 75%)'
+                        // background: 'radial-gradient(circle at 20% 30%, rgba(6,78,227,0.18) 0%, rgba(6,78,227,0.09) 45%, transparent 75%)'
                     }}
                 />
 
@@ -65,7 +73,7 @@ const GCCPage = () => {
                         right: '-5%',
                         top: '-12%',
                         pointerEvents: 'none',
-                        background: 'radial-gradient(circle at 80% 30%, rgba(75,190,252,0.14) 0%, rgba(75,190,252,0.08) 45%, transparent 75%)'
+                        // background: 'radial-gradient(circle at 80% 30%, rgba(75,190,252,0.14) 0%, rgba(75,190,252,0.08) 45%, transparent 75%)'
                     }}
                 />
 
@@ -379,7 +387,7 @@ const GCCPage = () => {
             </section>
 
             {/* Footer */}
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };
