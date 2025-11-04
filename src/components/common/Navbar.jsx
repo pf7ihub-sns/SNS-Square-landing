@@ -51,6 +51,9 @@ const Header = () => {
           <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
             Life at SNS Square
           </NavLink>
+          <NavLink to="/gcc" className={linkClasses} onClick={handleNavClick}>
+            GCC
+          </NavLink>
         </nav>
         
         {/* Contact Us - right corner */}
@@ -99,6 +102,9 @@ const Header = () => {
             <NavLink to="/life-at-sns" className={linkClasses} onClick={handleNavClick}>
               Life at SNS Square
             </NavLink>
+            <NavLink to="/gcc" className={linkClasses} onClick={handleNavClick}>
+            GCC
+          </NavLink>
           </nav>
           <Button
             variant="secondary"

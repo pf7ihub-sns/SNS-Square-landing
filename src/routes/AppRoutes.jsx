@@ -11,6 +11,7 @@ import AgentWorkbenchLayout from "../pages/agentWorkbench/AgentWorkbenchLayout";
 import Sidebar from "../components/common/Sidebar";
 import OrbitCircle from "../pages/agentWorkbench/orbitCircle";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
+import Gcc from "../pages/gcc/index";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -18,6 +19,7 @@ export default function AppRoutes() {
       <Route path="/usecase" element={<UseCase />} />
       <Route path="/usecase/:id" element={<UseCaseDetail />} />
       <Route path="/life-at-sns" element={<LifeAtSNSSquare />} />
+      <Route path="/gcc" element={<Gcc />} />
       <Route path="/agent-workbench" element={<OrbitCircle />}>
         {/* Landing Page */}
         <Route index element={<AgentWorkbenchIndex />} />
