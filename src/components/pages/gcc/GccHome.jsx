@@ -12,7 +12,7 @@ import AzureLogo from '../../../../public/images/AZURE.png';
 import GoogleCloudLogo from '../../../../public/images/google_cloud.png';
 import NvidiaLogo from '../../../../public/images/nvidia.png';
 import BigQueryLogo from '../../../../public/images/google_big_query.png';
-import ServiceNowLogo from '../../../../public/images/serviceNow.png';
+import ServiceNowLogo from '../../../../public/images/ServiceNow.png';
 import Texture from '../../../../public/images/Bg.png'
 
 const GCCPage = () => {
