@@ -12,7 +12,7 @@ import AzureLogo from '../../../../public/images/AZURE.png';
 import GoogleCloudLogo from '../../../../public/images/google_cloud.png';
 import NvidiaLogo from '../../../../public/images/nvidia.png';
 import BigQueryLogo from '../../../../public/images/google_big_query.png';
-import ServiceNowLogo from '../../../../public/images/servicenow.png';
+import ServiceNowLogo from '../../../../public/images/serviceNow.png';
 import Texture from '../../../../public/images/Bg.png'
 
 const GCCPage = () => {
@@ -106,7 +106,7 @@ const GCCPage = () => {
                             href="/agent-workbench"
                             className="w-full sm:w-auto px-6 sm:px-8 py-2.5 sm:py-3 bg-yellow-400 border-2 border-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition-colors duration-200 shadow-lg text-center"
                         >
-                            Get Started Now
+                            Get Started
                         </a>
                         <a
                             href="/contactus"
