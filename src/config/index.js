@@ -4,8 +4,8 @@ const config = {
     apiUrl: "production api url",
   },
   local: {
-    url: "http://localhost:2406",
-    apiUrl: "http://localhost:2406/api/v1/",
+    url: "http://localhost:3000",
+    apiUrl: "http://localhost:3000/api/v1/",
     bucketName: "sns-square",
     region: "ap-south-1",
   },
